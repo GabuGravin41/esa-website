@@ -1,0 +1,474 @@
+{% extends 'core/base.html' %}
+{% block content %}
+
+<body class="bg-white text-[#333] font-sans">
+
+<!-- Hero Section -->
+<section class="relative bg-cover bg-center h-[80vh] flex items-center"
+    style="background: linear-gradient(rgba(0,51,102,0.85), rgba(0,51,102,0.85)),
+    url('https://images.unsplash.com/photo-1534665482403-a909d0d97c67?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80'); background-size: cover;"
+>
+    <div class="container mx-auto px-4 text-center text-white">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+            Kenyatta University<br>Engineering Students Association
+        </h1>
+        <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto">
+            Empowering Future Engineers Through Innovation, Collaboration, and Excellence
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="#join" class="bg-[#FFD700] hover:bg-[#ff9500] text-[#003366] px-8 py-4 rounded-lg font-bold text-lg transition-all transform hover:scale-105">
+                Join ESA
+            </a>
+            <a href="#programs" class="bg-green-700 hover:bg-green-800 text-white px-8 py-4 rounded-lg font-bold text-lg transition-all transform hover:scale-105">
+                Explore Programs
+            </a>
+        </div>
+        <div class="mt-16">
+            <div class="flex justify-center gap-6">
+                <div class="text-center">
+                    <div class="text-4xl font-bold">400+</div>
+                    <div class="text-gray-200">Active Members</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold">20+</div>
+                    <div class="text-gray-200">Annual Events</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold">15+</div>
+                    <div class="text-gray-200">Industry Partners</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Announcements Bar -->
+<div class="bg-[#CC0000] text-white py-4 relative overflow-hidden">
+    <div class="flex items-center">
+        <div class="flex-shrink-0 px-4 font-bold text-lg border-r border-white/30">
+            ANNOUNCEMENTS
+        </div>
+        <div class="overflow-hidden w-full">
+            <div class="whitespace-nowrap inline-block animate-[marquee_25s_linear_infinite]">
+                🚨 Final Year Project Submission Deadline: 15th December 2023 • 🎉 ESA Hackathon 2023 Registrations Open! • 📚 Engineering Book Sale: 20-25 November at Student Center • 🏆 Congratulations to our Robotics Team for winning the National Championship! • 🎓 Graduation Ceremony: December 16th, 2023
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Featured Programs Section -->
+<section id="programs" class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-[#003366] mb-4">Our Featured Programs</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">
+                ESA-KU offers a wide range of programs and activities designed to enhance your engineering education and prepare you for a successful career.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Program 1 -->
+            <div class="bg-gray-50 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all">
+                <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1581094794329-c8112a989a91?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"></div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-[#003366] mb-2">Technical Workshops</h3>
+                    <p class="text-gray-600 mb-4">
+                        Hands-on learning experiences with cutting-edge technologies and engineering tools.
+                    </p>
+                    <a href="#" class="text-green-700 font-semibold hover:underline flex items-center">
+                        <span>Learn more</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Program 2 -->
+            <div class="bg-gray-50 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all">
+                <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1507537297725-24a1c029d37d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"></div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-[#003366] mb-2">Industry Connections</h3>
+                    <p class="text-gray-600 mb-4">
+                        Networking events, company visits, and mentorship opportunities with leading engineering firms.
+                    </p>
+                    <a href="#" class="text-green-700 font-semibold hover:underline flex items-center">
+                        <span>Learn more</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Program 3 -->
+            <div class="bg-gray-50 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all">
+                <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"></div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-[#003366] mb-2">Research Projects</h3>
+                    <p class="text-gray-600 mb-4">
+                        Collaborative research opportunities to solve real-world engineering challenges.
+                    </p>
+                    <a href="#" class="text-green-700 font-semibold hover:underline flex items-center">
+                        <span>Learn more</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Upcoming Events -->
+<section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-[#003366] mb-4">Upcoming Events</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">
+                Stay connected with the latest activities, workshops, and gatherings in the ESA-KU community.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Event Card 1 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
+                <div class="h-48 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1550439062-609e1531270e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')">
+                    <div class="absolute top-4 left-4 bg-[#003366] text-white py-1 px-3 rounded-full text-sm font-bold">
+                        Nov 20, 2023
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span class="text-gray-500">Main Campus Auditorium</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-[#003366] mb-2">Annual Engineering Symposium</h3>
+                    <p class="text-gray-600 mb-4">
+                        Join industry leaders and alumni for a day of tech talks and networking. Special focus on sustainable engineering solutions.
+                    </p>
+                    <a href="#" class="inline-block bg-[#003366] hover:bg-[#002244] text-white py-2 px-4 rounded-lg transition-colors">
+                        Register Now
+                    </a>
+                </div>
+            </div>
+
+            <!-- Event Card 2 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
+                <div class="h-48 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1535223289827-42f1e9919769?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')">
+                    <div class="absolute top-4 left-4 bg-[#003366] text-white py-1 px-3 rounded-full text-sm font-bold">
+                        Nov 25, 2023
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span class="text-gray-500">Engineering Lab, Block C</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-[#003366] mb-2">Robotics Workshop</h3>
+                    <p class="text-gray-600 mb-4">
+                        Hands-on session with Arduino and Raspberry Pi kits. Learn to build and program your own robot. All materials provided.
+                    </p>
+                    <a href="#" class="inline-block bg-[#003366] hover:bg-[#002244] text-white py-2 px-4 rounded-lg transition-colors">
+                        Register Now
+                    </a>
+                </div>
+            </div>
+
+            <!-- Event Card 3 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
+                <div class="h-48 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1529070538774-1843cb3265df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')">
+                    <div class="absolute top-4 left-4 bg-[#003366] text-white py-1 px-3 rounded-full text-sm font-bold">
+                        Dec 5, 2023
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span class="text-gray-500">Virtual (Zoom)</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-[#003366] mb-2">Career Development Webinar</h3>
+                    <p class="text-gray-600 mb-4">
+                        Learn from HR professionals about resume building, interview skills, and job searching strategies for engineering graduates.
+                    </p>
+                    <a href="#" class="inline-block bg-[#003366] hover:bg-[#002244] text-white py-2 px-4 rounded-lg transition-colors">
+                        Register Now
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="#" class="inline-block border-2 border-[#003366] text-[#003366] hover:bg-[#003366] hover:text-white py-3 px-6 rounded-lg font-bold transition-colors">
+                View All Events
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Latest News Section -->
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-[#003366] mb-4">Latest News</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">
+                Stay updated with the latest happenings, achievements, and announcements from the ESA-KU community.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- News Item 1 -->
+            <div class="flex bg-gray-50 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all">
+                <div class="w-1/3 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1581094794329-c8112a989a91?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"></div>
+                <div class="w-2/3 p-6">
+                    <div class="text-sm text-gray-500 mb-2">November 10, 2023</div>
+                    <h3 class="text-xl font-bold text-[#003366] mb-2">KU Engineering Team Wins National Robotics Competition</h3>
+                    <p class="text-gray-600 mb-3 line-clamp-2">
+                        Our robotics team beat 15 other universities to claim the top spot in the annual National Robotics Challenge.
+                    </p>
+                    <a href="#" class="text-green-700 font-semibold hover:underline">Read More</a>
+                </div>
+            </div>
+            
+            <!-- News Item 2 -->
+            <div class="flex bg-gray-50 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all">
+                <div class="w-1/3 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"></div>
+                <div class="w-2/3 p-6">
+                    <div class="text-sm text-gray-500 mb-2">November 5, 2023</div>
+                    <h3 class="text-xl font-bold text-[#003366] mb-2">New Partnership with Microsoft for Student Training</h3>
+                    <p class="text-gray-600 mb-3 line-clamp-2">
+                        ESA-KU has partnered with Microsoft to provide free Azure training and certification for our members.
+                    </p>
+                    <a href="#" class="text-green-700 font-semibold hover:underline">Read More</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="#" class="inline-block border-2 border-[#003366] text-[#003366] hover:bg-[#003366] hover:text-white py-3 px-6 rounded-lg font-bold transition-colors">
+                More News
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-[#003366] mb-4">What Our Members Say</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">
+                Hear from our members about their experiences with ESA-KU and how it has impacted their academic and professional journey.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Testimonial 1 -->
+            <div class="bg-white rounded-xl shadow p-6 relative">
+                <div class="absolute -top-6 left-1/2 transform -translate-x-1/2">
+                    <div class="w-12 h-12 bg-[#003366] rounded-full flex items-center justify-center text-white font-bold text-xl">
+                        JK
+                    </div>
+                </div>
+                <div class="pt-8">
+                    <p class="italic text-gray-700 mb-4">
+                        "Joining ESA-KU was the best decision I made during my second year. The connections and experience I gained helped me secure an internship at a top engineering firm."
+                    </p>
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h4 class="font-bold text-[#003366]">James Kiprotich</h4>
+                            <p class="text-sm text-gray-600">Mechanical Engineering, 4th Year</p>
+                        </div>
+                        <div class="flex text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Testimonial 2 -->
+            <div class="bg-white rounded-xl shadow p-6 relative">
+                <div class="absolute -top-6 left-1/2 transform -translate-x-1/2">
+                    <div class="w-12 h-12 bg-[#003366] rounded-full flex items-center justify-center text-white font-bold text-xl">
+                        MW
+                    </div>
+                </div>
+                <div class="pt-8">
+                    <p class="italic text-gray-700 mb-4">
+                        "The projects and workshops organized by ESA-KU gave me practical skills that complemented my theoretical knowledge. I feel much more prepared for my career."
+                    </p>
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h4 class="font-bold text-[#003366]">Mary Wanjiku</h4>
+                            <p class="text-sm text-gray-600">Electrical Engineering, 3rd Year</p>
+                        </div>
+                        <div class="flex text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Testimonial 3 -->
+            <div class="bg-white rounded-xl shadow p-6 relative">
+                <div class="absolute -top-6 left-1/2 transform -translate-x-1/2">
+                    <div class="w-12 h-12 bg-[#003366] rounded-full flex items-center justify-center text-white font-bold text-xl">
+                        DO
+                    </div>
+                </div>
+                <div class="pt-8">
+                    <p class="italic text-gray-700 mb-4">
+                        "As an international student, ESA-KU helped me find a sense of community. The friends and mentors I met through the association made my university experience amazing."
+                    </p>
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h4 class="font-bold text-[#003366]">Daniel Omondi</h4>
+                            <p class="text-sm text-gray-600">Civil Engineering, Graduate</p>
+                        </div>
+                        <div class="flex text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Join Us Section -->
+<section id="join" class="py-20 bg-[#003366] text-white">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+                <h2 class="text-3xl font-bold mb-6">Join ESA-KU Today</h2>
+                <p class="text-xl mb-6">
+                    Become part of our community of future engineers and take your university experience to the next level.
+                </p>
+                <ul class="space-y-4 mb-8">
+                    <li class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-[#FFD700]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span>Access to exclusive workshops and training sessions</span>
+                    </li>
+                    <li class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-[#FFD700]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span>Networking opportunities with industry professionals</span>
+                    </li>
+                    <li class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-[#FFD700]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span>Participate in engineering competitions and events</span>
+                    </li>
+                    <li class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-[#FFD700]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span>Leadership and personal development opportunities</span>
+                    </li>
+                </ul>
+                <a href="/membership" class="inline-block bg-[#FFD700] hover:bg-[#ff9500] text-[#003366] px-8 py-4 rounded-lg font-bold text-lg transition-all">
+                    Become a Member
+                </a>
+            </div>
+            <div class="md:w-1/2 md:pl-12">
+                <div class="bg-white p-8 rounded-xl shadow-xl">
+                    <h3 class="text-2xl font-bold text-[#003366] mb-6">Sign up for our Newsletter</h3>
+                    <p class="text-gray-600 mb-6">
+                        Stay updated with the latest news, events, and opportunities from ESA-KU.
+                    </p>
+                    <form class="newsletter-form space-y-4">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                            <input type="text" id="name" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003366]" placeholder="John Doe">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                            <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003366]" placeholder="john@example.com">
+                        </div>
+                        <div>
+                            <label for="year" class="block text-sm font-medium text-gray-700 mb-1">Year of Study</label>
+                            <select id="year" name="year" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003366]">
+                                <option value="">Select Year</option>
+                                <option value="1">First Year</option>
+                                <option value="2">Second Year</option>
+                                <option value="3">Third Year</option>
+                                <option value="4">Fourth Year</option>
+                                <option value="5">Fifth Year</option>
+                                <option value="graduate">Graduate</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="w-full bg-[#003366] hover:bg-[#002244] text-white py-3 rounded-lg font-bold transition-colors">
+                            Subscribe
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Partner Logos -->
+<section class="py-12 bg-white">
+    <div class="container mx-auto px-4">
+        <h2 class="text-2xl font-bold text-center text-gray-600 mb-10">Our Industry Partners</h2>
+        <div class="flex flex-wrap justify-center items-center gap-12">
+            <img src="https://placehold.co/150x60?text=Partner+1" alt="Partner 1" class="h-12 grayscale hover:grayscale-0 transition-all">
+            <img src="https://placehold.co/150x60?text=Partner+2" alt="Partner 2" class="h-12 grayscale hover:grayscale-0 transition-all">
+            <img src="https://placehold.co/150x60?text=Partner+3" alt="Partner 3" class="h-12 grayscale hover:grayscale-0 transition-all">
+            <img src="https://placehold.co/150x60?text=Partner+4" alt="Partner 4" class="h-12 grayscale hover:grayscale-0 transition-all">
+            <img src="https://placehold.co/150x60?text=Partner+5" alt="Partner 5" class="h-12 grayscale hover:grayscale-0 transition-all">
+        </div>
+    </div>
+</section>
+
+<script>
+    // Newsletter Form Handling
+    const newsletterForm = document.querySelector('.newsletter-form');
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = newsletterForm.querySelector('input[type="email"]').value;
+            // Add your newsletter subscription logic here
+            alert('Thanks for subscribing!');
+            newsletterForm.reset();
+        });
+    }
+
+    // Smooth Scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+</script>
+
+{% endblock %}

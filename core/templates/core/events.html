@@ -1,0 +1,687 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<body class="bg-white text-[#2D3748] font-sans">
+<!-- Hero Section for Events -->
+<section class="relative bg-cover bg-center h-[50vh]" style="background-image: url('https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');">
+    <div class="bg-black bg-opacity-60 h-full flex items-center">
+      <div class="container mx-auto px-4 text-center text-white">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">ESA-KU Events</h1>
+        <p class="max-w-2xl mx-auto mb-8 text-xl">
+          Connect, learn, and grow with our vibrant community through engaging workshops, seminars, and networking opportunities.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="#upcoming" class="bg-[#003366] hover:bg-[#002244] text-white px-6 py-3 rounded-lg font-semibold transition-all">
+            Upcoming Events
+          </a>
+          <a href="#past" class="bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded-lg font-semibold transition-all">
+            Past Events
+          </a>
+        </div>
+        <div class="mt-8 flex justify-center">
+          <div class="bg-white bg-opacity-20 backdrop-blur-sm py-2 px-6 rounded-full inline-flex items-center">
+            <i class="fas fa-calendar-alt text-[#FFD700] mr-2"></i>
+            <span>Next event: Advanced Robotics Workshop - Oct 15, 2024</span>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+  
+
+<!-- Events Container -->
+<div class="max-w-[1200px] mx-auto py-8 px-4">
+    <!-- Events Filters -->
+    <section class="bg-white p-8 rounded-xl shadow-lg relative mx-auto mb-12 mt-[-4rem]">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-xl font-bold text-[#003366]">Find Events</h2>
+        <div class="flex gap-3">
+          <button class="bg-gray-100 p-2 rounded-md hover:bg-gray-200 transition-colors active" id="grid-view">
+            <i class="fas fa-th-large text-[#003366]"></i>
+          </button>
+          <button class="bg-gray-100 p-2 rounded-md hover:bg-gray-200 transition-colors" id="calendar-view">
+            <i class="fas fa-calendar-alt text-[#003366]"></i>
+          </button>
+        </div>
+      </div>
+      <div class="grid md:grid-cols-4 gap-4">
+        <!-- Search Input -->
+        <div class="md:col-span-4 mb-4">
+          <div class="relative">
+            <input type="text" placeholder="Search for events" class="w-full p-4 pl-12 border-2 border-[#003366] rounded-lg text-base">
+            <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-[#003366]"></i>
+          </div>
+        </div>
+        
+        <!-- Category Filter -->
+        <div>
+          <select class="w-full p-4 border-2 border-[#003366] rounded-lg text-base appearance-none bg-white" style="background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23003366%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>'); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 3rem;">
+            <option>All Categories</option>
+            <option>Workshops</option>
+            <option>Seminars</option>
+            <option>Conferences</option>
+            <option>Student Projects</option>
+            <option>Social Events</option>
+            <option>Competitions</option>
+          </select>
+        </div>
+        
+        <!-- Date Filter -->
+        <div>
+          <select class="w-full p-4 border-2 border-[#003366] rounded-lg text-base appearance-none bg-white" style="background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23003366%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>'); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 3rem;">
+            <option>All Dates</option>
+            <option>Today</option>
+            <option>This Week</option>
+            <option>This Month</option>
+            <option>Next Month</option>
+          </select>
+        </div>
+        
+        <!-- Location Filter -->
+        <div>
+          <select class="w-full p-4 border-2 border-[#003366] rounded-lg text-base appearance-none bg-white" style="background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23003366%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>'); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 3rem;">
+            <option>All Locations</option>
+            <option>Engineering Block</option>
+            <option>Auditorium</option>
+            <option>Science Complex</option>
+            <option>Student Center</option>
+            <option>Virtual</option>
+          </select>
+        </div>
+        
+        <!-- Filter Button -->
+        <div>
+          <button class="w-full bg-[#003366] text-white py-4 px-6 rounded-lg cursor-pointer transition-all hover:bg-[#FFD700] hover:text-[#003366] font-semibold">
+            <i class="fas fa-filter mr-2"></i> Filter Events
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Event -->
+    <section class="mb-16">
+      <div class="bg-gradient-to-r from-[#003366] to-[#00468a] rounded-2xl overflow-hidden shadow-xl">
+        <div class="grid md:grid-cols-2 items-center">
+          <div class="p-8 md:p-12 text-white">
+            <div class="inline-block bg-[#FFD700] text-[#003366] px-4 py-1 rounded-full text-sm font-bold mb-4">
+              FEATURED EVENT
+            </div>
+            <h2 class="text-3xl font-bold mb-4">National Engineering Conference 2024</h2>
+            <p class="mb-6 text-gray-100">
+              Join the biggest engineering event of the year featuring keynote speakers from top tech companies, 
+              hands-on workshops, and networking opportunities with industry professionals.
+            </p>
+            <div class="flex flex-wrap gap-6 mb-8">
+              <div class="flex items-center">
+                <i class="fas fa-calendar-alt mr-2 text-[#FFD700]"></i>
+                <span>Nov 10-12, 2024</span>
+              </div>
+              <div class="flex items-center">
+                <i class="fas fa-map-marker-alt mr-2 text-[#FFD700]"></i>
+                <span>KU Convention Center</span>
+              </div>
+              <div class="flex items-center">
+                <i class="fas fa-ticket-alt mr-2 text-[#FFD700]"></i>
+                <span>KSh 1,000 (Student Rate)</span>
+              </div>
+            </div>
+            <a href="#" class="inline-block bg-[#FFD700] hover:bg-[#ffd000] text-[#003366] px-8 py-3 rounded-lg font-bold transition-all">
+              Register Now
+            </a>
+          </div>
+          <div class="h-full">
+            <img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80" 
+                 alt="Engineering Conference" class="h-full w-full object-cover">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Upcoming Events -->
+    <section id="upcoming" class="mb-16">
+      <div class="flex justify-between items-center mb-8">
+        <h2 class="text-2xl font-bold text-[#003366]">Upcoming Events</h2>
+        <div class="flex items-center gap-2 text-[#003366]">
+          <span class="font-medium">View: </span>
+          <select class="p-2 border border-[#003366] rounded-lg">
+            <option>All</option>
+            <option>This Week</option>
+            <option>This Month</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Event Card 1 - Improved Design -->
+        <article class="bg-white rounded-xl overflow-hidden shadow-lg transition-all hover:-translate-y-2 hover:shadow-xl">
+          <div class="relative h-[200px] overflow-hidden">
+            <!-- Added a better quality placeholder image from Unsplash -->
+            <img 
+              src="https://images.unsplash.com/photo-1581092921461-7360eb9a8885?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+              alt="Robotics Workshop" 
+              class="w-full h-full object-cover transition-transform hover:scale-110"
+            />
+            <!-- Date badge with improved styling -->
+            <div class="absolute top-4 left-4 flex flex-col bg-[#003366] text-white py-1 px-3 rounded-lg text-center">
+              <span class="text-2xl font-bold">15</span>
+              <span class="text-xs uppercase">OCT</span>
+            </div>
+            <!-- Added a save/bookmark button -->
+            <button class="absolute top-4 right-4 bg-white rounded-full p-2 shadow hover:bg-[#FFD700] transition-colors">
+              <i class="far fa-bookmark text-[#003366]"></i>
+            </button>
+          </div>
+          
+          <div class="p-6">
+            <!-- Category badge with improved styling -->
+            <div class="flex justify-between items-center mb-2">
+              <span class="bg-blue-100 text-[#003366] font-medium px-3 py-1 rounded-full text-sm">Workshop</span>
+              <!-- Added an attendance indicator -->
+              <span class="text-sm text-gray-600 flex items-center">
+                <i class="fas fa-user-friends mr-1"></i> 28/60
+              </span>
+            </div>
+            
+            <!-- Event title with better styling -->
+            <h3 class="text-xl font-bold text-[#003366] mb-3 hover:text-[#00468a]">
+              <a href="#">Advanced Robotics Workshop</a>
+            </h3>
+            
+            <!-- Event details with improved icons and layout -->
+            <ul class="space-y-3 mb-6">
+              <li class="flex items-center text-gray-600">
+                <i class="fas fa-clock w-5 text-[#003366]"></i>
+                <span class="ml-3">10:00 AM - 4:00 PM</span>
+              </li>
+              <li class="flex items-center text-gray-600">
+                <i class="fas fa-map-marker-alt w-5 text-[#003366]"></i>
+                <span class="ml-3">Engineering Block, Room 302</span>
+              </li>
+              <li class="flex items-center text-gray-600">
+                <i class="fas fa-chalkboard-teacher w-5 text-[#003366]"></i>
+                <span class="ml-3">Prof. Jane Mwangi</span>
+              </li>
+            </ul>
+            
+            <!-- Action buttons with better styling and layout -->
+            <div class="flex items-center justify-between">
+              <a href="#" class="bg-[#003366] text-white py-2 px-4 rounded-lg hover:bg-[#FFD700] hover:text-[#003366] transition-colors font-medium">
+                Register Now
+              </a>
+              <span class="text-sm font-medium text-green-600">32 seats left</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Event Card 2 - Improved Design -->
+        <article class="bg-white rounded-xl overflow-hidden shadow-lg transition-all hover:-translate-y-2 hover:shadow-xl">
+          <div class="relative h-[200px] overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+              alt="AI Seminar" 
+              class="w-full h-full object-cover transition-transform hover:scale-110"
+            />
+            <div class="absolute top-4 left-4 flex flex-col bg-[#003366] text-white py-1 px-3 rounded-lg text-center">
+              <span class="text-2xl font-bold">22</span>
+              <span class="text-xs uppercase">OCT</span>
+            </div>
+            <button class="absolute top-4 right-4 bg-white rounded-full p-2 shadow hover:bg-[#FFD700] transition-colors">
+              <i class="far fa-bookmark text-[#003366]"></i>
+            </button>
+          </div>
+          
+          <div class="p-6">
+            <div class="flex justify-between items-center mb-2">
+              <span class="bg-purple-100 text-purple-700 font-medium px-3 py-1 rounded-full text-sm">Seminar</span>
+              <span class="text-sm text-gray-600 flex items-center">
+                <i class="fas fa-user-friends mr-1"></i> Unlimited
+              </span>
+            </div>
+            
+            <h3 class="text-xl font-bold text-[#003366] mb-3 hover:text-[#00468a]">
+              <a href="#">AI in Modern Engineering</a>
+            </h3>
+            
+            <ul class="space-y-3 mb-6">
+              <li class="flex items-center text-gray-600">
+                <i class="fas fa-clock w-5 text-[#003366]"></i>
+                <span class="ml-3">2:00 PM - 5:00 PM</span>
+              </li>
+              <li class="flex items-center text-gray-600">
+                <i class="fas fa-video w-5 text-[#003366]"></i>
+                <span class="ml-3">Virtual Event (Zoom)</span>
+              </li>
+              <li class="flex items-center text-gray-600">
+                <i class="fas fa-chalkboard-teacher w-5 text-[#003366]"></i>
+                <span class="ml-3">Dr. Michael Otieno</span>
+              </li>
+            </ul>
+            
+            <div class="flex items-center justify-between">
+              <a href="#" class="bg-[#003366] text-white py-2 px-4 rounded-lg hover:bg-[#FFD700] hover:text-[#003366] transition-colors font-medium">
+                Join Webinar
+              </a>
+              <span class="text-sm font-medium text-green-600">Open Registration</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Event Card 3 (New) -->
+        <article class="bg-white rounded-xl overflow-hidden shadow-lg transition-all hover:-translate-y-2 hover:shadow-xl">
+          <div class="relative h-[200px] overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1573164574001-518958d9bab2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+              alt="Engineering Career Fair" 
+              class="w-full h-full object-cover transition-transform hover:scale-110"
+            />
+            <div class="absolute top-4 left-4 flex flex-col bg-[#003366] text-white py-1 px-3 rounded-lg text-center">
+              <span class="text-2xl font-bold">28</span>
+              <span class="text-xs uppercase">OCT</span>
+            </div>
+            <button class="absolute top-4 right-4 bg-white rounded-full p-2 shadow hover:bg-[#FFD700] transition-colors">
+              <i class="far fa-bookmark text-[#003366]"></i>
+            </button>
+          </div>
+          
+          <div class="p-6">
+            <div class="flex justify-between items-center mb-2">
+              <span class="bg-green-100 text-green-700 font-medium px-3 py-1 rounded-full text-sm">Career Fair</span>
+              <span class="text-sm text-gray-600 flex items-center">
+                <i class="fas fa-user-friends mr-1"></i> 156/200
+              </span>
+            </div>
+            
+            <h3 class="text-xl font-bold text-[#003366] mb-3 hover:text-[#00468a]">
+              <a href="#">Engineering Career Fair 2024</a>
+            </h3>
+            
+            <ul class="space-y-3 mb-6">
+              <li class="flex items-center text-gray-600">
+                <i class="fas fa-clock w-5 text-[#003366]"></i>
+                <span class="ml-3">9:00 AM - 3:00 PM</span>
+              </li>
+              <li class="flex items-center text-gray-600">
+                <i class="fas fa-map-marker-alt w-5 text-[#003366]"></i>
+                <span class="ml-3">University Convention Center</span>
+              </li>
+              <li class="flex items-center text-gray-600">
+                <i class="fas fa-briefcase w-5 text-[#003366]"></i>
+                <span class="ml-3">25+ Companies</span>
+              </li>
+            </ul>
+            
+            <div class="flex items-center justify-between">
+              <a href="#" class="bg-[#003366] text-white py-2 px-4 rounded-lg hover:bg-[#FFD700] hover:text-[#003366] transition-colors font-medium">
+                Register Now
+              </a>
+              <span class="text-sm font-medium text-orange-600">44 seats left</span>
+            </div>
+          </div>
+        </article>
+      </div>
+      
+      <!-- Load More Button -->
+      <div class="text-center mt-10">
+        <button class="bg-white border-2 border-[#003366] text-[#003366] hover:bg-[#003366] hover:text-white transition-colors font-semibold py-3 px-8 rounded-lg">
+          Load More Events
+        </button>
+      </div>
+    </section>
+
+    <!-- Past Events -->
+    <section id="past" class="mt-16 pt-8 border-t-2 border-gray-100 mb-16">
+      <div class="flex justify-between items-center mb-8">
+        <h2 class="text-2xl font-bold text-[#003366]">Past Events</h2>
+        <a href="#" class="text-[#003366] hover:text-[#00468a] font-medium flex items-center">
+          View All Past Events
+          <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Past Event Card 1 - Improved Design -->
+        <article class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all">
+          <div class="relative h-[200px] overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+              alt="Construction Seminar" 
+              class="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all"
+            />
+            <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+              <a href="#" class="bg-white text-[#003366] px-4 py-2 rounded-lg font-medium">
+                View Gallery
+              </a>
+            </div>
+            <div class="absolute top-4 left-4 flex flex-col bg-[#CC0000] text-white py-1 px-3 rounded-lg text-center">
+              <span class="text-2xl font-bold">25</span>
+              <span class="text-xs uppercase">SEP</span>
+            </div>
+          </div>
+          
+          <div class="p-6">
+            <div class="flex justify-between items-center mb-2">
+              <span class="bg-red-100 text-red-700 font-medium px-3 py-1 rounded-full text-sm">Past Event</span>
+              <span class="text-sm text-gray-600">150 Attendees</span>
+            </div>
+            
+            <h3 class="text-xl font-bold text-[#003366] mb-3">
+              Modern Construction Techniques
+            </h3>
+            
+            <ul class="space-y-2 mb-6">
+              <li class="flex items-center text-gray-600">
+                <i class="fas fa-calendar-check w-5 text-[#003366]"></i>
+                <span class="ml-3">September 25, 2024</span>
+              </li>
+              <li class="flex items-center text-gray-600">
+                <i class="fas fa-map-marker-alt w-5 text-[#003366]"></i>
+                <span class="ml-3">Auditorium</span>
+              </li>
+            </ul>
+            
+            <div class="flex items-center justify-between">
+              <div class="flex gap-2">
+                <a href="#" class="text-[#003366] hover:text-[#00468a] font-medium">
+                  <i class="fas fa-images mr-1"></i> Photos
+                </a>
+                <a href="#" class="text-[#003366] hover:text-[#00468a] font-medium ml-4">
+                  <i class="fas fa-file-pdf mr-1"></i> Materials
+                </a>
+              </div>
+              <span class="text-gray-500 text-sm">Completed</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Past Event Card 2 (New) -->
+        <article class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all">
+          <div class="relative h-[200px] overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1503428593586-e225b39bddfe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+              alt="Software Development Hackathon" 
+              class="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all"
+            />
+            <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+              <a href="#" class="bg-white text-[#003366] px-4 py-2 rounded-lg font-medium">
+                View Gallery
+              </a>
+            </div>
+            <div class="absolute top-4 left-4 flex flex-col bg-[#CC0000] text-white py-1 px-3 rounded-lg text-center">
+              <span class="text-2xl font-bold">15</span>
+              <span class="text-xs uppercase">SEP</span>
+            </div>
+          </div>
+          
+          <div class="p-6">
+            <div class="flex justify-between items-center mb-2">
+              <span class="bg-red-100 text-red-700 font-medium px-3 py-1 rounded-full text-sm">Past Event</span>
+              <span class="text-sm text-gray-600">72 Attendees</span>
+            </div>
+            
+            <h3 class="text-xl font-bold text-[#003366] mb-3">
+              Software Development Hackathon
+            </h3>
+            
+            <ul class="space-y-2 mb-6">
+              <li class="flex items-center text-gray-600">
+                <i class="fas fa-calendar-check w-5 text-[#003366]"></i>
+                <span class="ml-3">September 15-16, 2024</span>
+              </li>
+              <li class="flex items-center text-gray-600">
+                <i class="fas fa-map-marker-alt w-5 text-[#003366]"></i>
+                <span class="ml-3">Innovation Hub</span>
+              </li>
+            </ul>
+            
+            <div class="flex items-center justify-between">
+              <div class="flex gap-2">
+                <a href="#" class="text-[#003366] hover:text-[#00468a] font-medium">
+                  <i class="fas fa-images mr-1"></i> Photos
+                </a>
+                <a href="#" class="text-[#003366] hover:text-[#00468a] font-medium ml-4">
+                  <i class="fas fa-trophy mr-1"></i> Winners
+                </a>
+              </div>
+              <span class="text-gray-500 text-sm">Completed</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Past Event Card 3 (New) -->
+        <article class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all">
+          <div class="relative h-[200px] overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+              alt="Industry Open Day" 
+              class="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all"
+            />
+            <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+              <a href="#" class="bg-white text-[#003366] px-4 py-2 rounded-lg font-medium">
+                View Gallery
+              </a>
+            </div>
+            <div class="absolute top-4 left-4 flex flex-col bg-[#CC0000] text-white py-1 px-3 rounded-lg text-center">
+              <span class="text-2xl font-bold">05</span>
+              <span class="text-xs uppercase">SEP</span>
+            </div>
+          </div>
+          
+          <div class="p-6">
+            <div class="flex justify-between items-center mb-2">
+              <span class="bg-red-100 text-red-700 font-medium px-3 py-1 rounded-full text-sm">Past Event</span>
+              <span class="text-sm text-gray-600">210 Attendees</span>
+            </div>
+            
+            <h3 class="text-xl font-bold text-[#003366] mb-3">
+              Industry Open Day 2024
+            </h3>
+            
+            <ul class="space-y-2 mb-6">
+              <li class="flex items-center text-gray-600">
+                <i class="fas fa-calendar-check w-5 text-[#003366]"></i>
+                <span class="ml-3">September 5, 2024</span>
+              </li>
+              <li class="flex items-center text-gray-600">
+                <i class="fas fa-map-marker-alt w-5 text-[#003366]"></i>
+                <span class="ml-3">University Grounds</span>
+              </li>
+            </ul>
+            
+            <div class="flex items-center justify-between">
+              <div class="flex gap-2">
+                <a href="#" class="text-[#003366] hover:text-[#00468a] font-medium">
+                  <i class="fas fa-images mr-1"></i> Photos
+                </a>
+                <a href="#" class="text-[#003366] hover:text-[#00468a] font-medium ml-4">
+                  <i class="fas fa-file-pdf mr-1"></i> Report
+                </a>
+              </div>
+              <span class="text-gray-500 text-sm">Completed</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Event Calendar Preview -->
+    <section class="bg-gray-50 rounded-2xl p-8 mb-16">
+      <div class="flex justify-between items-center mb-8">
+        <h2 class="text-2xl font-bold text-[#003366]">Event Calendar</h2>
+        <a href="#" class="text-[#003366] hover:text-[#00468a] font-medium">View Full Calendar</a>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white rounded-xl shadow-md">
+          <thead>
+            <tr class="bg-[#003366] text-white">
+              <th class="px-6 py-4 text-left">October 2024</th>
+              <th class="px-6 py-4 text-center">Monday</th>
+              <th class="px-6 py-4 text-center">Tuesday</th>
+              <th class="px-6 py-4 text-center">Wednesday</th>
+              <th class="px-6 py-4 text-center">Thursday</th>
+              <th class="px-6 py-4 text-center">Friday</th>
+              <th class="px-6 py-4 text-center">Weekend</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Week 1 -->
+            <tr class="border-b border-gray-200">
+              <td class="px-6 py-4 font-medium">Week 1</td>
+              <td class="px-6 py-4 text-center">-</td>
+              <td class="px-6 py-4 text-center">1</td>
+              <td class="px-6 py-4 text-center">2</td>
+              <td class="px-6 py-4 text-center">3</td>
+              <td class="px-6 py-4 text-center">4
+                <div class="text-xs bg-green-100 text-green-800 p-1 rounded mt-1">ESA Meeting</div>
+              </td>
+              <td class="px-6 py-4 text-center">5-6</td>
+            </tr>
+            <!-- Week 2 -->
+            <tr class="border-b border-gray-200">
+              <td class="px-6 py-4 font-medium">Week 2</td>
+              <td class="px-6 py-4 text-center">7</td>
+              <td class="px-6 py-4 text-center">8</td>
+              <td class="px-6 py-4 text-center">9</td>
+              <td class="px-6 py-4 text-center">10</td>
+              <td class="px-6 py-4 text-center">11</td>
+              <td class="px-6 py-4 text-center">12-13</td>
+            </tr>
+            <!-- Week 3 -->
+            <tr class="border-b border-gray-200">
+              <td class="px-6 py-4 font-medium">Week 3</td>
+              <td class="px-6 py-4 text-center">14</td>
+              <td class="px-6 py-4 text-center">15
+                <div class="text-xs bg-blue-100 text-blue-800 p-1 rounded mt-1">Robotics Workshop</div>
+              </td>
+              <td class="px-6 py-4 text-center">16</td>
+              <td class="px-6 py-4 text-center">17</td>
+              <td class="px-6 py-4 text-center">18</td>
+              <td class="px-6 py-4 text-center">19-20</td>
+            </tr>
+            <!-- Week 4 -->
+            <tr>
+              <td class="px-6 py-4 font-medium">Week 4</td>
+              <td class="px-6 py-4 text-center">21</td>
+              <td class="px-6 py-4 text-center">22
+                <div class="text-xs bg-purple-100 text-purple-800 p-1 rounded mt-1">AI Seminar</div>
+              </td>
+              <td class="px-6 py-4 text-center">23</td>
+              <td class="px-6 py-4 text-center">24</td>
+              <td class="px-6 py-4 text-center">25</td>
+              <td class="px-6 py-4 text-center">26-27
+                <div class="text-xs bg-yellow-100 text-yellow-800 p-1 rounded mt-1">Field Trip</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Submit Event Suggestion & Newsletter -->
+    <section class="grid md:grid-cols-2 gap-8 mb-16">
+      <!-- Submit Event Suggestion -->
+      <div class="bg-white rounded-xl shadow-lg p-8 border-t-4 border-[#003366]">
+        <h3 class="text-xl font-bold text-[#003366] mb-4">Suggest an Event</h3>
+        <p class="text-gray-600 mb-6">
+          Have an idea for an event? Let us know! We're always looking for suggestions 
+          from our community members.
+        </p>
+        <form class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Event Title</label>
+            <input type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003366]">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Event Type</label>
+            <select class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003366]">
+              <option>Workshop</option>
+              <option>Seminar</option>
+              <option>Conference</option>
+              <option>Social Event</option>
+              <option>Competition</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+            <textarea rows="3" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003366]"></textarea>
+          </div>
+          <div>
+            <button type="submit" class="bg-[#003366] text-white py-3 px-6 rounded-lg hover:bg-[#FFD700] hover:text-[#003366] transition-colors font-medium">
+              Submit Suggestion
+            </button>
+          </div>
+        </form>
+      </div>
+      
+      <!-- Event Updates & Newsletter -->
+      <div class="bg-[#003366] rounded-xl shadow-lg p-8 text-white">
+        <h3 class="text-xl font-bold mb-4">Stay Updated with Events</h3>
+        <p class="text-gray-200 mb-6">
+          Subscribe to our events newsletter to receive updates about upcoming events, 
+          workshops, and opportunities directly in your inbox.
+        </p>
+        
+        <div class="bg-white bg-opacity-10 p-6 rounded-lg mb-8">
+          <ul class="space-y-4">
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-[#FFD700] mt-1 mr-3"></i>
+              <span>Weekly event schedules and updates</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-[#FFD700] mt-1 mr-3"></i>
+              <span>Early registration for limited-seat events</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-[#FFD700] mt-1 mr-3"></i>
+              <span>Exclusive invitations to special events</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-[#FFD700] mt-1 mr-3"></i>
+              <span>Event materials and recordings</span>
+            </li>
+          </ul>
+        </div>
+        
+        <form class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium mb-1">Email Address</label>
+            <input type="email" placeholder="your.email@example.com" class="w-full p-3 bg-white bg-opacity-10 border border-white border-opacity-20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-[#FFD700]">
+          </div>
+          <div class="flex items-start mb-4">
+            <input type="checkbox" id="consent" class="mt-1 mr-3">
+            <label for="consent" class="text-sm">I agree to receive email updates about ESA-KU events and opportunities.</label>
+          </div>
+          <div>
+            <button type="submit" class="bg-[#FFD700] text-[#003366] py-3 px-6 rounded-lg hover:bg-white transition-colors font-bold w-full">
+              Subscribe to Updates
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+</div>
+
+<!-- Event-Specific JavaScript -->
+<script>
+  // Toggle between grid and calendar views
+  document.addEventListener('DOMContentLoaded', function() {
+    const gridViewBtn = document.getElementById('grid-view');
+    const calendarViewBtn = document.getElementById('calendar-view');
+    
+    if (gridViewBtn && calendarViewBtn) {
+      gridViewBtn.addEventListener('click', function() {
+        gridViewBtn.classList.add('active');
+        calendarViewBtn.classList.remove('active');
+        // Add functionality to show grid view
+      });
+      
+      calendarViewBtn.addEventListener('click', function() {
+        calendarViewBtn.classList.add('active');
+        gridViewBtn.classList.remove('active');
+        // Add functionality to show calendar view
+      });
+    }
+  });
+</script>
+
+{% endblock %}

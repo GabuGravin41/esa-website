@@ -1,0 +1,173 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<!-- Hero Section for Resources -->
+<section class="relative bg-cover bg-center" style="background-image: url('#');">
+  <div class="bg-black bg-opacity-50">
+    <div class="container mx-auto px-4 py-24 text-center text-white">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">ESA-KU Resources Hub</h1>
+      <p class="max-w-2xl mx-auto mb-6 text-lg">
+        Access engineering resources, documents, and materials
+      </p>
+      <a href="#" class="bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded font-semibold">
+        Upload New Resource
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Filter System -->
+<section class="max-w-6xl mx-auto my-8 px-6">
+  <!-- Search Box -->
+  <form method="GET" action="{% url 'resources' %}" class="relative mb-8">
+    <input type="text" name="search" placeholder="Search resources..." 
+           class="w-full p-3 border-2 border-gray-300 rounded-[25px] pl-10"
+           value="{{ request.GET.search|default:'' }}">
+    <button type="submit" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-600">
+      <i class="fas fa-search"></i>
+    </button>
+  </form>
+
+  <div class="bg-white shadow rounded-lg p-6 flex flex-wrap justify-between gap-4">
+    <!-- Resource Type Filters -->
+    <div class="flex flex-wrap gap-4">
+      <a href="{% url 'resources' %}" class="filter-tab cursor-pointer px-4 py-2 {% if not category %}bg-blue-900 text-white{% else %}bg-gray-100{% endif %} rounded-full border-2 border-transparent font-medium transition hover:border-blue-900">
+        All Resources
+      </a>
+      <a href="{% url 'resources' %}?category=document" class="filter-tab cursor-pointer px-4 py-2 {% if category == 'document' %}bg-blue-900 text-white{% else %}bg-gray-100{% endif %} rounded-full border-2 border-transparent font-medium transition hover:border-blue-900">
+        Documents
+      </a>
+      <a href="{% url 'resources' %}?category=video" class="filter-tab cursor-pointer px-4 py-2 {% if category == 'video' %}bg-blue-900 text-white{% else %}bg-gray-100{% endif %} rounded-full border-2 border-transparent font-medium transition hover:border-blue-900">
+        Videos
+      </a>
+      <a href="{% url 'resources' %}?category=link" class="filter-tab cursor-pointer px-4 py-2 {% if category == 'link' %}bg-blue-900 text-white{% else %}bg-gray-100{% endif %} rounded-full border-2 border-transparent font-medium transition hover:border-blue-900">
+        Links
+      </a>
+    </div>
+    <!-- Sort Filters -->
+    <div class="flex flex-wrap gap-4">
+      <a href="{% url 'resources' %}?sort=latest" class="filter-tab cursor-pointer px-4 py-2 {% if sort == 'latest' or not sort %}bg-blue-900 text-white{% else %}bg-gray-100{% endif %} rounded-full border-2 border-transparent font-medium transition hover:border-blue-900">
+        Latest
+      </a>
+      <a href="{% url 'resources' %}?sort=popular" class="filter-tab cursor-pointer px-4 py-2 {% if sort == 'popular' %}bg-blue-900 text-white{% else %}bg-gray-100{% endif %} rounded-full border-2 border-transparent font-medium transition hover:border-blue-900">
+        Most Downloaded
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Main Content & Sidebar Grid -->
+<div class="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
+  <!-- Resources Column (spanning 2 columns on large screens) -->
+  <main class="lg:col-span-2 space-y-8">
+    {% if resources %}
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {% for resource in resources %}
+          <!-- Resource Card -->
+          <div class="bg-white rounded-lg shadow overflow-hidden hover:shadow-xl transition transform hover:-translate-y-1">
+            <div class="p-6 space-y-4">
+              <!-- Resource Icon & Type -->
+              <div class="flex justify-between items-center">
+                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
+                  {% if resource.category == 'document' %}
+                    <i class="fas fa-file-pdf text-2xl text-blue-900"></i>
+                  {% elif resource.category == 'video' %}
+                    <i class="fas fa-video text-2xl text-blue-900"></i>
+                  {% elif resource.category == 'link' %}
+                    <i class="fas fa-link text-2xl text-blue-900"></i>
+                  {% else %}
+                    <i class="fas fa-file text-2xl text-blue-900"></i>
+                  {% endif %}
+                </div>
+                <span class="inline-block bg-blue-900 text-white text-xs px-3 py-1 rounded-full">
+                  {{ resource.get_category_display }}
+                </span>
+              </div>
+              
+              <!-- Resource Title & Description -->
+              <div>
+                <h3 class="text-xl font-bold text-blue-900">{{ resource.title }}</h3>
+                <p class="text-sm text-gray-600 mt-1">
+                  Uploaded {{ resource.created_at|date:"M d, Y" }} by {{ resource.uploaded_by.user.username }}
+                </p>
+                <p class="mt-3 text-gray-700">{{ resource.description|truncatewords:20 }}</p>
+              </div>
+              
+              <!-- Action Buttons -->
+              <div class="flex gap-3 pt-4 border-t border-gray-100">
+                {% if resource.file %}
+                  <a href="{{ resource.file.url }}" class="flex items-center gap-2 bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800">
+                    <i class="fas fa-download"></i> Download
+                  </a>
+                {% elif resource.link %}
+                  <a href="{{ resource.link }}" target="_blank" class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                    <i class="fas fa-external-link-alt"></i> Visit
+                  </a>
+                {% endif %}
+                <button class="flex items-center gap-2 bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300">
+                  <i class="fas fa-share-alt"></i> Share
+                </button>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <!-- No resources found message -->
+      <div class="bg-white rounded-lg shadow p-6 text-center">
+        <h2 class="text-2xl font-bold text-gray-700 mb-4">No Resources Found</h2>
+        <p class="text-gray-600">There are no resources matching your criteria.</p>
+        <a href="#" class="mt-4 inline-block bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded font-semibold">
+          Upload the First Resource
+        </a>
+      </div>
+    {% endif %}
+  </main>
+
+  <!-- Sidebar Section -->
+  <aside class="sidebar bg-white rounded-lg shadow p-6 space-y-6">
+    <div class="sidebar-section">
+      <h3 class="text-lg font-bold border-b-2 border-red-600 pb-2 text-gray-700">Resource Categories</h3>
+      <ul class="mt-3 space-y-2 text-sm text-gray-600">
+        <li><a href="{% url 'resources' %}?category=document" class="hover:underline"><i class="fas fa-file-pdf"></i> Documents ({{ document_count|default:0 }})</a></li>
+        <li><a href="{% url 'resources' %}?category=video" class="hover:underline"><i class="fas fa-video"></i> Videos ({{ video_count|default:0 }})</a></li>
+        <li><a href="{% url 'resources' %}?category=link" class="hover:underline"><i class="fas fa-link"></i> Links ({{ link_count|default:0 }})</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h3 class="text-lg font-bold border-b-2 border-red-600 pb-2 text-gray-700">Upload Resource</h3>
+      <div class="mt-3">
+        <a href="#" class="bg-blue-900 text-white px-4 py-2 rounded inline-block hover:bg-blue-700">
+          <i class="fas fa-upload mr-2"></i> Upload New
+        </a>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <h3 class="text-lg font-bold border-b-2 border-red-600 pb-2 text-gray-700">Most Downloaded</h3>
+      <ul class="mt-3 space-y-3">
+        {% for popular in popular_resources|slice:":5" %}
+          <li class="flex items-start space-x-2">
+            <div class="w-8 h-8 mt-1 rounded bg-blue-100 flex items-center justify-center flex-shrink-0">
+              {% if popular.category == 'document' %}
+                <i class="fas fa-file-pdf text-blue-900"></i>
+              {% elif popular.category == 'video' %}
+                <i class="fas fa-video text-blue-900"></i>
+              {% else %}
+                <i class="fas fa-link text-blue-900"></i>
+              {% endif %}
+            </div>
+            <div>
+              <a href="#" class="text-blue-900 hover:underline font-medium">{{ popular.title }}</a>
+              <p class="text-xs text-gray-500">{{ popular.download_count|default:0 }} downloads</p>
+            </div>
+          </li>
+        {% empty %}
+          <li>No resources available</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </aside>
+</div>
+{% endblock %}

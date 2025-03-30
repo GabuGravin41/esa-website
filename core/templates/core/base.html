@@ -1,0 +1,236 @@
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ESA Website</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Ionicons for icons -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  <!-- Authentication JavaScript -->
+  <!-- <script src="{% static 'js/auth.js' %}"></script> -->
+</head>
+<body class="min-h-screen flex flex-col bg-gray-50 text-gray-800">
+  <!-- Header -->
+  <header>
+    <!-- Top Bar -->
+    <div class="bg-blue-900 text-white text-sm">
+      <div class="container mx-auto px-4 py-2 flex justify-between items-center">
+        <div class="space-x-2">
+          <a href="#" class="hover:underline">ESA Constitution</a>
+          <span>|</span>
+          <a href="#" class="hover:underline">ESA Journals</a>
+          <span>|</span>
+          <a href="#" class="hover:underline">ESA Excom</a>
+          <span>|</span>
+          <a href="#" class="hover:underline">More Sites</a>
+        </div>
+        <div class="space-x-2">
+          <a href="#" class="hover:underline">Donate</a>
+          <span>|</span>
+          <a href="#" class="hover:underline">Cart (0)</a>
+          <span>|</span>
+
+          {% if user.is_authenticated %}
+            <a href="{% url 'profile' %}" class="hover:underline">Profile</a>
+            <span>|</span>
+            <a href="{% url 'logout' %}" class="hover:underline" id="logout-link">Logout</a>
+          {% else %}
+            <a href="{% url 'login' %}" class="hover:underline">Sign In</a>
+            <span>|</span>
+            <a href="{% url 'register' %}" class="hover:underline">Create Account</a>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+    <!-- Main Navigation -->
+    <nav class="bg-white shadow">
+      <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+        <a href="{% url 'home' %}" class="flex items-center">
+          <img src="{% static "images/esa-logo.png" %}" alt="ESA Logo" class="h-12" />
+        </a>
+        <ul class="hidden md:flex space-x-6">
+          <li><a href="{% url 'home' %}" class="text-blue-900 hover:text-green-700 font-semibold">Home</a></li>
+          <li><a href="{% url 'membership' %}" class="text-blue-900 hover:text-green-700 font-semibold">Membership</a></li>
+          <li><a href="{% url 'about' %}" class="text-blue-900 hover:text-green-700 font-semibold">About</a></li>
+          <li><a href="{% url 'events' %}" class="text-blue-900 hover:text-green-700 font-semibold">Events</a></li>
+          <li><a href="{% url 'store' %}" class="text-blue-900 hover:text-green-700 font-semibold">Store</a></li>
+          <li><a href="{% url 'blog' %}" class="text-blue-900 hover:text-green-700 font-semibold">Blog</a></li>
+          <li><a href="{% url 'resources' %}" class="text-blue-900 hover:text-green-700 font-semibold">Resources</a></li>
+        </ul>
+        {% if not user.is_authenticated %}
+          <!-- Remove the JOIN ESA-KU button -->
+          <a href="{% url 'register' %}" class="hidden md:inline-block bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded font-bold">
+            JOIN ESA-KU
+          </a> 
+        {% endif %}
+        <!-- Mobile Menu Button -->
+        <button class="md:hidden text-blue-900 focus:outline-none">
+          <ion-icon name="menu" size="large"></ion-icon>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    {% if messages %}
+      <div class="container mx-auto px-4 py-4">
+        {% for message in messages %}
+          <div class="rounded-md p-4 mb-4 {% if message.tags == 'success' %}bg-green-50 text-green-800{% elif message.tags == 'error' %}bg-red-50 text-red-800{% else %}bg-blue-50 text-blue-800{% endif %}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    
+    {% block content %}
+    {% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-blue-900 text-white">
+    <div class="container mx-auto px-4 py-12">
+      <div class="grid md:grid-cols-4 gap-8">
+        <!-- Footer Brand -->
+        <div>
+          <a href="#" class="text-2xl font-bold mb-4 inline-block">ESA-KU</a>
+          <p class="text-sm text-gray-300 mt-3">
+            Building a vibrant community of engineering minds at Kenyatta University.
+          </p>
+          <div class="flex space-x-3 mt-4">
+            <a href="#" class="p-2 bg-blue-800 rounded hover:bg-blue-700">
+              <ion-icon name="logo-facebook" size="small"></ion-icon>
+            </a>
+            <a href="#" class="p-2 bg-blue-800 rounded hover:bg-blue-700">
+              <ion-icon name="logo-twitter" size="small"></ion-icon>
+            </a>
+            <a href="#" class="p-2 bg-blue-800 rounded hover:bg-blue-700">
+              <ion-icon name="logo-linkedin" size="small"></ion-icon>
+            </a>
+            <a href="#" class="p-2 bg-blue-800 rounded hover:bg-blue-700">
+              <ion-icon name="logo-pinterest" size="small"></ion-icon>
+            </a>
+          </div>
+        </div>
+        <!-- Explore -->
+        <div>
+          <h4 class="font-semibold mb-4">Explore</h4>
+          <ul class="space-y-2 text-sm">
+            <li>
+              <a href="{% url 'about' %}" class="hover:underline flex items-center gap-1">
+                <ion-icon name="chevron-forward" size="small"></ion-icon>
+                About Us
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'events' %}" class="hover:underline flex items-center gap-1">
+                <ion-icon name="chevron-forward" size="small"></ion-icon>
+                Upcoming Events
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'blog' %}" class="hover:underline flex items-center gap-1">
+                <ion-icon name="chevron-forward" size="small"></ion-icon>
+                Blog & News
+              </a>
+            </li>
+            <li>
+              <a href="#" class="hover:underline flex items-center gap-1">
+                <ion-icon name="chevron-forward" size="small"></ion-icon>
+                Privacy Policy
+              </a>
+            </li>
+          </ul>
+        </div>
+        <!-- Useful Links -->
+        <div>
+          <h4 class="font-semibold mb-4">Useful Links</h4>
+          <ul class="space-y-2 text-sm">
+            <li>
+              <a href="{% url 'membership' %}" class="hover:underline flex items-center gap-1">
+                <ion-icon name="chevron-forward" size="small"></ion-icon>
+                Membership Plan
+              </a>
+            </li>
+            <li>
+              <a href="#" class="hover:underline flex items-center gap-1">
+                <ion-icon name="chevron-forward" size="small"></ion-icon>
+                Executive Committee
+              </a>
+            </li>
+            <li>
+              <a href="#" class="hover:underline flex items-center gap-1">
+                <ion-icon name="chevron-forward" size="small"></ion-icon>
+                FAQ
+              </a>
+            </li>
+            <li>
+              <a href="#" class="hover:underline flex items-center gap-1">
+                <ion-icon name="chevron-forward" size="small"></ion-icon>
+                Terms & Conditions
+              </a>
+            </li>
+          </ul>
+        </div>
+        <!-- Contact Info -->
+        <div>
+          <h4 class="font-semibold mb-4">Contact Info</h4>
+          <ul class="space-y-2 text-sm">
+            <li class="flex items-center gap-1">
+              <ion-icon name="location-outline" size="small"></ion-icon>
+              Kenyatta University, Roysambu, Nairobi
+            </li>
+            <li class="flex items-center gap-1">
+              <ion-icon name="call" size="small"></ion-icon>
+              <a href="tel:+25470000002" class="hover:underline">+254 70000002</a>
+            </li>
+            <li class="flex items-center gap-1">
+              <ion-icon name="call" size="small"></ion-icon>
+              <a href="tel:+25479999999" class="hover:underline">+254 79999999</a>
+            </li>
+            <li class="flex items-center gap-1">
+              <ion-icon name="mail-outline" size="small"></ion-icon>
+              <a href="mailto:contact@esa.com" class="hover:underline">contact@esa.com</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-12 text-center text-sm text-gray-400">
+        &copy; 2025 Engineering Students Association-Kenyatta University. All Rights Reserved by 
+        <a href="#" class="hover:underline font-semibold">ESA-KU</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Authentication JavaScript -->
+  <!-- <script>
+    // Initialize authentication-related event listeners
+    document.addEventListener('DOMContentLoaded', function() {
+      // Handle logout link click
+      const logoutLink = document.getElementById('logout-link');
+      if (logoutLink) {
+        logoutLink.addEventListener('click', async function(e) {
+          e.preventDefault();
+          const result = await auth.logout();
+          if (result.status === 'success') {
+            window.location.href = '/';
+          } else {
+            console.error('Logout failed:', result.message);
+          }
+        });
+      }
+    });
+  </script> -->
+</body>
+</html>

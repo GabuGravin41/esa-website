@@ -1,0 +1,503 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Membership - ESA{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative bg-blue-900 text-white py-12">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-wrap md:flex-nowrap items-center">
+            <div class="w-full md:w-1/2 mb-8 md:mb-0">
+                <h1 class="text-4xl font-bold mb-4">Join the ESA-KU Community</h1>
+                <p class="text-xl mb-4">Access exclusive resources, attend special events, and connect with fellow engineering students and professionals.</p>
+                <p class="mb-4">
+                    {% if is_member %}
+                        <span class="bg-green-600 text-white px-3 py-1 rounded-full inline-flex items-center">
+                            <i class="fas fa-check-circle mr-2"></i>You're already a member!
+                        </span>
+                    {% else %}
+                        <span class="bg-yellow-500 text-white px-3 py-1 rounded-full inline-flex items-center">
+                            <i class="fas fa-info-circle mr-2"></i>Not a member yet
+                        </span>
+                    {% endif %}
+                </p>
+            </div>
+            <div class="w-full md:w-1/2">
+                <img src="{% static 'images/membership_hero.png' %}" alt="ESA Membership" class="rounded-lg shadow-lg w-full">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Benefits Section -->
+<section class="py-12 bg-gray-100">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-10">Membership Benefits</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition text-center">
+                <div class="inline-block p-4 bg-blue-100 rounded-full mb-4">
+                    <i class="fas fa-book-open text-3xl text-blue-900"></i>
+                </div>
+                <h3 class="text-xl font-bold text-blue-900 mb-3">Exclusive Resources</h3>
+                <p class="text-gray-700">
+                    Access to engineering research papers, study materials, and technical resources.
+                </p>
+            </div>
+            <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition text-center">
+                <div class="inline-block p-4 bg-blue-100 rounded-full mb-4">
+                    <i class="fas fa-users text-3xl text-blue-900"></i>
+                </div>
+                <h3 class="text-xl font-bold text-blue-900 mb-3">Networking</h3>
+                <p class="text-gray-700">
+                    Connect with engineering professionals, academics, and fellow students in the field.
+                </p>
+            </div>
+            <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition text-center">
+                <div class="inline-block p-4 bg-blue-100 rounded-full mb-4">
+                    <i class="fas fa-calendar-check text-3xl text-blue-900"></i>
+                </div>
+                <h3 class="text-xl font-bold text-blue-900 mb-3">Priority Event Access</h3>
+                <p class="text-gray-700">
+                    Early registration and discounts for workshops, field trips, and engineering conferences.
+                </p>
+            </div>
+            <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition text-center">
+                <div class="inline-block p-4 bg-blue-100 rounded-full mb-4">
+                    <i class="fas fa-graduation-cap text-3xl text-blue-900"></i>
+                </div>
+                <h3 class="text-xl font-bold text-blue-900 mb-3">Learning Opportunities</h3>
+                <p class="text-gray-700">
+                    Access to engineering workshops, training sessions, and technical educational content.
+                </p>
+            </div>
+            <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition text-center">
+                <div class="inline-block p-4 bg-blue-100 rounded-full mb-4">
+                    <i class="fas fa-certificate text-3xl text-blue-900"></i>
+                </div>
+                <h3 class="text-xl font-bold text-blue-900 mb-3">Certifications</h3>
+                <p class="text-gray-700">
+                    Official member certificate and recognition in the engineering community.
+                </p>
+            </div>
+            <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition text-center">
+                <div class="inline-block p-4 bg-blue-100 rounded-full mb-4">
+                    <i class="fas fa-store text-3xl text-blue-900"></i>
+                </div>
+                <h3 class="text-xl font-bold text-blue-900 mb-3">Store Discounts</h3>
+                <p class="text-gray-700">
+                    Special discounts on ESA merchandise and engineering tools.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Member Resources & Opportunities Section -->
+<section class="py-12 bg-white">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-blue-900 text-center mb-10">Membership Opportunities</h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Members' Own Stories -->
+      <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition">
+        <div class="flex items-center mb-4">
+          <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+            <i class="fas fa-quote-right text-2xl text-blue-900"></i>
+          </div>
+          <h3 class="text-xl font-bold text-blue-900">Members' Own Stories</h3>
+        </div>
+        <p class="text-gray-700 mb-4">
+          Show members and non-members alike what it means to be part of ESA. Your story can inspire others to join our community and make the most of their engineering education.
+        </p>
+        <a href="#" class="text-green-700 font-semibold hover:underline flex items-center">
+          <span>Share your ESA story</span>
+          <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+      </div>
+        
+      <!-- Gift of Membership -->
+      <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition">
+        <div class="flex items-center mb-4">
+          <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+            <i class="fas fa-gift text-2xl text-blue-900"></i>
+          </div>
+          <h3 class="text-xl font-bold text-blue-900">Gift of Membership</h3>
+        </div>
+        <p class="text-gray-700 mb-4">
+          ESA membership is a great gift idea and a way to share in the experience of being a member of ESA. Support a friend's engineering journey with this meaningful present.
+        </p>
+        <a href="#" class="text-green-700 font-semibold hover:underline flex items-center">
+          <span>Give the gift of membership</span>
+          <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+      </div>
+      
+      <!-- Member-Get-a-Member -->
+      <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition">
+        <div class="flex items-center mb-4">
+          <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+            <i class="fas fa-user-plus text-2xl text-blue-900"></i>
+          </div>
+          <h3 class="text-xl font-bold text-blue-900">Member-Get-a-Member</h3>
+        </div>
+        <p class="text-gray-700 mb-4">
+          Consider sharing your ESA membership experience and get rewarded for doing so. Help us grow our engineering community while earning benefits for yourself.
+        </p>
+        <a href="#" class="text-green-700 font-semibold hover:underline flex items-center">
+          <span>Learn more</span>
+          <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+      </div>
+      
+      <!-- ESA Journals for Members -->
+      <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition">
+        <div class="flex items-center mb-4">
+          <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+            <i class="fas fa-book-open text-2xl text-blue-900"></i>
+          </div>
+          <h3 class="text-xl font-bold text-blue-900">ESA Journals for Members</h3>
+        </div>
+        <p class="text-gray-700 mb-4">
+          More than 400 engineering students at Kenyatta University make ESA an integral part of their lives. Explore their innovations and experiences in our journals.
+        </p>
+        <a href="#" class="text-green-700 font-semibold hover:underline flex items-center">
+          <span>View more videos and stories at ESA Journals</span>
+          <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing Plans Section -->
+<section class="py-12" id="pricingSection">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-blue-900 text-center mb-2">Membership Plans</h2>
+        <p class="text-xl text-center text-gray-600 mb-10">Choose the membership plan that best suits your needs</p>
+        
+        {% if is_member %}
+        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-10 text-center">
+            <i class="fas fa-star mr-2"></i>
+            <strong>You already have an active membership!</strong> Your membership is valid until your expiry date.
+        </div>
+        {% endif %}
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {% for plan in plans %}
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition {% if plan.name == 'Standard' %}border-2 border-blue-900{% endif %}">
+                {% if plan.name == 'Standard' %}
+                <div class="bg-blue-900 text-white text-center py-2">
+                    <span class="font-bold">MOST POPULAR</span>
+                </div>
+                {% endif %}
+                <div class="p-8">
+                    <h3 class="text-2xl font-bold text-blue-900 mb-2 text-center">{{ plan.name }}</h3>
+                    <div class="flex items-end justify-center mb-4">
+                        <span class="text-4xl font-bold text-blue-900">{{ plan.price }}</span>
+                        <span class="text-gray-600 ml-2">KSh</span>
+                    </div>
+                    <p class="text-gray-600 text-center mb-6">/{{ plan.duration }} months</p>
+                    
+                    <h6 class="text-center font-semibold mb-4">For {{ plan.get_plan_type_display }}</h6>
+                    
+                    <ul class="space-y-3 mb-8">
+                        {% if plan.plan_type == 'first_year' %}
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-600 mr-2"></i>
+                                <span class="text-gray-700">Basic resource access</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-600 mr-2"></i>
+                                <span class="text-gray-700">Event registration</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-600 mr-2"></i>
+                                <span class="text-gray-700">Blog comments (5 max)</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-600 mr-2"></i>
+                                <span class="text-gray-700">Community forum access</span>
+                            </li>
+                            <li class="flex items-center opacity-50">
+                                <i class="fas fa-times text-red-600 mr-2"></i>
+                                <span class="text-gray-700">Premium resources</span>
+                            </li>
+                            <li class="flex items-center opacity-50">
+                                <i class="fas fa-times text-red-600 mr-2"></i>
+                                <span class="text-gray-700">Event discounts</span>
+                            </li>
+                        {% elif plan.plan_type == 'student' %}
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-600 mr-2"></i>
+                                <span class="text-gray-700">Full resource access</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-600 mr-2"></i>
+                                <span class="text-gray-700">Priority event registration</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-600 mr-2"></i>
+                                <span class="text-gray-700">Unlimited blog comments</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-600 mr-2"></i>
+                                <span class="text-gray-700">Community forum access</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-600 mr-2"></i>
+                                <span class="text-gray-700">10% event discounts</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-600 mr-2"></i>
+                                <span class="text-gray-700">Blog post publishing</span>
+                            </li>
+                        {% else %}
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-600 mr-2"></i>
+                                <span class="text-gray-700">Premium resource access</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-600 mr-2"></i>
+                                <span class="text-gray-700">VIP event registration</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-600 mr-2"></i>
+                                <span class="text-gray-700">Unlimited blog comments</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-600 mr-2"></i>
+                                <span class="text-gray-700">Mentor status in forums</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-600 mr-2"></i>
+                                <span class="text-gray-700">25% event discounts</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-600 mr-2"></i>
+                                <span class="text-gray-700">Featured blog publishing</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-600 mr-2"></i>
+                                <span class="text-gray-700">Research collaboration</span>
+                            </li>
+                        {% endif %}
+                    </ul>
+                    
+                    {% if is_member %}
+                        <button class="block w-full bg-gray-200 text-gray-500 font-bold py-3 rounded-lg text-center cursor-not-allowed" disabled>Already a Member</button>
+                    {% elif not user.is_authenticated %}
+                        <a href="{% url 'login' %}?next={% url 'join_membership' plan.id %}" class="block w-full {% if plan.name == 'Standard' %}bg-green-700 hover:bg-green-800 text-white{% else %}bg-gray-200 hover:bg-gray-300 text-blue-900{% endif %} font-bold py-3 rounded-lg text-center transition">
+                            Sign In to Join
+                        </a>
+                    {% else %}
+                        <a href="{% url 'join_membership' plan.id %}" class="block w-full {% if plan.name == 'Standard' %}bg-green-700 hover:bg-green-800 text-white{% else %}bg-gray-200 hover:bg-gray-300 text-blue-900{% endif %} font-bold py-3 rounded-lg text-center transition">
+                            Select Plan
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-span-3 text-center">
+                <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4">
+                    <i class="fas fa-info-circle mr-2"></i>No membership plans are currently available. Please check back later.
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-12 bg-gray-100">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-blue-900 text-center mb-10">Frequently Asked Questions</h2>
+        <div class="max-w-3xl mx-auto space-y-6">
+            <div class="bg-white rounded-lg shadow">
+                <button class="flex justify-between items-center w-full p-6 text-left" onclick="toggleFAQ(this)">
+                    <span class="font-bold text-blue-900">How do I know which membership plan is right for me?</span>
+                    <i class="fas fa-chevron-down text-blue-900 transition-transform"></i>
+                </button>
+                <div class="hidden px-6 pb-6">
+                    <p class="text-gray-700">
+                        If you're a first-year student, the Basic plan is perfect to get started. Current students should choose the Standard plan for the best value, while graduates and professionals benefit most from the Premium plan with its advanced networking and collaboration opportunities.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow">
+                <button class="flex justify-between items-center w-full p-6 text-left" onclick="toggleFAQ(this)">
+                    <span class="font-bold text-blue-900">How can I pay for membership?</span>
+                    <i class="fas fa-chevron-down text-blue-900 transition-transform"></i>
+                </button>
+                <div class="hidden px-6 pb-6">
+                    <p class="text-gray-700">
+                        We accept M-Pesa for local payments and PayPal for international payments. Both methods are secure and transactions are processed immediately.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow">
+                <button class="flex justify-between items-center w-full p-6 text-left" onclick="toggleFAQ(this)">
+                    <span class="font-bold text-blue-900">Can I upgrade my membership plan later?</span>
+                    <i class="fas fa-chevron-down text-blue-900 transition-transform"></i>
+                </button>
+                <div class="hidden px-6 pb-6">
+                    <p class="text-gray-700">
+                        Yes! You can upgrade your membership at any time. The remaining value of your current membership will be credited toward your new plan.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow">
+                <button class="flex justify-between items-center w-full p-6 text-left" onclick="toggleFAQ(this)">
+                    <span class="font-bold text-blue-900">How long does my membership last?</span>
+                    <i class="fas fa-chevron-down text-blue-900 transition-transform"></i>
+                </button>
+                <div class="hidden px-6 pb-6">
+                    <p class="text-gray-700">
+                        Memberships are valid for the duration specified in your selected plan, typically 12 months. You'll receive renewal reminders before expiration.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow">
+                <button class="flex justify-between items-center w-full p-6 text-left" onclick="toggleFAQ(this)">
+                    <span class="font-bold text-blue-900">What happens if I need to cancel my membership?</span>
+                    <i class="fas fa-chevron-down text-blue-900 transition-transform"></i>
+                </button>
+                <div class="hidden px-6 pb-6">
+                    <p class="text-gray-700">
+                        While we don't offer refunds for membership fees, you can contact us at <a href="mailto:support@esa-ku.org" class="text-blue-700 hover:underline">support@esa-ku.org</a> if you have special circumstances.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-12">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-blue-900 text-center mb-10">What Our Members Say</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white rounded-xl shadow p-6 relative">
+                <div class="absolute -top-6 left-1/2 transform -translate-x-1/2">
+                    <div class="w-12 h-12 bg-blue-900 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                        SK
+                    </div>
+                </div>
+                <div class="pt-8">
+                    <div class="flex text-yellow-400 mb-3 justify-center">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="italic text-gray-700 mb-4">
+                        "Joining ESA was one of my best decisions at KU. I've made incredible connections and learned so much beyond the classroom."
+                    </p>
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h4 class="font-bold text-blue-900">Sarah Kimani</h4>
+                            <p class="text-sm text-gray-600">3rd Year Student</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow p-6 relative">
+                <div class="absolute -top-6 left-1/2 transform -translate-x-1/2">
+                    <div class="w-12 h-12 bg-blue-900 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                        DO
+                    </div>
+                </div>
+                <div class="pt-8">
+                    <div class="flex text-yellow-400 mb-3 justify-center">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="italic text-gray-700 mb-4">
+                        "As a graduate, ESA membership has opened doors to research opportunities and connected me with professionals in my field."
+                    </p>
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h4 class="font-bold text-blue-900">David Omondi</h4>
+                            <p class="text-sm text-gray-600">KU Graduate 2022</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow p-6 relative">
+                <div class="absolute -top-6 left-1/2 transform -translate-x-1/2">
+                    <div class="w-12 h-12 bg-blue-900 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                        JM
+                    </div>
+                </div>
+                <div class="pt-8">
+                    <div class="flex text-yellow-400 mb-3 justify-center">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p class="italic text-gray-700 mb-4">
+                        "The resources available through ESA membership have been invaluable for my studies. The community is supportive and inspiring."
+                    </p>
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h4 class="font-bold text-blue-900">Jane Mutua</h4>
+                            <p class="text-sm text-gray-600">2nd Year Student</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-12 bg-blue-900 text-white">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-3xl font-bold mb-4">Ready to join the ESA-KU community?</h2>
+        <p class="max-w-2xl mx-auto mb-8 text-lg">
+            Become a member today and unlock all the benefits!
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+            {% if is_member %}
+                <button class="bg-white text-blue-900 cursor-not-allowed opacity-75 px-8 py-3 rounded-lg font-bold" disabled>Already a Member</button>
+            {% elif not user.is_authenticated %}
+                <a href="{% url 'login' %}?next={% url 'membership' %}" class="bg-white text-blue-900 hover:bg-gray-100 px-8 py-3 rounded-lg font-bold transition">
+                    Sign In to Join
+                </a>
+            {% else %}
+                <a href="#pricingSection" class="bg-white text-blue-900 hover:bg-gray-100 px-8 py-3 rounded-lg font-bold transition">
+                    Join Now
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<script>
+    function toggleFAQ(element) {
+        const content = element.nextElementSibling;
+        const icon = element.querySelector('i');
+        
+        // Toggle display
+        if (content.classList.contains('hidden')) {
+            content.classList.remove('hidden');
+            icon.classList.add('transform', 'rotate-180');
+        } else {
+            content.classList.add('hidden');
+            icon.classList.remove('transform', 'rotate-180');
+        }
+    }
+</script>
+{% endblock %}

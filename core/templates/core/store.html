@@ -1,0 +1,204 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<!-- Hero Section for Store -->
+<section class="relative bg-cover bg-center" style="background-image: url('#');">
+  <div class="bg-black bg-opacity-50">
+    <div class="container mx-auto px-4 py-24 text-center text-white">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">ESA-KU Engineering Store</h1>
+      <p class="max-w-2xl mx-auto mb-6 text-lg">
+        Get engineering tools, books, and merchandise
+      </p>
+      <a href="{% url 'cart' %}" class="bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded font-semibold">
+        <i class="fas fa-shopping-cart mr-2"></i> View Cart
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Filter and Search Section -->
+<section class="max-w-6xl mx-auto my-8 px-6">
+  <!-- Search Box -->
+  <form method="GET" action="{% url 'store' %}" class="relative mb-8">
+    <input type="text" name="search" placeholder="Search products..." 
+           class="w-full p-3 border-2 border-gray-300 rounded-[25px] pl-10"
+           value="{{ request.GET.search|default:'' }}">
+    <button type="submit" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-600">
+      <i class="fas fa-search"></i>
+    </button>
+  </form>
+
+  <!-- Product Categories Tabs -->
+  <div class="bg-white shadow rounded-lg p-6 mb-8">
+    <div class="flex flex-wrap gap-4">
+      <a href="{% url 'store' %}" class="filter-tab cursor-pointer px-4 py-2 {% if not category %}bg-blue-900 text-white{% else %}bg-gray-100{% endif %} rounded-full border-2 border-transparent font-medium transition hover:border-blue-900">
+        All Products
+      </a>
+      <a href="{% url 'store' %}?category=books" class="filter-tab cursor-pointer px-4 py-2 {% if category == 'books' %}bg-blue-900 text-white{% else %}bg-gray-100{% endif %} rounded-full border-2 border-transparent font-medium transition hover:border-blue-900">
+        Books
+      </a>
+      <a href="{% url 'store' %}?category=tools" class="filter-tab cursor-pointer px-4 py-2 {% if category == 'tools' %}bg-blue-900 text-white{% else %}bg-gray-100{% endif %} rounded-full border-2 border-transparent font-medium transition hover:border-blue-900">
+        Tools
+      </a>
+      <a href="{% url 'store' %}?category=merchandise" class="filter-tab cursor-pointer px-4 py-2 {% if category == 'merchandise' %}bg-blue-900 text-white{% else %}bg-gray-100{% endif %} rounded-full border-2 border-transparent font-medium transition hover:border-blue-900">
+        Merchandise
+      </a>
+      <a href="{% url 'store' %}?category=electronics" class="filter-tab cursor-pointer px-4 py-2 {% if category == 'electronics' %}bg-blue-900 text-white{% else %}bg-gray-100{% endif %} rounded-full border-2 border-transparent font-medium transition hover:border-blue-900">
+        Electronics
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Product Grid -->
+<div class="max-w-6xl mx-auto px-6">
+  {% if products %}
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12">
+      {% for product in products %}
+        <!-- Product Card -->
+        <div class="bg-white rounded-lg shadow overflow-hidden hover:shadow-xl transition transform hover:-translate-y-1">
+          {% if product.image %}
+            <div class="h-48 overflow-hidden">
+              <img src="{{ product.image.url }}" alt="{{ product.name }}" class="w-full h-full object-cover">
+            </div>
+          {% else %}
+            <div class="h-48 bg-gray-200 flex items-center justify-center">
+              <i class="fas fa-shopping-bag text-3xl text-gray-400"></i>
+            </div>
+          {% endif %}
+          
+          <div class="p-4">
+            <h3 class="text-lg font-bold text-blue-900">{{ product.name }}</h3>
+            <div class="flex justify-between items-center mt-2">
+              <span class="text-xl font-bold text-green-700">${{ product.price }}</span>
+              <span class="text-sm text-gray-500">{{ product.stock }} in stock</span>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">{{ product.description|truncatewords:10 }}</p>
+            
+            <div class="mt-4 flex gap-2">
+              <a href="{% url 'product_detail' product_id=product.id %}" class="text-blue-900 hover:underline text-sm">
+                View Details
+              </a>
+              
+              <form method="post" action="{% url 'product_detail' product_id=product.id %}" class="ml-auto">
+                {% csrf_token %}
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="bg-blue-900 text-white px-3 py-1 rounded text-sm hover:bg-blue-800">
+                  Add to Cart
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <!-- No products message -->
+    <div class="bg-white rounded-lg shadow p-8 text-center my-8">
+      <h2 class="text-2xl font-bold text-gray-700 mb-4">No Products Found</h2>
+      <p class="text-gray-600">There are no products matching your criteria.</p>
+    </div>
+  {% endif %}
+  
+  <!-- Featured Products Showcase -->
+  <div class="bg-gray-100 rounded-lg p-8 mb-12">
+    <h2 class="text-2xl font-bold text-blue-900 mb-6">Featured Products</h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Featured Product 1 -->
+      <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3')"></div>
+        <div class="p-4">
+          <div class="inline-block bg-yellow-400 text-xs px-2 py-1 rounded-full font-bold mb-2">FEATURED</div>
+          <h3 class="text-lg font-bold">Digital Multimeter Pro</h3>
+          <p class="text-green-700 font-bold mt-1">$49.99</p>
+          <p class="text-sm text-gray-600 mt-2">High precision digital multimeter for engineering students</p>
+        </div>
+      </div>
+      
+      <!-- Featured Product 2 -->
+      <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixlib=rb-4.0.3')"></div>
+        <div class="p-4">
+          <div class="inline-block bg-yellow-400 text-xs px-2 py-1 rounded-full font-bold mb-2">FEATURED</div>
+          <h3 class="text-lg font-bold">Engineering T-Shirt</h3>
+          <p class="text-green-700 font-bold mt-1">$22.95</p>
+          <p class="text-sm text-gray-600 mt-2">Comfortable cotton t-shirt with engineering humor</p>
+        </div>
+      </div>
+      
+      <!-- Featured Product 3 -->
+      <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3')"></div>
+        <div class="p-4">
+          <div class="inline-block bg-yellow-400 text-xs px-2 py-1 rounded-full font-bold mb-2">FEATURED</div>
+          <h3 class="text-lg font-bold">Engineering Fundamentals Book</h3>
+          <p class="text-green-700 font-bold mt-1">$34.99</p>
+          <p class="text-sm text-gray-600 mt-2">Essential textbook for first year engineering students</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Customer Reviews -->
+  <div class="bg-white rounded-lg shadow p-8 mb-12">
+    <h2 class="text-2xl font-bold text-blue-900 mb-6">What Our Customers Say</h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Review 1 -->
+      <div class="border border-gray-200 rounded-lg p-4">
+        <div class="flex items-center mb-4">
+          <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-700 font-bold mr-4">JD</div>
+          <div>
+            <h4 class="font-bold">John Doe</h4>
+            <div class="flex text-yellow-400">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+          </div>
+        </div>
+        <p class="text-gray-600">"The calculator I purchased has been a game-changer for my engineering classes. Fast shipping and great quality!"</p>
+      </div>
+      
+      <!-- Review 2 -->
+      <div class="border border-gray-200 rounded-lg p-4">
+        <div class="flex items-center mb-4">
+          <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-700 font-bold mr-4">JS</div>
+          <div>
+            <h4 class="font-bold">Jane Smith</h4>
+            <div class="flex text-yellow-400">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+          </div>
+        </div>
+        <p class="text-gray-600">"I love my ESA hoodie! It's comfortable, stylish, and shows my engineering pride."</p>
+      </div>
+      
+      <!-- Review 3 -->
+      <div class="border border-gray-200 rounded-lg p-4">
+        <div class="flex items-center mb-4">
+          <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-purple-700 font-bold mr-4">RJ</div>
+          <div>
+            <h4 class="font-bold">Robert Johnson</h4>
+            <div class="flex text-yellow-400">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="far fa-star"></i>
+            </div>
+          </div>
+        </div>
+        <p class="text-gray-600">"The digital textbooks available here saved me a lot of money compared to the campus bookstore. Highly recommend!"</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

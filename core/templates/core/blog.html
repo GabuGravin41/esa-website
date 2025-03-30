@@ -1,0 +1,189 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load core_filters %}
+
+{% block content %}
+<!-- Hero Section for Blog -->
+<section class="relative bg-cover bg-center" style="background-image: url('{% static 'images/blog-hero-bg.jpg' %}');">
+  <div class="bg-black bg-opacity-50">
+    <div class="container mx-auto px-4 py-24 text-center text-white">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">KU ESA Engineering Hub</h1>
+      <p class="max-w-2xl mx-auto mb-6 text-lg">
+        Where Innovation Meets Documentation!
+      </p>
+      <a href="{% url 'blog_post_create' %}" class="bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded font-semibold">
+        Create New Post
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Filter System -->
+<section class="max-w-6xl mx-auto my-8 px-6">
+  <!-- Search Box -->
+  <form method="GET" action="{% url 'blog' %}" class="relative mb-8">
+    <input type="text" name="search" placeholder="Search articles..." 
+           class="w-full p-3 border-2 border-gray-300 rounded-[25px] pl-10"
+           value="{{ search|default:'' }}">
+    <button type="submit" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-600">
+      <i class="fas fa-search"></i>
+    </button>
+  </form>
+
+  <div class="bg-white shadow rounded-lg p-6 flex flex-wrap justify-between gap-4">
+    <!-- First Filter Group - Categories -->
+    <div class="flex flex-wrap gap-4">
+      <a href="{% url 'blog' %}" class="filter-tab cursor-pointer px-4 py-2 {% if not category %}bg-blue-900 text-white{% else %}bg-gray-100{% endif %} rounded-full border-2 border-transparent font-medium transition hover:border-blue-900"
+           data-filter="all">All Content</a>
+      {% for cat in categories %}
+        <a href="{% url 'blog' %}?category={{ cat }}" class="filter-tab cursor-pointer px-4 py-2 {% if category == cat %}bg-blue-900 text-white{% else %}bg-gray-100{% endif %} rounded-full border-2 border-transparent font-medium transition hover:border-blue-900"
+           data-filter="{{ cat }}">{{ cat|title }}</a>
+      {% endfor %}
+    </div>
+    <!-- Second Filter Group - Sorting -->
+    <div class="flex flex-wrap gap-4">
+      <a href="{% url 'blog' %}?sort=latest{% if category %}&category={{ category }}{% endif %}{% if search %}&search={{ search }}{% endif %}" class="filter-tab cursor-pointer px-4 py-2 {% if sort == 'latest' or not sort %}bg-blue-900 text-white{% else %}bg-gray-100{% endif %} rounded-full border-2 border-transparent font-medium transition hover:border-blue-900"
+           data-filter="latest">Latest</a>
+      <a href="{% url 'blog' %}?sort=popular{% if category %}&category={{ category }}{% endif %}{% if search %}&search={{ search }}{% endif %}" class="filter-tab cursor-pointer px-4 py-2 {% if sort == 'popular' %}bg-blue-900 text-white{% else %}bg-gray-100{% endif %} rounded-full border-2 border-transparent font-medium transition hover:border-blue-900"
+           data-filter="popular">Popular</a>
+      <a href="{% url 'blog' %}?sort=trending{% if category %}&category={{ category }}{% endif %}{% if search %}&search={{ search }}{% endif %}" class="filter-tab cursor-pointer px-4 py-2 {% if sort == 'trending' %}bg-blue-900 text-white{% else %}bg-gray-100{% endif %} rounded-full border-2 border-transparent font-medium transition hover:border-blue-900"
+           data-filter="trending">Trending</a>
+    </div>
+  </div>
+</section>
+
+<!-- Main Content & Sidebar Grid -->
+<div class="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
+  <!-- Blog Posts Column (spanning 2 columns on large screens) -->
+  <main class="lg:col-span-2 space-y-8">
+    {% if posts %}
+      {% for post in posts %}
+        <!-- Blog Post Card -->
+        <article class="content-card {{ post.category }} bg-white rounded-lg shadow p-6 hover:shadow-xl transition transform hover:-translate-y-1"
+                 data-category="{{ post.category|default:'journal' }}">
+          {% if post.image %}
+          <div class="article-image h-[200px] md:h-[250px] bg-cover bg-center rounded-t-lg mb-4"
+              style="background-image: url('{{ post.image.url }}')"></div>
+          {% else %}
+          <div class="h-[150px] bg-blue-100 flex items-center justify-center rounded-t-lg mb-4">
+            <i class="fas fa-newspaper text-6xl text-blue-300"></i>
+          </div>
+          {% endif %}
+          <div class="space-y-4">
+            <div class="flex flex-col sm:flex-row justify-between items-start">
+              <div class="text-sm text-gray-500">
+                Posted on {{ post.created_at|date:"M d, Y" }} by 
+                <span class="text-orange-500">{{ post.author.user.username }}</span>
+              </div>
+              <span class="inline-block bg-orange-500 text-white text-xs px-3 py-1 rounded-full">
+                {{ post.get_category_display }}
+              </span>
+            </div>
+            <h2 class="text-2xl font-mono text-blue-900">{{ post.title }}</h2>
+            <p class="text-base text-gray-700">
+              {{ post.content|truncatewords:50 }}
+            </p>
+            <div class="flex flex-wrap gap-4">
+              <a href="{% url 'blog_post_detail' post_id=post.id %}" 
+                 class="action-btn flex items-center gap-2 cursor-pointer hover:bg-blue-900 hover:text-white transition px-3 py-2 rounded bg-gray-100">
+                <i class="fas fa-book-open"></i> Read More
+              </a>
+              <a href="{% url 'blog_post_detail' post_id=post.id %}#comments" 
+                 class="action-btn flex items-center gap-2 cursor-pointer hover:bg-blue-900 hover:text-white transition px-3 py-2 rounded bg-gray-100">
+                <i class="fas fa-comments"></i> {{ post.comments.count }} Comments
+              </a>
+              <a href="{% url 'blog_post_edit' post_id=post.id %}" 
+                 class="action-btn flex items-center gap-2 cursor-pointer hover:bg-blue-900 hover:text-white transition px-3 py-2 rounded bg-gray-100">
+                <i class="fas fa-edit"></i> Edit
+              </a>
+              <a href="{% url 'blog_post_delete' post_id=post.id %}" 
+                 class="action-btn flex items-center gap-2 cursor-pointer hover:bg-red-700 hover:text-white transition px-3 py-2 rounded bg-red-100 text-red-700">
+                <i class="fas fa-trash-alt"></i> Delete
+              </a>
+            </div>
+          </div>
+        </article>
+      {% endfor %}
+    {% else %}
+      <!-- No posts found message -->
+      <div class="bg-white rounded-lg shadow p-6 text-center">
+        <h2 class="text-2xl font-bold text-gray-700 mb-4">No Posts Found</h2>
+        <p class="text-gray-600">There are no blog posts matching your criteria.</p>
+        <a href="{% url 'blog_post_create' %}" class="mt-4 inline-block bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded font-semibold">
+          Create the First Post
+        </a>
+      </div>
+    {% endif %}
+  </main>
+
+  <!-- Sidebar Section -->  
+  <aside class="sidebar bg-white rounded-lg shadow p-6 space-y-6 h-fit">
+    <div class="sidebar-section">
+      <h3 class="text-lg font-bold border-b-2 border-red-600 pb-2 text-gray-700">Recent Posts</h3>
+      <ul class="mt-3 space-y-2 text-sm text-gray-600">
+        {% for recent_post in recent_posts %}
+          <li><a href="{% url 'blog_post_detail' post_id=recent_post.id %}" class="hover:underline">{{ recent_post.title }}</a></li>
+        {% empty %}
+          <li>No recent posts</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h3 class="text-lg font-bold border-b-2 border-red-600 pb-2 text-gray-700">Create New Post</h3>
+      <div class="mt-3">
+        <a href="{% url 'blog_post_create' %}" class="bg-blue-900 text-white px-4 py-2 rounded inline-block hover:bg-blue-700">
+          <i class="fas fa-plus mr-2"></i> New Post
+        </a>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <h3 class="text-lg font-bold border-b-2 border-red-600 pb-2 text-gray-700">Categories</h3>
+      <ul class="mt-3 space-y-2 text-sm text-gray-600">
+        {% for cat in categories %}
+          <li>
+            <a href="{% url 'blog' %}?category={{ cat }}" class="hover:underline flex justify-between">
+              <span><i class="fas {% if cat == 'research' %}fa-flask{% elif cat == 'journal' %}fa-book{% elif cat == 'projects' %}fa-project-diagram{% else %}fa-file-alt{% endif %}"></i> {{ cat|title }}</span>
+              <span class="bg-gray-200 px-2 rounded-full">{{ category_counts|get_item:cat }}</span>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h3 class="text-lg font-bold border-b-2 border-red-600 pb-2 text-gray-700">Popular Tags</h3>
+      <ul class="mt-3 flex flex-wrap gap-2 text-sm text-gray-600">
+        <li><a href="{% url 'blog' %}?search=design" class="hover:underline bg-gray-200 px-2 py-1 rounded">#design</a></li>
+        <li><a href="{% url 'blog' %}?search=development" class="hover:underline bg-gray-200 px-2 py-1 rounded">#development</a></li>
+        <li><a href="{% url 'blog' %}?search=robotics" class="hover:underline bg-gray-200 px-2 py-1 rounded">#robotics</a></li>
+        <li><a href="{% url 'blog' %}?search=AI" class="hover:underline bg-gray-200 px-2 py-1 rounded">#AI</a></li>
+        <li><a href="{% url 'blog' %}?search=mechanical" class="hover:underline bg-gray-200 px-2 py-1 rounded">#mechanical</a></li>
+      </ul>
+    </div>
+  </aside>
+</div>
+
+<!-- JavaScript for Interactive Features -->
+<script>
+  // For handling dictionary access in templates (since we need to access category_counts by key)
+  // This is actually not needed as Django already has this functionality through dict.get
+  // But keeping here for reference
+  document.addEventListener('DOMContentLoaded', function() {
+    // Code Copy Functionality from the demo section
+    const copyButtons = document.querySelectorAll('.copy-btn');
+    copyButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const codeText = this.closest('.code-container').querySelector('code').innerText;
+        navigator.clipboard.writeText(codeText).then(() => {
+          this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          setTimeout(() => {
+            this.innerHTML = '<i class="far fa-copy"></i> Copy';
+          }, 2000);
+        });
+      });
+    });
+  });
+</script>
+{% endblock %}

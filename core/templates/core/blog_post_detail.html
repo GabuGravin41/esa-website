@@ -1,0 +1,185 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto p-6">
+    <!-- Back button -->
+    <div class="mb-6">
+        <a href="{% url 'blog' %}" class="text-blue-900 hover:underline flex items-center">
+            <i class="fas fa-arrow-left mr-2"></i> Back to Blog
+        </a>
+    </div>
+
+    <!-- Article Header -->
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        {% if post.image %}
+        <div class="h-[300px] bg-cover bg-center" style="background-image: url('{{ post.image.url }}')"></div>
+        {% else %}
+        <div class="h-[150px] bg-blue-100 flex items-center justify-center">
+            <i class="fas fa-newspaper text-6xl text-blue-300"></i>
+        </div>
+        {% endif %}
+        
+        <div class="p-8">
+            <!-- Category badge and metadata -->
+            <div class="flex flex-wrap justify-between items-center mb-4">
+                <span class="inline-block bg-orange-500 text-white text-xs px-3 py-1 rounded-full">
+                    {{ post.get_category_display|default:"Article" }}
+                </span>
+                <span class="text-gray-500 text-sm">
+                    Posted on {{ post.created_at|date:"F d, Y" }} by 
+                    <span class="text-orange-500">{{ post.author.user.username }}</span>
+                </span>
+            </div>
+            
+            <!-- Title -->
+            <h1 class="text-3xl font-bold text-blue-900 mb-6">{{ post.title }}</h1>
+            
+            <!-- Content -->
+            <div class="prose max-w-none mb-8">
+                {{ post.content|linebreaks }}
+            </div>
+            
+            <!-- Action buttons -->
+            <div class="flex flex-wrap gap-3 border-t border-gray-200 pt-6">
+                <a href="{% url 'blog_post_edit' post_id=post.id %}" class="bg-blue-900 text-white px-4 py-2 rounded hover:bg-blue-800">
+                    <i class="fas fa-edit mr-2"></i> Edit Post
+                </a>
+                <a href="{% url 'blog_post_delete' post_id=post.id %}" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                    <i class="fas fa-trash-alt mr-2"></i> Delete
+                </a>
+                <button class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded" onclick="sharePost()">
+                    <i class="fas fa-share-alt mr-2"></i> Share
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Comments Section -->
+    <div class="bg-white rounded-lg shadow-lg mt-8 p-8">
+        <h2 class="text-2xl font-bold text-blue-900 mb-6 border-b pb-2">
+            Comments <span class="text-orange-500">({{ comments.count }})</span>
+        </h2>
+        
+        {% for comment in comments %}
+        <div class="comment mb-6 pb-6 {% if not forloop.last %}border-b border-gray-200{% endif %}">
+            <div class="flex items-start">
+                <div class="w-12 h-12 bg-gray-300 rounded-full mr-4 flex-shrink-0 flex items-center justify-center">
+                    {% if comment.author.profile_picture %}
+                    <img src="{{ comment.author.profile_picture.url }}" class="w-full h-full rounded-full object-cover">
+                    {% else %}
+                    <i class="fas fa-user text-gray-500"></i>
+                    {% endif %}
+                </div>
+                <div class="flex-1">
+                    <div class="flex justify-between items-center mb-2">
+                        <strong class="text-blue-900">{{ comment.author.user.username }}</strong>
+                        <small class="text-gray-500">{{ comment.created_at|timesince }} ago</small>
+                    </div>
+                    <div class="text-gray-700">
+                        {{ comment.content|linebreaks }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="bg-gray-100 p-6 rounded text-center">
+            <p class="text-gray-600">No comments yet. Be the first to share your thoughts!</p>
+        </div>
+        {% endfor %}
+        
+        <!-- Comment Form -->
+        <div class="mt-8">
+            <h3 class="text-xl font-bold text-blue-900 mb-4">Add a Comment</h3>
+            <form method="POST" class="space-y-4">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form.content }}
+                </div>
+                <button type="submit" class="bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded font-semibold">
+                    Post Comment
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Same Category Posts -->
+    {% if same_category_posts %}
+    <div class="bg-white rounded-lg shadow-lg mt-8 p-8">
+        <h2 class="text-2xl font-bold text-blue-900 mb-6 border-b pb-2">
+            More {{ post.get_category_display }} Posts
+        </h2>
+        <div class="grid grid-cols-1 gap-6">
+            {% for related_post in same_category_posts %}
+            <a href="{% url 'blog_post_detail' post_id=related_post.id %}" class="block group">
+                <div class="flex items-start space-x-4">
+                    <div class="w-20 h-20 bg-gray-200 rounded flex-shrink-0 overflow-hidden">
+                        {% if related_post.image %}
+                        <img src="{{ related_post.image.url }}" class="w-full h-full object-cover">
+                        {% else %}
+                        <div class="w-full h-full flex items-center justify-center bg-blue-100 text-blue-900">
+                            <i class="fas fa-newspaper text-xl"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <h3 class="text-blue-900 font-bold group-hover:text-orange-500 transition">{{ related_post.title }}</h3>
+                        <p class="text-sm text-gray-500">{{ related_post.created_at|date:"M d, Y" }}</p>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Related Posts -->
+    <div class="bg-white rounded-lg shadow-lg mt-8 p-8">
+        <h2 class="text-2xl font-bold text-blue-900 mb-6 border-b pb-2">
+            You Might Also Like
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {% for recent_post in recent_posts %}
+                {% if recent_post.id != post.id %}
+                <a href="{% url 'blog_post_detail' post_id=recent_post.id %}" class="block group">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-20 h-20 bg-gray-200 rounded flex-shrink-0 overflow-hidden">
+                            {% if recent_post.image %}
+                            <img src="{{ recent_post.image.url }}" class="w-full h-full object-cover">
+                            {% else %}
+                            <div class="w-full h-full flex items-center justify-center bg-blue-100 text-blue-900">
+                                <i class="fas fa-newspaper text-xl"></i>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <h3 class="text-blue-900 font-bold group-hover:text-orange-500 transition">{{ recent_post.title }}</h3>
+                            <p class="text-sm text-gray-500">{{ recent_post.created_at|date:"M d, Y" }}</p>
+                        </div>
+                    </div>
+                </a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+    function sharePost() {
+        if (navigator.share) {
+            navigator.share({
+                title: '{{ post.title }}',
+                text: 'Check out this post: {{ post.title }}',
+                url: window.location.href,
+            })
+            .then(() => console.log('Successful share'))
+            .catch((error) => console.log('Error sharing', error));
+        } else {
+            // Fallback for browsers that don't support the Web Share API
+            const url = window.location.href;
+            navigator.clipboard.writeText(url).then(() => {
+                alert('Link copied to clipboard! You can now share it.');
+            });
+        }
+    }
+</script>
+{% endblock %} 
