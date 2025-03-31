@@ -1,6 +1,6 @@
-# ESA-KU Marketplace
+# ESA-KU
 
-Engineering Students Association - Kenyatta University (ESA-KU) marketplace platform.
+Engineering Students Association - Kenyatta University (ESA-KU) platform.
 
 ## Deployment to Render
 
