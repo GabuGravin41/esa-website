@@ -8,6 +8,7 @@ urlpatterns = [
     # Public URLs
     path('', views.home, name='home'),
     path('about/', views.about, name='about'),
+    path('contact/', views.contact, name='contact'),
     
     # Protected URLs (require login)
     path('membership/', views.membership, name='membership'),
@@ -18,6 +19,7 @@ urlpatterns = [
     path('membership/payment/paypal/success/<int:payment_id>/', views.paypal_success, name='paypal_success'),
     path('membership/payment/paypal/cancel/<int:payment_id>/', views.paypal_cancel, name='paypal_cancel'),
     path('membership/payment/mpesa/callback/', views.mpesa_callback, name='mpesa_callback'),
+    path('process-membership/', views.process_membership, name='process_membership'),
     
     # Events URLs
     path('events/', views.events, name='events'),
@@ -29,8 +31,11 @@ urlpatterns = [
     path('events/<int:event_id>/cancel/', views.event_cancel_registration, name='event_cancel_registration'),
     
     path('store/', views.store, name='store'),
-    path('store/product/<int:product_id>/', views.product_detail, name='product_detail'),
+    path('store/<slug:slug>/', views.product_detail, name='product_detail'),
     path('cart/', views.cart, name='cart'),
+    path('cart/update/', views.update_cart, name='update_cart'),
+    path('cart/remove/', views.remove_from_cart, name='remove_from_cart'),
+    path('cart/clear/', views.clear_cart, name='clear_cart'),
     path('checkout/', views.checkout, name='checkout'),
     
     path('blog/', views.blog, name='blog'),
@@ -40,6 +45,16 @@ urlpatterns = [
     path('blog/post/<int:post_id>/delete/', views.blog_post_delete, name='blog_post_delete'),
     
     path('resources/', views.resources, name='resources'),
+
+    # Communities URLs
+    path('communities/', views.communities, name='communities'),
+    path('communities/<slug:slug>/', views.community_detail, name='community_detail'),
+
+    # Dashboard URLs
+    path('dashboard/', views.dashboard, name='dashboard'),
+
+    # Search URLs
+    path('search/', views.search, name='search'),
 ]
 
 if settings.DEBUG:

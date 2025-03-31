@@ -90,16 +90,20 @@
                         <div class="p-0">
                             <ul class="divide-y divide-gray-200">
                                 <li class="flex justify-between items-center px-4 py-3">
-                                    <span class="text-gray-600">Plan:</span>
-                                    <span class="font-semibold">{{ membership.plan.name }}</span>
+                                    <span class="text-gray-600">Plan Type:</span>
+                                    <span class="font-semibold">{{ membership.get_plan_type_display }}</span>
+                                </li>
+                                <li class="flex justify-between items-center px-4 py-3">
+                                    <span class="text-gray-600">Amount:</span>
+                                    <span class="font-semibold">{{ membership.amount }} KES</span>
                                 </li>
                                 <li class="flex justify-between items-center px-4 py-3">
                                     <span class="text-gray-600">Status:</span>
-                                    <span class="font-semibold {% if membership.status == 'active' %}text-green-700{% elif membership.status == 'expired' %}text-red-700{% else %}text-yellow-600{% endif %}">
+                                    <span class="font-semibold {% if membership.status == 'completed' %}text-green-700{% elif membership.status == 'expired' %}text-red-700{% else %}text-yellow-600{% endif %}">
                                         {{ membership.get_status_display }}
                                     </span>
                                 </li>
-                                {% if membership.status == 'active' %}
+                                {% if membership.status == 'completed' %}
                                 <li class="flex justify-between items-center px-4 py-3">
                                     <span class="text-gray-600">Start Date:</span>
                                     <span class="font-semibold">{{ membership.start_date|date:"M d, Y" }}</span>

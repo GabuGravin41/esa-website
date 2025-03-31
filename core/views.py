@@ -10,20 +10,28 @@ import datetime
 import json
 import uuid
 from decimal import Decimal
+from django.db.models import Q
+from django.conf import settings
+import requests
+import logging
 
 from .models import (
     Event, EventRegistration, Product, Order,
     OrderItem, BlogPost, Comment, Resource,
     MembershipPlan, Membership, UserProfile,
-    Payment, MpesaTransaction
+    Payment, MpesaTransaction, Community,
+    Cart, CartItem
 )
 from .forms import (
     EventForm, EventRegistrationForm,
     ProductForm, OrderForm, OrderItemForm,
     BlogPostForm, CommentForm, ResourceForm,
-    MembershipPaymentForm, MpesaPaymentForm
+    MembershipPaymentForm, MpesaPaymentForm,
+    ContactForm
 )
 from .services import MpesaService, PayPalService
+
+logger = logging.getLogger(__name__)
 
 def home(request):
     events = Event.objects.filter(is_active=True)[:3]
@@ -37,27 +45,27 @@ def home(request):
 def about(request):
     return render(request, 'core/about.html')
 
-def membership(request):
-    plans = MembershipPlan.objects.filter(is_active=True)
-    
-    # Get user type if authenticated
-    user_type = None
-    if request.user.is_authenticated:
-        try:
-            profile = request.user.profile
-            user_type = profile.user_type
-            is_member = profile.is_membership_active()
-        except UserProfile.DoesNotExist:
-            is_member = False
+def contact(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your message has been sent successfully!')
+            return redirect('contact')
     else:
-        is_member = False
+        form = ContactForm()
+    return render(request, 'core/contact.html', {'form': form})
+
+def membership(request):
+    is_member = False
+    if request.user.is_authenticated:
+        is_member = Membership.objects.filter(user=request.user, is_active=True).exists()
     
-    context = {
-        'plans': plans,
-        'user_type': user_type,
-        'is_member': is_member
-    }
-    return render(request, 'core/membership.html', context)
+    plans = MembershipPlan.objects.all()
+    return render(request, 'core/membership.html', {
+        'is_member': is_member,
+        'plans': plans
+    })
 
 @login_required
 def join_membership(request, plan_id):
@@ -249,6 +257,29 @@ def paypal_success(request, payment_id):
 def paypal_cancel(request, payment_id):
     """Handle cancelled PayPal payment"""
     payment = get_object_or_404(Payment, id=payment_id, user=request.user)
+    
+    # Update payment status
+    payment.status = 'cancelled'
+    payment.save(update_fields=['status'])
+    
+    # Update membership status if it exists
+    if payment.membership:
+        membership = payment.membership
+        membership.status = 'cancelled'
+        membership.is_active = False
+        membership.save()
+        
+        # Update user profile if needed
+        try:
+            profile = payment.user.profile
+            if profile.membership_status == 'active' and profile.membership_expiry:
+                # Only update if this was the active membership
+                if profile.membership_expiry == membership.end_date.date():
+                    profile.membership_status = 'inactive'
+                    profile.membership_expiry = None
+                    profile.save()
+        except UserProfile.DoesNotExist:
+            pass
     
     messages.info(request, 'Payment was cancelled. Your membership has not been activated.')
     return redirect('membership')
@@ -505,47 +536,158 @@ def event_detail(request, event_id):
 
 def store(request):
     products = Product.objects.filter(is_active=True)
+    
+    # Filter by category if provided
+    category = request.GET.get('category')
+    if category:
+        products = products.filter(category=category)
+    
+    # Handle search
+    search = request.GET.get('search')
+    if search:
+        products = products.filter(
+            Q(name__icontains=search) | 
+            Q(description__icontains=search)
+        )
+        
+    # Get featured products
+    featured_products = Product.objects.filter(is_active=True, featured=True)[:3]
+    
     context = {
         'products': products,
+        'category': category,
+        'featured_products': featured_products,
+        'product_categories': Product.CATEGORY_CHOICES,
     }
     return render(request, 'core/store.html', context)
 
-def product_detail(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
+def product_detail(request, slug):
+    product = get_object_or_404(Product, slug=slug)
+    
+    # Get related products by category (excluding the current product)
+    related_products = Product.objects.filter(
+        category=product.category, 
+        is_active=True
+    ).exclude(id=product.id)[:4]
+    
+    # Handle add to cart
     if request.method == 'POST':
         quantity = int(request.POST.get('quantity', 1))
         
-        # Placeholder for authentication - will be implemented later
-        # For now, just show success message
-        messages.success(request, f'{product.name} added to cart!')
+        # Initialize the cart in session if it doesn't exist
+        if 'cart' not in request.session:
+            request.session['cart'] = {}
+        
+        # Add to cart or update quantity
+        cart = request.session['cart']
+        product_id_str = str(product.id)
+        
+        if product_id_str in cart:
+            cart[product_id_str] += quantity
+        else:
+            cart[product_id_str] = quantity
+        
+        # Ensure we don't exceed stock
+        if cart[product_id_str] > product.stock:
+            cart[product_id_str] = product.stock
+            messages.warning(request, f"We only have {product.stock} units of this product in stock.")
+        else:
+            messages.success(request, f'{product.name} added to cart!')
+        
+        # Save updated cart to session
+        request.session.modified = True
+        
+        # Redirect to cart if "Buy Now" was clicked
+        if 'buy_now' in request.POST:
+            return redirect('cart')
         return redirect('store')
     
-    return render(request, 'core/product_detail.html', {'product': product})
+    context = {
+        'product': product,
+        'related_products': related_products,
+    }
+    return render(request, 'core/product_detail.html', context)
 
+@login_required
 def cart(request):
-    # Placeholder data for cart
-    order = None
-    order_items = []
+    cart_items = []
+    total = 0
+    item_count = 0
+    
+    if 'cart' in request.session:
+        cart = request.session['cart']
+        # Get all products in the cart
+        product_ids = cart.keys()
+        products = Product.objects.filter(id__in=product_ids, is_active=True)
+        
+        # Build cart items
+        for product in products:
+            product_id_str = str(product.id)
+            quantity = cart[product_id_str]
+            item_total = product.price * quantity
+            total += item_total
+            item_count += quantity
+            
+            cart_items.append({
+                'product': product,
+                'quantity': quantity,
+                'item_total': item_total,
+            })
     
     context = {
-        'order': order,
-        'order_items': order_items,
+        'cart_items': cart_items,
+        'total': total,
+        'item_count': item_count,
     }
     return render(request, 'core/cart.html', context)
 
 def checkout(request):
-    # Placeholder data for checkout
-    order = None
-    order_items = []
+    cart_items = []
+    total = 0
+    item_count = 0
+    
+    if 'cart' in request.session:
+        cart = request.session['cart']
+        # Get all products in the cart
+        product_ids = cart.keys()
+        products = Product.objects.filter(id__in=product_ids, is_active=True)
+        
+        # Build cart items
+        for product in products:
+            product_id_str = str(product.id)
+            quantity = cart[product_id_str]
+            item_total = product.price * quantity
+            total += item_total
+            item_count += quantity
+            
+            cart_items.append({
+                'product': product,
+                'quantity': quantity,
+                'item_total': item_total,
+            })
     
     if request.method == 'POST':
-        # Placeholder for checkout process
-        messages.success(request, 'Order placed successfully!')
-        return redirect('home')
+        # Handle different payment methods
+        payment_method = request.POST.get('payment_method')
+        
+        if payment_method == 'mpesa':
+            # Create an order in the database (placeholder)
+            messages.success(request, 'Your order has been placed! You will receive an M-Pesa payment prompt shortly.')
+        elif payment_method == 'card':
+            messages.success(request, 'Your order has been placed! You will be redirected to the card payment gateway.')
+        elif payment_method == 'paypal':
+            messages.success(request, 'Your order has been placed! You will be redirected to PayPal.')
+        
+        # Clear the cart
+        request.session['cart'] = {}
+        request.session.modified = True
+        
+        return redirect('home')  # Redirect to a thank you page
     
     context = {
-        'order': order,
-        'order_items': order_items,
+        'cart_items': cart_items,
+        'total': total,
+        'item_count': item_count,
     }
     return render(request, 'core/checkout.html', context)
 
@@ -832,3 +974,268 @@ def event_cancel_registration(request, event_id):
         messages.error(request, 'Registration not found.')
     
     return redirect('event_detail', event_id=event.id)
+
+def update_cart(request):
+    if request.method == 'POST':
+        product_id = request.POST.get('product_id')
+        quantity = int(request.POST.get('quantity', 1))
+        
+        if 'cart' not in request.session:
+            request.session['cart'] = {}
+        
+        cart = request.session['cart']
+        
+        # Update quantity or remove if quantity is 0
+        if quantity > 0:
+            cart[product_id] = quantity
+        elif product_id in cart:
+            del cart[product_id]
+            
+        request.session.modified = True
+        messages.success(request, 'Cart updated successfully')
+    
+    return redirect('cart')
+
+def remove_from_cart(request):
+    if request.method == 'POST':
+        product_id = request.POST.get('product_id')
+        
+        if 'cart' in request.session and product_id in request.session['cart']:
+            del request.session['cart'][product_id]
+            request.session.modified = True
+            messages.success(request, 'Item removed from cart')
+    
+    return redirect('cart')
+
+def clear_cart(request):
+    if request.method == 'POST':
+        if 'cart' in request.session:
+            request.session['cart'] = {}
+            request.session.modified = True
+            messages.success(request, 'Cart cleared successfully')
+    
+    return redirect('cart')
+
+def communities(request):
+    communities = Community.objects.filter(is_active=True)
+    return render(request, 'core/communities.html', {
+        'communities': communities
+    })
+
+def community_detail(request, slug):
+    community = get_object_or_404(Community, slug=slug, is_active=True)
+    return render(request, 'core/community_detail.html', {
+        'community': community
+    })
+
+@login_required
+def dashboard(request):
+    user_profile = request.user.userprofile
+    user_events = EventRegistration.objects.filter(user=request.user)
+    user_orders = Order.objects.filter(user=request.user)
+    user_posts = BlogPost.objects.filter(author=request.user)
+    
+    context = {
+        'user_profile': user_profile,
+        'upcoming_events': user_events.filter(event__start_date__gte=timezone.now()).order_by('event__start_date')[:5],
+        'past_events': user_events.filter(event__start_date__lt=timezone.now()).order_by('-event__start_date')[:5],
+        'recent_orders': user_orders.order_by('-created_at')[:5],
+        'recent_posts': user_posts.order_by('-created_at')[:5],
+        'membership_status': user_profile.membership_status,
+        'membership_expiry': user_profile.membership_expiry,
+    }
+    return render(request, 'core/dashboard.html', context)
+
+def search(request):
+    query = request.GET.get('q', '')
+    if query:
+        events = Event.objects.filter(
+            Q(title__icontains=query) |
+            Q(description__icontains=query)
+        )
+        posts = BlogPost.objects.filter(
+            Q(title__icontains=query) |
+            Q(content__icontains=query)
+        )
+        products = Product.objects.filter(
+            Q(name__icontains=query) |
+            Q(description__icontains=query)
+        )
+    else:
+        events = []
+        posts = []
+        products = []
+
+    context = {
+        'query': query,
+        'events': events,
+        'posts': posts,
+        'products': products,
+    }
+    return render(request, 'core/search.html', context)
+
+@login_required
+@require_POST
+def update_cart(request):
+    try:
+        data = json.loads(request.body)
+        product_id = data.get('product_id')
+        quantity = data.get('quantity')
+        
+        cart, created = Cart.objects.get_or_create(user=request.user)
+        product = get_object_or_404(Product, id=product_id)
+        
+        cart_item, created = CartItem.objects.get_or_create(
+            cart=cart,
+            product=product,
+            defaults={'quantity': quantity}
+        )
+        
+        if not created:
+            cart_item.quantity = quantity
+            cart_item.save()
+        
+        return JsonResponse({'status': 'success'})
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)})
+
+@login_required
+def checkout(request):
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart_items = cart.items.all()
+    total = sum(item.product.price * item.quantity for item in cart_items)
+    
+    if request.method == 'POST':
+        # Process payment here
+        # For now, just create an order
+        order = Order.objects.create(
+            user=request.user,
+            total_amount=total,
+            status='pending'
+        )
+        
+        for cart_item in cart_items:
+            OrderItem.objects.create(
+                order=order,
+                product=cart_item.product,
+                quantity=cart_item.quantity,
+                price=cart_item.product.price
+            )
+        
+        cart.items.all().delete()
+        messages.success(request, 'Order placed successfully!')
+        return redirect('store')
+    
+    return render(request, 'core/checkout.html', {
+        'cart_items': cart_items,
+        'total': total
+    })
+
+@login_required
+def process_membership(request):
+    if request.method == 'POST':
+        try:
+            tier = request.POST.get('tier')
+            amount = float(request.POST.get('amount'))
+            payment_method = request.POST.get('payment_method')
+            
+            # Get user profile
+            try:
+                profile = request.user.profile
+            except UserProfile.DoesNotExist:
+                messages.error(request, 'Please complete your profile first.')
+                return redirect('profile')
+            
+            # Check if user already has an active membership
+            if profile.is_membership_active():
+                messages.info(request, 'You already have an active membership.')
+                return redirect('membership')
+            
+            # Create a pending membership
+            membership = Membership.objects.create(
+                user=request.user,
+                plan_type=tier,
+                amount=amount,
+                payment_method=payment_method,
+                status='pending'
+            )
+            
+            if payment_method == 'mpesa':
+                # Redirect to M-Pesa payment
+                return redirect('mpesa_payment', payment_id=membership.id)
+            else:
+                # Redirect to PayPal payment
+                return redirect('paypal_payment', payment_id=membership.id)
+                
+        except Exception as e:
+            logger.error(f"Error processing membership: {str(e)}")
+            messages.error(request, 'An error occurred while processing your membership. Please try again.')
+            return redirect('membership')
+    
+    return redirect('membership')
+
+@login_required
+def payment_success(request):
+    payment_id = request.GET.get('payment_id')
+    if payment_id:
+        try:
+            membership = Membership.objects.get(id=payment_id)
+            if membership.user != request.user:
+                messages.error(request, 'Invalid membership.')
+                return redirect('membership')
+                
+            # Update membership status
+            membership.status = 'completed'
+            membership.is_active = True
+            membership.start_date = timezone.now()
+            membership.end_date = membership.start_date + timezone.timedelta(days=365)  # 1 year membership
+            membership.save()
+            
+            # Update user profile
+            try:
+                profile = request.user.profile
+                profile.membership_status = 'active'
+                profile.membership_expiry = membership.end_date.date()
+                profile.save()
+                
+                # Send confirmation email
+                send_payment_confirmation_email(request.user, membership)
+                
+                messages.success(request, 'Your membership has been activated successfully!')
+            except UserProfile.DoesNotExist:
+                messages.warning(request, 'Membership activated but profile not found.')
+        except Membership.DoesNotExist:
+            messages.error(request, 'Membership not found.')
+    return redirect('membership')
+
+@login_required
+def payment_cancel(request):
+    payment_id = request.GET.get('payment_id')
+    if payment_id:
+        try:
+            membership = Membership.objects.get(id=payment_id)
+            if membership.user != request.user:
+                messages.error(request, 'Invalid membership.')
+                return redirect('membership')
+                
+            # Update membership status
+            membership.status = 'cancelled'
+            membership.is_active = False
+            membership.save()
+            
+            # Update user profile if needed
+            try:
+                profile = request.user.profile
+                if profile.membership_status == 'active' and profile.membership_expiry:
+                    # Only update if this was the active membership
+                    if profile.membership_expiry == membership.end_date.date():
+                        profile.membership_status = 'inactive'
+                        profile.membership_expiry = None
+                        profile.save()
+            except UserProfile.DoesNotExist:
+                pass
+                
+            messages.warning(request, 'Your membership payment was cancelled.')
+        except Membership.DoesNotExist:
+            messages.error(request, 'Membership not found.')
+    return redirect('membership')

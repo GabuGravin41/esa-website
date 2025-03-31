@@ -1,33 +1,38 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block title %}Membership - ESA{% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
-<section class="relative bg-blue-900 text-white py-12">
-    <div class="container mx-auto px-4">
-        <div class="flex flex-wrap md:flex-nowrap items-center">
-            <div class="w-full md:w-1/2 mb-8 md:mb-0">
-                <h1 class="text-4xl font-bold mb-4">Join the ESA-KU Community</h1>
-                <p class="text-xl mb-4">Access exclusive resources, attend special events, and connect with fellow engineering students and professionals.</p>
-                <p class="mb-4">
-                    {% if is_member %}
-                        <span class="bg-green-600 text-white px-3 py-1 rounded-full inline-flex items-center">
-                            <i class="fas fa-check-circle mr-2"></i>You're already a member!
-                        </span>
-                    {% else %}
-                        <span class="bg-yellow-500 text-white px-3 py-1 rounded-full inline-flex items-center">
-                            <i class="fas fa-info-circle mr-2"></i>Not a member yet
-                        </span>
-                    {% endif %}
-                </p>
-            </div>
-            <div class="w-full md:w-1/2">
-                <img src="{% static 'images/membership_hero.png' %}" alt="ESA Membership" class="rounded-lg shadow-lg w-full">
-            </div>
+<section class="relative bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80');">
+  <div class="bg-black bg-opacity-50">
+    <div class="container mx-auto px-4 py-24">
+      <div class="flex flex-wrap md:flex-nowrap items-center">
+        <div class="w-full md:w-1/2 mb-8 md:mb-0 text-white">
+          <h1 class="text-4xl font-bold mb-4">Join the ESA-KU Community</h1>
+          <p class="text-lg mb-4">Access exclusive resources, attend special events, and connect with fellow engineering students and professionals.</p>
+          <p class="mb-4">
+            {% if is_member %}
+              <span class="bg-green-600 text-white px-3 py-1 rounded-full inline-flex items-center">
+                <i class="fas fa-check-circle mr-2"></i>You're already a member!
+              </span>
+            {% else %}
+              <span class="bg-yellow-500 text-white px-3 py-1 rounded-full inline-flex items-center">
+                <i class="fas fa-info-circle mr-2"></i>Not a member yet
+              </span>
+            {% endif %}
+          </p>
         </div>
+        <!--
+        <div class="w-full md:w-1/2">
+          <img src="{% static 'images/membership_hero.png' %}" alt="ESA Membership" class="rounded-lg shadow-lg w-full">
+        </div>
+        -->
+      </div>
     </div>
+  </div>
 </section>
 
 <!-- Benefits Section -->
@@ -183,127 +188,114 @@
         </div>
         {% endif %}
         
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {% for plan in plans %}
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition {% if plan.name == 'Standard' %}border-2 border-blue-900{% endif %}">
-                {% if plan.name == 'Standard' %}
-                <div class="bg-blue-900 text-white text-center py-2">
-                    <span class="font-bold">MOST POPULAR</span>
+        <div class="max-w-4xl mx-auto">
+            <!-- Membership Tiers -->
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-center mb-8">Choose Your Membership Tier</h2>
+                
+                <!-- Toggle Buttons -->
+                <div class="flex justify-center space-x-4 mb-8">
+                    <button id="studentToggle" class="px-6 py-2 rounded-lg bg-blue-900 text-white hover:bg-blue-800 transition-colors">
+                        Student
+                    </button>
+                    <button id="graduateToggle" class="px-6 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors">
+                        Graduate/Professional
+                    </button>
                 </div>
-                {% endif %}
-                <div class="p-8">
-                    <h3 class="text-2xl font-bold text-blue-900 mb-2 text-center">{{ plan.name }}</h3>
-                    <div class="flex items-end justify-center mb-4">
-                        <span class="text-4xl font-bold text-blue-900">{{ plan.price }}</span>
-                        <span class="text-gray-600 ml-2">KSh</span>
-                    </div>
-                    <p class="text-gray-600 text-center mb-6">/{{ plan.duration }} months</p>
-                    
-                    <h6 class="text-center font-semibold mb-4">For {{ plan.get_plan_type_display }}</h6>
-                    
-                    <ul class="space-y-3 mb-8">
-                        {% if plan.plan_type == 'first_year' %}
+
+                <!-- Student Tiers -->
+                <div id="studentTiers" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- First Year Tier -->
+                    <div class="bg-white rounded-lg shadow-lg p-6 border-2 border-blue-900">
+                        <h3 class="text-xl font-bold text-blue-900 mb-4">First Year Student</h3>
+                        <p class="text-3xl font-bold mb-4">KSh 250</p>
+                        <ul class="space-y-2 mb-6">
                             <li class="flex items-center">
-                                <i class="fas fa-check text-green-600 mr-2"></i>
-                                <span class="text-gray-700">Basic resource access</span>
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Access to all ESA-KU events
                             </li>
                             <li class="flex items-center">
-                                <i class="fas fa-check text-green-600 mr-2"></i>
-                                <span class="text-gray-700">Event registration</span>
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Student resources
                             </li>
                             <li class="flex items-center">
-                                <i class="fas fa-check text-green-600 mr-2"></i>
-                                <span class="text-gray-700">Blog comments (5 max)</span>
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Networking opportunities
                             </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-600 mr-2"></i>
-                                <span class="text-gray-700">Community forum access</span>
-                            </li>
-                            <li class="flex items-center opacity-50">
-                                <i class="fas fa-times text-red-600 mr-2"></i>
-                                <span class="text-gray-700">Premium resources</span>
-                            </li>
-                            <li class="flex items-center opacity-50">
-                                <i class="fas fa-times text-red-600 mr-2"></i>
-                                <span class="text-gray-700">Event discounts</span>
-                            </li>
-                        {% elif plan.plan_type == 'student' %}
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-600 mr-2"></i>
-                                <span class="text-gray-700">Full resource access</span>
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-600 mr-2"></i>
-                                <span class="text-gray-700">Priority event registration</span>
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-600 mr-2"></i>
-                                <span class="text-gray-700">Unlimited blog comments</span>
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-600 mr-2"></i>
-                                <span class="text-gray-700">Community forum access</span>
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-600 mr-2"></i>
-                                <span class="text-gray-700">10% event discounts</span>
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-600 mr-2"></i>
-                                <span class="text-gray-700">Blog post publishing</span>
-                            </li>
-                        {% else %}
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-600 mr-2"></i>
-                                <span class="text-gray-700">Premium resource access</span>
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-600 mr-2"></i>
-                                <span class="text-gray-700">VIP event registration</span>
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-600 mr-2"></i>
-                                <span class="text-gray-700">Unlimited blog comments</span>
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-600 mr-2"></i>
-                                <span class="text-gray-700">Mentor status in forums</span>
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-600 mr-2"></i>
-                                <span class="text-gray-700">25% event discounts</span>
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-600 mr-2"></i>
-                                <span class="text-gray-700">Featured blog publishing</span>
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-600 mr-2"></i>
-                                <span class="text-gray-700">Research collaboration</span>
-                            </li>
-                        {% endif %}
-                    </ul>
-                    
-                    {% if is_member %}
-                        <button class="block w-full bg-gray-200 text-gray-500 font-bold py-3 rounded-lg text-center cursor-not-allowed" disabled>Already a Member</button>
-                    {% elif not user.is_authenticated %}
-                        <a href="{% url 'login' %}?next={% url 'join_membership' plan.id %}" class="block w-full {% if plan.name == 'Standard' %}bg-green-700 hover:bg-green-800 text-white{% else %}bg-gray-200 hover:bg-gray-300 text-blue-900{% endif %} font-bold py-3 rounded-lg text-center transition">
-                            Sign In to Join
-                        </a>
-                    {% else %}
-                        <a href="{% url 'join_membership' plan.id %}" class="block w-full {% if plan.name == 'Standard' %}bg-green-700 hover:bg-green-800 text-white{% else %}bg-gray-200 hover:bg-gray-300 text-blue-900{% endif %} font-bold py-3 rounded-lg text-center transition">
+                        </ul>
+                        <button onclick="selectTier('first_year', 250)" class="w-full bg-blue-900 text-white py-2 rounded-lg hover:bg-blue-800 transition-colors">
                             Select Plan
-                        </a>
-                    {% endif %}
+                        </button>
+                    </div>
+
+                    <!-- Other Students Tier -->
+                    <div class="bg-white rounded-lg shadow-lg p-6 border-2 border-blue-900">
+                        <h3 class="text-xl font-bold text-blue-900 mb-4">Other Students</h3>
+                        <p class="text-3xl font-bold mb-4">KSh 300</p>
+                        <ul class="space-y-2 mb-6">
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                All First Year benefits
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Priority event registration
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Access to workshops
+                            </li>
+                        </ul>
+                        <button onclick="selectTier('other_students', 300)" class="w-full bg-blue-900 text-white py-2 rounded-lg hover:bg-blue-800 transition-colors">
+                            Select Plan
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Graduate/Professional Tiers -->
+                <div id="graduateTiers" class="grid grid-cols-1 md:grid-cols-2 gap-6 hidden">
+                    <!-- Graduate Tier -->
+                    <div class="bg-white rounded-lg shadow-lg p-6 border-2 border-blue-900">
+                        <h3 class="text-xl font-bold text-blue-900 mb-4">Graduate/Professional</h3>
+                        <p class="text-3xl font-bold mb-4">KSh 1000</p>
+                        <ul class="space-y-2 mb-6">
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                All Student benefits
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Professional networking
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Career development resources
+                            </li>
+                        </ul>
+                        <button onclick="selectTier('graduate', 1000)" class="w-full bg-blue-900 text-white py-2 rounded-lg hover:bg-blue-800 transition-colors">
+                            Select Plan
+                        </button>
+                    </div>
                 </div>
             </div>
-            {% empty %}
-            <div class="col-span-3 text-center">
-                <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4">
-                    <i class="fas fa-info-circle mr-2"></i>No membership plans are currently available. Please check back later.
-                </div>
-            </div>
-            {% endfor %}
         </div>
     </div>
 </section>
@@ -485,6 +477,84 @@
     </div>
 </section>
 
+<!-- Payment Form -->
+<div id="paymentForm" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+    <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+        <h2 class="text-2xl font-bold text-blue-900 mb-6">Complete Your Membership</h2>
+        <form id="membershipForm" method="POST" class="space-y-4">
+            {% csrf_token %}
+            <input type="hidden" id="planType" name="plan_type">
+            <input type="hidden" id="amount" name="amount">
+            <input type="hidden" id="paymentMethod" name="payment_method">
+
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">First Name</label>
+                    <input type="text" name="first_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Last Name</label>
+                    <input type="text" name="last_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Email</label>
+                    <input type="email" name="email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Phone Number</label>
+                    <input type="tel" name="phone_number" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+            </div>
+
+            <div class="border-t border-gray-200 pt-4">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Payment Method</h3>
+                <div class="flex space-x-4 mb-4">
+                    <button type="button" id="mpesaTab" onclick="togglePaymentMethod('mpesa')" class="flex-1 py-2 px-4 border border-blue-900 rounded-md text-blue-900 hover:bg-blue-50">
+                        M-Pesa
+                    </button>
+                    <button type="button" id="paypalTab" onclick="togglePaymentMethod('paypal')" class="flex-1 py-2 px-4 border border-blue-900 rounded-md text-blue-900 hover:bg-blue-50">
+                        PayPal
+                    </button>
+                </div>
+
+                <!-- M-Pesa Fields -->
+                <div id="mpesaFields">
+                    <div class="bg-blue-50 p-4 rounded-md mb-4">
+                        <p class="text-sm text-blue-900">Total Amount: <span id="totalAmount" class="font-bold">KSh 0</span></p>
+                        <p class="text-sm text-blue-900 mt-2">Please follow these steps:</p>
+                        <ol class="list-decimal list-inside text-sm text-blue-900 mt-2">
+                            <li>Go to your M-Pesa menu</li>
+                            <li>Select "Pay Bill"</li>
+                            <li>Enter Business Number: <span class="font-bold">247247</span></li>
+                            <li>Enter Account Number: <span class="font-bold">ESA-KU</span></li>
+                            <li>Enter Amount: <span id="mpesaAmount" class="font-bold">KSh 0</span></li>
+                            <li>Enter your M-Pesa PIN</li>
+                            <li>Confirm the transaction</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- PayPal Fields -->
+                <div id="paypalFields" class="hidden">
+                    <div class="bg-blue-50 p-4 rounded-md mb-4">
+                        <p class="text-sm text-blue-900">Total Amount: <span id="paypalAmount" class="font-bold">KSh 0</span></p>
+                        <p class="text-sm text-blue-900 mt-2">You will be redirected to PayPal to complete your payment.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end space-x-4 mt-6">
+                <button type="button" onclick="document.getElementById('paymentForm').classList.add('hidden')" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+                    Cancel
+                </button>
+                <button type="submit" class="px-4 py-2 bg-blue-900 text-white rounded-md hover:bg-blue-800">
+                    Proceed to Payment
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <script>
     function toggleFAQ(element) {
         const content = element.nextElementSibling;
@@ -499,5 +569,144 @@
             icon.classList.remove('transform', 'rotate-180');
         }
     }
+
+    function selectTier(tier, amount) {
+        document.getElementById('selectedTier').value = tier;
+        document.getElementById('selectedAmount').value = amount;
+        document.getElementById('displayAmount').textContent = `KSh ${amount}`;
+        document.getElementById('paymentForm').classList.remove('hidden');
+    }
+
+    // Toggle between student and graduate tiers
+    document.getElementById('studentToggle').addEventListener('click', function() {
+        this.classList.add('bg-blue-900', 'text-white');
+        this.classList.remove('bg-gray-200', 'text-gray-700');
+        document.getElementById('graduateToggle').classList.remove('bg-blue-900', 'text-white');
+        document.getElementById('graduateToggle').classList.add('bg-gray-200', 'text-gray-700');
+        document.getElementById('studentTiers').classList.remove('hidden');
+        document.getElementById('graduateTiers').classList.add('hidden');
+    });
+
+    document.getElementById('graduateToggle').addEventListener('click', function() {
+        this.classList.add('bg-blue-900', 'text-white');
+        this.classList.remove('bg-gray-200', 'text-gray-700');
+        document.getElementById('studentToggle').classList.remove('bg-blue-900', 'text-white');
+        document.getElementById('studentToggle').classList.add('bg-gray-200', 'text-gray-700');
+        document.getElementById('graduateTiers').classList.remove('hidden');
+        document.getElementById('studentTiers').classList.add('hidden');
+    });
+
+    function toggleMembershipType(type) {
+        const studentTiers = document.getElementById('studentTiers');
+        const graduateTiers = document.getElementById('graduateTiers');
+        const studentTab = document.getElementById('studentTab');
+        const graduateTab = document.getElementById('graduateTab');
+
+        if (type === 'student') {
+            studentTiers.classList.remove('hidden');
+            graduateTiers.classList.add('hidden');
+            studentTab.classList.add('bg-blue-900', 'text-white');
+            studentTab.classList.remove('text-blue-900', 'bg-white');
+            graduateTab.classList.remove('bg-blue-900', 'text-white');
+            graduateTab.classList.add('text-blue-900', 'bg-white');
+        } else {
+            studentTiers.classList.add('hidden');
+            graduateTiers.classList.remove('hidden');
+            graduateTab.classList.add('bg-blue-900', 'text-white');
+            graduateTab.classList.remove('text-blue-900', 'bg-white');
+            studentTab.classList.remove('bg-blue-900', 'text-white');
+            studentTab.classList.add('text-blue-900', 'bg-white');
+        }
+    }
+
+    function selectTier(planType, amount) {
+        const paymentForm = document.getElementById('paymentForm');
+        const totalAmount = document.getElementById('totalAmount');
+        const planTypeInput = document.getElementById('planType');
+        const amountInput = document.getElementById('amount');
+
+        planTypeInput.value = planType;
+        amountInput.value = amount;
+        totalAmount.textContent = `KSh ${amount}`;
+        paymentForm.classList.remove('hidden');
+    }
+
+    function togglePaymentMethod(method) {
+        const mpesaFields = document.getElementById('mpesaFields');
+        const paypalFields = document.getElementById('paypalFields');
+        const mpesaTab = document.getElementById('mpesaTab');
+        const paypalTab = document.getElementById('paypalTab');
+        const paymentMethodInput = document.getElementById('paymentMethod');
+
+        paymentMethodInput.value = method;
+
+        if (method === 'mpesa') {
+            mpesaFields.classList.remove('hidden');
+            paypalFields.classList.add('hidden');
+            mpesaTab.classList.add('bg-blue-900', 'text-white');
+            mpesaTab.classList.remove('text-blue-900', 'bg-white');
+            paypalTab.classList.remove('bg-blue-900', 'text-white');
+            paypalTab.classList.add('text-blue-900', 'bg-white');
+        } else {
+            mpesaFields.classList.add('hidden');
+            paypalFields.classList.remove('hidden');
+            paypalTab.classList.add('bg-blue-900', 'text-white');
+            paypalTab.classList.remove('text-blue-900', 'bg-white');
+            mpesaTab.classList.remove('bg-blue-900', 'text-white');
+            mpesaTab.classList.add('text-blue-900', 'bg-white');
+        }
+    }
+
+    // Form submission handling
+    document.getElementById('membershipForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const paymentMethod = formData.get('payment_method');
+        
+        if (paymentMethod === 'mpesa') {
+            // Handle M-Pesa payment
+            fetch('/membership/process-mpesa/', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = data.redirect_url;
+                } else {
+                    alert(data.error || 'Payment processing failed. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        } else {
+            // Handle PayPal payment
+            fetch('/membership/process-paypal/', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = data.redirect_url;
+                } else {
+                    alert(data.error || 'Payment processing failed. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        }
+    });
 </script>
 {% endblock %}

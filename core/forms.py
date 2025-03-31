@@ -5,7 +5,7 @@ from .models import (
     UserProfile, MembershipPlan, Membership,
     Event, EventRegistration, Product, Order,
     OrderItem, BlogPost, Comment, Resource,
-    Payment, MpesaTransaction
+    Payment, MpesaTransaction, Contact
 )
 import re
 
@@ -24,23 +24,20 @@ class UserProfileForm(forms.ModelForm):
             'bio': forms.Textarea(attrs={'rows': 4}),
         }
 
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = ['name', 'email', 'subject', 'message']
+
 class MembershipPlanForm(forms.ModelForm):
     class Meta:
         model = MembershipPlan
-        fields = ('name', 'description', 'price', 'duration', 'features', 'is_active')
-        widgets = {
-            'description': forms.Textarea(attrs={'rows': 4}),
-            'features': forms.Textarea(attrs={'rows': 4}),
-        }
+        fields = ['name', 'plan_type', 'price', 'duration', 'is_active']
 
 class MembershipForm(forms.ModelForm):
     class Meta:
         model = Membership
-        fields = ('user', 'plan', 'start_date', 'end_date', 'status', 'payment_status')
-        widgets = {
-            'start_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-            'end_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-        }
+        fields = ['plan_type', 'payment_method']
 
 class EventForm(forms.ModelForm):
     class Meta:
@@ -67,7 +64,7 @@ class EventRegistrationForm(forms.ModelForm):
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ('name', 'description', 'price', 'stock', 'image', 'is_active')
+        fields = ['name', 'slug', 'description', 'price', 'stock', 'image']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 4}),
         }

@@ -4,6 +4,8 @@ from django.utils import timezone
 import random
 import string
 from decimal import Decimal
+from django.urls import reverse
+from django.utils.text import slugify
 
 class UserProfile(models.Model):
     USER_TYPE_CHOICES = [
@@ -87,76 +89,54 @@ class UserProfile(models.Model):
 class MembershipPlan(models.Model):
     PLAN_TYPES = [
         ('first_year', 'First Year Student'),
-        ('student', 'Regular Student'),
+        ('other_students', 'Other Students'),
         ('graduate', 'Graduate/Professional'),
     ]
     
     name = models.CharField(max_length=100)
-    description = models.TextField()
+    plan_type = models.CharField(max_length=20, choices=PLAN_TYPES)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     duration = models.IntegerField(help_text="Duration in months")
-    features = models.TextField()
-    plan_type = models.CharField(max_length=20, choices=PLAN_TYPES, default='student')
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name
-
-    class Meta:
-        ordering = ['price']
+        return f"{self.get_plan_type_display()} - {self.price} KSh"
 
 class Membership(models.Model):
     STATUS_CHOICES = [
-        ('active', 'Active'),
-        ('expired', 'Expired'),
         ('pending', 'Pending'),
+        ('completed', 'Completed'),
         ('cancelled', 'Cancelled'),
+        ('expired', 'Expired'),
     ]
-
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='memberships')
-    plan = models.ForeignKey(MembershipPlan, on_delete=models.CASCADE)
-    start_date = models.DateTimeField()
-    end_date = models.DateTimeField()
+    
+    PAYMENT_METHODS = [
+        ('mpesa', 'M-Pesa'),
+        ('paypal', 'PayPal'),
+    ]
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    plan_type = models.CharField(max_length=20, choices=MembershipPlan.PLAN_TYPES, default='other_students')
+    amount = models.DecimalField(max_digits=10, decimal_places=2, default=300)  # Default to other students price
+    payment_method = models.CharField(max_length=10, choices=PAYMENT_METHODS, default='mpesa')
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
-    payment_status = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
+    start_date = models.DateTimeField(null=True, blank=True)
+    end_date = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.user.user.username}'s {self.plan.name} Membership"
+        return f"{self.user.username} - {self.get_plan_type_display()}"
 
-    def is_active(self):
-        return self.status == 'active' and self.end_date > timezone.now()
-        
     def activate(self):
-        """Activate the membership and update user profile"""
-        if self.payment_status and self.status == 'pending':
-            self.status = 'active'
-            self.save(update_fields=['status'])
-            
-            # Update UserProfile
-            user_profile = self.user
-            user_profile.membership_status = 'active'
-            user_profile.membership_expiry = self.end_date.date()
-            user_profile.user_type = self.plan.plan_type
-            
-            # Generate membership number if not exists
-            if not user_profile.membership_number:
-                user_profile.generate_membership_number()
-            
-            user_profile.save(update_fields=[
-                'membership_status', 
-                'membership_expiry', 
-                'user_type'
-            ])
-            
-            return True
-        return False
-
-    class Meta:
-        ordering = ['-created_at']
+        self.status = 'completed'
+        self.is_active = True
+        self.start_date = timezone.now()
+        self.end_date = self.start_date + timezone.timedelta(days=365)  # 1 year membership
+        self.save()
 
 class Payment(models.Model):
     PAYMENT_METHOD_CHOICES = [
@@ -207,9 +187,20 @@ class Payment(models.Model):
         
         # If this is a membership payment, activate the membership
         if self.membership:
-            self.membership.payment_status = True
-            self.membership.save(update_fields=['payment_status'])
-            self.membership.activate()
+            self.membership.status = 'completed'
+            self.membership.is_active = True
+            self.membership.start_date = timezone.now()
+            self.membership.end_date = self.membership.start_date + timezone.timedelta(days=365)  # 1 year membership
+            self.membership.save()
+            
+            # Update user profile
+            try:
+                profile = self.user.profile
+                profile.membership_status = 'active'
+                profile.membership_expiry = self.membership.end_date.date()
+                profile.save()
+            except UserProfile.DoesNotExist:
+                pass
         
         return True
     
@@ -330,17 +321,44 @@ class EventRegistration(models.Model):
 
 # Store Models
 class Product(models.Model):
+    CATEGORY_CHOICES = [
+        ('books', 'Books'),
+        ('tools', 'Tools'),
+        ('merchandise', 'Merchandise'),
+        ('electronics', 'Electronics'),
+        ('software', 'Software'),
+        ('other', 'Other'),
+    ]
+    
     name = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True, blank=True, null=True)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    stock = models.IntegerField()
-    image = models.ImageField(upload_to='product_images/', null=True, blank=True)
+    image = models.ImageField(upload_to='products/', null=True, blank=True)
+    stock = models.IntegerField(default=0)
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='other')
+    vendor = models.CharField(max_length=100, default='ESA-KU Store', help_text='Company or individual selling the product')
     is_active = models.BooleanField(default=True)
+    featured = models.BooleanField(default=False, help_text='Feature this product on the store page')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.name)
+            unique_slug = base_slug
+            counter = 1
+            
+            # Ensure slug uniqueness
+            while Product.objects.filter(slug=unique_slug).exists():
+                unique_slug = f"{base_slug}-{counter}"
+                counter += 1
+            
+            self.slug = unique_slug
+        super().save(*args, **kwargs)
 
     class Meta:
         ordering = ['-created_at']
@@ -436,3 +454,60 @@ class Resource(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+
+class Community(models.Model):
+    name = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True)
+    description = models.TextField()
+    logo = models.ImageField(upload_to='communities/logos/', null=True, blank=True)
+    banner_image = models.ImageField(upload_to='communities/banners/', null=True, blank=True)
+    website = models.URLField(blank=True)
+    email = models.EmailField(blank=True)
+    facebook = models.URLField(blank=True)
+    twitter = models.URLField(blank=True)
+    instagram = models.URLField(blank=True)
+    linkedin = models.URLField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name_plural = "Communities"
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('community_detail', kwargs={'slug': self.slug})
+
+class Contact(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    subject = models.CharField(max_length=200)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.name} - {self.subject}"
+
+    class Meta:
+        ordering = ['-created_at']
+
+class Cart(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.user.username}'s Cart"
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, related_name='items', on_delete=models.CASCADE)
+    product = models.ForeignKey('Product', on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.quantity}x {self.product.name} in {self.cart}"

@@ -1,0 +1,52 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}ESA-KU Communities{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50">
+    <!-- Hero Section -->
+    <section class="relative bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
+        <div class="bg-black bg-opacity-50">
+            <div class="container mx-auto px-4 py-24 text-center text-white">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">ESA-KU Communities</h1>
+                <p class="max-w-2xl mx-auto mb-6 text-lg">
+                    Discover and join the various engineering clubs and communities under ESA-KU. Each community offers unique opportunities for learning, networking, and professional development.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Communities Grid -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {% for community in communities %}
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                {% if community.logo %}
+                <div class="aspect-w-16 aspect-h-9">
+                    <img class="object-cover w-full h-48" src="{{ community.logo.url }}" alt="{{ community.name }}">
+                </div>
+                {% endif %}
+                <div class="p-6">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">{{ community.name }}</h2>
+                    <p class="text-gray-600 mb-4 line-clamp-3">{{ community.description }}</p>
+                    <div class="flex justify-between items-center">
+                        <a href="{% url 'community_detail' community.slug %}" class="text-blue-600 hover:text-blue-800 font-medium">
+                            Learn more →
+                        </a>
+                        {% if community.website %}
+                        <a href="{{ community.website }}" target="_blank" class="text-gray-400 hover:text-gray-500">
+                            <span class="sr-only">Website</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                            </svg>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %} 
