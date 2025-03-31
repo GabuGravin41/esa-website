@@ -29,7 +29,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-tea_sg2x!%srgbm^(_#o&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DJANGO_DEBUG", default=True, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1, esa-ku-l2mt.onrender.com,.onrender.com').split(',')
+ALLOWED_HOSTS = ["*"]  # Allow all hosts to fix deployment issues
 
 
 # Application definition
@@ -46,10 +46,7 @@ INSTALLED_APPS = [
     'accounts',    # Authentication
     
         # THIRD PARTY APPS
-    "django_browser_reload",
     "crispy_forms",
-    
-    # "crispy_bootstrap5",
     "crispy_tailwind",
     "allauth_ui",
     "allauth",
@@ -59,18 +56,25 @@ INSTALLED_APPS = [
     "widget_tweaks",
 ]
 
+# Add browser reload only in development
+if DEBUG:
+    INSTALLED_APPS.append("django_browser_reload")
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     "allauth.account.middleware.AccountMiddleware",
-    "django_browser_reload.middleware.BrowserReloadMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# Add browser reload middleware only in development
+if DEBUG:
+    MIDDLEWARE.append("django_browser_reload.middleware.BrowserReloadMiddleware")
 
 ROOT_URLCONF = 'puddle.urls'
 
