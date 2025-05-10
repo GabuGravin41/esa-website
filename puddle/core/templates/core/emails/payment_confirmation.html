@@ -1,0 +1,34 @@
+{% extends "core/emails/base_email.html" %}
+
+{% block content %}
+<h2>Payment Confirmation</h2>
+
+<p>Dear {{ user.first_name|default:user.username }},</p>
+
+<p>Your payment has been successfully processed.</p>
+
+<h3>Payment Details:</h3>
+<ul>
+    <li>Transaction ID: {{ payment.transaction_id }}</li>
+    <li>Amount: KSh {{ payment.amount }}</li>
+    <li>Date: {{ payment.created_at|date:"F d, Y H:i" }}</li>
+    <li>Payment Method: {{ payment.payment_method|title }}</li>
+</ul>
+
+{% if payment.membership %}
+<p>Your membership has been activated with the following details:</p>
+<ul>
+    <li>Plan: {{ payment.membership.plan.name }}</li>
+    <li>Start Date: {{ payment.membership.start_date|date:"F d, Y" }}</li>
+    <li>End Date: {{ payment.membership.end_date|date:"F d, Y" }}</li>
+</ul>
+{% endif %}
+
+<p>You can view your payment history and membership status in your dashboard.</p>
+
+<a href="{{ dashboard_url }}" class="button">View Payment Details</a>
+
+<p>If you have any questions about this payment, please contact our support team.</p>
+
+<p>Best regards,<br>The ESA-KU Team</p>
+{% endblock %} 
