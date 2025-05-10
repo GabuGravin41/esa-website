@@ -1,0 +1,147 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}{{ title }} - {{ community.name }}{% endblock %}
+
+{% block content %}
+<section class="relative bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
+  <div class="bg-black bg-opacity-60">
+    <div class="container mx-auto px-4 py-24 text-center text-white">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">{{ title }}</h1>
+      <p class="max-w-2xl mx-auto mb-6 text-lg">
+        Share your thoughts, questions, and ideas with the {{ community.name }} community
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="container mx-auto px-4 py-12">
+  <div class="mb-8">
+    <a href="{% url 'community_detail' community.slug %}" class="text-blue-600 hover:text-blue-800">
+      <i class="fas fa-arrow-left mr-1"></i> Back to {{ community.name }}
+    </a>
+  </div>
+  
+  {% if messages %}
+    <div class="mb-8">
+      {% for message in messages %}
+        <div class="p-4 {% if message.tags == 'success' %}bg-green-100 text-green-700 border-green-400{% elif message.tags == 'error' %}bg-red-100 text-red-700 border-red-400{% else %}bg-blue-100 text-blue-700 border-blue-400{% endif %} rounded border-l-4">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+  
+  <div class="max-w-3xl mx-auto">
+    <form method="POST" class="bg-white shadow-md rounded-lg p-6">
+      {% csrf_token %}
+      
+      <div class="grid grid-cols-1 gap-6">
+        <div>
+          <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+            Discussion Title *
+          </label>
+          {{ form.title }}
+          {% if form.title.errors %}
+            <p class="text-red-500 text-xs mt-1">{{ form.title.errors.0 }}</p>
+          {% endif %}
+        </div>
+        
+        <div>
+          <label for="{{ form.content.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+            Content *
+          </label>
+          <div class="border border-gray-300 rounded-md overflow-hidden">
+            <div class="bg-gray-100 px-4 py-2 border-b flex items-center">
+              <button type="button" class="px-2 py-1 text-gray-600 hover:text-gray-900" onclick="formatText('bold')">
+                <i class="fas fa-bold"></i>
+              </button>
+              <button type="button" class="px-2 py-1 text-gray-600 hover:text-gray-900" onclick="formatText('italic')">
+                <i class="fas fa-italic"></i>
+              </button>
+              <button type="button" class="px-2 py-1 text-gray-600 hover:text-gray-900" onclick="formatText('heading')">
+                <i class="fas fa-heading"></i>
+              </button>
+              <button type="button" class="px-2 py-1 text-gray-600 hover:text-gray-900" onclick="formatText('link')">
+                <i class="fas fa-link"></i>
+              </button>
+              <button type="button" class="px-2 py-1 text-gray-600 hover:text-gray-900" onclick="formatText('list')">
+                <i class="fas fa-list-ul"></i>
+              </button>
+            </div>
+            {{ form.content }}
+          </div>
+          {% if form.content.errors %}
+            <p class="text-red-500 text-xs mt-1">{{ form.content.errors.0 }}</p>
+          {% endif %}
+          <p class="text-gray-500 text-xs mt-1">
+            You can use simple markdown syntax for formatting: **bold**, *italic*, # heading, [link](url), and - for lists.
+          </p>
+        </div>
+      </div>
+      
+      <div class="mt-8 flex justify-end">
+        <a href="{% url 'community_detail' community.slug %}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2">
+          Cancel
+        </a>
+        <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+          Post Discussion
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  function formatText(type) {
+    const textArea = document.getElementById('{{ form.content.id_for_label }}');
+    const selection = {
+      start: textArea.selectionStart,
+      end: textArea.selectionEnd,
+      text: textArea.value.substring(textArea.selectionStart, textArea.selectionEnd)
+    };
+    
+    let formattedText = '';
+    
+    switch(type) {
+      case 'bold':
+        formattedText = `**${selection.text}**`;
+        break;
+      case 'italic':
+        formattedText = `*${selection.text}*`;
+        break;
+      case 'heading':
+        formattedText = `# ${selection.text}`;
+        break;
+      case 'link':
+        const url = prompt('Enter URL:', 'https://');
+        if (url) {
+          formattedText = `[${selection.text}](${url})`;
+        } else {
+          return;
+        }
+        break;
+      case 'list':
+        // Split by lines and add list marker to each
+        const lines = selection.text.split('\n');
+        formattedText = lines.map(line => `- ${line}`).join('\n');
+        break;
+      default:
+        return;
+    }
+    
+    // Replace the selected text with the formatted text
+    textArea.value = 
+      textArea.value.substring(0, selection.start) + 
+      formattedText + 
+      textArea.value.substring(selection.end);
+    
+    // Put the cursor at the end of the inserted text
+    textArea.focus();
+    textArea.selectionStart = selection.start + formattedText.length;
+    textArea.selectionEnd = selection.start + formattedText.length;
+  }
+</script>
+{% endblock %} 

@@ -1,0 +1,31 @@
+{% extends "core/emails/base_email.html" %}
+
+{% block content %}
+<h2>Event Registration Confirmation</h2>
+
+<p>Dear {{ user.first_name|default:user.username }},</p>
+
+<p>Your registration for the following event has been confirmed:</p>
+
+<h3>Event Details:</h3>
+<ul>
+    <li>Title: {{ event.title }}</li>
+    <li>Date: {{ event.start_date|date:"F d, Y" }}</li>
+    <li>Time: {{ event.start_date|date:"g:i A" }}</li>
+    <li>Location: {{ event.location }}</li>
+</ul>
+
+{% if event.price > 0 %}
+<p>Payment Status: {% if registration.payment_status %}Paid{% else %}Pending{% endif %}</p>
+{% endif %}
+
+<p>Please arrive at least 15 minutes before the event start time. Don't forget to bring your student ID.</p>
+
+<p>You can view all your registered events in your dashboard.</p>
+
+<a href="{{ dashboard_url }}" class="button">View Event Details</a>
+
+<p>If you need to cancel your registration or have any questions, please contact us.</p>
+
+<p>Best regards,<br>The ESA-KU Team</p>
+{% endblock %} 
