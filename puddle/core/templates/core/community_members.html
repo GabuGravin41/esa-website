@@ -1,0 +1,111 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto p-6">
+    <!-- Back button and page header -->
+    <div class="mb-6 flex justify-between items-center">
+        <a href="{% url 'community_detail' slug=community.slug %}" class="text-blue-900 hover:underline flex items-center">
+            <i class="fas fa-arrow-left mr-2"></i> Back to {{ community.name }}
+        </a>
+        
+        {% if is_member and not is_admin %}
+        <a href="{% url 'leave_community' slug=community.slug %}" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm">
+            <i class="fas fa-sign-out-alt mr-1"></i> Leave Community
+        </a>
+        {% elif not is_member %}
+        <a href="{% url 'join_community' slug=community.slug %}" class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-md text-sm">
+            <i class="fas fa-user-plus mr-1"></i> Join Community
+        </a>
+        {% endif %}
+    </div>
+    
+    <!-- Community Members Section -->
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <div class="p-6 border-b">
+            <h1 class="text-2xl font-bold text-blue-900">
+                {{ community.name }} Members ({{ members.count }})
+            </h1>
+            <p class="text-gray-600 mt-2">{{ community.description|truncatewords:30 }}</p>
+        </div>
+        
+        <!-- Admin Members -->
+        <div class="p-6 border-b">
+            <h2 class="text-xl font-semibold text-blue-900 mb-4 flex items-center">
+                <i class="fas fa-user-shield mr-2"></i> Administrators
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {% for member in members %}
+                    {% if member.role == 'admin' %}
+                    <div class="bg-blue-50 rounded-lg p-4 flex items-start">
+                        <div class="w-14 h-14 bg-blue-200 rounded-full mr-4 flex-shrink-0 flex items-center justify-center">
+                            {% if member.user.profile.profile_picture %}
+                            <img src="{{ member.user.profile.profile_picture.url }}" alt="{{ member.user.username }}" class="w-full h-full rounded-full object-cover">
+                            {% else %}
+                            <i class="fas fa-user text-blue-500"></i>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-blue-900">{{ member.user.get_full_name|default:member.user.username }}</h3>
+                            <p class="text-sm text-blue-700">Administrator</p>
+                            <p class="text-xs text-gray-500">Joined {{ member.joined_at|date:"M d, Y" }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        
+        <!-- Regular Members -->
+        <div class="p-6">
+            <h2 class="text-xl font-semibold text-blue-900 mb-4 flex items-center">
+                <i class="fas fa-users mr-2"></i> Members
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {% for member in members %}
+                    {% if member.role == 'member' %}
+                    <div class="bg-gray-50 rounded-lg p-4 flex items-start">
+                        <div class="w-14 h-14 bg-gray-200 rounded-full mr-4 flex-shrink-0 flex items-center justify-center">
+                            {% if member.user.profile.profile_picture %}
+                            <img src="{{ member.user.profile.profile_picture.url }}" alt="{{ member.user.username }}" class="w-full h-full rounded-full object-cover">
+                            {% else %}
+                            <i class="fas fa-user text-gray-500"></i>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900">{{ member.user.get_full_name|default:member.user.username }}</h3>
+                            <p class="text-xs text-gray-500">Joined {{ member.joined_at|date:"M d, Y" }}</p>
+                            
+                            {% if is_admin and member.user != request.user %}
+                            <div class="mt-2">
+                                <form method="POST" action="{% url 'promote_member' community_slug=community.slug user_id=member.user.id %}" class="inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="text-xs bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded">
+                                        Make Admin
+                                    </button>
+                                </form>
+                                <form method="POST" action="{% url 'remove_member' community_slug=community.slug user_id=member.user.id %}" class="inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="text-xs bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded ml-1">
+                                        Remove
+                                    </button>
+                                </form>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            
+            {% if members.count == 0 %}
+            <div class="text-center p-8 text-gray-500">
+                <i class="fas fa-users text-4xl mb-3"></i>
+                <p>No members yet.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %} 

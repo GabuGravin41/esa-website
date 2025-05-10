@@ -1,0 +1,270 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}ESA Journals & Publications{% endblock %}
+
+{% block content %}
+<div class="bg-blue-900">
+  <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+    <h1 class="text-3xl font-extrabold text-white sm:text-4xl">
+      ESA Journals & Publications
+    </h1>
+    <p class="mt-4 text-lg text-blue-100">
+      Engineering research, papers, and articles published by the Engineering Students Association
+    </p>
+  </div>
+</div>
+
+<div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+  <div class="flex flex-col lg:flex-row gap-8">
+    <!-- Main Content -->
+    <div class="lg:w-2/3">
+      <!-- Filter Bar -->
+      <div class="bg-white rounded-lg shadow-md p-4 mb-8 flex flex-wrap gap-3">
+        <a href="{% url 'esa_journals' %}" class="px-4 py-2 rounded-full {% if not category %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-800 hover:bg-gray-300{% endif %} transition">
+          All Publications
+        </a>
+        <a href="{% url 'esa_journals' %}?category=research" class="px-4 py-2 rounded-full {% if category == 'research' %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-800 hover:bg-gray-300{% endif %} transition">
+          Research Papers
+        </a>
+        <a href="{% url 'esa_journals' %}?category=technical" class="px-4 py-2 rounded-full {% if category == 'technical' %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-800 hover:bg-gray-300{% endif %} transition">
+          Technical Articles
+        </a>
+        <a href="{% url 'esa_journals' %}?category=project" class="px-4 py-2 rounded-full {% if category == 'project' %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-800 hover:bg-gray-300{% endif %} transition">
+          Project Reports
+        </a>
+        <a href="{% url 'esa_journals' %}?category=thesis" class="px-4 py-2 rounded-full {% if category == 'thesis' %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-800 hover:bg-gray-300{% endif %} transition">
+          Theses
+        </a>
+      </div>
+      
+      {% if esa_posts %}
+        <h2 class="text-2xl font-bold text-blue-900 mb-6">Featured ESA Publications</h2>
+        
+        <!-- Featured Post -->
+        {% with featured_post=esa_posts.0 %}
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-8">
+          {% if featured_post.image %}
+            <img src="{{ featured_post.image.url }}" alt="{{ featured_post.title }}" class="w-full h-64 object-cover">
+          {% else %}
+            <div class="w-full h-64 bg-gradient-to-r from-blue-800 to-blue-600 flex items-center justify-center text-white">
+              <i class="fas fa-file-alt text-6xl"></i>
+            </div>
+          {% endif %}
+          <div class="p-6">
+            <div class="flex items-center mb-3">
+              <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">
+                {{ featured_post.get_category_display }}
+              </span>
+              <span class="text-gray-500 text-sm ml-3">{{ featured_post.created_at|date:"F d, Y" }}</span>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-3">{{ featured_post.title }}</h3>
+            <p class="text-gray-600 mb-6">
+              {{ featured_post.content|truncatewords:50 }}
+            </p>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                {% if featured_post.author.user.profile_picture %}
+                  <img src="{{ featured_post.author.user.profile_picture.url }}" alt="{{ featured_post.author.user.username }}" class="w-10 h-10 rounded-full mr-3">
+                {% else %}
+                  <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                    <i class="fas fa-user text-blue-900"></i>
+                  </div>
+                {% endif %}
+                <div>
+                  <p class="font-medium text-gray-900">{{ featured_post.author.user.get_full_name|default:featured_post.author.user.username }}</p>
+                  <p class="text-sm text-gray-500">{{ featured_post.author.department }}</p>
+                </div>
+              </div>
+              <a href="{% url 'blog_post_detail' post_id=featured_post.id %}" class="px-4 py-2 bg-blue-900 text-white rounded hover:bg-blue-800 transition">
+                Read Paper
+              </a>
+            </div>
+          </div>
+        </div>
+        {% endwith %}
+        
+        <!-- Other Posts -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {% for post in esa_posts|slice:"1:" %}
+            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
+              <div class="p-6">
+                <div class="flex items-center mb-3">
+                  <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">
+                    {{ post.get_category_display }}
+                  </span>
+                  <span class="text-gray-500 text-sm ml-3">{{ post.created_at|date:"M d, Y" }}</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">{{ post.title }}</h3>
+                <p class="text-gray-600 mb-4 line-clamp-3">
+                  {{ post.content|truncatewords:30 }}
+                </p>
+                <div class="flex items-center justify-between mt-auto">
+                  <div class="flex items-center">
+                    {% if post.author.user.profile_picture %}
+                      <img src="{{ post.author.user.profile_picture.url }}" alt="{{ post.author.user.username }}" class="w-8 h-8 rounded-full mr-2">
+                    {% else %}
+                      <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+                        <i class="fas fa-user text-blue-900 text-sm"></i>
+                      </div>
+                    {% endif %}
+                    <span class="text-sm text-gray-700">{{ post.author.user.get_full_name|default:post.author.user.username }}</span>
+                  </div>
+                  <a href="{% url 'blog_post_detail' post_id=post.id %}" class="text-blue-900 hover:text-blue-700 font-medium text-sm">
+                    Read Paper →
+                  </a>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        
+        <!-- Pagination would go here -->
+        
+      {% else %}
+        <div class="text-center py-16">
+          <div class="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-book text-3xl text-blue-900"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-800 mb-2">No publications found</h3>
+          <p class="text-gray-600 mb-6">
+            {% if category %}
+              No published papers found in this category.
+            {% else %}
+              No ESA publications are available at this time.
+            {% endif %}
+          </p>
+          <a href="{% url 'blog' %}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded transition">
+            Browse Blog Posts
+          </a>
+        </div>
+      {% endif %}
+      
+      {% if community_posts %}
+        <h2 class="text-2xl font-bold text-blue-900 mb-6 mt-12">Community Publications</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {% for post in community_posts %}
+            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
+              <div class="p-5">
+                <div class="flex items-center mb-3">
+                  <span class="bg-gray-100 text-gray-800 text-xs font-semibold px-3 py-1 rounded-full">
+                    {{ post.get_category_display }}
+                  </span>
+                  <span class="text-gray-500 text-sm ml-3">{{ post.created_at|date:"M d, Y" }}</span>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-2 line-clamp-2">{{ post.title }}</h3>
+                <p class="text-gray-600 mb-4 text-sm line-clamp-2">
+                  {{ post.content|truncatewords:15 }}
+                </p>
+                <div class="flex items-center justify-between mt-auto pt-2 border-t border-gray-100">
+                  <div class="flex items-center">
+                    {% if post.author.user.profile_picture %}
+                      <img src="{{ post.author.user.profile_picture.url }}" alt="{{ post.author.user.username }}" class="w-6 h-6 rounded-full mr-2">
+                    {% else %}
+                      <div class="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center mr-2">
+                        <i class="fas fa-user text-gray-700 text-xs"></i>
+                      </div>
+                    {% endif %}
+                    <span class="text-xs text-gray-700">{{ post.author.user.get_full_name|default:post.author.user.username }}</span>
+                  </div>
+                  <a href="{% url 'blog_post_detail' post_id=post.id %}" class="text-blue-900 hover:text-blue-700 font-medium text-xs">
+                    Read →
+                  </a>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+    
+    <!-- Sidebar -->
+    <div class="lg:w-1/3">
+      <!-- Search Box -->
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Search Publications</h3>
+        <form action="{% url 'esa_journals' %}" method="GET" class="space-y-4">
+          <input type="hidden" name="category" value="{{ category }}">
+          <div>
+            <input type="text" name="search" placeholder="Search by title or keyword..." 
+                   class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                   value="{{ search }}">
+          </div>
+          <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition">
+            Search
+          </button>
+        </form>
+      </div>
+      
+      <!-- Recent Publications -->
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Publications</h3>
+        <ul class="space-y-4">
+          {% for post in recent_posts %}
+            <li>
+              <a href="{% url 'blog_post_detail' post_id=post.id %}" class="flex items-start hover:bg-gray-50 p-2 rounded -mx-2 transition">
+                <div class="w-10 h-10 rounded bg-blue-100 flex items-center justify-center flex-shrink-0 mr-3">
+                  <i class="fas fa-file-alt text-blue-900"></i>
+                </div>
+                <div>
+                  <h4 class="font-medium text-gray-900 text-sm line-clamp-2">{{ post.title }}</h4>
+                  <p class="text-xs text-gray-500 mt-1">{{ post.created_at|date:"M d, Y" }}</p>
+                </div>
+              </a>
+            </li>
+          {% empty %}
+            <li class="text-gray-500 text-sm">No recent publications</li>
+          {% endfor %}
+        </ul>
+      </div>
+      
+      <!-- Submission Guidelines -->
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Submission Guidelines</h3>
+        <div class="prose prose-sm max-w-none">
+          <p>
+            ESA welcomes submissions from engineering students and faculty. Your research papers, technical articles, 
+            and project reports can be published in our journal after review.
+          </p>
+          <h4>Requirements:</h4>
+          <ul>
+            <li>Original research or technical content</li>
+            <li>Proper citations and references</li>
+            <li>Appropriate formatting (IEEE or APA style)</li>
+            <li>Abstract, introduction, methodology, results, and conclusion sections</li>
+          </ul>
+          <p class="mt-4">
+            <a href="{% url 'blog_post_create' %}" class="text-blue-900 hover:text-blue-700 font-medium">
+              Submit Your Paper →
+            </a>
+          </p>
+        </div>
+      </div>
+      
+      <!-- Journal Archives -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Journal Archives</h3>
+        <div class="space-y-3">
+          <a href="{% url 'esa_journals' %}?year=2023" class="flex justify-between items-center px-4 py-2 hover:bg-gray-50 rounded">
+            <span class="font-medium">2023 Edition</span>
+            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Latest</span>
+          </a>
+          <a href="{% url 'esa_journals' %}?year=2022" class="flex justify-between items-center px-4 py-2 hover:bg-gray-50 rounded">
+            <span class="font-medium">2022 Edition</span>
+            <span class="text-xs text-gray-500">12 papers</span>
+          </a>
+          <a href="{% url 'esa_journals' %}?year=2021" class="flex justify-between items-center px-4 py-2 hover:bg-gray-50 rounded">
+            <span class="font-medium">2021 Edition</span>
+            <span class="text-xs text-gray-500">10 papers</span>
+          </a>
+          <a href="{% url 'esa_journals' %}?year=2020" class="flex justify-between items-center px-4 py-2 hover:bg-gray-50 rounded">
+            <span class="font-medium">2020 Edition</span>
+            <span class="text-xs text-gray-500">8 papers</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} 
