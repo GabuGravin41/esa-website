@@ -1,0 +1,160 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Payment Status - ESA{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-12">
+    <div class="flex justify-center">
+        <div class="w-full md:w-2/3 lg:w-1/2">
+            <nav class="mb-6">
+                <ol class="flex text-sm">
+                    <li><a href="{% url 'home' %}" class="text-blue-900 hover:text-green-700">Home</a></li>
+                    <li><span class="mx-2">/</span></li>
+                    <li><a href="{% url 'membership' %}" class="text-blue-900 hover:text-green-700">Membership</a></li>
+                    <li><span class="mx-2">/</span></li>
+                    <li class="text-gray-500">Payment Status</li>
+                </ol>
+            </nav>
+            
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="{% if payment.status == 'completed' %}bg-green-700{% elif payment.status == 'failed' %}bg-red-700{% else %}bg-blue-900{% endif %} text-white p-4">
+                    <h3 class="text-2xl font-bold flex items-center">
+                        <i class="fas {% if payment.status == 'completed' %}fa-check-circle{% elif payment.status == 'failed' %}fa-times-circle{% else %}fa-spinner fa-spin{% endif %} mr-2"></i>
+                        Payment Status
+                    </h3>
+                </div>
+                <div class="p-6">
+                    <div class="text-center mb-8">
+                        {% if payment.status == 'completed' %}
+                            <img src="{% static 'images/payment_success.png' %}" alt="Payment Success" class="mx-auto max-h-40">
+                            <h4 class="text-xl font-bold text-green-700 mt-4">Payment Successful!</h4>
+                            <p class="text-gray-700">Your membership is now active.</p>
+                        {% elif payment.status == 'failed' %}
+                            <img src="{% static 'images/payment_failed.png' %}" alt="Payment Failed" class="mx-auto max-h-40">
+                            <h4 class="text-xl font-bold text-red-700 mt-4">Payment Failed</h4>
+                            <p class="text-gray-700">{{ payment.notes|default:"We couldn't process your payment. Please try again." }}</p>
+                        {% else %}
+                            <img src="{% static 'images/payment_pending.png' %}" alt="Payment Pending" class="mx-auto max-h-40">
+                            <h4 class="text-xl font-bold text-blue-900 mt-4">Payment Pending</h4>
+                            {% if payment.payment_method == 'mpesa' %}
+                                <p class="text-gray-700">Please check your phone and complete the M-Pesa payment prompt.</p>
+                            {% else %}
+                                <p class="text-gray-700">We're waiting for confirmation from the payment provider.</p>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow mb-6">
+                        <div class="bg-gray-100 px-4 py-3 rounded-t-lg">
+                            <h5 class="font-bold text-gray-700">Payment Details</h5>
+                        </div>
+                        <div class="p-0">
+                            <ul class="divide-y divide-gray-200">
+                                <li class="flex justify-between items-center px-4 py-3">
+                                    <span class="text-gray-600">Payment ID:</span>
+                                    <span class="font-semibold">{{ payment.id }}</span>
+                                </li>
+                                <li class="flex justify-between items-center px-4 py-3">
+                                    <span class="text-gray-600">Amount:</span>
+                                    <span class="font-semibold">{{ payment.amount }} {{ payment.currency }}</span>
+                                </li>
+                                <li class="flex justify-between items-center px-4 py-3">
+                                    <span class="text-gray-600">Method:</span>
+                                    <span class="font-semibold">{{ payment.get_payment_method_display }}</span>
+                                </li>
+                                <li class="flex justify-between items-center px-4 py-3">
+                                    <span class="text-gray-600">Status:</span>
+                                    <span class="font-semibold {% if payment.status == 'completed' %}text-green-700{% elif payment.status == 'failed' %}text-red-700{% else %}text-yellow-600{% endif %}">
+                                        {{ payment.get_status_display }}
+                                    </span>
+                                </li>
+                                {% if payment.transaction_id %}
+                                <li class="flex justify-between items-center px-4 py-3">
+                                    <span class="text-gray-600">Transaction ID:</span>
+                                    <span class="font-semibold">{{ payment.transaction_id }}</span>
+                                </li>
+                                {% endif %}
+                                <li class="flex justify-between items-center px-4 py-3">
+                                    <span class="text-gray-600">Date:</span>
+                                    <span class="font-semibold">{{ payment.created_at|date:"M d, Y H:i" }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow">
+                        <div class="bg-gray-100 px-4 py-3 rounded-t-lg">
+                            <h5 class="font-bold text-gray-700">Membership Details</h5>
+                        </div>
+                        <div class="p-0">
+                            <ul class="divide-y divide-gray-200">
+                                <li class="flex justify-between items-center px-4 py-3">
+                                    <span class="text-gray-600">Plan Type:</span>
+                                    <span class="font-semibold">{{ membership.get_plan_type_display }}</span>
+                                </li>
+                                <li class="flex justify-between items-center px-4 py-3">
+                                    <span class="text-gray-600">Amount:</span>
+                                    <span class="font-semibold">{{ membership.amount }} KES</span>
+                                </li>
+                                <li class="flex justify-between items-center px-4 py-3">
+                                    <span class="text-gray-600">Status:</span>
+                                    <span class="font-semibold {% if membership.status == 'completed' %}text-green-700{% elif membership.status == 'expired' %}text-red-700{% else %}text-yellow-600{% endif %}">
+                                        {{ membership.get_status_display }}
+                                    </span>
+                                </li>
+                                {% if membership.status == 'completed' %}
+                                <li class="flex justify-between items-center px-4 py-3">
+                                    <span class="text-gray-600">Start Date:</span>
+                                    <span class="font-semibold">{{ membership.start_date|date:"M d, Y" }}</span>
+                                </li>
+                                <li class="flex justify-between items-center px-4 py-3">
+                                    <span class="text-gray-600">Expiry Date:</span>
+                                    <span class="font-semibold">{{ membership.end_date|date:"M d, Y" }}</span>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 text-center">
+                        {% if payment.status == 'pending' %}
+                            <form method="post" action="{% url 'payment_status' payment.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="bg-blue-900 hover:bg-blue-800 text-white px-6 py-2 rounded-lg font-bold transition inline-flex items-center">
+                                    <i class="fas fa-sync-alt mr-2"></i>Check Payment Status
+                                </button>
+                            </form>
+                            
+                            {% if payment.payment_method == 'mpesa' %}
+                                <div class="mt-4">
+                                    <a href="{% url 'mpesa_payment' payment.id %}" class="bg-white border border-green-700 text-green-700 hover:bg-green-50 px-6 py-2 rounded-lg font-bold transition inline-flex items-center">
+                                        <i class="fas fa-redo mr-2"></i>Try Again
+                                    </a>
+                                </div>
+                            {% endif %}
+                        {% elif payment.status == 'failed' %}
+                            <a href="{% url 'join_membership' membership.plan.id %}" class="bg-blue-900 hover:bg-blue-800 text-white px-6 py-2 rounded-lg font-bold transition inline-flex items-center">
+                                <i class="fas fa-redo mr-2"></i>Try Again
+                            </a>
+                        {% else %}
+                            <a href="{% url 'dashboard' %}" class="bg-green-700 hover:bg-green-800 text-white px-6 py-2 rounded-lg font-bold transition inline-flex items-center">
+                                <i class="fas fa-home mr-2"></i>Go to Dashboard
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if payment.status == 'pending' %}
+<script>
+    // Auto-refresh status check
+    setTimeout(function() {
+        document.location.reload();
+    }, 10000); // Check every 10 seconds
+</script>
+{% endif %}
+{% endblock %} 
