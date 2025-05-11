@@ -13,21 +13,25 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 from pathlib import Path
-from decouple import config
-#import dj_database_url
+from decouple import config, Config
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+PROJECT_ROOT = BASE_DIR.parent
+
+# Use Config to specify the path to the .env file in the project root
+env_config = Config(str(PROJECT_ROOT / '.env'))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY', default='django-insecure-tea_sg2x!%srgbm^(_#o&&yi$c16d1(6r45xb)f8qhh9e-czn%')
+SECRET_KEY = env_config('SECRET_KEY', default='django-insecure-tea_sg2x!%srgbm^(_#o&&yi$c16d1(6r45xb)f8qhh9e-czn%')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config("DJANGO_DEBUG", default=True, cast=bool)
+DEBUG = env_config("DEBUG", default=True, cast=bool)
 
 ALLOWED_HOSTS = ["*"]  # Allow all hosts to fix deployment issues
 
@@ -54,6 +58,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
     "widget_tweaks",
+    "slippers",
 ]
 
 # Add browser reload only in development
@@ -70,6 +75,9 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'core.middleware.UserActivityMiddleware',  # Add our middleware to track admin users
+    'core.middleware.ErrorHandlingMiddleware',  # Error handling middleware
+    'core.middleware.LoadingStateMiddleware',  # Loading state middleware
 ]
 
 # Add browser reload middleware only in development
@@ -89,7 +97,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                "django.template.context_processors.request",
             ],
         },
     },
@@ -108,12 +115,19 @@ DATABASES = {
     }
 }
 
-# Use PostgreSQL on Render
-if 'DATABASE_URL' in os.environ:
-    DATABASES['default'] = dj_database_url.config(
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
+# Use PostgreSQL on Render or other production environments
+try:
+    DATABASE_URL = env_config('DATABASE_URL', default=None)
+    if DATABASE_URL:
+        DATABASES['default'] = dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
+except Exception as e:
+    # If there's an error parsing the DATABASE_URL, fall back to sqlite
+    print(f"Error configuring database with URL: {e}")
+    # We'll use the default sqlite configuration already defined
 
 
 # Password validation
@@ -152,11 +166,12 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'core/static'),
+    os.path.join(BASE_DIR, 'static'),
 ]
 
 # Media files (Uploaded files)
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = "media/"
 
 # Whitenoise configuration
 if not DEBUG:
@@ -184,33 +199,35 @@ AUTHENTICATION_BACKENDS = (
 # django-allauth registration settings
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_VERIFICATION = "none"  # Emails will be printed to console in development
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 ACCOUNT_LOGOUT_REDIRECT_URL = "/"
 
 # Payment API Settings
-MPESA_CONSUMER_KEY = config('MPESA_CONSUMER_KEY', default='')
-MPESA_CONSUMER_SECRET = config('MPESA_CONSUMER_SECRET', default='')
-MPESA_SHORTCODE = config('MPESA_SHORTCODE', default='')
-MPESA_PASSKEY = config('MPESA_PASSKEY', default='')
-MPESA_CALLBACK_URL = config('MPESA_CALLBACK_URL', default='')
+MPESA_CONSUMER_KEY = env_config('MPESA_CONSUMER_KEY', default='')
+MPESA_CONSUMER_SECRET = env_config('MPESA_CONSUMER_SECRET', default='')
+MPESA_SHORTCODE = env_config('MPESA_SHORTCODE', default='')
+MPESA_PASSKEY = env_config('MPESA_PASSKEY', default='')
+MPESA_CALLBACK_URL = env_config('MPESA_CALLBACK_URL', default='')
 
 # PayPal Settings
-PAYPAL_CLIENT_ID = config('PAYPAL_CLIENT_ID', default='')
-PAYPAL_SECRET = config('PAYPAL_SECRET', default='')
-PAYPAL_MODE = config('PAYPAL_MODE', default='sandbox')
+PAYPAL_CLIENT_ID = env_config('PAYPAL_CLIENT_ID', default='')
+PAYPAL_SECRET = env_config('PAYPAL_SECRET', default='')
+PAYPAL_MODE = env_config('PAYPAL_MODE', default='sandbox')
 
-
-EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
-EMAIL_HOST = config('EMAIL_HOST', default='smtp.gmail.com')
-EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
-EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
-EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
-DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@esa-ku.com')
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Override for development
+# EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
+EMAIL_HOST = env_config('EMAIL_HOST', default='smtp.gmail.com')
+EMAIL_PORT = env_config('EMAIL_PORT', default=587, cast=int)
+EMAIL_HOST_USER = env_config('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = env_config('EMAIL_HOST_PASSWORD', default='')
+EMAIL_USE_TLS = env_config('EMAIL_USE_TLS', default=True, cast=bool)
+DEFAULT_FROM_EMAIL = env_config('DEFAULT_FROM_EMAIL', default='noreply@esa-ku.com')
 
 # Error Handling
-ADMINS = [('Admin', config('ADMIN_EMAIL', default='admin@esa-ku.com'))]
-SERVER_EMAIL = config('SERVER_EMAIL', default='server@esa-ku.com')
+ADMINS = [('Admin', env_config('ADMIN_EMAIL', default='admin@esa-ku.com'))]
+SERVER_EMAIL = env_config('SERVER_EMAIL', default='server@esa-ku.com')
 
 # Logging Configuration
 LOGGING = {
@@ -250,9 +267,9 @@ LOGGING = {
 }
 
 # Security Settings
-SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=False, cast=bool)
-SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=False, cast=bool)
-CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=False, cast=bool)
+SECURE_SSL_REDIRECT = env_config('SECURE_SSL_REDIRECT', default=False, cast=bool)
+SESSION_COOKIE_SECURE = env_config('SESSION_COOKIE_SECURE', default=False, cast=bool)
+CSRF_COOKIE_SECURE = env_config('CSRF_COOKIE_SECURE', default=False, cast=bool)
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
@@ -273,23 +290,5 @@ SESSION_COOKIE_AGE = 60 * 60 * 24 * 7  # 7 days
 ALLAUTH_UI_THEME = "light"
 LOGIN_REDIRECT_URL = "/"
 
-
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-MEDIA_URL = "media/"
-
-
-{
-  "version": 2,
-  "builds": [
-    {
-      "src": "your_project_name/wsgi.py",
-      "use": "@vercel/python"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "your_project_name/wsgi.py"
-    }
-  ]
-}
+# Default user ID for system operations
+DEFAULT_USER_ID = 1

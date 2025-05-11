@@ -51,6 +51,16 @@ class UserRegistrationForm(UserCreationForm):
         )
     )
     
+    student_id = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm',
+                'placeholder': 'Student Registration Number',
+            }
+        )
+    )
+    
     password1 = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
@@ -71,7 +81,7 @@ class UserRegistrationForm(UserCreationForm):
     
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1', 'password2')
+        fields = ('username', 'email', 'student_id', 'password1', 'password2')
     
     def clean_email(self):
         """Ensure email is unique"""
@@ -86,6 +96,13 @@ class UserRegistrationForm(UserCreationForm):
         if len(username) < 3:
             raise forms.ValidationError('Username must be at least 3 characters long.')
         return username
+        
+    def clean_student_id(self):
+        """Ensure student ID is unique"""
+        student_id = self.cleaned_data.get('student_id')
+        if UserProfile.objects.filter(student_id=student_id).exists():
+            raise forms.ValidationError('This student ID is already registered.')
+        return student_id
 
     def save(self, commit=True):
         """Save the user with the email field"""
@@ -93,6 +110,13 @@ class UserRegistrationForm(UserCreationForm):
         user.email = self.cleaned_data['email']
         if commit:
             user.save()
+            # Update the profile with the student_id
+            try:
+                user.profile.student_id = self.cleaned_data['student_id']
+                user.profile.save()
+            except Exception as e:
+                # This should not happen as the profile is created by signal
+                pass
         return user
 
 class UserProfileForm(forms.ModelForm):

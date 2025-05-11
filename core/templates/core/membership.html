@@ -45,54 +45,78 @@
                     <i class="fas fa-book-open text-3xl text-blue-900"></i>
                 </div>
                 <h3 class="text-xl font-bold text-blue-900 mb-3">Exclusive Resources</h3>
-                <p class="text-gray-700">
+                <p class="text-gray-700 mb-4">
                     Access to engineering research papers, study materials, and technical resources.
                 </p>
+                <a href="{% url 'resources' %}" class="text-blue-700 hover:text-blue-900 inline-flex items-center font-medium">
+                    <span>Browse resources</span>
+                    <i class="fas fa-arrow-right ml-1"></i>
+                </a>
             </div>
             <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition text-center">
                 <div class="inline-block p-4 bg-blue-100 rounded-full mb-4">
                     <i class="fas fa-users text-3xl text-blue-900"></i>
                 </div>
                 <h3 class="text-xl font-bold text-blue-900 mb-3">Networking</h3>
-                <p class="text-gray-700">
+                <p class="text-gray-700 mb-4">
                     Connect with engineering professionals, academics, and fellow students in the field.
                 </p>
+                <a href="{% url 'communities' %}" class="text-blue-700 hover:text-blue-900 inline-flex items-center font-medium">
+                    <span>Join communities</span>
+                    <i class="fas fa-arrow-right ml-1"></i>
+                </a>
             </div>
             <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition text-center">
                 <div class="inline-block p-4 bg-blue-100 rounded-full mb-4">
                     <i class="fas fa-calendar-check text-3xl text-blue-900"></i>
                 </div>
                 <h3 class="text-xl font-bold text-blue-900 mb-3">Priority Event Access</h3>
-                <p class="text-gray-700">
+                <p class="text-gray-700 mb-4">
                     Early registration and discounts for workshops, field trips, and engineering conferences.
                 </p>
+                <a href="{% url 'events' %}" class="text-blue-700 hover:text-blue-900 inline-flex items-center font-medium">
+                    <span>Upcoming events</span>
+                    <i class="fas fa-arrow-right ml-1"></i>
+                </a>
             </div>
             <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition text-center">
                 <div class="inline-block p-4 bg-blue-100 rounded-full mb-4">
                     <i class="fas fa-graduation-cap text-3xl text-blue-900"></i>
                 </div>
                 <h3 class="text-xl font-bold text-blue-900 mb-3">Learning Opportunities</h3>
-                <p class="text-gray-700">
+                <p class="text-gray-700 mb-4">
                     Access to engineering workshops, training sessions, and technical educational content.
                 </p>
+                <a href="{% url 'resources' %}?category=document" class="text-blue-700 hover:text-blue-900 inline-flex items-center font-medium">
+                    <span>Educational materials</span>
+                    <i class="fas fa-arrow-right ml-1"></i>
+                </a>
             </div>
             <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition text-center">
                 <div class="inline-block p-4 bg-blue-100 rounded-full mb-4">
                     <i class="fas fa-certificate text-3xl text-blue-900"></i>
                 </div>
                 <h3 class="text-xl font-bold text-blue-900 mb-3">Certifications</h3>
-                <p class="text-gray-700">
+                <p class="text-gray-700 mb-4">
                     Official member certificate and recognition in the engineering community.
                 </p>
+                <a href="{% url 'profile' %}" class="text-blue-700 hover:text-blue-900 inline-flex items-center font-medium">
+                    <span>View your profile</span>
+                    <i class="fas fa-arrow-right ml-1"></i>
+                </a>
             </div>
             <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition text-center">
                 <div class="inline-block p-4 bg-blue-100 rounded-full mb-4">
                     <i class="fas fa-store text-3xl text-blue-900"></i>
                 </div>
                 <h3 class="text-xl font-bold text-blue-900 mb-3">Store Discounts</h3>
-                <p class="text-gray-700">
+                <p class="text-gray-700 mb-4">
                     Special discounts on ESA merchandise and engineering tools.
                 </p>
+                <a href="{% url 'store' %}" class="text-blue-700 hover:text-blue-900 inline-flex items-center font-medium">
+                    <span>Shop now</span>
+                    <i class="fas fa-arrow-right ml-1"></i>
+                </a>
             </div>
         </div>
     </div>
@@ -115,7 +139,7 @@
         <p class="text-gray-700 mb-4">
           Show members and non-members alike what it means to be part of ESA. Your story can inspire others to join our community and make the most of their engineering education.
         </p>
-        <a href="#" class="text-green-700 font-semibold hover:underline flex items-center">
+        <a href="{% url 'blog_post_create' %}" class="text-green-700 font-semibold hover:underline flex items-center">
           <span>Share your ESA story</span>
           <i class="fas fa-arrow-right ml-2"></i>
         </a>
@@ -132,7 +156,7 @@
         <p class="text-gray-700 mb-4">
           ESA membership is a great gift idea and a way to share in the experience of being a member of ESA. Support a friend's engineering journey with this meaningful present.
         </p>
-        <a href="#" class="text-green-700 font-semibold hover:underline flex items-center">
+        <a href="{% url 'member_get_member' %}" class="text-green-700 font-semibold hover:underline flex items-center">
           <span>Give the gift of membership</span>
           <i class="fas fa-arrow-right ml-2"></i>
         </a>
@@ -147,10 +171,10 @@
           <h3 class="text-xl font-bold text-blue-900">Member-Get-a-Member</h3>
         </div>
         <p class="text-gray-700 mb-4">
-          Consider sharing your ESA membership experience and get rewarded for doing so. Help us grow our engineering community while earning benefits for yourself.
+          Help grow our engineering community by sponsoring someone's membership. You can pay for a friend, colleague, or someone deserving to join ESA and enjoy all membership benefits.
         </p>
-        <a href="#" class="text-green-700 font-semibold hover:underline flex items-center">
-          <span>Learn more</span>
+        <a href="{% url 'member_get_member' %}" class="text-green-700 font-semibold hover:underline flex items-center">
+          <span>Pay for someone's membership</span>
           <i class="fas fa-arrow-right ml-2"></i>
         </a>
       </div>
@@ -162,11 +186,11 @@
             <i class="fas fa-book-open text-2xl text-blue-900"></i>
           </div>
           <h3 class="text-xl font-bold text-blue-900">ESA Journals for Members</h3>
-        </div>
+    </div>
         <p class="text-gray-700 mb-4">
           More than 400 engineering students at Kenyatta University make ESA an integral part of their lives. Explore their innovations and experiences in our journals.
         </p>
-        <a href="#" class="text-green-700 font-semibold hover:underline flex items-center">
+        <a href="{% url 'esa_journals' %}" class="text-green-700 font-semibold hover:underline flex items-center">
           <span>View more videos and stories at ESA Journals</span>
           <i class="fas fa-arrow-right ml-2"></i>
         </a>
@@ -474,7 +498,7 @@
                 </a>
             {% endif %}
         </div>
-    </div>
+  </div>
 </section>
 
 <!-- Payment Form -->

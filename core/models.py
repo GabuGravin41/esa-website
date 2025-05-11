@@ -6,6 +6,142 @@ import string
 from decimal import Decimal
 from django.urls import reverse
 from django.utils.text import slugify
+from django.core.exceptions import ValidationError
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+# Admin credentials (hardcoded for security purposes)
+ADMIN_CREDENTIALS = [
+    {
+        'username': 'admin',
+        'email': 'admin@example.com',
+        'password': 'adminpassword123',
+        'first_name': 'System',
+        'last_name': 'Admin'
+    },
+    {
+        'username': 'moderator',
+        'email': 'moderator@example.com',
+        'password': 'moderatorpassword123',
+        'first_name': 'Content',
+        'last_name': 'Moderator'
+    }
+]
+
+def get_default_user():
+    # Use this function to set a default user when needed
+    try:
+        return User.objects.get(username='admin')
+    except User.DoesNotExist:
+        # Create an admin user if one doesn't exist
+        admin_data = ADMIN_CREDENTIALS[0]
+        user = User.objects.create_user(
+            username=admin_data['username'],
+            email=admin_data['email'],
+            password=admin_data['password'],
+            first_name=admin_data['first_name'],
+            last_name=admin_data['last_name']
+        )
+        return user
+
+def initialize_admin_users():
+    """Create default admin users if they don't exist"""
+    # Create admin role if it doesn't exist
+    admin_role, created = UserRole.objects.get_or_create(
+        name='System Admin',
+        defaults={
+            'description': 'Full system administrator with all permissions',
+            'is_admin': True,
+            'can_post_events': True,
+            'can_post_store_items': True,
+            'can_post_resources': True,
+            'can_manage_permissions': True
+        }
+    )
+    
+    moderator_role, created = UserRole.objects.get_or_create(
+        name='Content Moderator',
+        defaults={
+            'description': 'Can moderate site content',
+            'is_admin': False,
+            'can_post_events': True,
+            'can_post_store_items': True,
+            'can_post_resources': True,
+            'can_manage_permissions': False
+        }
+    )
+    
+    # Create admin users
+    for admin_data in ADMIN_CREDENTIALS:
+        user, created = User.objects.get_or_create(
+            username=admin_data['username'],
+            defaults={
+                'email': admin_data['email'],
+                'first_name': admin_data['first_name'],
+                'last_name': admin_data['last_name'],
+                'is_staff': True,  # Can access Django admin
+                'is_active': True
+            }
+        )
+        
+        if created:
+            user.set_password(admin_data['password'])
+            user.save()
+            
+        # Get or update user profile
+        try:
+            profile = UserProfile.objects.get(user=user)
+            # Update profile with admin details if it exists
+            profile.student_id = f"ADMIN{user.id:03d}"
+            profile.department = "Administration"
+            profile.year_of_study = 0
+            profile.membership_status = "active"
+            profile.membership_expiry = timezone.now().date().replace(year=timezone.now().year + 10)
+            profile.user_type = "staff"
+            profile.custom_permissions = True
+        except UserProfile.DoesNotExist:
+            # Only create if it doesn't exist (which should not happen due to the signal)
+            profile = UserProfile.objects.create(
+                user=user,
+                student_id=f"ADMIN{user.id:03d}",
+                department="Administration",
+                year_of_study=0,
+                phone_number="",
+                membership_status="active",
+                membership_expiry=timezone.now().date().replace(year=timezone.now().year + 10),
+                user_type="staff",
+                custom_permissions=True
+            )
+        
+        # Set appropriate role
+        if user.username == 'admin':
+            profile.role = admin_role
+        elif user.username == 'moderator':
+            profile.role = moderator_role
+            
+        profile.save()
+
+# Rest of your model classes
+class UserRole(models.Model):
+    """Model to define user roles and permissions"""
+    name = models.CharField(max_length=50)
+    description = models.TextField(blank=True)
+    
+    # Permission flags
+    can_post_events = models.BooleanField(default=False, help_text="Can create and manage events")
+    can_post_store_items = models.BooleanField(default=False, help_text="Can add products to the store")
+    can_post_resources = models.BooleanField(default=False, help_text="Can upload resources")
+    
+    # Admin permissions
+    is_admin = models.BooleanField(default=False, help_text="Has full admin access")
+    can_manage_permissions = models.BooleanField(default=False, help_text="Can manage other users' permissions")
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.name
 
 class UserProfile(models.Model):
     USER_TYPE_CHOICES = [
@@ -34,6 +170,15 @@ class UserProfile(models.Model):
     membership_status = models.CharField(max_length=20, choices=MEMBERSHIP_STATUS_CHOICES, default='inactive')
     membership_expiry = models.DateField(null=True, blank=True)
     user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES, default='student')
+    
+    # Role and permissions
+    role = models.ForeignKey(UserRole, on_delete=models.SET_NULL, null=True, blank=True, related_name="profiles")
+    
+    # Individual permission overrides (override role permissions)
+    custom_permissions = models.BooleanField(default=False, help_text="If enabled, individual permissions override role permissions")
+    can_post_events = models.BooleanField(default=False)
+    can_post_store_items = models.BooleanField(default=False)
+    can_post_resources = models.BooleanField(default=False)
     
     # Usage limitations for non-members
     blog_posts_count = models.IntegerField(default=0)
@@ -66,6 +211,41 @@ class UserProfile(models.Model):
         if self.is_membership_active():
             return True
         return False  # Non-members cannot post blogs
+    
+    def has_permission(self, permission_name):
+        """Generic method to check if user has a specific permission"""
+        # Check if user is a superuser or ESA admin
+        if self.user.is_superuser or (self.role and self.role.is_admin):
+            return True
+            
+        # Use custom permissions if enabled, otherwise use role permissions
+        if self.custom_permissions:
+            return getattr(self, permission_name, False)
+        elif self.role:
+            return getattr(self.role, permission_name, False)
+        return False
+    
+    def can_manage_events(self):
+        """Check if user can create and manage events"""
+        return self.has_permission('can_post_events')
+    
+    def can_manage_store(self):
+        """Check if user can add and manage store products"""
+        return self.has_permission('can_post_store_items')
+    
+    def can_manage_resources(self):
+        """Check if user can upload and manage resources"""
+        return self.has_permission('can_post_resources')
+    
+    def is_esa_admin(self):
+        """Check if user has ESA admin privileges"""
+        return self.role and self.role.is_admin
+    
+    def can_manage_permissions(self):
+        """Check if user can manage permissions"""
+        if self.user.is_superuser:
+            return True
+        return self.role and self.role.can_manage_permissions
     
     def generate_membership_number(self):
         """Generate a unique membership number"""
@@ -127,6 +307,8 @@ class Membership(models.Model):
     end_date = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    referred_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, 
+                                   related_name='referrals')
 
     def __str__(self):
         return f"{self.user.username} - {self.get_plan_type_display()}"
@@ -235,15 +417,31 @@ class MpesaTransaction(models.Model):
         ordering = ['-created_at']
 
 # Event Models
+class Comment(models.Model):
+    """Model for comments on both blog posts and discussions"""
+    content = models.TextField()
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    # Optional fields for different types of comments
+    post = models.ForeignKey('BlogPost', on_delete=models.CASCADE, related_name='comments', null=True, blank=True)
+    discussion = models.ForeignKey('Discussion', on_delete=models.CASCADE, related_name='comments', null=True, blank=True)
+
+    class Meta:
+        ordering = ['created_at']
+
+    def __str__(self):
+        return f"Comment by {self.created_by.username}"
+
 class Event(models.Model):
+    """Consolidated Event model for both standalone and community events"""
     CATEGORY_CHOICES = [
         ('workshop', 'Workshop'),
         ('seminar', 'Seminar'),
         ('conference', 'Conference'),
-        ('social', 'Social Event'),
+        ('networking', 'Networking'),
         ('competition', 'Competition'),
-        ('career_fair', 'Career Fair'),
-        ('field_trip', 'Field Trip'),
         ('other', 'Other'),
     ]
     
@@ -253,49 +451,79 @@ class Event(models.Model):
         ('completed', 'Completed'),
         ('cancelled', 'Cancelled'),
     ]
+
+    EVENT_TYPE_CHOICES = [
+        ('physical', 'Physical'),
+        ('virtual', 'Virtual'),
+        ('hybrid', 'Hybrid'),
+    ]
     
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True, blank=True)
     description = models.TextField()
     short_description = models.TextField(max_length=200, blank=True, help_text="Short description for previews")
-    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='workshop')
-    date = models.DateTimeField()
-    end_date = models.DateTimeField(null=True, blank=True, help_text="End date for multi-day events")
-    location = models.CharField(max_length=200)
-    venue_type = models.CharField(max_length=20, choices=[('physical', 'Physical'), ('virtual', 'Virtual'), ('hybrid', 'Hybrid')], default='physical')
-    capacity = models.IntegerField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
+    event_type = models.CharField(max_length=10, choices=EVENT_TYPE_CHOICES, default='physical')
+    
+    # Date and time fields
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
+    start_time = models.TimeField(default='09:00:00')
+    end_time = models.TimeField(default='17:00:00')
+    registration_deadline = models.DateTimeField(null=True, blank=True)
+    
+    # Location fields
+    location = models.CharField(max_length=255)
+    is_online = models.BooleanField(default=False)
+    online_link = models.URLField(blank=True, null=True)
+    
+    # Event details
+    capacity = models.PositiveIntegerField(default=0)
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     featured = models.BooleanField(default=False, help_text="Feature this event on the homepage")
     image = models.ImageField(upload_to='event_images/', null=True, blank=True)
     speaker = models.CharField(max_length=200, blank=True, help_text="Main speaker or host")
-    registration_deadline = models.DateTimeField(null=True, blank=True)
+    
+    # Status fields
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='upcoming')
     is_active = models.BooleanField(default=True)
-    created_by = models.ForeignKey(User, related_name='created_events', on_delete=models.CASCADE, null=True)
+    
+    # Relationships
+    community = models.ForeignKey('Community', on_delete=models.CASCADE, related_name='events', null=True, blank=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
-    
+
+    def get_absolute_url(self):
+        return reverse('event_detail', kwargs={'slug': self.slug})
+
+    @property
     def registered_count(self):
-        return self.registrations.count()
-    
+        return self.registrations.filter(status='registered').count()
+
+    @property
     def seats_left(self):
-        registered = self.registered_count()
-        return max(0, self.capacity - registered)
-    
+        return self.capacity - self.registered_count
+
     def is_registration_open(self):
-        if not self.is_active or self.status != 'upcoming':
-            return False
-        if self.registration_deadline and timezone.now() > self.registration_deadline:
-            return False
-        return self.seats_left() > 0
-    
+        if self.registration_deadline:
+            return timezone.now() <= self.registration_deadline
+        return True
+
     def is_fully_booked(self):
-        return self.seats_left() == 0 and self.capacity > 0
+        return self.registered_count >= self.capacity
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
     class Meta:
-        ordering = ['date']
+        ordering = ['start_date']
 
 class EventRegistration(models.Model):
     STATUS_CHOICES = [
@@ -322,46 +550,42 @@ class EventRegistration(models.Model):
 # Store Models
 class Product(models.Model):
     CATEGORY_CHOICES = [
-        ('books', 'Books'),
-        ('tools', 'Tools'),
-        ('merchandise', 'Merchandise'),
+        ('general', 'General'),
         ('electronics', 'Electronics'),
-        ('software', 'Software'),
+        ('clothing', 'Clothing'),
+        ('books', 'Books'),
+        ('home', 'Home & Garden'),
+        ('sports', 'Sports & Outdoors'),
+        ('automotive', 'Automotive'),
         ('other', 'Other'),
     ]
     
-    name = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True, blank=True, null=True)
+    name = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True, blank=True)
     description = models.TextField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    image = models.ImageField(upload_to='products/', null=True, blank=True)
-    stock = models.IntegerField(default=0)
-    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='other')
-    vendor = models.CharField(max_length=100, default='ESA-KU Store', help_text='Company or individual selling the product')
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    stock = models.PositiveIntegerField(default=0)
+    image = models.ImageField(upload_to='product_images/', null=True, blank=True)
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='general')
     is_active = models.BooleanField(default=True)
-    featured = models.BooleanField(default=False, help_text='Feature this product on the store page')
+    featured = models.BooleanField(default=False)
+    vendor = models.CharField(max_length=255, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    
+    class Meta:
+        ordering = ('-created_at',)
+    
     def __str__(self):
         return self.name
-
+    
+    def get_absolute_url(self):
+        return reverse('product_detail', kwargs={'slug': self.slug})
+        
     def save(self, *args, **kwargs):
         if not self.slug:
-            base_slug = slugify(self.name)
-            unique_slug = base_slug
-            counter = 1
-            
-            # Ensure slug uniqueness
-            while Product.objects.filter(slug=unique_slug).exists():
-                unique_slug = f"{base_slug}-{counter}"
-                counter += 1
-            
-            self.slug = unique_slug
+            self.slug = slugify(self.name)
         super().save(*args, **kwargs)
-
-    class Meta:
-        ordering = ['-created_at']
 
 class Order(models.Model):
     STATUS_CHOICES = [
@@ -401,11 +625,12 @@ class BlogPost(models.Model):
         ('research', 'Research Paper'),
         ('journal', 'Journal Article'),
         ('projects', 'Project'),
+        ('thesis', 'Thesis'),
     ]
     
     title = models.CharField(max_length=200)
     content = models.TextField()
-    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
     image = models.ImageField(upload_to='blog_images/', null=True, blank=True)
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='journal')
     created_at = models.DateTimeField(auto_now_add=True)
@@ -418,68 +643,99 @@ class BlogPost(models.Model):
     class Meta:
         ordering = ['-created_at']
 
-class Comment(models.Model):
-    post = models.ForeignKey(BlogPost, on_delete=models.CASCADE, related_name='comments')
-    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    content = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f"Comment by {self.author.user.username} on {self.post.title}"
-
-    class Meta:
-        ordering = ['-created_at']
-
-# Resource Models
-class Resource(models.Model):
+class Community(models.Model):
     CATEGORY_CHOICES = [
-        ('document', 'Document'),
-        ('video', 'Video'),
-        ('link', 'Link'),
+        ('general', 'General Engineering'),
+        ('mechanical', 'Mechanical Engineering'),
+        ('electrical', 'Electrical Engineering'),
+        ('civil', 'Civil Engineering'),
+        ('computer', 'Computer Engineering'),
+        ('aerospace', 'Aerospace Engineering'),
+        ('chemical', 'Chemical Engineering'),
+        ('biomedical', 'Biomedical Engineering'),
+        ('environmental', 'Environmental Engineering'),
+        ('industrial', 'Industrial Engineering'),
         ('other', 'Other'),
     ]
-
-    title = models.CharField(max_length=200)
-    description = models.TextField()
-    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
-    file = models.FileField(upload_to='resources/', null=True, blank=True)
-    link = models.URLField(null=True, blank=True)
-    uploaded_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        ordering = ['-created_at']
-
-class Community(models.Model):
-    name = models.CharField(max_length=200)
+    
+    name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
     description = models.TextField()
-    logo = models.ImageField(upload_to='communities/logos/', null=True, blank=True)
-    banner_image = models.ImageField(upload_to='communities/banners/', null=True, blank=True)
-    website = models.URLField(blank=True)
-    email = models.EmailField(blank=True)
-    facebook = models.URLField(blank=True)
-    twitter = models.URLField(blank=True)
-    instagram = models.URLField(blank=True)
-    linkedin = models.URLField(blank=True)
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='general')
+    image = models.ImageField(upload_to='community_images', blank=True, null=True)
+    rules = models.TextField(blank=True, null=True)
+    is_private = models.BooleanField(default=False)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_communities', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    is_active = models.BooleanField(default=True)
-
+    
     class Meta:
-        verbose_name_plural = "Communities"
-        ordering = ['name']
-
+        verbose_name_plural = 'Communities'
+        ordering = ['-created_at']
+    
     def __str__(self):
         return self.name
-
+    
     def get_absolute_url(self):
         return reverse('community_detail', kwargs={'slug': self.slug})
+    
+    @property
+    def member_count(self):
+        return self.members.count()
+
+class CommunityMember(models.Model):
+    ROLE_CHOICES = [
+        ('member', 'Member'),
+        ('moderator', 'Moderator'),
+        ('admin', 'Admin'),
+    ]
+    
+    community = models.ForeignKey(Community, on_delete=models.CASCADE, related_name='members')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='community_memberships')
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='member')
+    joined_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        unique_together = ('community', 'user')
+        ordering = ['-joined_at']
+    
+    def __str__(self):
+        return f"{self.user.username} - {self.community.name} ({self.get_role_display()})"
+
+# Discussion models for communities
+class Discussion(models.Model):
+    community = models.ForeignKey(Community, on_delete=models.CASCADE, related_name='discussions')
+    title = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True)
+    content = models.TextField()
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='discussions', null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    view_count = models.PositiveIntegerField(default=0)
+    
+    class Meta:
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return self.title
+    
+    def get_absolute_url(self):
+        return reverse('discussion_detail', kwargs={'community_slug': self.community.slug, 'slug': self.slug})
+    
+    @property
+    def comment_count(self):
+        return self.comments.count()
+
+class EventAttendee(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='attendees')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='events_attending')
+    registered_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        unique_together = ('event', 'user')
+    
+    def __str__(self):
+        return f"{self.user.username} attending {self.event.title}"
 
 class Contact(models.Model):
     name = models.CharField(max_length=100)
@@ -511,3 +767,134 @@ class CartItem(models.Model):
 
     def __str__(self):
         return f"{self.quantity}x {self.product.name} in {self.cart}"
+
+class Resource(models.Model):
+    CATEGORY_CHOICES = [
+        ('document', 'Document'),
+        ('video', 'Video'),
+        ('link', 'Link'),
+    ]
+    
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='document')
+    file = models.FileField(upload_to='resources/', null=True, blank=True)
+    link = models.URLField(null=True, blank=True)
+    thumbnail = models.ImageField(upload_to='resource_thumbnails/', null=True, blank=True)
+    uploaded_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='uploaded_resources', null=True, blank=True)
+    download_count = models.PositiveIntegerField(default=0)
+    view_count = models.PositiveIntegerField(default=0)
+    is_approved = models.BooleanField(default=False)
+    is_featured = models.BooleanField(default=False)
+    tags = models.ManyToManyField('ResourceTag', blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'Resource'
+        verbose_name_plural = 'Resources'
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('resource_detail', kwargs={'pk': self.pk})
+
+    def increment_download_count(self):
+        self.download_count += 1
+        self.save(update_fields=['download_count'])
+
+    def increment_view_count(self):
+        self.view_count += 1
+        self.save(update_fields=['view_count'])
+
+    def clean(self):
+        if not self.file and not self.link:
+            raise ValidationError('Either a file or a link must be provided.')
+        if self.file and self.link:
+            raise ValidationError('Cannot have both a file and a link.')
+
+class ResourceTag(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    slug = models.SlugField(unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+
+class ExternalSite(models.Model):
+    SITE_TYPE_CHOICES = [
+        ('university', 'University Club'),
+        ('community', 'Community Resource'),
+        ('partner', 'Official Partner'),
+    ]
+    
+    name = models.CharField(max_length=255)
+    url = models.URLField()
+    description = models.TextField()
+    site_type = models.CharField(max_length=20, choices=SITE_TYPE_CHOICES)
+    logo = models.ImageField(upload_to='site_logos/', null=True, blank=True)
+    icon = models.CharField(max_length=50, null=True, blank=True, help_text="FontAwesome icon class (e.g., 'fas fa-users')")
+    added_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='suggested_sites')
+    is_approved = models.BooleanField(default=False)
+    is_rejected = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['site_type', 'name']
+        verbose_name = 'External Site'
+        verbose_name_plural = 'External Sites'
+    
+    def __str__(self):
+        return f"{self.name} ({self.get_site_type_display()})"
+
+# Signal to initialize admin users
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        # Automatically create a profile for the user
+        UserProfile.objects.get_or_create(user=instance)
+        
+        # Initialize admin users if this is the first user being created
+        if User.objects.count() == 1:
+            initialize_admin_users()
+
+class Announcement(models.Model):
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    expiry_date = models.DateTimeField(null=True, blank=True)
+
+    def is_expired(self):
+        return self.expiry_date and self.expiry_date < now()
+
+    def __str__(self):
+        return self.title
+
+class NewsletterSubscriber(models.Model):
+    email = models.EmailField(unique=True)
+    subscribed_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.email
+
+class Partner(models.Model):
+    name = models.CharField(max_length=255)
+    logo = models.ImageField(upload_to='partner_logos/')
+    website = models.URLField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name

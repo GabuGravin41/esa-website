@@ -44,9 +44,22 @@
             <div class="form-group">
                 <label for="{{ form.content.id_for_label }}" class="block text-gray-700 font-bold mb-2">Content</label>
                 {{ form.content.errors }}
-                <textarea name="{{ form.content.name }}" id="{{ form.content.id_for_label }}" rows="12"
-                          class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent"
-                          placeholder="Write your post content here...">{{ form.content.value|default:'' }}</textarea>
+                <div class="markdown-editor-container">
+                    <textarea name="{{ form.content.name }}" id="{{ form.content.id_for_label }}" rows="12"
+                              class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent"
+                              placeholder="Write your post content here...">{{ form.content.value|default:'' }}</textarea>
+                </div>
+                <div class="text-sm text-gray-600 mt-2">
+                    Use Markdown to format your content:
+                    <ul class="list-disc ml-5 mt-1">
+                        <li># Header 1, ## Header 2, ### Header 3</li>
+                        <li>**bold text**, *italic text*</li>
+                        <li>`code snippet`</li>
+                        <li>- Bullet points, 1. Numbered lists</li>
+                        <li>[Link text](url)</li>
+                        <li>![Alt text](image-url)</li>
+                    </ul>
+                </div>
             </div>
             
             <!-- Image Field -->
@@ -91,4 +104,29 @@
         </form>
     </div>
 </div>
+
+<!-- SimpleMDE CSS and JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+<script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const easyMDE = new EasyMDE({
+            element: document.getElementById('{{ form.content.id_for_label }}'),
+            spellChecker: false,
+            autosave: {
+                enabled: true,
+                uniqueId: 'blog-post-editor',
+                delay: 1000,
+            },
+            toolbar: [
+                'bold', 'italic', 'heading', '|',
+                'quote', 'unordered-list', 'ordered-list', '|',
+                'link', 'image', '|',
+                'preview', 'side-by-side', 'fullscreen', '|',
+                'guide'
+            ],
+            placeholder: 'Write your post content here...',
+        });
+    });
+</script>
 {% endblock %} 

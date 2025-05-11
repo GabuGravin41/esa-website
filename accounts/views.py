@@ -12,6 +12,7 @@ from django.contrib.auth import get_backends
 from .forms import UserRegistrationForm, UserProfileForm, LoginForm
 from core.models import UserProfile
 from django.views.decorators.csrf import ensure_csrf_cookie
+from threading import current_thread
 
 @ensure_csrf_cookie
 def login_view(request):
@@ -70,13 +71,14 @@ def logout_view(request):
 
 @ensure_csrf_cookie
 def register(request):
-    """Handle user registration with both form submission and AJAX"""
-    if request.user.is_authenticated:
-        return redirect('home')
-    
+    """Handle user registration"""
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
+            # Save student_id to thread for the signal to use
+            thread = current_thread()
+            thread.student_id = form.cleaned_data.get('student_id')
+            
             # Create the user - UserProfile will be created automatically via signals
             user = form.save()
             

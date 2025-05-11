@@ -17,19 +17,22 @@
           Past Events
         </a>
       </div>
+      {% if future_events.first %}
       <div class="mt-8 flex justify-center">
         <div class="bg-white bg-opacity-20 backdrop-blur-sm py-2 px-6 rounded-full inline-flex items-center">
-          <i class="fas fa-calendar-alt text-yellow-400 mr-2"></i>
-          <span>Next event: Advanced Robotics Workshop - Oct 15, 2024</span>
+          <i class="fas fa-calendar-alt text-green-400 mr-2"></i>
+          <span>Next event: {{ future_events.first.title }} - {{ future_events.first.start_date|date:"M d, Y" }}</span>
         </div>
       </div>
+      {% endif %}
     </div>
   </div>
 </section>
   
-
 <!-- Events Container -->
 <div class="max-w-[1200px] mx-auto py-8 px-4">
+
+    
     <!-- Events Filters -->
     <section class="bg-white p-8 rounded-xl shadow-lg relative mx-auto mb-12 mt-[-4rem]">
       <div class="flex justify-between items-center mb-6">
@@ -43,98 +46,115 @@
           </button>
         </div>
       </div>
-      <div class="grid md:grid-cols-4 gap-4">
-        <!-- Search Input -->
-        <div class="md:col-span-4 mb-4">
-          <div class="relative">
-            <input type="text" placeholder="Search for events" class="w-full p-4 pl-12 border-2 border-[#003366] rounded-lg text-base">
-            <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-[#003366]"></i>
+      <form method="GET" action="{% url 'events' %}">
+        <div class="grid md:grid-cols-4 gap-4">
+          <!-- Search Input - Curved like blog page -->
+          <div class="md:col-span-4 mb-4">
+            <div class="relative">
+              <input type="text" name="q" placeholder="Search for events" value="{{ search_query|default:'' }}" 
+                  class="w-full p-4 pl-12 border-2 border-[#003366] rounded-full shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
+              <i class="fas fa-search absolute left-6 top-1/2 transform -translate-y-1/2 text-[#003366]"></i>
+            </div>
+          </div>
+          
+          <!-- Category Filter -->
+          <div>
+            <select name="type" class="w-full p-4 border-2 border-[#003366] rounded-full text-base appearance-none bg-white shadow-sm" style="background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23003366%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>'); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 3rem;">
+              <option value="">All Categories</option>
+              <option value="workshop" {% if event_type == 'workshop' %}selected{% endif %}>Workshops</option>
+              <option value="seminar" {% if event_type == 'seminar' %}selected{% endif %}>Seminars</option>
+              <option value="conference" {% if event_type == 'conference' %}selected{% endif %}>Conferences</option>
+              <option value="project" {% if event_type == 'project' %}selected{% endif %}>Student Projects</option>
+              <option value="social" {% if event_type == 'social' %}selected{% endif %}>Social Events</option>
+              <option value="competition" {% if event_type == 'competition' %}selected{% endif %}>Competitions</option>
+            </select>
+          </div>
+          
+          <!-- Date Filter -->
+          <div>
+            <select name="date" class="w-full p-4 border-2 border-[#003366] rounded-full text-base appearance-none bg-white shadow-sm" style="background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23003366%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>'); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 3rem;">
+              <option value="">All Dates</option>
+              <option value="today">Today</option>
+              <option value="week">This Week</option>
+              <option value="month">This Month</option>
+              <option value="next_month">Next Month</option>
+            </select>
+          </div>
+          
+          <!-- Location Filter -->
+          <div>
+            <select name="location" class="w-full p-4 border-2 border-[#003366] rounded-full text-base appearance-none bg-white shadow-sm" style="background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23003366%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>'); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 3rem;">
+              <option value="">All Locations</option>
+              <option value="Engineering Block">Engineering Block</option>
+              <option value="Auditorium">Auditorium</option>
+              <option value="Science Complex">Science Complex</option>
+              <option value="Student Center">Student Center</option>
+              <option value="Virtual">Virtual</option>
+            </select>
+          </div>
+          
+          <!-- Filter Button - Curved like blog page -->
+          <div>
+            <button type="submit" class="w-full bg-green-600 text-white py-4 px-6 rounded-full cursor-pointer transition-all hover:bg-green-700 font-semibold shadow-md">
+              <i class="fas fa-filter mr-2"></i> Filter Events
+            </button>
           </div>
         </div>
-        
-        <!-- Category Filter -->
-        <div>
-          <select class="w-full p-4 border-2 border-[#003366] rounded-lg text-base appearance-none bg-white" style="background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23003366%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>'); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 3rem;">
-            <option>All Categories</option>
-            <option>Workshops</option>
-            <option>Seminars</option>
-            <option>Conferences</option>
-            <option>Student Projects</option>
-            <option>Social Events</option>
-            <option>Competitions</option>
-          </select>
-        </div>
-        
-        <!-- Date Filter -->
-        <div>
-          <select class="w-full p-4 border-2 border-[#003366] rounded-lg text-base appearance-none bg-white" style="background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23003366%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>'); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 3rem;">
-            <option>All Dates</option>
-            <option>Today</option>
-            <option>This Week</option>
-            <option>This Month</option>
-            <option>Next Month</option>
-          </select>
-        </div>
-        
-        <!-- Location Filter -->
-        <div>
-          <select class="w-full p-4 border-2 border-[#003366] rounded-lg text-base appearance-none bg-white" style="background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23003366%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>'); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 3rem;">
-            <option>All Locations</option>
-            <option>Engineering Block</option>
-            <option>Auditorium</option>
-            <option>Science Complex</option>
-            <option>Student Center</option>
-            <option>Virtual</option>
-          </select>
-        </div>
-        
-        <!-- Filter Button -->
-        <div>
-          <button class="w-full bg-[#003366] text-white py-4 px-6 rounded-lg cursor-pointer transition-all hover:bg-[#FFD700] hover:text-[#003366] font-semibold">
-            <i class="fas fa-filter mr-2"></i> Filter Events
-          </button>
-        </div>
-      </div>
+      </form>
     </section>
 
+    <!-- Admin Controls -->
+    {% if user.is_authenticated and user.profile.can_manage_events %}
+    <div class="mb-6 flex justify-end">
+      <a href="{% url 'event_create' %}" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full transition flex items-center shadow-md">
+        <i class="fas fa-plus-circle mr-2"></i> Add New Event
+      </a>
+    </div>
+    {% endif %}
+
+    {% if future_events.first %}
     <!-- Featured Event -->
     <section class="mb-16">
       <div class="bg-gradient-to-r from-[#003366] to-[#00468a] rounded-2xl overflow-hidden shadow-xl">
         <div class="grid md:grid-cols-2 items-center">
           <div class="p-8 md:p-12 text-white">
-            <div class="inline-block bg-[#FFD700] text-[#003366] px-4 py-1 rounded-full text-sm font-bold mb-4">
+            <div class="inline-block bg-green-500 text-white px-4 py-1 rounded-full text-sm font-bold mb-4">
               FEATURED EVENT
             </div>
-            <h2 class="text-3xl font-bold mb-4">National Engineering Conference 2024</h2>
+            <h2 class="text-3xl font-bold mb-4">{{ future_events.first.title }}</h2>
             <p class="mb-6 text-gray-100">
-              Join the biggest engineering event of the year featuring keynote speakers from top tech companies, 
-              hands-on workshops, and networking opportunities with industry professionals.
+              {{ future_events.first.description|truncatewords:50 }}
             </p>
             <div class="flex flex-wrap gap-6 mb-8">
               <div class="flex items-center">
-                <i class="fas fa-calendar-alt mr-2 text-[#FFD700]"></i>
-                <span>Nov 10-12, 2024</span>
+                <i class="fas fa-calendar-alt mr-2 text-green-400"></i>
+                <span>{{ future_events.first.start_date|date:"M d, Y" }}</span>
               </div>
               <div class="flex items-center">
-                <i class="fas fa-map-marker-alt mr-2 text-[#FFD700]"></i>
-                <span>KU Convention Center</span>
+                <i class="fas fa-map-marker-alt mr-2 text-green-400"></i>
+                <span>{{ future_events.first.location|default:"Online" }}</span>
               </div>
               <div class="flex items-center">
-                <i class="fas fa-ticket-alt mr-2 text-[#FFD700]"></i>
-                <span>KSh 1,000 (Student Rate)</span>
+                <i class="fas fa-ticket-alt mr-2 text-green-400"></i>
+                <span>{{ future_events.first.price|default:"Free" }}</span>
               </div>
             </div>
-            <a href="#" class="inline-block bg-[#FFD700] hover:bg-[#ffd000] text-[#003366] px-8 py-3 rounded-lg font-bold transition-all">
-              Register Now
+            <a href="{% url 'event_detail' event_id=future_events.first.id %}" class="inline-block bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-full font-bold transition-all shadow-md">
+              Learn More
             </a>
           </div>
           <div class="h-full">
-            <img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80" 
-                 alt="Engineering Conference" class="h-full w-full object-cover">
+            {% if future_events.first.image %}
+              <img src="{{ future_events.first.image.url }}" alt="{{ future_events.first.title }}" class="h-full w-full object-cover">
+            {% else %}
+              <img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80" 
+                 alt="{{ future_events.first.title }}" class="h-full w-full object-cover">
+            {% endif %}
           </div>
         </div>
       </div>
     </section>
+    {% endif %}
 
     <!-- Upcoming Events -->
     <section id="upcoming" class="mb-16">
@@ -142,363 +162,230 @@
         <h2 class="text-2xl font-bold text-[#003366]">Upcoming Events</h2>
         <div class="flex items-center gap-2 text-[#003366]">
           <span class="font-medium">View: </span>
-          <select class="p-2 border border-[#003366] rounded-lg">
-            <option>All</option>
-            <option>This Week</option>
-            <option>This Month</option>
+          <select class="p-2 border border-[#003366] rounded-lg" onchange="window.location.href='{% url 'events' %}?timeframe=' + this.value">
+            <option value="">All</option>
+            <option value="week">This Week</option>
+            <option value="month">This Month</option>
           </select>
         </div>
       </div>
       
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <!-- Event Card 1 - Improved Design -->
+        {% for event in future_events %}
         <article class="bg-white rounded-xl overflow-hidden shadow-lg transition-all hover:-translate-y-2 hover:shadow-xl">
           <div class="relative h-[200px] overflow-hidden">
-            <!-- Added a better quality placeholder image from Unsplash -->
-            <img 
-              src="https://images.unsplash.com/photo-1581092921461-7360eb9a8885?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
-              alt="Robotics Workshop" 
-              class="w-full h-full object-cover transition-transform hover:scale-110"
-            />
+            {% if event.image %}
+              <img src="{{ event.image.url }}" alt="{{ event.title }}" class="w-full h-full object-cover transition-transform hover:scale-110">
+            {% else %}
+              <img src="https://images.unsplash.com/photo-1581092921461-7360eb9a8885?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                alt="{{ event.title }}" class="w-full h-full object-cover transition-transform hover:scale-110">
+            {% endif %}
             <!-- Date badge with improved styling -->
             <div class="absolute top-4 left-4 flex flex-col bg-[#003366] text-white py-1 px-3 rounded-lg text-center">
-              <span class="text-2xl font-bold">15</span>
-              <span class="text-xs uppercase">OCT</span>
+              <span class="text-2xl font-bold">{{ event.start_date|date:"d" }}</span>
+              <span class="text-xs uppercase">{{ event.start_date|date:"M" }}</span>
             </div>
+            {% if user.is_authenticated %}
             <!-- Added a save/bookmark button -->
-            <button class="absolute top-4 right-4 bg-white rounded-full p-2 shadow hover:bg-[#FFD700] transition-colors">
+            <button class="absolute top-4 right-4 bg-white rounded-full p-2 shadow hover:bg-green-500 transition-colors">
               <i class="far fa-bookmark text-[#003366]"></i>
             </button>
+            {% endif %}
           </div>
           
           <div class="p-6">
             <!-- Category badge with improved styling -->
             <div class="flex justify-between items-center mb-2">
-              <span class="bg-blue-100 text-[#003366] font-medium px-3 py-1 rounded-full text-sm">Workshop</span>
+              <span class="bg-blue-100 text-[#003366] font-medium px-3 py-1 rounded-full text-sm">{{ event.get_event_type_display }}</span>
+              {% if event.max_attendees %}
               <!-- Added an attendance indicator -->
               <span class="text-sm text-gray-600 flex items-center">
-                <i class="fas fa-user-friends mr-1"></i> 28/60
+                <i class="fas fa-user-friends mr-1"></i> 
+                {{ event.attendees.count|default:"0" }}/{{ event.max_attendees }}
               </span>
+              {% endif %}
             </div>
             
             <!-- Event title with better styling -->
             <h3 class="text-xl font-bold text-[#003366] mb-3 hover:text-[#00468a]">
-              <a href="#">Advanced Robotics Workshop</a>
+              <a href="{% url 'event_detail' event_id=event.id %}">{{ event.title }}</a>
             </h3>
             
             <!-- Event details with improved icons and layout -->
             <ul class="space-y-3 mb-6">
               <li class="flex items-center text-gray-600">
                 <i class="fas fa-clock w-5 text-[#003366]"></i>
-                <span class="ml-3">10:00 AM - 4:00 PM</span>
+                <span class="ml-3">{{ event.start_date|date:"g:i A" }} - {{ event.end_date|date:"g:i A" }}</span>
               </li>
               <li class="flex items-center text-gray-600">
                 <i class="fas fa-map-marker-alt w-5 text-[#003366]"></i>
-                <span class="ml-3">Engineering Block, Room 302</span>
+                <span class="ml-3">{{ event.location|default:"Online Event" }}</span>
               </li>
+              {% if event.organizer %}
               <li class="flex items-center text-gray-600">
                 <i class="fas fa-chalkboard-teacher w-5 text-[#003366]"></i>
-                <span class="ml-3">Prof. Jane Mwangi</span>
+                <span class="ml-3">{{ event.organizer.user.get_full_name|default:event.organizer.user.username }}</span>
               </li>
+              {% endif %}
             </ul>
             
             <!-- Action buttons with better styling and layout -->
             <div class="flex items-center justify-between">
-              <a href="#" class="bg-[#003366] text-white py-2 px-4 rounded-lg hover:bg-[#FFD700] hover:text-[#003366] transition-colors font-medium">
-                Register Now
-              </a>
-              <span class="text-sm font-medium text-green-600">32 seats left</span>
-            </div>
-          </div>
-        </article>
+              {% if event.id in user_registrations %}
+                <span class="bg-green-100 text-green-700 py-2 px-4 rounded-lg font-medium">
+                  <i class="fas fa-check-circle mr-2"></i> Registered
+                </span>
+              {% else %}
+                <a href="{% url 'event_register' event_id=event.id %}" class="bg-[#003366] text-white py-2 px-4 rounded-full hover:bg-green-600 hover:text-white transition-colors font-medium shadow-sm">
+                  Register Now
+                </a>
+              {% endif %}
 
-        <!-- Event Card 2 - Improved Design -->
-        <article class="bg-white rounded-xl overflow-hidden shadow-lg transition-all hover:-translate-y-2 hover:shadow-xl">
-          <div class="relative h-[200px] overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
-              alt="AI Seminar" 
-              class="w-full h-full object-cover transition-transform hover:scale-110"
-            />
-            <div class="absolute top-4 left-4 flex flex-col bg-[#003366] text-white py-1 px-3 rounded-lg text-center">
-              <span class="text-2xl font-bold">22</span>
-              <span class="text-xs uppercase">OCT</span>
-            </div>
-            <button class="absolute top-4 right-4 bg-white rounded-full p-2 shadow hover:bg-[#FFD700] transition-colors">
-              <i class="far fa-bookmark text-[#003366]"></i>
-            </button>
-          </div>
-          
-          <div class="p-6">
-            <div class="flex justify-between items-center mb-2">
-              <span class="bg-purple-100 text-purple-700 font-medium px-3 py-1 rounded-full text-sm">Seminar</span>
-              <span class="text-sm text-gray-600 flex items-center">
-                <i class="fas fa-user-friends mr-1"></i> Unlimited
-              </span>
-            </div>
-            
-            <h3 class="text-xl font-bold text-[#003366] mb-3 hover:text-[#00468a]">
-              <a href="#">AI in Modern Engineering</a>
-            </h3>
-            
-            <ul class="space-y-3 mb-6">
-              <li class="flex items-center text-gray-600">
-                <i class="fas fa-clock w-5 text-[#003366]"></i>
-                <span class="ml-3">2:00 PM - 5:00 PM</span>
-              </li>
-              <li class="flex items-center text-gray-600">
-                <i class="fas fa-video w-5 text-[#003366]"></i>
-                <span class="ml-3">Virtual Event (Zoom)</span>
-              </li>
-              <li class="flex items-center text-gray-600">
-                <i class="fas fa-chalkboard-teacher w-5 text-[#003366]"></i>
-                <span class="ml-3">Dr. Michael Otieno</span>
-              </li>
-            </ul>
-            
-            <div class="flex items-center justify-between">
-              <a href="#" class="bg-[#003366] text-white py-2 px-4 rounded-lg hover:bg-[#FFD700] hover:text-[#003366] transition-colors font-medium">
-                Join Webinar
-              </a>
-              <span class="text-sm font-medium text-green-600">Open Registration</span>
+              {% if event.max_attendees %}
+                <span class="text-sm font-medium {% if event.attendees.count >= event.max_attendees %}text-red-600{% else %}text-green-600{% endif %}">
+                  {{ event.max_attendees|add:"-"|add:event.attendees.count }} seats left
+                </span>
+              {% else %}
+                <span class="text-sm font-medium text-green-600">Open Registration</span>
+              {% endif %}
             </div>
           </div>
         </article>
-
-        <!-- Event Card 3 (New) -->
-        <article class="bg-white rounded-xl overflow-hidden shadow-lg transition-all hover:-translate-y-2 hover:shadow-xl">
-          <div class="relative h-[200px] overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1573164574001-518958d9bab2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
-              alt="Engineering Career Fair" 
-              class="w-full h-full object-cover transition-transform hover:scale-110"
-            />
-            <div class="absolute top-4 left-4 flex flex-col bg-[#003366] text-white py-1 px-3 rounded-lg text-center">
-              <span class="text-2xl font-bold">28</span>
-              <span class="text-xs uppercase">OCT</span>
-            </div>
-            <button class="absolute top-4 right-4 bg-white rounded-full p-2 shadow hover:bg-[#FFD700] transition-colors">
-              <i class="far fa-bookmark text-[#003366]"></i>
-            </button>
-          </div>
-          
-          <div class="p-6">
-            <div class="flex justify-between items-center mb-2">
-              <span class="bg-green-100 text-green-700 font-medium px-3 py-1 rounded-full text-sm">Career Fair</span>
-              <span class="text-sm text-gray-600 flex items-center">
-                <i class="fas fa-user-friends mr-1"></i> 156/200
-              </span>
-            </div>
-            
-            <h3 class="text-xl font-bold text-[#003366] mb-3 hover:text-[#00468a]">
-              <a href="#">Engineering Career Fair 2024</a>
-            </h3>
-            
-            <ul class="space-y-3 mb-6">
-              <li class="flex items-center text-gray-600">
-                <i class="fas fa-clock w-5 text-[#003366]"></i>
-                <span class="ml-3">9:00 AM - 3:00 PM</span>
-              </li>
-              <li class="flex items-center text-gray-600">
-                <i class="fas fa-map-marker-alt w-5 text-[#003366]"></i>
-                <span class="ml-3">University Convention Center</span>
-              </li>
-              <li class="flex items-center text-gray-600">
-                <i class="fas fa-briefcase w-5 text-[#003366]"></i>
-                <span class="ml-3">25+ Companies</span>
-              </li>
-            </ul>
-            
-            <div class="flex items-center justify-between">
-              <a href="#" class="bg-[#003366] text-white py-2 px-4 rounded-lg hover:bg-[#FFD700] hover:text-[#003366] transition-colors font-medium">
-                Register Now
-              </a>
-              <span class="text-sm font-medium text-orange-600">44 seats left</span>
-            </div>
-          </div>
-        </article>
+        {% empty %}
+        <div class="md:col-span-3 p-8 bg-gray-100 rounded-xl text-center">
+          <i class="fas fa-calendar-times text-5xl text-gray-400 mb-4"></i>
+          <h3 class="text-xl font-bold text-gray-600 mb-2">No upcoming events found</h3>
+          <p class="text-gray-500">Check back later or adjust your search filters.</p>
+        </div>
+        {% endfor %}
       </div>
       
-      <!-- Load More Button -->
-      <div class="text-center mt-10">
-        <button class="bg-white border-2 border-[#003366] text-[#003366] hover:bg-[#003366] hover:text-white transition-colors font-semibold py-3 px-8 rounded-lg">
-          Load More Events
-        </button>
+      <!-- Pagination -->
+      {% if future_events.paginator.num_pages > 1 %}
+      <div class="flex justify-center mt-8">
+        <nav class="inline-flex rounded-md shadow">
+          <!-- Previous page -->
+          {% if future_events.has_previous %}
+          <a href="?page={{ future_events.previous_page_number }}{% if event_type %}&type={{ event_type }}{% endif %}{% if date_filter %}&date={{ date_filter }}{% endif %}{% if location_filter %}&location={{ location_filter }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" 
+             class="px-4 py-2 bg-white text-[#003366] rounded-l-md border border-gray-300 hover:bg-gray-50">
+            <i class="fas fa-chevron-left"></i>
+          </a>
+          {% else %}
+          <span class="px-4 py-2 bg-gray-100 text-gray-400 rounded-l-md border border-gray-300 cursor-not-allowed">
+            <i class="fas fa-chevron-left"></i>
+          </span>
+          {% endif %}
+          
+          <!-- Page numbers -->
+          {% for i in future_events.paginator.page_range %}
+            {% if future_events.number == i %}
+            <span class="px-4 py-2 bg-[#003366] text-white border border-[#003366]">{{ i }}</span>
+            {% elif i > future_events.number|add:"-3" and i < future_events.number|add:"3" %}
+            <a href="?page={{ i }}{% if event_type %}&type={{ event_type }}{% endif %}{% if date_filter %}&date={{ date_filter }}{% endif %}{% if location_filter %}&location={{ location_filter }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" 
+               class="px-4 py-2 bg-white text-[#003366] border border-gray-300 hover:bg-gray-50">{{ i }}</a>
+            {% endif %}
+          {% endfor %}
+          
+          <!-- Next page -->
+          {% if future_events.has_next %}
+          <a href="?page={{ future_events.next_page_number }}{% if event_type %}&type={{ event_type }}{% endif %}{% if date_filter %}&date={{ date_filter }}{% endif %}{% if location_filter %}&location={{ location_filter }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" 
+             class="px-4 py-2 bg-white text-[#003366] rounded-r-md border border-gray-300 hover:bg-gray-50">
+            <i class="fas fa-chevron-right"></i>
+          </a>
+          {% else %}
+          <span class="px-4 py-2 bg-gray-100 text-gray-400 rounded-r-md border border-gray-300 cursor-not-allowed">
+            <i class="fas fa-chevron-right"></i>
+          </span>
+          {% endif %}
+        </nav>
       </div>
+      {% endif %}
+
+      <!-- Load More Button -->
+      {% if future_events.paginator.num_pages > 1 and future_events.has_next %}
+      <div class="text-center mt-10">
+        <a href="{% url 'events' %}?page={{ future_events.next_page_number }}{% if event_type %}&type={{ event_type }}{% endif %}{% if date_filter %}&date={{ date_filter }}{% endif %}{% if location_filter %}&location={{ location_filter }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" 
+           class="bg-white border-2 border-[#003366] text-[#003366] hover:bg-[#003366] hover:text-white transition-colors font-semibold py-3 px-8 rounded-full">
+          Load More
+        </a>
+      </div>
+      {% endif %}
     </section>
 
     <!-- Past Events -->
     <section id="past" class="mt-16 pt-8 border-t-2 border-gray-100 mb-16">
       <div class="flex justify-between items-center mb-8">
         <h2 class="text-2xl font-bold text-[#003366]">Past Events</h2>
-        <a href="#" class="text-[#003366] hover:text-[#00468a] font-medium flex items-center">
+        <a href="{% url 'events' %}?past=true" class="text-[#003366] hover:text-[#00468a] font-medium flex items-center">
           View All Past Events
           <i class="fas fa-arrow-right ml-2"></i>
         </a>
       </div>
       
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <!-- Past Event Card 1 - Improved Design -->
+        {% for event in past_events %}
         <article class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all">
           <div class="relative h-[200px] overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
-              alt="Construction Seminar" 
-              class="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all"
-            />
+            {% if event.image %}
+              <img src="{{ event.image.url }}" alt="{{ event.title }}" class="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all">
+            {% else %}
+              <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                alt="{{ event.title }}" class="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all">
+            {% endif %}
             <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-              <a href="#" class="bg-white text-[#003366] px-4 py-2 rounded-lg font-medium">
-                View Gallery
+              <a href="{% url 'event_detail' event_id=event.id %}" class="bg-white text-[#003366] px-4 py-2 rounded-lg font-medium">
+                View Details
               </a>
             </div>
             <div class="absolute top-4 left-4 flex flex-col bg-[#CC0000] text-white py-1 px-3 rounded-lg text-center">
-              <span class="text-2xl font-bold">25</span>
-              <span class="text-xs uppercase">SEP</span>
+              <span class="text-2xl font-bold">{{ event.start_date|date:"d" }}</span>
+              <span class="text-xs uppercase">{{ event.start_date|date:"M" }}</span>
             </div>
           </div>
           
           <div class="p-6">
             <div class="flex justify-between items-center mb-2">
               <span class="bg-red-100 text-red-700 font-medium px-3 py-1 rounded-full text-sm">Past Event</span>
-              <span class="text-sm text-gray-600">150 Attendees</span>
+              <span class="text-sm text-gray-600">{{ event.attendees.count|default:"0" }} Attendees</span>
             </div>
             
             <h3 class="text-xl font-bold text-[#003366] mb-3">
-              Modern Construction Techniques
+              {{ event.title }}
             </h3>
             
             <ul class="space-y-2 mb-6">
               <li class="flex items-center text-gray-600">
                 <i class="fas fa-calendar-check w-5 text-[#003366]"></i>
-                <span class="ml-3">September 25, 2024</span>
+                <span class="ml-3">{{ event.start_date|date:"F d, Y" }}</span>
               </li>
               <li class="flex items-center text-gray-600">
                 <i class="fas fa-map-marker-alt w-5 text-[#003366]"></i>
-                <span class="ml-3">Auditorium</span>
+                <span class="ml-3">{{ event.location|default:"Online Event" }}</span>
               </li>
             </ul>
             
             <div class="flex items-center justify-between">
               <div class="flex gap-2">
-                <a href="#" class="text-[#003366] hover:text-[#00468a] font-medium">
+                <a href="{% url 'event_detail' event_id=event.id %}" class="text-[#003366] hover:text-[#00468a] font-medium">
                   <i class="fas fa-images mr-1"></i> Photos
                 </a>
-                <a href="#" class="text-[#003366] hover:text-[#00468a] font-medium ml-4">
+                {% if event.materials_url %}
+                <a href="{{ event.materials_url }}" class="text-[#003366] hover:text-[#00468a] font-medium ml-4" target="_blank">
                   <i class="fas fa-file-pdf mr-1"></i> Materials
                 </a>
+                {% endif %}
               </div>
               <span class="text-gray-500 text-sm">Completed</span>
             </div>
           </div>
         </article>
-
-        <!-- Past Event Card 2 (New) -->
-        <article class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all">
-          <div class="relative h-[200px] overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1503428593586-e225b39bddfe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
-              alt="Software Development Hackathon" 
-              class="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all"
-            />
-            <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-              <a href="#" class="bg-white text-[#003366] px-4 py-2 rounded-lg font-medium">
-                View Gallery
-              </a>
-            </div>
-            <div class="absolute top-4 left-4 flex flex-col bg-[#CC0000] text-white py-1 px-3 rounded-lg text-center">
-              <span class="text-2xl font-bold">15</span>
-              <span class="text-xs uppercase">SEP</span>
-            </div>
-          </div>
-          
-          <div class="p-6">
-            <div class="flex justify-between items-center mb-2">
-              <span class="bg-red-100 text-red-700 font-medium px-3 py-1 rounded-full text-sm">Past Event</span>
-              <span class="text-sm text-gray-600">72 Attendees</span>
-            </div>
-            
-            <h3 class="text-xl font-bold text-[#003366] mb-3">
-              Software Development Hackathon
-            </h3>
-            
-            <ul class="space-y-2 mb-6">
-              <li class="flex items-center text-gray-600">
-                <i class="fas fa-calendar-check w-5 text-[#003366]"></i>
-                <span class="ml-3">September 15-16, 2024</span>
-              </li>
-              <li class="flex items-center text-gray-600">
-                <i class="fas fa-map-marker-alt w-5 text-[#003366]"></i>
-                <span class="ml-3">Innovation Hub</span>
-              </li>
-            </ul>
-            
-            <div class="flex items-center justify-between">
-              <div class="flex gap-2">
-                <a href="#" class="text-[#003366] hover:text-[#00468a] font-medium">
-                  <i class="fas fa-images mr-1"></i> Photos
-                </a>
-                <a href="#" class="text-[#003366] hover:text-[#00468a] font-medium ml-4">
-                  <i class="fas fa-trophy mr-1"></i> Winners
-                </a>
-              </div>
-              <span class="text-gray-500 text-sm">Completed</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- Past Event Card 3 (New) -->
-        <article class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all">
-          <div class="relative h-[200px] overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
-              alt="Industry Open Day" 
-              class="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all"
-            />
-            <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-              <a href="#" class="bg-white text-[#003366] px-4 py-2 rounded-lg font-medium">
-                View Gallery
-              </a>
-            </div>
-            <div class="absolute top-4 left-4 flex flex-col bg-[#CC0000] text-white py-1 px-3 rounded-lg text-center">
-              <span class="text-2xl font-bold">05</span>
-              <span class="text-xs uppercase">SEP</span>
-            </div>
-          </div>
-          
-          <div class="p-6">
-            <div class="flex justify-between items-center mb-2">
-              <span class="bg-red-100 text-red-700 font-medium px-3 py-1 rounded-full text-sm">Past Event</span>
-              <span class="text-sm text-gray-600">210 Attendees</span>
-            </div>
-            
-            <h3 class="text-xl font-bold text-[#003366] mb-3">
-              Industry Open Day 2024
-            </h3>
-            
-            <ul class="space-y-2 mb-6">
-              <li class="flex items-center text-gray-600">
-                <i class="fas fa-calendar-check w-5 text-[#003366]"></i>
-                <span class="ml-3">September 5, 2024</span>
-              </li>
-              <li class="flex items-center text-gray-600">
-                <i class="fas fa-map-marker-alt w-5 text-[#003366]"></i>
-                <span class="ml-3">University Grounds</span>
-              </li>
-            </ul>
-            
-            <div class="flex items-center justify-between">
-              <div class="flex gap-2">
-                <a href="#" class="text-[#003366] hover:text-[#00468a] font-medium">
-                  <i class="fas fa-images mr-1"></i> Photos
-                </a>
-                <a href="#" class="text-[#003366] hover:text-[#00468a] font-medium ml-4">
-                  <i class="fas fa-file-pdf mr-1"></i> Report
-                </a>
-              </div>
-              <span class="text-gray-500 text-sm">Completed</span>
-            </div>
-          </div>
-        </article>
+        {% empty %}
+        <div class="md:col-span-3 p-8 bg-gray-100 rounded-xl text-center">
+          <i class="fas fa-history text-5xl text-gray-400 mb-4"></i>
+          <h3 class="text-xl font-bold text-gray-600 mb-2">No past events found</h3>
+          <p class="text-gray-500">Our previous events will appear here.</p>
+        </div>
+        {% endfor %}
       </div>
     </section>
 
@@ -513,7 +400,7 @@
         <table class="min-w-full bg-white rounded-xl shadow-md">
           <thead>
             <tr class="bg-[#003366] text-white">
-              <th class="px-6 py-4 text-left">October 2024</th>
+              <th class="px-6 py-4 text-left">{{ future_events.first.start_date|date:"F Y"|default:"Upcoming Events" }}</th>
               <th class="px-6 py-4 text-center">Monday</th>
               <th class="px-6 py-4 text-center">Tuesday</th>
               <th class="px-6 py-4 text-center">Wednesday</th>
@@ -523,7 +410,7 @@
             </tr>
           </thead>
           <tbody>
-            <!-- Week 1 -->
+            <!-- Calendar data will be populated dynamically in future implementation -->
             <tr class="border-b border-gray-200">
               <td class="px-6 py-4 font-medium">Week 1</td>
               <td class="px-6 py-4 text-center">-</td>
@@ -568,7 +455,7 @@
               <td class="px-6 py-4 text-center">24</td>
               <td class="px-6 py-4 text-center">25</td>
               <td class="px-6 py-4 text-center">26-27
-                <div class="text-xs bg-yellow-100 text-yellow-800 p-1 rounded mt-1">Field Trip</div>
+                <div class="text-xs bg-green-100 text-green-800 p-1 rounded mt-1">Field Trip</div>
               </td>
             </tr>
           </tbody>
@@ -585,32 +472,53 @@
           Have an idea for an event? Let us know! We're always looking for suggestions 
           from our community members.
         </p>
-        <form class="space-y-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Event Title</label>
-            <input type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003366]">
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Event Type</label>
-            <select class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003366]">
-              <option>Workshop</option>
-              <option>Seminar</option>
-              <option>Conference</option>
-              <option>Social Event</option>
-              <option>Competition</option>
-              <option>Other</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-            <textarea rows="3" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003366]"></textarea>
-          </div>
-          <div>
-            <button type="submit" class="bg-[#003366] text-white py-3 px-6 rounded-lg hover:bg-[#FFD700] hover:text-[#003366] transition-colors font-medium">
-              Submit Suggestion
-            </button>
-          </div>
-        </form>
+        
+        <!-- Event Suggestion Form Instead of Link -->
+        <div id="eventSuggestionFormContainer">
+          <form method="post" action="{% url 'event_suggestion' %}" id="eventSuggestionForm" class="space-y-4">
+            {% csrf_token %}
+            
+            <div>
+              <label for="eventType" class="block text-gray-700 font-medium mb-2">Event Type*</label>
+              <select name="type" id="eventType" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003366]">
+                <option value="">Select event type</option>
+                <option value="workshop">Workshop</option>
+                <option value="seminar">Seminar</option>
+                <option value="conference">Conference</option>
+                <option value="project">Student Project</option>
+                <option value="social">Social Event</option>
+                <option value="competition">Competition</option>
+              </select>
+            </div>
+            
+            <div>
+              <label for="eventLocation" class="block text-gray-700 font-medium mb-2">Proposed Location (if any)</label>
+              <input type="text" name="location" id="eventLocation" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003366]" placeholder="Enter proposed location">
+            </div>
+            
+            <div>
+              <label for="eventDescription" class="block text-gray-700 font-medium mb-2">Event Description*</label>
+              <textarea name="description" id="eventDescription" rows="3" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003366]" placeholder="Please describe your event idea"></textarea>
+            </div>
+            
+            <div>
+              <label for="eventTitle" class="block text-gray-700 font-medium mb-2">Event Title*</label>
+              <input type="text" name="title" id="eventTitle" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003366]" placeholder="Enter a title for your event">
+            </div>
+            
+            <div>
+              <label for="eventEmail" class="block text-gray-700 font-medium mb-2">Contact Email (Optional)</label>
+              <input type="email" name="email" id="eventEmail" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003366]" placeholder="your.email@example.com">
+              <p class="text-gray-500 text-sm mt-1">If you'd like to be contacted about this suggestion</p>
+            </div>
+            
+            <div>
+              <button type="submit" class="bg-green-600 text-white py-3 px-6 rounded-full hover:bg-green-700 transition-colors font-medium shadow-md w-full">
+                Submit Suggestion
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
       
       <!-- Event Updates & Newsletter -->
@@ -624,35 +532,35 @@
         <div class="bg-white bg-opacity-10 p-6 rounded-lg mb-8">
           <ul class="space-y-4">
             <li class="flex items-start">
-              <i class="fas fa-check-circle text-[#FFD700] mt-1 mr-3"></i>
+              <i class="fas fa-check-circle text-green-400 mt-1 mr-3"></i>
               <span>Weekly event schedules and updates</span>
             </li>
             <li class="flex items-start">
-              <i class="fas fa-check-circle text-[#FFD700] mt-1 mr-3"></i>
+              <i class="fas fa-check-circle text-green-400 mt-1 mr-3"></i>
               <span>Early registration for limited-seat events</span>
             </li>
             <li class="flex items-start">
-              <i class="fas fa-check-circle text-[#FFD700] mt-1 mr-3"></i>
+              <i class="fas fa-check-circle text-green-400 mt-1 mr-3"></i>
               <span>Exclusive invitations to special events</span>
             </li>
             <li class="flex items-start">
-              <i class="fas fa-check-circle text-[#FFD700] mt-1 mr-3"></i>
+              <i class="fas fa-check-circle text-green-400 mt-1 mr-3"></i>
               <span>Event materials and recordings</span>
             </li>
           </ul>
         </div>
         
-        <form class="space-y-4">
+        <form class="space-y-4" id="newsletterForm">
           <div>
             <label class="block text-sm font-medium mb-1">Email Address</label>
-            <input type="email" placeholder="your.email@example.com" class="w-full p-3 bg-white bg-opacity-10 border border-white border-opacity-20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-[#FFD700]">
+            <input type="email" name="email" placeholder="your.email@example.com" class="w-full p-3 bg-white bg-opacity-10 border border-white border-opacity-20 rounded-full text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-400">
           </div>
           <div class="flex items-start mb-4">
-            <input type="checkbox" id="consent" class="mt-1 mr-3">
+            <input type="checkbox" id="consent" name="consent" class="mt-1 mr-3">
             <label for="consent" class="text-sm">I agree to receive email updates about ESA-KU events and opportunities.</label>
           </div>
           <div>
-            <button type="submit" class="bg-[#FFD700] text-[#003366] py-3 px-6 rounded-lg hover:bg-white transition-colors font-bold w-full">
+            <button type="submit" class="bg-green-500 text-white py-3 px-6 rounded-full hover:bg-green-600 transition-colors font-bold w-full shadow-md">
               Subscribe to Updates
             </button>
           </div>
@@ -661,27 +569,184 @@
     </section>
 </div>
 
-<!-- Event-Specific JavaScript -->
+<!-- JavaScript to handle smooth scrolling for hash links -->
 <script>
-  // Toggle between grid and calendar views
-  document.addEventListener('DOMContentLoaded', function() {
-    const gridViewBtn = document.getElementById('grid-view');
-    const calendarViewBtn = document.getElementById('calendar-view');
-    
-    if (gridViewBtn && calendarViewBtn) {
-      gridViewBtn.addEventListener('click', function() {
-        gridViewBtn.classList.add('active');
-        calendarViewBtn.classList.remove('active');
-        // Add functionality to show grid view
-      });
+document.addEventListener("DOMContentLoaded", function() {
+  // Get all links with hash
+  const hashLinks = document.querySelectorAll('a[href^="#"]');
+  
+  // Add click event listener to each hash link
+  hashLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      // Only process if the link has a hash that points to an element
+      const targetId = this.getAttribute('href');
+      if (targetId === '#') return; // Skip if it's just a placeholder #
       
-      calendarViewBtn.addEventListener('click', function() {
-        calendarViewBtn.classList.add('active');
-        gridViewBtn.classList.remove('active');
-        // Add functionality to show calendar view
-      });
-    }
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        e.preventDefault();
+        
+        // Scroll smoothly to the target element with offset for header
+        window.scrollTo({
+          top: targetElement.offsetTop - 100, // Offset for fixed headers
+          behavior: 'smooth'
+        });
+        
+        // Update URL without page reload
+        history.pushState(null, null, targetId);
+      }
+    });
   });
+  
+  // Check if URL has hash on page load and scroll to it
+  if (window.location.hash) {
+    const targetElement = document.querySelector(window.location.hash);
+    if (targetElement) {
+      setTimeout(function() {
+        window.scrollTo({
+          top: targetElement.offsetTop - 100,
+          behavior: 'smooth'
+        });
+      }, 300);
+    }
+  }
+  
+  // Handle bookmark button functionality
+  const bookmarkButtons = document.querySelectorAll('.bookmark-event');
+  bookmarkButtons.forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const eventId = this.getAttribute('data-event-id');
+      
+      // Toggle bookmark icon
+      const icon = this.querySelector('i');
+      if (icon.classList.contains('far')) {
+        icon.classList.remove('far');
+        icon.classList.add('fas');
+        icon.parentElement.classList.add('bg-green-500');
+        icon.classList.add('text-white');
+      } else {
+        icon.classList.remove('fas');
+        icon.classList.add('far');
+        icon.parentElement.classList.remove('bg-green-500');
+        icon.classList.remove('text-white');
+      }
+      
+      // You can add AJAX call here to save bookmark state
+      console.log('Toggled bookmark for event ID:', eventId);
+    });
+  });
+  
+  // Handle view toggle buttons (grid/calendar)
+  const gridViewBtn = document.getElementById('grid-view');
+  const calendarViewBtn = document.getElementById('calendar-view');
+  const eventsGrid = document.querySelector('.events-grid-view');
+  const calendarView = document.querySelector('.events-calendar-view');
+  
+  if (gridViewBtn && calendarViewBtn) {
+    gridViewBtn.addEventListener('click', function() {
+      gridViewBtn.classList.add('active');
+      calendarViewBtn.classList.remove('active');
+      if (eventsGrid && calendarView) {
+        eventsGrid.classList.remove('hidden');
+        calendarView.classList.add('hidden');
+      }
+    });
+    
+    calendarViewBtn.addEventListener('click', function() {
+      calendarViewBtn.classList.add('active');
+      gridViewBtn.classList.remove('active');
+      if (eventsGrid && calendarView) {
+        calendarView.classList.remove('hidden');
+        eventsGrid.classList.add('hidden');
+      }
+    });
+  }
+});
 </script>
+</body>
 
+<script>
+// Smooth scrolling for navigation hash links
+document.addEventListener('DOMContentLoaded', function() {
+  // Get all links with hash (#) references
+  const hashLinks = document.querySelectorAll('a[href^="#"]');
+  
+  hashLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      // Only process links that point to actual elements
+      const targetId = this.getAttribute('href');
+      if (targetId === '#') return; // Skip generic # links
+
+      const targetElement = document.querySelector(targetId);
+      
+      if (targetElement) {
+        e.preventDefault();
+        window.scrollTo({
+          top: targetElement.offsetTop - 100, // Offset to account for fixed header
+          behavior: 'smooth'
+        });
+        
+        // Update URL without reloading the page
+        history.pushState(null, null, targetId);
+      }
+    });
+  });
+
+  // Handle bookmark button clicks
+  const bookmarkButtons = document.querySelectorAll('button:has(.fa-bookmark)');
+  bookmarkButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const icon = this.querySelector('i');
+      if (icon.classList.contains('far')) {
+        // Change from regular to solid icon to show it's bookmarked
+        icon.classList.remove('far');
+        icon.classList.add('fas');
+        this.classList.add('bg-green-500');
+        this.querySelector('i').classList.add('text-white');
+        this.querySelector('i').classList.remove('text-[#003366]');
+        // Here you would add AJAX code to save the bookmark
+      } else {
+        // Change back to regular icon
+        icon.classList.remove('fas');
+        icon.classList.add('far');
+        this.classList.remove('bg-green-500');
+        this.querySelector('i').classList.add('text-[#003366]');
+        this.querySelector('i').classList.remove('text-white');
+        // Here you would add AJAX code to remove the bookmark
+      }
+    });
+  });
+
+  // Fix for View Full Calendar link
+  const calendarViewLink = document.querySelector('a[href="#"]:contains("View Full Calendar")');
+  if (calendarViewLink) {
+    calendarViewLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      // Show calendar view
+      document.getElementById('grid-view').classList.remove('active');
+      document.getElementById('calendar-view').classList.add('active');
+      // Additional code to switch to calendar view would go here
+    });
+  }
+
+  // Toggle between grid and calendar view
+  const gridViewBtn = document.getElementById('grid-view');
+  const calendarViewBtn = document.getElementById('calendar-view');
+  
+  if (gridViewBtn && calendarViewBtn) {
+    gridViewBtn.addEventListener('click', function() {
+      this.classList.add('active');
+      calendarViewBtn.classList.remove('active');
+      // Additional code to switch to grid view would go here
+    });
+    
+    calendarViewBtn.addEventListener('click', function() {
+      this.classList.add('active');
+      gridViewBtn.classList.remove('active');
+      // Additional code to switch to calendar view would go here
+    });
+  }
+});
+</script>
 {% endblock %}

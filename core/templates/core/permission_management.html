@@ -1,0 +1,232 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}User Permissions Management{% endblock %}
+
+{% block content %}
+<section class="relative bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
+  <div class="bg-black bg-opacity-60">
+    <div class="container mx-auto px-4 py-24 text-center text-white">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">User Permissions Management</h1>
+      <p class="max-w-2xl mx-auto mb-6 text-lg">
+        Manage user roles and permissions for the ESA-KU platform
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="container mx-auto px-4 py-8">
+  {% if messages %}
+    <div class="mb-8">
+      {% for message in messages %}
+        <div class="p-4 {% if message.tags == 'success' %}bg-green-100 text-green-700 border-green-400{% elif message.tags == 'error' %}bg-red-100 text-red-700 border-red-400{% else %}bg-blue-100 text-blue-700 border-blue-400{% endif %} rounded border-l-4">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <div class="mb-8">
+    <h2 class="text-2xl font-bold mb-4">Available Roles</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {% for role in roles %}
+        <div class="border p-4 rounded-lg shadow">
+          <h3 class="text-xl font-bold mb-2">{{ role.name }}</h3>
+          <p class="text-gray-600 mb-4">{{ role.description }}</p>
+          <div class="space-y-2">
+            <div class="flex items-center">
+              <span class="{% if role.can_post_events %}text-green-500{% else %}text-red-500{% endif %} mr-2">
+                {% if role.can_post_events %}✓{% else %}✗{% endif %}
+              </span>
+              <span>Can post events</span>
+            </div>
+            <div class="flex items-center">
+              <span class="{% if role.can_post_store_items %}text-green-500{% else %}text-red-500{% endif %} mr-2">
+                {% if role.can_post_store_items %}✓{% else %}✗{% endif %}
+              </span>
+              <span>Can add store items</span>
+            </div>
+            <div class="flex items-center">
+              <span class="{% if role.can_post_resources %}text-green-500{% else %}text-red-500{% endif %} mr-2">
+                {% if role.can_post_resources %}✓{% else %}✗{% endif %}
+              </span>
+              <span>Can upload resources</span>
+            </div>
+            {% if role.is_admin %}
+              <div class="flex items-center text-indigo-600 font-semibold">
+                <span class="mr-2">✓</span>
+                <span>Admin privileges</span>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% empty %}
+        <p>No roles defined yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="mb-8">
+    <h2 class="text-2xl font-bold mb-4">Manage User Permissions</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white border rounded-lg shadow-sm">
+        <thead>
+          <tr class="bg-gray-100 text-gray-700 uppercase text-sm">
+            <th class="py-3 px-4 text-left">User</th>
+            <th class="py-3 px-4 text-left">Email</th>
+            <th class="py-3 px-4 text-left">Current Role</th>
+            <th class="py-3 px-4 text-left">Permissions</th>
+            <th class="py-3 px-4 text-left">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for profile in profiles %}
+            <tr class="border-b hover:bg-gray-50">
+              <td class="py-3 px-4">{{ profile.user.username }}</td>
+              <td class="py-3 px-4">{{ profile.user.email }}</td>
+              <td class="py-3 px-4">
+                {% if profile.role %}
+                  <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm font-medium">
+                    {{ profile.role.name }}
+                  </span>
+                {% else %}
+                  <span class="text-gray-500">No role assigned</span>
+                {% endif %}
+              </td>
+              <td class="py-3 px-4">
+                {% if profile.role and profile.role.is_admin %}
+                  <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm font-medium">Admin (All)</span>
+                {% else %}
+                  <div class="space-y-1">
+                    {% if profile.can_manage_events %}
+                      <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Events</span>
+                    {% endif %}
+                    {% if profile.can_manage_store %}
+                      <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Store</span>
+                    {% endif %}
+                    {% if profile.can_manage_resources %}
+                      <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Resources</span>
+                    {% endif %}
+                    {% if not profile.can_manage_events and not profile.can_manage_store and not profile.can_manage_resources %}
+                      <span class="text-gray-500">No special permissions</span>
+                    {% endif %}
+                  </div>
+                {% endif %}
+              </td>
+              <td class="py-3 px-4">
+                <button 
+                  class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm"
+                  onclick="openEditModal('{{ profile.user.id }}', '{{ profile.user.username }}', '{% if profile.role %}{{ profile.role.id }}{% endif %}', {{ profile.custom_permissions|lower }}, {{ profile.can_post_events|lower }}, {{ profile.can_post_store_items|lower }}, {{ profile.can_post_resources|lower }})"
+                >
+                  Edit
+                </button>
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="5" class="py-4 px-4 text-center text-gray-500">No users found.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="editModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden z-50">
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 mx-4">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-xl font-bold" id="modalTitle">Edit User Permissions</h3>
+      <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    
+    <form id="permissionForm" method="POST" action="{% url 'permission_management' %}">
+      {% csrf_token %}
+      <input type="hidden" id="user_id" name="user_id">
+      
+      <div class="mb-4">
+        <label for="role_id" class="block text-gray-700 font-medium mb-2">Role</label>
+        <select id="role_id" name="role_id" class="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+          <option value="">No Role</option>
+          {% for role in roles %}
+            <option value="{{ role.id }}">{{ role.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      
+      <div class="mb-4">
+        <div class="flex items-center mb-2">
+          <input type="checkbox" id="custom_permissions" name="custom_permissions" class="rounded text-blue-600 focus:ring-blue-500 mr-2" onchange="toggleCustomPermissions()">
+          <label for="custom_permissions" class="text-gray-700 font-medium">Use custom permissions</label>
+        </div>
+        <p class="text-sm text-gray-500">When enabled, individual permissions override role-based permissions</p>
+      </div>
+      
+      <div id="customPermissionsSection" class="mb-4 border p-4 rounded-lg bg-gray-50 hidden">
+        <h4 class="font-medium mb-3">Individual Permissions</h4>
+        
+        <div class="space-y-3">
+          <div class="flex items-center">
+            <input type="checkbox" id="can_post_events" name="can_post_events" class="rounded text-blue-600 focus:ring-blue-500 mr-2">
+            <label for="can_post_events" class="text-gray-700">Can post events</label>
+          </div>
+          
+          <div class="flex items-center">
+            <input type="checkbox" id="can_post_store_items" name="can_post_store_items" class="rounded text-blue-600 focus:ring-blue-500 mr-2">
+            <label for="can_post_store_items" class="text-gray-700">Can add store items</label>
+          </div>
+          
+          <div class="flex items-center">
+            <input type="checkbox" id="can_post_resources" name="can_post_resources" class="rounded text-blue-600 focus:ring-blue-500 mr-2">
+            <label for="can_post_resources" class="text-gray-700">Can upload resources</label>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flex justify-end">
+        <button type="button" onclick="closeModal()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium py-2 px-4 rounded mr-2">
+          Cancel
+        </button>
+        <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded">
+          Save Changes
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  function openEditModal(userId, username, roleId, customPermissions, canPostEvents, canPostStoreItems, canPostResources) {
+    document.getElementById('modalTitle').textContent = `Edit Permissions: ${username}`;
+    document.getElementById('user_id').value = userId;
+    document.getElementById('role_id').value = roleId || '';
+    document.getElementById('custom_permissions').checked = customPermissions;
+    document.getElementById('can_post_events').checked = canPostEvents;
+    document.getElementById('can_post_store_items').checked = canPostStoreItems;
+    document.getElementById('can_post_resources').checked = canPostResources;
+    
+    toggleCustomPermissions();
+    document.getElementById('editModal').classList.remove('hidden');
+  }
+  
+  function closeModal() {
+    document.getElementById('editModal').classList.add('hidden');
+  }
+  
+  function toggleCustomPermissions() {
+    const customPermissionsSection = document.getElementById('customPermissionsSection');
+    const customPermissionsCheckbox = document.getElementById('custom_permissions');
+    
+    if (customPermissionsCheckbox.checked) {
+      customPermissionsSection.classList.remove('hidden');
+    } else {
+      customPermissionsSection.classList.add('hidden');
+    }
+  }
+</script>
+{% endblock %} 

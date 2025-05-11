@@ -163,6 +163,7 @@
                 {% endif %}
                 
                 <!-- Admin Actions -->
+                {% if user.is_authenticated and user.profile.can_manage_events %}
                 <div class="ml-auto">
                     <a href="{% url 'event_edit' event_id=event.id %}" 
                        class="bg-gray-100 text-gray-800 hover:bg-gray-200 px-4 py-3 rounded-lg transition-colors">
@@ -173,6 +174,7 @@
                         <i class="fas fa-trash-alt mr-2"></i> Delete
                     </a>
                 </div>
+                {% endif %}
             </div>
             
             <!-- Event Details -->
@@ -351,12 +353,12 @@
             <h2 class="text-2xl font-bold text-[#003366] mb-6">Register for this Event</h2>
             
             <form method="POST" class="max-w-lg">
-                {% csrf_token %}
-                {{ form.as_p }}
+        {% csrf_token %}
+        {{ form.as_p }}
                 <button type="submit" class="mt-4 bg-[#003366] text-white hover:bg-[#00468a] px-6 py-3 rounded-lg transition-colors font-medium">
                     <i class="fas fa-user-plus mr-2"></i> Complete Registration
                 </button>
-            </form>
+    </form>
         </div>
     </section>
     {% endif %}
@@ -399,4 +401,4 @@
         window.location.href = `mailto:?subject=${subject}&body=${body}`;
     }
 </script>
-{% endblock %} 
+{% endblock %}
