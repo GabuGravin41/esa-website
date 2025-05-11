@@ -1,0 +1,112 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Header Section -->
+<section class="bg-blue-900 py-12">
+  <div class="max-w-4xl mx-auto px-4 text-center">
+    <h1 class="text-3xl font-bold text-white mb-2">Edit External Site</h1>
+    <p class="text-blue-200">Update site details for {{ site.name }}</p>
+  </div>
+</section>
+
+<div class="max-w-4xl mx-auto py-10 px-4 sm:px-6">
+  <div class="bg-white rounded-lg shadow-lg p-8">
+    <!-- Form -->
+    <form method="post" action="{% url 'edit_site' site.id %}" class="space-y-6">
+      {% csrf_token %}
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Site Name <span class="text-red-600">*</span></label>
+          <input type="text" id="name" name="name" required value="{{ site.name }}"
+                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+        </div>
+        
+        <div>
+          <label for="site_type" class="block text-sm font-medium text-gray-700 mb-1">Site Type <span class="text-red-600">*</span></label>
+          <select id="site_type" name="site_type" required
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            <option value="university" {% if site.site_type == 'university' %}selected{% endif %}>University Club</option>
+            <option value="community" {% if site.site_type == 'community' %}selected{% endif %}>Community Resource</option>
+            <option value="partner" {% if site.site_type == 'partner' %}selected{% endif %}>Partner Organization</option>
+          </select>
+        </div>
+      </div>
+      
+      <div>
+        <label for="url" class="block text-sm font-medium text-gray-700 mb-1">Website URL <span class="text-red-600">*</span></label>
+        <input type="url" id="url" name="url" required value="{{ site.url }}"
+               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+      </div>
+      
+      <div>
+        <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description <span class="text-red-600">*</span></label>
+        <textarea id="description" name="description" rows="4" required
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">{{ site.description }}</textarea>
+      </div>
+      
+      <div>
+        <label for="icon" class="block text-sm font-medium text-gray-700 mb-1">Icon (Optional)</label>
+        <div class="flex items-center space-x-2">
+          <input type="text" id="icon" name="icon" placeholder="fas fa-link" value="{{ site.icon }}"
+                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+          <div class="bg-gray-100 p-2 rounded">
+            <i id="icon-preview" class="{{ site.icon|default:'fas fa-link' }} text-lg"></i>
+          </div>
+        </div>
+        <p class="text-xs text-gray-500 mt-1">FontAwesome icon class (e.g., fas fa-university)</p>
+      </div>
+      
+      <div class="pt-6 border-t border-gray-200 flex justify-between">
+        <a href="{% url 'manage_sites' %}" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition">
+          Cancel
+        </a>
+        <button type="submit" class="px-6 py-3 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition flex items-center">
+          <i class="fas fa-save mr-2"></i> Save Changes
+        </button>
+      </div>
+    </form>
+  </div>
+  
+  <!-- Additional Info -->
+  <div class="mt-8 bg-gray-50 border border-gray-200 rounded-lg p-6">
+    <h3 class="text-lg font-medium text-gray-800 mb-2">Site Information</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+      <div>
+        <p><span class="font-medium">Added by:</span> {{ site.added_by.get_full_name|default:site.added_by.username }}</p>
+        <p><span class="font-medium">Date added:</span> {{ site.created_at|date:"F j, Y" }}</p>
+      </div>
+      <div>
+        <p><span class="font-medium">Approval status:</span> 
+          {% if site.is_approved %}
+          <span class="text-green-600">Approved</span>
+          {% elif site.is_rejected %}
+          <span class="text-red-600">Rejected</span>
+          {% else %}
+          <span class="text-orange-600">Pending</span>
+          {% endif %}
+        </p>
+        <p><span class="font-medium">Last updated:</span> {{ site.updated_at|date:"F j, Y" }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Simple JavaScript for icon preview -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const iconInput = document.getElementById('icon');
+    const iconPreview = document.getElementById('icon-preview');
+    
+    iconInput.addEventListener('input', function() {
+      const iconClass = this.value.trim();
+      if (iconClass) {
+        iconPreview.className = iconClass + ' text-lg';
+      } else {
+        iconPreview.className = 'fas fa-link text-lg';
+      }
+    });
+  });
+</script>
+{% endblock %}

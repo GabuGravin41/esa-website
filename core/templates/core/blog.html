@@ -40,6 +40,7 @@
            data-filter="{{ cat }}">{{ cat|title }}</a>
       {% endfor %}
     </div>
+    
     <!-- Second Filter Group - Sorting -->
     <div class="flex flex-wrap gap-4">
       <a href="{% url 'blog' %}?sort=latest{% if category %}&category={{ category }}{% endif %}{% if search %}&search={{ search }}{% endif %}" class="filter-tab cursor-pointer px-4 py-2 {% if sort == 'latest' or not sort %}bg-blue-900 text-white{% else %}bg-gray-100{% endif %} rounded-full border-2 border-transparent font-medium transition hover:border-blue-900"
@@ -144,12 +145,58 @@
         {% for cat in categories %}
           <li>
             <a href="{% url 'blog' %}?category={{ cat }}" class="hover:underline flex justify-between">
-              <span><i class="fas {% if cat == 'research' %}fa-flask{% elif cat == 'journal' %}fa-book{% elif cat == 'projects' %}fa-project-diagram{% else %}fa-file-alt{% endif %}"></i> {{ cat|title }}</span>
+              <span><i class="fas {% if cat == 'research' %}fa-flask{% elif cat == 'journal' %}fa-book{% elif cat == 'projects' %}fa-project-diagram{% elif cat == 'thesis' %}fa-graduation-cap{% else %}fa-file-alt{% endif %}"></i> {{ cat|title }}</span>
               <span class="bg-gray-200 px-2 rounded-full">{{ category_counts|get_item:cat }}</span>
             </a>
           </li>
         {% endfor %}
       </ul>
+    </div>
+    
+    <!-- ESA Journal Submission Guidelines Section -->
+    <div class="sidebar-section">
+      <h3 class="text-lg font-bold border-b-2 border-red-600 pb-2 text-gray-700">Submission Guidelines</h3>
+      <div class="prose prose-sm max-w-none mt-3">
+        <p>
+          ESA welcomes submissions from engineering students and faculty. Your research papers, technical articles, 
+          and project reports can be published after review.
+        </p>
+        <h4 class="font-medium mt-2">Requirements:</h4>
+        <ul class="list-disc pl-5 space-y-1">
+          <li>Original research or technical content</li>
+          <li>Proper citations and references</li>
+          <li>Appropriate formatting (IEEE or APA style)</li>
+          <li>Abstract, introduction, methodology, results, and conclusion sections</li>
+        </ul>
+        <p class="mt-3">
+          <a href="{% url 'blog_post_create' %}" class="text-blue-900 hover:text-blue-700 font-medium">
+            Submit Your Paper →
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Journal Archives Section -->
+    <div class="sidebar-section">
+      <h3 class="text-lg font-bold border-b-2 border-red-600 pb-2 text-gray-700">Journal Archives</h3>
+      <div class="space-y-2 mt-3">
+        <a href="{% url 'blog' %}?year=2023" class="flex justify-between items-center px-3 py-2 hover:bg-gray-50 rounded">
+          <span class="font-medium">2023 Edition</span>
+          <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Latest</span>
+        </a>
+        <a href="{% url 'blog' %}?year=2022" class="flex justify-between items-center px-3 py-2 hover:bg-gray-50 rounded">
+          <span class="font-medium">2022 Edition</span>
+          <span class="text-xs text-gray-500">12 papers</span>
+        </a>
+        <a href="{% url 'blog' %}?year=2021" class="flex justify-between items-center px-3 py-2 hover:bg-gray-50 rounded">
+          <span class="font-medium">2021 Edition</span>
+          <span class="text-xs text-gray-500">10 papers</span>
+        </a>
+        <a href="{% url 'blog' %}?year=2020" class="flex justify-between items-center px-3 py-2 hover:bg-gray-50 rounded">
+          <span class="font-medium">2020 Edition</span>
+          <span class="text-xs text-gray-500">8 papers</span>
+        </a>
+      </div>
     </div>
 
     <div class="sidebar-section">

@@ -9,7 +9,7 @@
     <!-- 
     How to load background image from static directory instead:
     1. Replace the URL above with: 
-    style="background-image: url(...
+    style="background-image: url({% static 'images/hero-background.jpg' %});"
     
     2. Make sure you have t the top of your template
     3. Place your image in the puddle/static/images/ directory
@@ -25,8 +25,8 @@
             
             <!-- Main Heading with Glow Effect -->
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">
-                Kenyatta University<br><span class="text-teal-600">Engineering Students Association</span>
-            </h1>
+                Kenyatta University<br><span class="text-green-700">Engineering Students Association</span>
+    </h1>
             
             <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto text-gray-100">
                 Empowering Future Engineers Through Innovation, Collaboration, and Excellence
@@ -34,11 +34,11 @@
             
             <!-- Animated Buttons -->
             <div class="flex flex-wrap justify-center gap-6 mb-12">
-                <a href="#join" class="group relative overflow-hidden bg-teal-600 hover:bg-teal-700 text-white px-8 py-4 rounded-lg font-bold text-lg transition-all duration-300 transform hover:scale-105">
+                <a href="{% url 'membership' %}" class="group relative overflow-hidden bg-green-700 hover:bg-green-800 text-white px-8 py-4 rounded-lg font-bold text-lg transition-all duration-300 transform hover:scale-105">
                     <span class="relative z-10">Join ESA</span>
                     <span class="absolute bottom-0 left-0 w-full h-0 bg-teal-800 transition-all duration-300 group-hover:h-full -z-0"></span>
                 </a>
-                <a href="#programs" class="group relative overflow-hidden bg-transparent border-2 border-white hover:border-teal-500 text-white hover:text-teal-500 px-8 py-4 rounded-lg font-bold text-lg transition-all duration-300 transform hover:scale-105">
+                <a href="#programs" class="group relative overflow-hidden bg-transparent border-2 border-white hover:border-green-800 text-white hover:text-teal-500 px-8 py-4 rounded-lg font-bold text-lg transition-all duration-300 transform hover:scale-105">
                     <span>Explore Programs</span>
                 </a>
             </div>
@@ -58,7 +58,7 @@
                     <div class="text-gray-200 uppercase tracking-wider text-sm">Industry Partners</div>
                 </div>
             </div>
-        </div>
+    </div>
     </div>
 </section>
 
@@ -73,7 +73,13 @@
         </div>
         <div class="overflow-hidden w-full">
             <div class="whitespace-nowrap inline-block animate-[marquee_25s_linear_infinite]">
-                🚨 Final Year Project Submission Deadline: 15th December 2023 • 🎉 ESA Hackathon 2023 Registrations Open! • 📚 Engineering Book Sale: 20-25 November at Student Center • 🏆 Congratulations to our Robotics Team for winning the National Championship! • 🎓 Graduation Ceremony: December 16th, 2023
+                {% if announcements %}
+                    {% for announcement in announcements %}
+                        {{ announcement.title }}: {{ announcement.content }} {% if not forloop.last %} • {% endif %}
+                    {% endfor %}
+                {% else %}
+                    No announcements at this time. Stay tuned for updates!
+                {% endif %}
             </div>
         </div>
     </div>
@@ -98,7 +104,7 @@
                     <p class="text-gray-600 mb-4">
                         Hands-on learning experiences with cutting-edge technologies and engineering tools.
                     </p>
-                    <a href="#" class="text-green-700 font-semibold hover:underline flex items-center">
+                    <a href="{% url 'events' %}" class="text-green-700 font-semibold hover:underline flex items-center">
                         <span>Learn more</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -115,7 +121,7 @@
                     <p class="text-gray-600 mb-4">
                         Networking events, company visits, and mentorship opportunities with leading engineering firms.
                     </p>
-                    <a href="#" class="text-green-700 font-semibold hover:underline flex items-center">
+                    <a href="{% url 'communities' %}" class="text-green-700 font-semibold hover:underline flex items-center">
                         <span>Learn more</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -132,7 +138,7 @@
                     <p class="text-gray-600 mb-4">
                         Collaborative research opportunities to solve real-world engineering challenges.
                     </p>
-                    <a href="#" class="text-green-700 font-semibold hover:underline flex items-center">
+                    <a href="{% url 'resources' %}" class="text-green-700 font-semibold hover:underline flex items-center">
                         <span>Learn more</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -155,84 +161,56 @@
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Event Card 1 -->
-            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
-                <div class="h-48 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1550439062-609e1531270e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')">
-                    <div class="absolute top-4 left-4 bg-[#003366] text-white py-1 px-3 rounded-full text-sm font-bold">
-                        Nov 20, 2023
+            {% if events %}
+                {% for event in events %}
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
+                    <div class="h-48 bg-cover bg-center relative" 
+                        {% if event.image %}
+                            style="background-image: url('{{ event.image.url }}')"
+                        {% else %}
+                            style="background-image: url('https://images.unsplash.com/photo-1550439062-609e1531270e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"
+                        {% endif %}
+                    >
+                        <div class="absolute top-4 left-4 bg-[#003366] text-white py-1 px-3 rounded-full text-sm font-bold">
+                            {{ event.start_date|date:"M d, Y" }}
+                        </div>
+                        {% if event.featured %}
+                            <div class="absolute top-4 right-4 bg-yellow-500 text-white py-1 px-3 rounded-full text-sm font-bold">
+                                Featured
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <span class="text-gray-500">{{ event.location }}</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-[#003366] mb-2">{{ event.title }}</h3>
+                        <p class="text-gray-600 mb-4">
+                            {% if event.short_description %}
+                                {{ event.short_description|truncatechars:100 }}
+                            {% else %}
+                                {{ event.description|truncatechars:100 }}
+                            {% endif %}
+                        </p>
+                        <a href="{% url 'event_detail' event_id=event.id %}" class="inline-block bg-[#003366] hover:bg-[#002244] text-white py-2 px-4 rounded-lg transition-colors">
+                            Register Now
+                        </a>
                     </div>
                 </div>
-                <div class="p-6">
-                    <div class="flex items-center mb-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                        <span class="text-gray-500">Main Campus Auditorium</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-[#003366] mb-2">Annual Engineering Symposium</h3>
-                    <p class="text-gray-600 mb-4">
-                        Join industry leaders and alumni for a day of tech talks and networking. Special focus on sustainable engineering solutions.
-                    </p>
-                    <a href="#" class="inline-block bg-[#003366] hover:bg-[#002244] text-white py-2 px-4 rounded-lg transition-colors">
-                        Register Now
-                    </a>
+                {% endfor %}
+            {% else %}
+                <div class="col-span-3 text-center py-12">
+                    <p class="text-xl text-gray-600">No upcoming events at the moment. Check back soon!</p>
                 </div>
-            </div>
-
-            <!-- Event Card 2 -->
-            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
-                <div class="h-48 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1535223289827-42f1e9919769?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')">
-                    <div class="absolute top-4 left-4 bg-[#003366] text-white py-1 px-3 rounded-full text-sm font-bold">
-                        Nov 25, 2023
-                    </div>
-                </div>
-                <div class="p-6">
-                    <div class="flex items-center mb-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                        <span class="text-gray-500">Engineering Lab, Block C</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-[#003366] mb-2">Robotics Workshop</h3>
-                    <p class="text-gray-600 mb-4">
-                        Hands-on session with Arduino and Raspberry Pi kits. Learn to build and program your own robot. All materials provided.
-                    </p>
-                    <a href="#" class="inline-block bg-[#003366] hover:bg-[#002244] text-white py-2 px-4 rounded-lg transition-colors">
-                        Register Now
-                    </a>
-                </div>
-            </div>
-
-            <!-- Event Card 3 -->
-            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
-                <div class="h-48 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1529070538774-1843cb3265df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')">
-                    <div class="absolute top-4 left-4 bg-[#003366] text-white py-1 px-3 rounded-full text-sm font-bold">
-                        Dec 5, 2023
-                    </div>
-                </div>
-                <div class="p-6">
-                    <div class="flex items-center mb-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                        <span class="text-gray-500">Virtual (Zoom)</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-[#003366] mb-2">Career Development Webinar</h3>
-                    <p class="text-gray-600 mb-4">
-                        Learn from HR professionals about resume building, interview skills, and job searching strategies for engineering graduates.
-                    </p>
-                    <a href="#" class="inline-block bg-[#003366] hover:bg-[#002244] text-white py-2 px-4 rounded-lg transition-colors">
-                        Register Now
-                    </a>
-                </div>
-            </div>
+            {% endif %}
         </div>
         
         <div class="text-center mt-12">
-            <a href="#" class="inline-block border-2 border-[#003366] text-[#003366] hover:bg-[#003366] hover:text-white py-3 px-6 rounded-lg font-bold transition-colors">
+            <a href="{% url 'events' %}" class="inline-block border-2 border-[#003366] text-[#003366] hover:bg-[#003366] hover:text-white py-3 px-6 rounded-lg font-bold transition-colors">
                 View All Events
             </a>
         </div>
@@ -240,279 +218,283 @@
 </section>
 
 <!-- Latest News Section -->
-<section class="py-20 bg-white">
+<section id="news" class="py-16 bg-gray-100">
     <div class="container mx-auto px-4">
-        <div class="text-center mb-16">
-            <h2 class="text-3xl font-bold text-[#003366] mb-4">Latest News</h2>
-            <p class="text-gray-600 max-w-2xl mx-auto">
-                Stay updated with the latest happenings, achievements, and announcements from the ESA-KU community.
-            </p>
-        </div>
+        <h2 class="text-3xl font-bold text-center mb-12 text-[#003366]">Latest News</h2>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- News Item 1 -->
-            <div class="flex bg-gray-50 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all">
-                <div class="w-1/3 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1581094794329-c8112a989a91?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"></div>
-                <div class="w-2/3 p-6">
-                    <div class="text-sm text-gray-500 mb-2">November 10, 2023</div>
-                    <h3 class="text-xl font-bold text-[#003366] mb-2">KU Engineering Team Wins National Robotics Competition</h3>
-                    <p class="text-gray-600 mb-3 line-clamp-2">
-                        Our robotics team beat 15 other universities to claim the top spot in the annual National Robotics Challenge.
-                    </p>
-                    <a href="#" class="text-green-700 font-semibold hover:underline">Read More</a>
+            {% if blog_posts %}
+                {% for post in blog_posts %}
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg transition-transform duration-300 hover:scale-[1.02]">
+                    <div class="relative">
+                        {% if post.image %}
+                        <img 
+                            src="{{ post.image.url }}" 
+                            alt="{{ post.title }}" 
+                            class="w-full h-56 object-cover lazy-load"
+                            loading="lazy">
+                        {% else %}
+                        <img 
+                            src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80" 
+                            alt="{{ post.title }}" 
+                            class="w-full h-56 object-cover lazy-load"
+                            loading="lazy">
+                        {% endif %}
+                        <div class="absolute top-4 left-4 bg-{% if post.category == 'research' %}green-600{% elif post.category == 'journal' %}blue-500{% elif post.category == 'projects' %}orange-500{% else %}purple-500{% endif %} text-white text-sm font-semibold py-1 px-3 rounded-full">
+                            {{ post.get_category_display|default:post.category|title }}
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-gray-500 text-sm mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span>{{ post.created_at|date:"M d, Y" }}</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">{{ post.title }}</h3>
+                        <p class="text-gray-600 mb-4">{{ post.content|striptags|truncatechars:100 }}</p>
+                        <a href="{% url 'blog_post_detail' post_id=post.id %}" class="text-[#003366] font-semibold hover:underline flex items-center">
+                            Read more
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
                 </div>
-            </div>
-            
-            <!-- News Item 2 -->
-            <div class="flex bg-gray-50 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all">
-                <div class="w-1/3 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"></div>
-                <div class="w-2/3 p-6">
-                    <div class="text-sm text-gray-500 mb-2">November 5, 2023</div>
-                    <h3 class="text-xl font-bold text-[#003366] mb-2">New Partnership with Microsoft for Student Training</h3>
-                    <p class="text-gray-600 mb-3 line-clamp-2">
-                        ESA-KU has partnered with Microsoft to provide free Azure training and certification for our members.
-                    </p>
-                    <a href="#" class="text-green-700 font-semibold hover:underline">Read More</a>
+                {% endfor %}
+            {% else %}
+                <div class="col-span-2 text-center py-12">
+                    <p class="text-xl text-gray-600">No news articles available at the moment.</p>
                 </div>
-            </div>
+            {% endif %}
         </div>
         
-        <div class="text-center mt-12">
-            <a href="#" class="inline-block border-2 border-[#003366] text-[#003366] hover:bg-[#003366] hover:text-white py-3 px-6 rounded-lg font-bold transition-colors">
-                More News
+        <div class="text-center mt-10">
+            <a href="{% url 'blog' %}" class="inline-block bg-white border-2 border-[#003366] text-[#003366] hover:bg-[#003366] hover:text-white py-2 px-6 rounded-lg font-semibold transition-colors duration-300">
+                View All News
             </a>
         </div>
     </div>
 </section>
 
-<!-- Testimonials Section -->
-<section class="py-20 bg-gray-50">
+<!-- Countdown Timer for Next Major Event -->
+<section class="py-10 bg-[#003366] text-white">
     <div class="container mx-auto px-4">
-        <div class="text-center mb-16">
-            <h2 class="text-3xl font-bold text-[#003366] mb-4">What Our Members Say</h2>
-            <p class="text-gray-600 max-w-2xl mx-auto">
-                Hear from our members about their experiences with ESA-KU and how it has impacted their academic and professional journey.
-            </p>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Testimonial 1 -->
-            <div class="bg-white rounded-xl shadow p-6 relative">
-                <div class="absolute -top-6 left-1/2 transform -translate-x-1/2">
-                    <div class="w-12 h-12 bg-[#003366] rounded-full flex items-center justify-center text-white font-bold text-xl">
-                        JK
-                    </div>
-                </div>
-                <div class="pt-8">
-                    <p class="italic text-gray-700 mb-4">
-                        "Joining ESA-KU was the best decision I made during my second year. The connections and experience I gained helped me secure an internship at a top engineering firm."
+        <div class="flex flex-col md:flex-row items-center justify-between">
+            <div class="mb-6 md:mb-0">
+                {% if next_major_event %}
+                    <h3 class="text-2xl font-bold">Next Major Event: {{ next_major_event.title }}</h3>
+                    <p class="text-lg opacity-90">
+                        {% if next_major_event.short_description %}
+                            {{ next_major_event.short_description }}
+                        {% else %}
+                            {{ next_major_event.description|truncatechars:80 }}
+                        {% endif %}
                     </p>
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <h4 class="font-bold text-[#003366]">James Kiprotich</h4>
-                            <p class="text-sm text-gray-600">Mechanical Engineering, 4th Year</p>
-                        </div>
-                        <div class="flex text-yellow-400">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                    </div>
-                </div>
+                {% else %}
+                    <h3 class="text-2xl font-bold">Next Major Event</h3>
+                    <p class="text-lg opacity-90">Stay tuned for our upcoming events!</p>
+                {% endif %}
             </div>
-            
-            <!-- Testimonial 2 -->
-            <div class="bg-white rounded-xl shadow p-6 relative">
-                <div class="absolute -top-6 left-1/2 transform -translate-x-1/2">
-                    <div class="w-12 h-12 bg-[#003366] rounded-full flex items-center justify-center text-white font-bold text-xl">
-                        MW
-                    </div>
+            <div id="countdown" class="flex space-x-4">
+                <div class="flex flex-col items-center">
+                    <div id="countdown-days" class="bg-white bg-opacity-20 rounded-lg w-16 h-16 flex items-center justify-center text-2xl font-bold">--</div>
+                    <span class="text-sm mt-1">Days</span>
                 </div>
-                <div class="pt-8">
-                    <p class="italic text-gray-700 mb-4">
-                        "The projects and workshops organized by ESA-KU gave me practical skills that complemented my theoretical knowledge. I feel much more prepared for my career."
-                    </p>
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <h4 class="font-bold text-[#003366]">Mary Wanjiku</h4>
-                            <p class="text-sm text-gray-600">Electrical Engineering, 3rd Year</p>
-                        </div>
-                        <div class="flex text-yellow-400">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-                    </div>
+                <div class="flex flex-col items-center">
+                    <div id="countdown-hours" class="bg-white bg-opacity-20 rounded-lg w-16 h-16 flex items-center justify-center text-2xl font-bold">--</div>
+                    <span class="text-sm mt-1">Hours</span>
                 </div>
-            </div>
-            
-            <!-- Testimonial 3 -->
-            <div class="bg-white rounded-xl shadow p-6 relative">
-                <div class="absolute -top-6 left-1/2 transform -translate-x-1/2">
-                    <div class="w-12 h-12 bg-[#003366] rounded-full flex items-center justify-center text-white font-bold text-xl">
-                        DO
-                    </div>
+                <div class="flex flex-col items-center">
+                    <div id="countdown-minutes" class="bg-white bg-opacity-20 rounded-lg w-16 h-16 flex items-center justify-center text-2xl font-bold">--</div>
+                    <span class="text-sm mt-1">Minutes</span>
                 </div>
-                <div class="pt-8">
-                    <p class="italic text-gray-700 mb-4">
-                        "As an international student, ESA-KU helped me find a sense of community. The friends and mentors I met through the association made my university experience amazing."
-                    </p>
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <h4 class="font-bold text-[#003366]">Daniel Omondi</h4>
-                            <p class="text-sm text-gray-600">Civil Engineering, Graduate</p>
-                        </div>
-                        <div class="flex text-yellow-400">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                    </div>
+                <div class="flex flex-col items-center">
+                    <div id="countdown-seconds" class="bg-white bg-opacity-20 rounded-lg w-16 h-16 flex items-center justify-center text-2xl font-bold">--</div>
+                    <span class="text-sm mt-1">Seconds</span>
                 </div>
             </div>
         </div>
     </div>
 </section>
-
-<!-- Join Us Section -->
-<section id="join" class="py-20 bg-[#003366] text-white">
-    <div class="container mx-auto px-4">
-        <div class="flex flex-col md:flex-row items-center">
-            <div class="md:w-1/2 mb-10 md:mb-0">
-                <h2 class="text-3xl font-bold mb-6">Join ESA-KU Today</h2>
-                <p class="text-xl mb-6">
-                    Become part of our community of future engineers and take your university experience to the next level.
-                </p>
-                <ul class="space-y-4 mb-8">
-                    <li class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                        <span>Access to exclusive workshops and training sessions</span>
-                    </li>
-                    <li class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                        <span>Networking opportunities with industry professionals</span>
-                    </li>
-                    <li class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                        <span>Participate in engineering competitions and events</span>
-                    </li>
-                    <li class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                        <span>Leadership and personal development opportunities</span>
-                    </li>
-                </ul>
-                <a href="/membership" class="inline-block bg-teal-600 hover:bg-teal-700 text-white px-8 py-4 rounded-lg font-bold text-lg transition-all">
-                    Become a Member
-                </a>
-            </div>
-            <div class="md:w-1/2 md:pl-12">
-                <div class="bg-white p-8 rounded-xl shadow-xl">
-                    <h3 class="text-2xl font-bold text-[#003366] mb-6">Sign up for our Newsletter</h3>
-                    <p class="text-gray-600 mb-6">
-                        Stay updated with the latest news, events, and opportunities from ESA-KU.
-                    </p>
-                    <form class="newsletter-form space-y-4">
-                        <div>
-                            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                            <input type="text" id="name" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="John Doe">
-                        </div>
-                        <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                            <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="john@example.com">
-                        </div>
-                        <div>
-                            <label for="year" class="block text-sm font-medium text-gray-700 mb-1">Year of Study</label>
-                            <select id="year" name="year" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-600">
-                                <option value="">Select Year</option>
-                                <option value="1">First Year</option>
-                                <option value="2">Second Year</option>
-                                <option value="3">Third Year</option>
-                                <option value="4">Fourth Year</option>
-                                <option value="5">Fifth Year</option>
-                                <option value="graduate">Graduate</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="w-full bg-teal-600 hover:bg-teal-700 text-white py-3 rounded-lg font-bold transition-colors">
-                            Subscribe
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
 <!-- Partner Logos -->
 <section class="py-12 bg-white">
     <div class="container mx-auto px-4">
         <h2 class="text-2xl font-bold text-center text-gray-600 mb-10">Our Industry Partners</h2>
         <div class="flex flex-wrap justify-center items-center gap-12">
-            <img src="https://placehold.co/150x60?text=Partner+1" alt="Partner 1" class="h-12 grayscale hover:grayscale-0 transition-all">
-            <img src="https://placehold.co/150x60?text=Partner+2" alt="Partner 2" class="h-12 grayscale hover:grayscale-0 transition-all">
-            <img src="https://placehold.co/150x60?text=Partner+3" alt="Partner 3" class="h-12 grayscale hover:grayscale-0 transition-all">
-            <img src="https://placehold.co/150x60?text=Partner+4" alt="Partner 4" class="h-12 grayscale hover:grayscale-0 transition-all">
-            <img src="https://placehold.co/150x60?text=Partner+5" alt="Partner 5" class="h-12 grayscale hover:grayscale-0 transition-all">
+            {% for partner in partners %}
+                <a href="{{ partner.website }}" target="_blank" class="h-12 grayscale hover:grayscale-0 transition-all">
+                    <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" class="h-12">
+                </a>
+            {% empty %}
+                <p class="text-gray-500">No partners to display at the moment.</p>
+            {% endfor %}
         </div>
     </div>
 </section>
 
-<script>
-    // Newsletter Form Handling
-    const newsletterForm = document.querySelector('.newsletter-form');
-    if (newsletterForm) {
-        newsletterForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = newsletterForm.querySelector('input[type="email"]').value;
-            // Add your newsletter subscription logic here
-            alert('Thanks for subscribing!');
-            newsletterForm.reset();
-        });
-    }
+<!-- Join Us Section with Newsletter -->
+<section id="join-us" class="py-16 bg-gradient-to-b from-white to-gray-100">
+    <div class="container mx-auto px-4">
+        <div class="text-center max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold mb-8 text-[#003366]">Join Our Community</h2>
+            <p class="text-lg mb-10 text-gray-700">Become a part of ESA and connect with like-minded engineering students, access exclusive resources, and enhance your professional development.</p>
+            
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 mb-12">
+                <a href="{% url 'membership' %}" class="inline-flex items-center justify-center px-8 py-3 bg-[#003366] text-white font-semibold rounded-lg hover:bg-[#002244] transition duration-300 shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                    </svg>
+                    Become a Member
+                </a>
+                <a href="{% url 'contact' %}" class="inline-flex items-center justify-center px-8 py-3 border-2 border-[#003366] text-[#003366] font-semibold rounded-lg hover:bg-gray-100 transition duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    </svg>
+                    Contact Us
+                </a>
+            </div>
+            
+            <!-- Newsletter Subscription Form -->
+            <div class="bg-white p-8 rounded-xl shadow-md">
+                <h3 class="text-xl font-bold mb-4 text-[#003366]">Subscribe to Our Newsletter</h3>
+                <p class="text-gray-600 mb-6">Stay updated with the latest events, news, and opportunities from ESA.</p>
+                <form action="{% url 'home' %}" method="post" class="max-w-md mx-auto">
+                    {% csrf_token %}
+                    <input type="hidden" name="form_type" value="newsletter">
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input 
+                            type="email"
+                            name="email" 
+                            placeholder="Your email address" 
+                            class="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#003366]"
+                            required
+                        >
+                        <button 
+                            type="submit" 
+                            class="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition duration-300"
+                        >
+                            Subscribe
+                        </button>
+                    </div>
+                    <div class="mt-3 text-sm text-gray-500">
+                        We respect your privacy. Unsubscribe at any time.
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
 
-    // Smooth Scroll
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
-        });
+<!-- Social Media Integration Section -->
+<section class="py-10 bg-gray-800 text-white">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-2xl font-bold mb-6">Connect with Us</h2>
+        <p class="text-gray-400 mb-8">Follow us on social media to stay updated with the latest news and events.</p>
+        <div class="flex justify-center space-x-6">
+            <a href="https://facebook.com" target="_blank" class="text-gray-400 hover:text-white transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M22.675 0h-21.35c-.733 0-1.325.592-1.325 1.325v21.351c0 .733.592 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.464.099 2.795.143v3.24h-1.918c-1.504 0-1.796.715-1.796 1.763v2.313h3.591l-.467 3.622h-3.124v9.294h6.128c.733 0 1.325-.591 1.325-1.324v-21.351c0-.733-.592-1.325-1.325-1.325z"/>
+                </svg>
+            </a>
+            <a href="https://twitter.com" target="_blank" class="text-gray-400 hover:text-white transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.723-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-2.717 0-4.92 2.203-4.92 4.917 0 .386.044.762.127 1.124-4.087-.205-7.713-2.164-10.141-5.144-.423.725-.666 1.562-.666 2.457 0 1.694.863 3.188 2.175 4.065-.802-.026-1.555-.246-2.212-.616v.062c0 2.364 1.681 4.337 3.911 4.785-.409.111-.839.171-1.283.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.396 0-.788-.023-1.175-.067 2.179 1.397 4.768 2.212 7.548 2.212 9.057 0 14.01-7.496 14.01-13.986 0-.213-.005-.425-.014-.637.961-.695 1.797-1.562 2.457-2.549z"/>
+                </svg>
+            </a>
+            <a href="https://instagram.com" target="_blank" class="text-gray-400 hover:text-white transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.849.07 1.366.062 2.633.334 3.608 1.309.975.975 1.247 2.242 1.309 3.608.058 1.265.07 1.645.07 4.849s-.012 3.584-.07 4.849c-.062 1.366-.334 2.633-1.309 3.608-.975.975-2.242 1.247-3.608 1.309-1.265.058-1.645.07-4.849.07s-3.584-.012-4.849-.07c-1.366-.062-2.633-.334-3.608-1.309-.975-.975-1.247-2.242-1.309-3.608-.058-1.265-.07-1.645-.07-4.849s.012-3.584.07-4.849c.062-1.366.334-2.633 1.309-3.608.975-.975 2.242-1.247 3.608-1.309 1.265-.058 1.645-.07 4.849-.07zm0-2.163c-3.259 0-3.667.012-4.947.071-1.281.059-2.418.27-3.337 1.189-.919.919-1.13 2.056-1.189 3.337-.059 1.28-.071 1.688-.071 4.947s.012 3.667.071 4.947c.059 1.281.27 2.418 1.189 3.337.919.919 2.056 1.13 3.337 1.189 1.28.059 1.688.071 4.947.071s3.667-.012 4.947-.071c1.281-.059 2.418-.27 3.337-1.189.919-.919 1.13-2.056 1.189-3.337.059-1.28.071-1.688.071-4.947s-.012-3.667-.071-4.947c-.059-1.281-.27-2.418-1.189-3.337-.919-.919-2.056-1.13-3.337-1.189-1.28-.059-1.688-.071-4.947-.071zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.324c-2.296 0-4.162-1.866-4.162-4.162s1.866-4.162 4.162-4.162 4.162 1.866 4.162 4.162-1.866 4.162-4.162 4.162zm6.406-11.845c-.796 0-1.441.645-1.441 1.441s.645 1.441 1.441 1.441 1.441-.645 1.441-1.441-.645-1.441-1.441-1.441z"/>
+                </svg>
+            </a>
+            <a href="https://linkedin.com" target="_blank" class="text-gray-400 hover:text-white transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M22.23 0h-20.46c-.974 0-1.77.796-1.77 1.77v20.46c0 .974.796 1.77 1.77 1.77h20.46c.974 0 1.77-.796 1.77-1.77v-20.46c0-.974-.796-1.77-1.77-1.77zm-15.538 20.452h-3.077v-10.769h3.077v10.769zm-1.538-12.308c-.974 0-1.769-.796-1.769-1.769s.796-1.769 1.769-1.769 1.769.796 1.769 1.769-.796 1.769-1.769 1.769zm13.846 12.308h-3.077v-5.385c0-1.282-.026-2.933-1.785-2.933-1.785 0-2.058 1.396-2.058 2.837v5.481h-3.077v-10.769h2.949v1.474h.041c.41-.774 1.41-1.59 2.897-1.59 3.092 0 3.662 2.037 3.662 4.685v6.2z"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Back to Top Button -->
+<div id="back-to-top" class="fixed bottom-8 right-8 z-50 hidden">
+    <button 
+        onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
+        class="bg-[#003366] text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:bg-[#002244] transition-colors duration-300"
+        aria-label="Back to top"
+    >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+        </svg>
+    </button>
+</div>
+{% endblock %}
+<!-- Add JavaScript for lazy loading and back to top button -->
+{% block extra_js %}
+<script>
+    // Back to Top Button
+    const backToTopButton = document.getElementById('back-to-top');
+    
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            backToTopButton.classList.remove('hidden');
+            backToTopButton.classList.add('flex');
+        } else {
+            backToTopButton.classList.add('hidden');
+            backToTopButton.classList.remove('flex');
+        }
     });
 
-    // Animation effects for stats
-    document.addEventListener('DOMContentLoaded', function() {        
-        // Animate stats on load
-        const statItems = document.querySelectorAll('.grid.grid-cols-1.md\\:grid-cols-3.gap-6 > div');
+    // Countdown Timer
+    function updateCountdown() {
+        {% if next_major_event %}
+        const eventDate = new Date('{{ next_major_event.start_date|date:"Y-m-d" }}T{{ next_major_event.start_time|time:"H:i:s" }}').getTime();
+        {% else %}
+        // Default to a future date if no event is scheduled
+        const eventDate = new Date('{% now "Y-m-d" %}').getTime() + (30 * 24 * 60 * 60 * 1000); // 30 days from now
+        {% endif %}
         
-        // Initial state
-        statItems.forEach((item, index) => {
-            item.style.opacity = '0';
-            item.style.transform = 'translateY(20px)';
-            item.style.transition = `opacity 0.5s ease, transform 0.5s ease`;
-            item.style.transitionDelay = `${index * 0.1}s`;
+        const now = new Date().getTime();
+        const distance = eventDate - now;
+
+        // If the event date is in the past, show zeros
+        if (distance < 0) {
+            document.getElementById('countdown-days').innerText = '0';
+            document.getElementById('countdown-hours').innerText = '0';
+            document.getElementById('countdown-minutes').innerText = '0';
+            document.getElementById('countdown-seconds').innerText = '0';
+            return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById('countdown-days').innerText = days;
+        document.getElementById('countdown-hours').innerText = hours;
+        document.getElementById('countdown-minutes').innerText = minutes;
+        document.getElementById('countdown-seconds').innerText = seconds;
+    }
+    
+    // Update countdown every second
+    setInterval(updateCountdown, 1000);
+    updateCountdown(); // Initial call
+    
+    // Add smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const target = document.querySelector(targetId);
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
         });
-        
-        // Reveal on load
-        setTimeout(() => {
-            statItems.forEach(item => {
-                item.style.opacity = '1';
-                item.style.transform = 'translateY(0)';
-            });
-        }, 500);
     });
 </script>
 

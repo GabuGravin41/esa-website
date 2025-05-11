@@ -54,6 +54,14 @@
           {% endif %}
         </div>
         
+        <!-- Student ID Field -->
+        <div>
+          {{ form.student_id }}
+          {% if form.student_id.errors %}
+            <p class="text-red-500 text-xs mt-1">{{ form.student_id.errors }}</p>
+          {% endif %}
+        </div>
+        
         <!-- Password Field -->
         <div>
           {{ form.password1 }}
