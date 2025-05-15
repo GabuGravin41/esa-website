@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV=/home/lindah/marketplace_dj/puddle/venv
+VIRTUAL_ENV='/home/lindah/django website tutorials/esa-website/puddle/venv'
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

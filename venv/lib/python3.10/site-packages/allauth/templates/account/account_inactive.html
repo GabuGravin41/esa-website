@@ -2,13 +2,11 @@
 {% load i18n %}
 {% load allauth %}
 {% block head_title %}
-    {% translate "Account Inactive" %}
+    {% trans "Account Inactive" %}
 {% endblock head_title %}
 {% block content %}
     {% element h1 %}
-        {% translate "Account Inactive" %}
+        {% trans "Account Inactive" %}
     {% endelement %}
-    {% element p %}
-        {% translate "This account is inactive." %}
-    {% endelement %}
+    <p>{% trans "This account is inactive." %}</p>
 {% endblock content %}

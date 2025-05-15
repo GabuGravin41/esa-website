@@ -58,10 +58,6 @@ class PyJWKError(PyJWTError):
     pass
 
 
-class MissingCryptographyError(PyJWKError):
-    pass
-
-
 class PyJWKSetError(PyJWTError):
     pass
 
@@ -71,12 +67,4 @@ class PyJWKClientError(PyJWTError):
 
 
 class PyJWKClientConnectionError(PyJWKClientError):
-    pass
-
-
-class InvalidSubjectError(InvalidTokenError):
-    pass
-
-
-class InvalidJTIError(InvalidTokenError):
     pass

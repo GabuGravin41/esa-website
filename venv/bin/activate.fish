@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV /home/lindah/marketplace_dj/puddle/venv
+set -gx VIRTUAL_ENV '/home/lindah/django website tutorials/esa-website/puddle/venv'
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/"bin $PATH

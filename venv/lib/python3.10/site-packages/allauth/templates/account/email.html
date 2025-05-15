@@ -1,5 +1,5 @@
 {% extends "account/base_manage_email.html" %}
-{% load static allauth i18n %}
+{% load allauth i18n %}
 {% block head_title %}
     {% trans "Email Addresses" %}
 {% endblock head_title %}
@@ -8,11 +8,9 @@
         {% trans "Email Addresses" %}
     {% endelement %}
     {% if emailaddresses %}
-        {% element p %}
-            {% trans 'The following email addresses are associated with your account:' %}
-        {% endelement %}
+        <p>{% trans 'The following email addresses are associated with your account:' %}</p>
         {% url 'account_email' as email_url %}
-        {% element form form=form action=email_url method="post" tags="email,list" %}
+        {% element form form=form action=email_url method="post" %}
             {% slot body %}
                 {% csrf_token %}
                 {% for radio in emailaddress_radios %}
@@ -59,12 +57,14 @@
             {% trans "Add Email Address" %}
         {% endelement %}
         {% url 'account_email' as action_url %}
-        {% element form form=form method="post" action=action_url tags="email,add" %}
+        {% element form form=form method="post" action=action_url %}
+            Hoi bef bod
             {% slot body %}
                 {% csrf_token %}
                 {% element fields form=form %}
                 {% endelement %}
             {% endslot %}
+            befac
             {% slot actions %}
                 {% element button name="action_add" type="submit" %}
                     {% trans "Add Email" %}
@@ -74,10 +74,17 @@
     {% endif %}
 {% endblock content %}
 {% block extra_body %}
-    <script src="{% static 'account/js/account.js' %}"></script>
-    <script src="{% static 'account/js/onload.js' %}"></script>
-    <script data-allauth-onload="allauth.account.forms.manageEmailForm" type="application/json">{
-    "i18n": {"confirmDelete": "{% trans 'Do you really want to remove the selected email address?' %}"}
-}
+    <script type="text/javascript">
+(function() {
+  var message = "{% trans 'Do you really want to remove the selected email address?' %}";
+  var actions = document.getElementsByName('action_remove');
+  if (actions.length) {
+    actions[0].addEventListener("click", function(e) {
+      if (! confirm(message)) {
+        e.preventDefault();
+      }
+    });
+  }
+})();
     </script>
 {% endblock extra_body %}
