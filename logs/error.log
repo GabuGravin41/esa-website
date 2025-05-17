@@ -6070,3 +6070,20 @@ Traceback (most recent call last):
 allauth.socialaccount.models.SocialApp.DoesNotExist
 ERROR 2025-05-16 18:44:46,811 log 8745 140398763701824 Internal Server Error: /accounts/account_login/
 ERROR 2025-05-16 18:44:46,811 basehttp 8745 140398763701824 "GET /accounts/account_login/ HTTP/1.1" 500 17579
+ERROR 2025-05-17 09:54:59,960 middleware 11593 140099014620736 Error: core/event_suggestion_form.html
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/auth/decorators.py", line 23, in _wrapper_view
+    return view_func(request, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/core/views.py", line 2451, in event_suggestion
+    return render(request, 'core/event_suggestion_form.html', {
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: core/event_suggestion_form.html
+ERROR 2025-05-17 09:54:59,964 log 11593 140099014620736 Internal Server Error: /events/suggest/
+ERROR 2025-05-17 09:54:59,965 basehttp 11593 140099014620736 "POST /events/suggest/ HTTP/1.1" 500 18917

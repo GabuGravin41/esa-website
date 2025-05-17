@@ -5,10 +5,6 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', include('core.urls')),
-    # Comment out non-existent apps
-    # path('inbox/', include('conversation.urls')),
-    # path('dashboard/', include('dashboard.urls')),
-    # path('items/', include('item.urls')),
     path('accounts/', include('allauth.urls')),
     path('account/', include('accounts.urls')),  # Include custom accounts app URLs
     path('admin/', admin.site.urls),
