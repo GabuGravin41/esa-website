@@ -15,7 +15,7 @@ const auth = {
     // Login
     async login(username, password, rememberMe = false) {
         try {
-            const response = await fetch('/accounts/login/', {
+            const response = await fetch('/accounts/account_login/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ const auth = {
     // Logout
     async logout() {
         try {
-            const response = await fetch('/accounts/logout/', {
+            const response = await fetch('/accounts/account_logout/', {
                 method: 'POST',
                 headers: {
                     'X-CSRFToken': this.getCsrfToken()

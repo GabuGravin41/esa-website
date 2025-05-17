@@ -5058,3 +5058,1015 @@ Traceback (most recent call last):
 NameError: name 'ExternalSite' is not defined
 ERROR 2025-05-11 01:40:00,963 log 30331 139935426278976 Internal Server Error: /more-sites/
 ERROR 2025-05-11 01:40:00,964 basehttp 30331 139935426278976 "GET /more-sites/ HTTP/1.1" 500 17389
+ERROR 2025-05-15 20:52:45,322 log 18751 140711219185216 Internal Server Error: /accounts/login/
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/accounts/views.py", line 56, in login_view
+    return render(request, 'accounts/login.html', {'form': form})
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 326, in render
+    return nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 479, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/resolvers.py", line 851, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'account_login' not found. 'account_login' is not a valid view function or pattern name.
+ERROR 2025-05-15 20:52:45,324 basehttp 18751 140711219185216 "GET /accounts/login/ HTTP/1.1" 500 187555
+ERROR 2025-05-15 20:52:48,485 log 18751 140711219185216 Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 326, in render
+    return nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 479, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/resolvers.py", line 851, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'account_login' not found. 'account_login' is not a valid view function or pattern name.
+ERROR 2025-05-15 20:52:48,488 basehttp 18751 140711219185216 "GET / HTTP/1.1" 500 180473
+ERROR 2025-05-15 20:54:47,083 log 18991 139930302936640 Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 326, in render
+    return nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 479, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/resolvers.py", line 851, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'account_login' not found. 'account_login' is not a valid view function or pattern name.
+ERROR 2025-05-15 20:54:47,085 basehttp 18991 139930302936640 "GET / HTTP/1.1" 500 180493
+ERROR 2025-05-15 20:55:33,502 log 19218 140680974296640 Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 326, in render
+    return nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 479, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/resolvers.py", line 851, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'account_login' not found. 'account_login' is not a valid view function or pattern name.
+ERROR 2025-05-15 20:55:33,504 basehttp 19218 140680974296640 "GET / HTTP/1.1" 500 180493
+ERROR 2025-05-15 21:09:45,534 log 20454 139773238834752 Internal Server Error: /accounts/account_login/
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/accounts/views.py", line 56, in login_view
+    return render(request, 'accounts/login.html', {'form': form})
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 479, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/resolvers.py", line 851, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'register' not found. 'register' is not a valid view function or pattern name.
+ERROR 2025-05-15 21:09:45,536 basehttp 20454 139773238834752 "GET /accounts/account_login/ HTTP/1.1" 500 189921
+ERROR 2025-05-15 21:10:38,226 log 20789 140525578479168 Internal Server Error: /accounts/account_login/
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/accounts/views.py", line 56, in login_view
+    return render(request, 'accounts/login.html', {'form': form})
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 326, in render
+    return nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 479, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/resolvers.py", line 851, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'account_signup' not found. 'account_signup' is not a valid view function or pattern name.
+ERROR 2025-05-15 21:10:38,229 basehttp 20789 140525578479168 "GET /accounts/account_login/ HTTP/1.1" 500 188259
+ERROR 2025-05-15 21:10:47,996 log 20881 139974153098816 Internal Server Error: /accounts/account_login/
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/accounts/views.py", line 56, in login_view
+    return render(request, 'accounts/login.html', {'form': form})
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 326, in render
+    return nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 479, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/resolvers.py", line 851, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'account_signup' not found. 'account_signup' is not a valid view function or pattern name.
+ERROR 2025-05-15 21:10:47,998 basehttp 20881 139974153098816 "GET /accounts/account_login/ HTTP/1.1" 500 188259
+ERROR 2025-05-15 21:10:52,924 log 20941 139659397031488 Internal Server Error: /accounts/account_login/
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/accounts/views.py", line 56, in login_view
+    return render(request, 'accounts/login.html', {'form': form})
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 326, in render
+    return nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 479, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/resolvers.py", line 851, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'account_signup' not found. 'account_signup' is not a valid view function or pattern name.
+ERROR 2025-05-15 21:10:52,927 basehttp 20941 139659397031488 "GET /accounts/account_login/ HTTP/1.1" 500 188259
+ERROR 2025-05-15 21:10:59,348 log 20941 139659397031488 Internal Server Error: /accounts/account_login/
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/accounts/views.py", line 56, in login_view
+    return render(request, 'accounts/login.html', {'form': form})
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 326, in render
+    return nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 479, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/resolvers.py", line 851, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'account_signup' not found. 'account_signup' is not a valid view function or pattern name.
+ERROR 2025-05-15 21:10:59,350 basehttp 20941 139659397031488 "GET /accounts/account_login/ HTTP/1.1" 500 188230
+ERROR 2025-05-15 21:11:27,491 log 20941 139659397031488 Internal Server Error: /accounts/account_login/
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/accounts/views.py", line 56, in login_view
+    return render(request, 'accounts/login.html', {'form': form})
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 326, in render
+    return nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 479, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/resolvers.py", line 851, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'account_signup' not found. 'account_signup' is not a valid view function or pattern name.
+ERROR 2025-05-15 21:11:27,493 basehttp 20941 139659397031488 "GET /accounts/account_login/ HTTP/1.1" 500 187845
+ERROR 2025-05-15 21:11:31,463 log 21115 140197114144320 Internal Server Error: /accounts/account_login/
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/accounts/views.py", line 56, in login_view
+    return render(request, 'accounts/login.html', {'form': form})
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 326, in render
+    return nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 479, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/resolvers.py", line 851, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'account_signup' not found. 'account_signup' is not a valid view function or pattern name.
+ERROR 2025-05-15 21:11:31,465 basehttp 21115 140197114144320 "GET /accounts/account_login/ HTTP/1.1" 500 187845
+ERROR 2025-05-15 21:11:44,252 log 21115 140197122537024 Internal Server Error: /accounts/account_login/
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/accounts/views.py", line 56, in login_view
+    return render(request, 'accounts/login.html', {'form': form})
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 326, in render
+    return nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 479, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/resolvers.py", line 851, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'account_signup' not found. 'account_signup' is not a valid view function or pattern name.
+ERROR 2025-05-15 21:11:44,253 basehttp 21115 140197122537024 "GET /accounts/account_login/ HTTP/1.1" 500 187976
+ERROR 2025-05-15 21:11:45,560 log 21115 140197102605888 Internal Server Error: /accounts/account_login/
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/accounts/views.py", line 56, in login_view
+    return render(request, 'accounts/login.html', {'form': form})
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 326, in render
+    return nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 479, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/resolvers.py", line 851, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'account_signup' not found. 'account_signup' is not a valid view function or pattern name.
+ERROR 2025-05-15 21:11:45,562 basehttp 21115 140197102605888 "GET /accounts/account_login/ HTTP/1.1" 500 187976
+ERROR 2025-05-15 21:11:49,221 log 21115 140197102605888 Internal Server Error: /accounts/account_login/
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/accounts/views.py", line 56, in login_view
+    return render(request, 'accounts/login.html', {'form': form})
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 326, in render
+    return nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 479, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/resolvers.py", line 851, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'account_signup' not found. 'account_signup' is not a valid view function or pattern name.
+ERROR 2025-05-15 21:11:49,222 basehttp 21115 140197102605888 "GET /accounts/account_login/ HTTP/1.1" 500 187816
+ERROR 2025-05-15 21:12:18,329 log 21115 140197102605888 Internal Server Error: /accounts/account_login/
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/accounts/views.py", line 56, in login_view
+    return render(request, 'accounts/login.html', {'form': form})
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 326, in render
+    return nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 479, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/resolvers.py", line 851, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'remove' not found. 'remove' is not a valid view function or pattern name.
+ERROR 2025-05-15 21:12:18,331 basehttp 21115 140197102605888 "GET /accounts/account_login/ HTTP/1.1" 500 187637
+ERROR 2025-05-15 21:12:37,709 log 21115 140197122537024 Internal Server Error: /accounts/account_login/
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/accounts/views.py", line 56, in login_view
+    return render(request, 'accounts/login.html', {'form': form})
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 326, in render
+    return nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/defaulttags.py", line 479, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/urls/resolvers.py", line 851, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'register/' not found. 'register/' is not a valid view function or pattern name.
+ERROR 2025-05-15 21:12:37,712 basehttp 21115 140197122537024 "GET /accounts/account_login/ HTTP/1.1" 500 187715
+ERROR 2025-05-15 21:13:59,132 log 21601 140046191552064 Internal Server Error: /accounts/register/
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/models/query.py", line 948, in get_or_create
+    return self.get(**kwargs), False
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/models/query.py", line 649, in get
+    raise self.model.DoesNotExist(
+django.contrib.auth.models.User.DoesNotExist: User matching query does not exist.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/models/query.py", line 948, in get_or_create
+    return self.get(**kwargs), False
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/models/query.py", line 649, in get
+    raise self.model.DoesNotExist(
+core.models.UserProfile.DoesNotExist: UserProfile matching query does not exist.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/backends/sqlite3/base.py", line 329, in execute
+    return super().execute(query, params)
+sqlite3.IntegrityError: UNIQUE constraint failed: core_userprofile.student_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/accounts/views.py", line 83, in register
+    user = form.save()
+  File "/home/lindah/django website tutorials/esa-website/puddle/accounts/forms.py", line 112, in save
+    user.save()
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/auth/base_user.py", line 78, in save
+    super().save(*args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/models/base.py", line 822, in save
+    self.save_base(
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/models/base.py", line 924, in save_base
+    post_save.send(
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/dispatch/dispatcher.py", line 189, in send
+    response = receiver(signal=self, sender=sender, **named)
+  File "/home/lindah/django website tutorials/esa-website/puddle/core/models.py", line 868, in create_user_profile
+    initialize_admin_users()
+  File "/home/lindah/django website tutorials/esa-website/puddle/core/models.py", line 77, in initialize_admin_users
+    user, created = User.objects.get_or_create(
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/models/query.py", line 955, in get_or_create
+    return self.create(**params), True
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/models/query.py", line 679, in create
+    obj.save(force_insert=True, using=self.db)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/auth/base_user.py", line 78, in save
+    super().save(*args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/models/base.py", line 822, in save
+    self.save_base(
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/models/base.py", line 924, in save_base
+    post_save.send(
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/dispatch/dispatcher.py", line 189, in send
+    response = receiver(signal=self, sender=sender, **named)
+  File "/home/lindah/django website tutorials/esa-website/puddle/core/models.py", line 864, in create_user_profile
+    UserProfile.objects.get_or_create(user=instance)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/models/query.py", line 955, in get_or_create
+    return self.create(**params), True
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/models/query.py", line 679, in create
+    obj.save(force_insert=True, using=self.db)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/models/base.py", line 822, in save
+    self.save_base(
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/models/base.py", line 909, in save_base
+    updated = self._save_table(
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/models/base.py", line 1071, in _save_table
+    results = self._do_insert(
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/models/base.py", line 1112, in _do_insert
+    return manager._insert(
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/models/query.py", line 1847, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/models/sql/compiler.py", line 1823, in execute_sql
+    cursor.execute(sql, params)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/backends/utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/backends/utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/backends/utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/db/backends/sqlite3/base.py", line 329, in execute
+    return super().execute(query, params)
+django.db.utils.IntegrityError: UNIQUE constraint failed: core_userprofile.student_id
+ERROR 2025-05-15 21:13:59,135 basehttp 21601 140046191552064 "POST /accounts/register/ HTTP/1.1" 500 286078
+ERROR 2025-05-16 18:44:46,807 middleware 8745 140398763701824 Error: 
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/utils/decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/accounts/views.py", line 56, in login_view
+    return render(request, 'accounts/login.html', {'form': form})
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/library.py", line 237, in render
+    output = self.func(*resolved_args, **resolved_kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/allauth/socialaccount/templatetags/socialaccount.py", line 20, in provider_login_url
+    provider = adapter.get_provider(request, provider)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/allauth/socialaccount/adapter.py", line 216, in get_provider
+    app = self.get_app(request, provider=provider)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/allauth/socialaccount/adapter.py", line 303, in get_app
+    raise SocialApp.DoesNotExist()
+allauth.socialaccount.models.SocialApp.DoesNotExist
+ERROR 2025-05-16 18:44:46,811 log 8745 140398763701824 Internal Server Error: /accounts/account_login/
+ERROR 2025-05-16 18:44:46,811 basehttp 8745 140398763701824 "GET /accounts/account_login/ HTTP/1.1" 500 17579

@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from core.models import UserProfile
+from django.contrib.auth import authenticate
 
 class LoginForm(AuthenticationForm):
     """Custom login form with additional styling"""
@@ -23,12 +24,14 @@ class LoginForm(AuthenticationForm):
     )
     remember_me = forms.BooleanField(
         required=False,
+        initial=False,
         widget=forms.CheckboxInput(
             attrs={
                 'class': 'h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded',
             }
         )
     )
+    
 
 class UserRegistrationForm(UserCreationForm):
     """User registration form with email field and validation"""
@@ -110,13 +113,27 @@ class UserRegistrationForm(UserCreationForm):
         user.email = self.cleaned_data['email']
         if commit:
             user.save()
-            # Update the profile with the student_id
+            # Update the profile with the student_id 
+            # Note: UserProfile creation should be handled by the signal in accounts/models.py
+            # This code is just a fallback
             try:
-                user.profile.student_id = self.cleaned_data['student_id']
-                user.profile.save()
+                # Check if the profile exists yet
+                user.refresh_from_db()  # Refresh to make sure we have the latest user data
+                if hasattr(user, 'profile'):
+                    user.profile.student_id = self.cleaned_data['student_id']
+                    user.profile.save()
+                else:
+                    print("WARNING: Profile not created by signal, fallback creation needed")
+                    from core.models import UserProfile
+                    # Create profile manually if not created by signal
+                    UserProfile.objects.create(
+                        user=user,
+                        student_id=self.cleaned_data['student_id'],
+                        department="Not specified",
+                        year_of_study=1
+                    )
             except Exception as e:
-                # This should not happen as the profile is created by signal
-                pass
+                print(f"Error updating profile: {e}")
         return user
 
 class UserProfileForm(forms.ModelForm):

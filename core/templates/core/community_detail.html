@@ -90,7 +90,7 @@
             </form>
           {% endif %}
         {% else %}
-          <a href="{% url 'login' %}?next={{ request.path }}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+          <a href="{% url 'account_login' %}?next={{ request.path }}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
             <i class="fas fa-sign-in-alt mr-1"></i> Log in to Join
           </a>
         {% endif %}

@@ -83,6 +83,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'core.middleware.LoginRedirectMiddleware',  # Handle login redirects gracefully
+    'core.middleware.ErrorHandlingMiddleware',  # Custom error handling
 ]
 
 
@@ -203,10 +205,10 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
 
 CRISPY_TEMPLATE_PACK = "tailwind"
 
-# Allauth
+# Authentication backends
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
-    "allauth.account.auth_backends.AuthenticationBackend",
+    # Removed allauth backend since we're not using it
 )
 
 # django-allauth registration settings
@@ -215,6 +217,11 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "none"  # Emails will be printed to console in development
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 ACCOUNT_LOGOUT_REDIRECT_URL = "/"
+
+# Authentication settings
+LOGIN_URL = 'account_login'  # Custom login URL for @login_required decorator
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 # Payment API Settings
 MPESA_CONSUMER_KEY = env_config('MPESA_CONSUMER_KEY', default='')
