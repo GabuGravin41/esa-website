@@ -34,7 +34,7 @@
 
     
     <!-- Events Filters -->
-    <section class="bg-white p-8 rounded-xl shadow-lg relative mx-auto mb-12 mt-[-4rem]">
+    <section class="bg-white p-5 rounded-xl shadow-lg relative mx-auto mb-12 mt-[-4rem]">
       <div class="flex justify-between items-center mb-6">
         <h2 class="text-xl font-bold text-[#003366]">Find Events</h2>
         <div class="flex gap-3">
@@ -46,20 +46,23 @@
           </button>
         </div>
       </div>
-      <form method="GET" action="{% url 'events' %}">
+      <form method="GET" action="{% url 'events' %}" class="relative mb-8">
         <div class="grid md:grid-cols-4 gap-4">
           <!-- Search Input - Curved like blog page -->
-          <div class="md:col-span-4 mb-4">
-            <div class="relative">
-              <input type="text" name="q" placeholder="Search for events" value="{{ search_query|default:'' }}" 
-                  class="w-full p-4 pl-12 border-2 border-[#003366] rounded-full shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
-              <i class="fas fa-search absolute left-6 top-1/2 transform -translate-y-1/2 text-[#003366]"></i>
-            </div>
+          <div class="md:col-span-4 mb-4 relative">
+          
+            <input type="text" name="q" placeholder="Search for events" 
+              class="w-full p-3 border-2 border-gray-300 rounded-[25px] pl-10"
+              value="{{ search_query|default:'' }}">
+            <button type="submit" class=" absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-600">
+              <i class="fas fa-search "></i>
+            </button>
+          
           </div>
           
           <!-- Category Filter -->
           <div>
-            <select name="type" class="w-full p-4 border-2 border-[#003366] rounded-full text-base appearance-none bg-white shadow-sm" style="background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23003366%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>'); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 3rem;">
+            <select name="type" class="w-full p-2 border-2 border-gray-300 rounded-[25px] text-base pl-10 appearance-none bg-white shadow-sm" style="background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23003366%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>'); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 3rem;">
               <option value="">All Categories</option>
               <option value="workshop" {% if event_type == 'workshop' %}selected{% endif %}>Workshops</option>
               <option value="seminar" {% if event_type == 'seminar' %}selected{% endif %}>Seminars</option>
@@ -72,7 +75,7 @@
           
           <!-- Date Filter -->
           <div>
-            <select name="date" class="w-full p-4 border-2 border-[#003366] rounded-full text-base appearance-none bg-white shadow-sm" style="background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23003366%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>'); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 3rem;">
+            <select name="date" class="w-full p-2 border-2 border-gray-300 rounded-[25px] pl-10 text-base appearance-none bg-white shadow-sm" style="background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23003366%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>'); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 3rem;">
               <option value="">All Dates</option>
               <option value="today">Today</option>
               <option value="week">This Week</option>
@@ -83,7 +86,7 @@
           
           <!-- Location Filter -->
           <div>
-            <select name="location" class="w-full p-4 border-2 border-[#003366] rounded-full text-base appearance-none bg-white shadow-sm" style="background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23003366%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>'); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 3rem;">
+            <select name="location" class="w-full p-2 border-2 border-gray-300 rounded-[25px] pl-10 text-base appearance-none bg-white shadow-sm" style="background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23003366%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>'); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 3rem;">
               <option value="">All Locations</option>
               <option value="Engineering Block">Engineering Block</option>
               <option value="Auditorium">Auditorium</option>
@@ -93,9 +96,9 @@
             </select>
           </div>
           
-          <!-- Filter Button - Curved like blog page -->
+          <!-- Filter Button  -->
           <div>
-            <button type="submit" class="w-full bg-green-600 text-white py-4 px-6 rounded-full cursor-pointer transition-all hover:bg-green-700 font-semibold shadow-md">
+            <button type="submit" class="w-full bg-green-600 text-white py-2 px-4 rounded-[5px] cursor-pointer transition-all hover:bg-green-700 font-semibold shadow-md">
               <i class="fas fa-filter mr-2"></i> Filter Events
             </button>
           </div>
