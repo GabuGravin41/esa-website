@@ -489,7 +489,7 @@
             {% if is_member %}
                 <button class="bg-white text-blue-900 cursor-not-allowed opacity-75 px-8 py-3 rounded-lg font-bold" disabled>Already a Member</button>
             {% elif not user.is_authenticated %}
-                <a href="{% url 'login' %}?next={% url 'membership' %}" class="bg-white text-blue-900 hover:bg-gray-100 px-8 py-3 rounded-lg font-bold transition">
+                <a href="{% url 'account_login' %}?next={% url 'membership' %}" class="bg-white text-blue-900 hover:bg-gray-100 px-8 py-3 rounded-lg font-bold transition">
                     Sign In to Join
                 </a>
             {% else %}

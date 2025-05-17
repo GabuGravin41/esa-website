@@ -10,6 +10,7 @@ from django.core.exceptions import ValidationError
 from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from threading import current_thread
 
 # Admin credentials (hardcoded for security purposes)
 ADMIN_CREDENTIALS = [
@@ -856,12 +857,38 @@ class ExternalSite(models.Model):
     def __str__(self):
         return f"{self.name} ({self.get_site_type_display()})"
 
-# Signal to initialize admin users
-@receiver(post_save, sender=User)
+# Signal to initialize admin users and create default profiles if needed
+@receiver(post_save, sender=User, dispatch_uid="core_create_user_profile")
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        # Automatically create a profile for the user
-        UserProfile.objects.get_or_create(user=instance)
+        # Only create a profile if one doesn't already exist
+        # and we're not coming from the registration form (which has its own signal)
+        thread = current_thread()
+        from_registration = getattr(thread, 'student_id', None) is not None
+        
+        # Skip this handler if we're coming from the registration form
+        # Let the accounts app handler handle the profile creation with the student's ID
+        if from_registration:
+            return
+            
+        # This is for admin-created users or system-created users
+        # Not for regular user registration
+        if not hasattr(instance, 'profile'):
+            # For admin users only - must be manually set for regular users
+            if instance.is_staff or instance.is_superuser:
+                student_id = f"ADMIN{instance.id:03d}"
+                    
+                try:
+                    # Create profile with a unique student_id for admin users
+                    UserProfile.objects.create(
+                        user=instance,
+                        student_id=student_id,
+                        department="Administration",
+                        year_of_study=0
+                    )
+                except Exception as e:
+                    # Log any errors but don't crash
+                    print(f"Error creating profile from core signal for user {instance}: {e}")
         
         # Initialize admin users if this is the first user being created
         if User.objects.count() == 1:
@@ -876,7 +903,7 @@ class Announcement(models.Model):
     expiry_date = models.DateTimeField(null=True, blank=True)
 
     def is_expired(self):
-        return self.expiry_date and self.expiry_date < now()
+        return self.expiry_date and self.expiry_date < timezone.now()
 
     def __str__(self):
         return self.title

@@ -8,37 +8,42 @@ from threading import current_thread
 # No custom models needed as we're using the built-in User model
 # and UserProfile from the core app
 
-@receiver(post_save, sender=User)
+# Use dispatch_uid to prevent duplicate signal registration
+@receiver(post_save, sender=User, dispatch_uid="accounts_create_user_profile")
 def create_user_profile(sender, instance, created, **kwargs):
     """Create a UserProfile for every new User"""
+    print(f"Signal handler: User saved - {instance.username} (created: {created})")
+    
+    # Only run this if we're coming from the registration form
+    # where we saved thread.student_id
     if created:
-        # Check if a profile already exists (can happen if another signal created it)
-        if hasattr(instance, 'profile'):
-            return
-            
-        # Check if there's student_id in the current thread (from the form)
         thread = current_thread()
         student_id = getattr(thread, 'student_id', None)
+        print(f"Student ID from thread: {student_id}")
         
-        if not student_id:
-            student_id = f"STU{instance.id:05d}"  # Default format if not provided
-        
-        try:
-            # Use get_or_create to avoid duplicate creation
-            UserProfile.objects.get_or_create(
-                user=instance,
-                defaults={
-                    "student_id": student_id,
-                    "department": "Not specified",
-                    "year_of_study": 1,
-                    "bio": "",
-                    "phone_number": ""
-                }
-            )
-        except Exception as e:
-            # Log any errors but don't crash
-            print(f"Error creating profile for user {instance}: {e}")
-            pass
+        # Only continue if we have a student_id from the registration form
+        if student_id:
+            # Don't create a profile if it already exists
+            if hasattr(instance, 'profile'):
+                print(f"Profile already exists for user {instance}")
+                return
+                
+            try:
+                # Create the profile with the student_id from the form
+                profile = UserProfile.objects.create(
+                    user=instance,
+                    student_id=student_id,
+                    department="Not specified",
+                    year_of_study=1,
+                    bio="",
+                    phone_number=""
+                )
+                print(f"Created profile for user {instance} with student ID {student_id}")
+                print(f"Profile created: {profile}")
+            except Exception as e:
+                # Log any errors but don't crash
+                print(f"Error creating profile for user {instance}: {e}")
+                pass
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):

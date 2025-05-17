@@ -1,12 +1,16 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
+from django.views.generic import RedirectView
 from . import views
 from .forms import LoginForm
 
 urlpatterns = [
+    # Redirect common login path to our custom login view
+    #path('login/', RedirectView.as_view(pattern_name='account_login', permanent=False)),
+    
     # Authentication views
-    path('login/', views.login_view, name='login'),
-    path('logout/', views.logout_view, name='logout'),
+    path('account_login/', views.login_view, name='account_login'),
+    path('account_logout/', views.logout_view, name='account_logout'),
     path('register/', views.register, name='register'),
     path('profile/', views.profile, name='profile'),
     

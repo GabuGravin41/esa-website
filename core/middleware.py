@@ -7,8 +7,31 @@ from django.db import IntegrityError
 import json
 from django.utils import timezone
 from .models import UserProfile
+from django.shortcuts import redirect
+from django.contrib import messages
+from django.urls import resolve, reverse
 
 logger = logging.getLogger(__name__)
+
+class LoginRedirectMiddleware:
+    """Middleware to handle login redirects more gracefully."""
+    def __init__(self, get_response):
+        self.get_response = get_response
+        
+    def __call__(self, request):
+        response = self.get_response(request)
+        
+        # If we got a 404 response and the URL was accounts/login/
+        if response.status_code == 404 and request.path.strip('/') == 'accounts/login':
+            # Redirect to the correct login URL
+            return redirect('account_login')
+            
+        # If we got a 403 response (forbidden - usually login required)
+        if response.status_code == 403 and not request.user.is_authenticated:
+            messages.warning(request, 'You need to be logged in to access this page.')
+            return redirect(f"{reverse('account_login')}?next={request.path}")
+            
+        return response
 
 class ErrorHandlingMiddleware:
     def __init__(self, get_response):

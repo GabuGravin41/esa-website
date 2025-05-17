@@ -14,6 +14,7 @@ from core.models import UserProfile
 from django.views.decorators.csrf import ensure_csrf_cookie
 from threading import current_thread
 
+
 @ensure_csrf_cookie
 def login_view(request):
     """Handle user login with both form submission and AJAX"""
@@ -21,35 +22,65 @@ def login_view(request):
         return redirect('home')
     
     if request.method == 'POST':
-        form = LoginForm(request, data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
+        # Check if the request is JSON (from the JavaScript API)
+        if request.headers.get('Content-Type') == 'application/json':
+            import json
+            data = json.loads(request.body)
+            username = data.get('username')
+            password = data.get('password')
+            remember_me = data.get('remember_me', False)
             
-            # LoginForm already handles authentication with the correct backend
-            login(request, user)
+            user = authenticate(request, username=username, password=password)
             
-            # Set session expiry if remember me is not checked
-            if not form.cleaned_data.get('remember_me', False):
-                request.session.set_expiry(0)
-            
-            # Handle AJAX requests
-            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            if user is not None:
+                login(request, user)
+                
+                # Set session expiry if remember me is not checked
+                if not remember_me:
+                    request.session.set_expiry(0)
+                
                 return JsonResponse({
                     'status': 'success',
                     'redirect_url': '/'
                 })
-            
-            messages.success(request, f'Welcome back, {user.username}!')
-            return redirect('home')
-        else:
-            # Handle AJAX requests
-            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            else:
                 return JsonResponse({
                     'status': 'error',
                     'message': 'Invalid username or password.'
                 })
+        
+        # Regular form submission
+        form = LoginForm(request, data=request.POST)
+        if form.is_valid():
+            # The user is already authenticated by the form's clean() method
+            user = form.get_user()
             
+            if user is not None:
+                login(request, user)
+                
+                # Set session expiry if remember me is not checked
+                if not form.cleaned_data.get('remember_me', False):
+                    request.session.set_expiry(0)
+                
+                # Handle AJAX requests
+                if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    return JsonResponse({
+                        'status': 'success',
+                        'redirect_url': '/'
+                    })
+                
+                messages.success(request, f'Welcome back, {user.username}!')
+                return redirect('home')
+        else:
+            # The form is not valid (validation errors)
             messages.error(request, 'Invalid username or password.')
+            
+        # Handle AJAX requests for errors
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                'status': 'error',
+                'message': 'Invalid username or password.'
+            })
     else:
         form = LoginForm()
     
@@ -80,16 +111,22 @@ def register(request):
             thread.student_id = form.cleaned_data.get('student_id')
             
             # Create the user - UserProfile will be created automatically via signals
-            user = form.save()
+            user = form.save(commit=True)
+            
+            # Debug output
+            print(f"User created: {user.username} (id: {user.id})")
+            print(f"Is user authenticated? {user.is_authenticated}")
             
             # Get the first authentication backend (usually ModelBackend)
             backend = get_backends()[0]
+            print(f"Using authentication backend: {backend.__class__.__name__}")
             
             # Set the backend attribute on the user
             user.backend = f"{backend.__module__}.{backend.__class__.__name__}"
             
             # Log the user in with the specified backend
             login(request, user)
+            print(f"User logged in? {request.user.is_authenticated}")
             
             # Handle AJAX requests
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':

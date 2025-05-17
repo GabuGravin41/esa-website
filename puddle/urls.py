@@ -5,12 +5,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', include('core.urls')),
-    # Comment out non-existent apps
-    # path('inbox/', include('conversation.urls')),
-    # path('dashboard/', include('dashboard.urls')),
-    # path('items/', include('item.urls')),
-    path('accounts/', include('allauth.urls')),
-    path('account/', include('accounts.urls')),  # Include custom accounts app URLs
+    #path('accounts/', include('allauth.urls')),
+    path('accounts/', include('accounts.urls')),  
     path('admin/', admin.site.urls),
     path("__reload__/", include("django_browser_reload.urls")),
 ]
