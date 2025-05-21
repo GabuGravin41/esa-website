@@ -25,7 +25,7 @@
             
             <!-- Main Heading with Glow Effect -->
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">
-                Kenyatta University<br><span class="text-green-700">Engineering Students Association</span>
+                Kenyatta University<br><span class="text-blue-500">Engineering Students Association</span>
     </h1>
             
             <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto text-gray-100">
@@ -34,11 +34,10 @@
             
             <!-- Animated Buttons -->
             <div class="flex flex-wrap justify-center gap-6 mb-12">
-                <a href="{% url 'membership' %}" class="group relative overflow-hidden bg-green-700 hover:bg-green-800 text-white px-8 py-4 rounded-lg font-bold text-lg transition-all duration-300 transform hover:scale-105">
-                    <span class="relative z-10">Join ESA</span>
-                    <span class="absolute bottom-0 left-0 w-full h-0 bg-teal-800 transition-all duration-300 group-hover:h-full -z-0"></span>
+                <a href="{% url 'membership' %}" class="bg-blue-900 hover:bg-blue-800 text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors duration-300">
+                    <span>Join ESA</span>
                 </a>
-                <a href="#programs" class="group relative overflow-hidden bg-transparent border-2 border-white hover:border-green-800 text-white hover:text-teal-500 px-8 py-4 rounded-lg font-bold text-lg transition-all duration-300 transform hover:scale-105">
+                <a href="#programs" class="bg-green-800 border-2 border-white hover:bg-white hover:text-blue-900 text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors duration-300">
                     <span>Explore Programs</span>
                 </a>
             </div>
@@ -46,15 +45,15 @@
             <!-- Stats with Reveal Animation - Moved up to avoid cutoff -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
                 <div class="flex flex-col items-center p-5 backdrop-blur-sm bg-white/10 rounded-lg transform transition-all hover:scale-105">
-                    <div class="text-5xl font-bold text-teal-400 mb-2">400+</div>
+                    <div class="text-5xl font-bold text-blue-400 mb-2">300+</div>
                     <div class="text-gray-200 uppercase tracking-wider text-sm">Active Members</div>
                 </div>
                 <div class="flex flex-col items-center p-5 backdrop-blur-sm bg-white/10 rounded-lg transform transition-all hover:scale-105">
-                    <div class="text-5xl font-bold text-teal-400 mb-2">20+</div>
+                    <div class="text-5xl font-bold text-blue-400 mb-2">20+</div>
                     <div class="text-gray-200 uppercase tracking-wider text-sm">Annual Events</div>
                 </div>
                 <div class="flex flex-col items-center p-5 backdrop-blur-sm bg-white/10 rounded-lg transform transition-all hover:scale-105">
-                    <div class="text-5xl font-bold text-teal-400 mb-2">15+</div>
+                    <div class="text-5xl font-bold text-blue-400 mb-2">13+</div>
                     <div class="text-gray-200 uppercase tracking-wider text-sm">Industry Partners</div>
                 </div>
             </div>
@@ -89,7 +88,7 @@
 <section id="programs" class="py-20 bg-white">
     <div class="container mx-auto px-4">
         <div class="text-center mb-16">
-            <h2 class="text-3xl font-bold text-[#003366] mb-4">Our Featured Programs</h2>
+            <h2 class="text-3xl font-bold text-blue-900 mb-4">Our Featured Programs</h2>
             <p class="text-gray-600 max-w-2xl mx-auto">
                 ESA-KU offers a wide range of programs and activities designed to enhance your engineering education and prepare you for a successful career.
             </p>
@@ -100,11 +99,11 @@
             <div class="bg-gray-50 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all">
                 <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1581094794329-c8112a989a91?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"></div>
                 <div class="p-6">
-                    <h3 class="text-xl font-bold text-[#003366] mb-2">Technical Workshops</h3>
+                    <h3 class="text-xl font-bold text-blue-900 mb-2">Technical Workshops</h3>
                     <p class="text-gray-600 mb-4">
                         Hands-on learning experiences with cutting-edge technologies and engineering tools.
                     </p>
-                    <a href="{% url 'events' %}" class="text-green-700 font-semibold hover:underline flex items-center">
+                    <a href="{% url 'events' %}" class="text-blue-900 font-semibold hover:text-blue-800 flex items-center">
                         <span>Learn more</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -117,7 +116,7 @@
             <div class="bg-gray-50 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all">
                 <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1507537297725-24a1c029d37d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"></div>
                 <div class="p-6">
-                    <h3 class="text-xl font-bold text-[#003366] mb-2">Industry Connections</h3>
+                    <h3 class="text-xl font-bold text-blue-900 mb-2">Industry Connections</h3>
                     <p class="text-gray-600 mb-4">
                         Networking events, company visits, and mentorship opportunities with leading engineering firms.
                     </p>
@@ -134,7 +133,7 @@
             <div class="bg-gray-50 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all">
                 <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"></div>
                 <div class="p-6">
-                    <h3 class="text-xl font-bold text-[#003366] mb-2">Research Projects</h3>
+                    <h3 class="text-xl font-bold text-blue-900 mb-2">Research Projects</h3>
                     <p class="text-gray-600 mb-4">
                         Collaborative research opportunities to solve real-world engineering challenges.
                     </p>
@@ -154,7 +153,7 @@
 <section class="py-20 bg-gray-50">
     <div class="container mx-auto px-4">
         <div class="text-center mb-16">
-            <h2 class="text-3xl font-bold text-[#003366] mb-4">Upcoming Events</h2>
+            <h2 class="text-3xl font-bold text-blue-900 mb-4">Upcoming Events</h2>
             <p class="text-gray-600 max-w-2xl mx-auto">
                 Stay connected with the latest activities, workshops, and gatherings in the ESA-KU community.
             </p>
@@ -171,7 +170,7 @@
                             style="background-image: url('https://images.unsplash.com/photo-1550439062-609e1531270e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"
                         {% endif %}
                     >
-                        <div class="absolute top-4 left-4 bg-[#003366] text-white py-1 px-3 rounded-full text-sm font-bold">
+                        <div class="absolute top-4 left-4 bg-blue-900 text-white py-1 px-3 rounded-full text-sm font-bold">
                             {{ event.start_date|date:"M d, Y" }}
                         </div>
                         {% if event.featured %}
@@ -188,7 +187,7 @@
                             </svg>
                             <span class="text-gray-500">{{ event.location }}</span>
                         </div>
-                        <h3 class="text-xl font-bold text-[#003366] mb-2">{{ event.title }}</h3>
+                        <h3 class="text-xl font-bold text-blue-900 mb-2">{{ event.title }}</h3>
                         <p class="text-gray-600 mb-4">
                             {% if event.short_description %}
                                 {{ event.short_description|truncatechars:100 }}
@@ -196,7 +195,7 @@
                                 {{ event.description|truncatechars:100 }}
                             {% endif %}
                         </p>
-                        <a href="{% url 'event_detail' event_id=event.id %}" class="inline-block bg-[#003366] hover:bg-[#002244] text-white py-2 px-4 rounded-lg transition-colors">
+                        <a href="{% url 'event_detail' event_id=event.id %}" class="inline-block bg-blue-900 hover:bg-blue-800 text-white py-2 px-4 rounded-lg transition-colors">
                             Register Now
                         </a>
                     </div>
@@ -210,7 +209,7 @@
         </div>
         
         <div class="text-center mt-12">
-            <a href="{% url 'events' %}" class="inline-block border-2 border-[#003366] text-[#003366] hover:bg-[#003366] hover:text-white py-3 px-6 rounded-lg font-bold transition-colors">
+            <a href="{% url 'events' %}" class="inline-block bg-blue-900 text-white hover:bg-blue-800 py-3 px-6 rounded-lg font-bold transition-colors">
                 View All Events
             </a>
         </div>
@@ -220,7 +219,7 @@
 <!-- Latest News Section -->
 <section id="news" class="py-16 bg-gray-100">
     <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-bold text-center mb-12 text-[#003366]">Latest News</h2>
+        <h2 class="text-3xl font-bold text-center mb-12 text-blue-900">Latest Articles</h2>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             {% if blog_posts %}
@@ -253,7 +252,7 @@
                         </div>
                         <h3 class="text-xl font-bold text-gray-800 mb-3">{{ post.title }}</h3>
                         <p class="text-gray-600 mb-4">{{ post.content|striptags|truncatechars:100 }}</p>
-                        <a href="{% url 'blog_post_detail' post_id=post.id %}" class="text-[#003366] font-semibold hover:underline flex items-center">
+                        <a href="{% url 'blog_post_detail' post_id=post.id %}" class="text-blue-900 font-semibold hover:text-blue-800 flex items-center">
                             Read more
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -270,15 +269,15 @@
         </div>
         
         <div class="text-center mt-10">
-            <a href="{% url 'blog' %}" class="inline-block bg-white border-2 border-[#003366] text-[#003366] hover:bg-[#003366] hover:text-white py-2 px-6 rounded-lg font-semibold transition-colors duration-300">
-                View All News
+            <a href="{% url 'blog' %}" class="inline-block bg-blue-900 text-white hover:bg-blue-800 py-3 px-6 rounded-lg font-bold transition-colors">
+                View All Articles
             </a>
         </div>
     </div>
 </section>
 
 <!-- Countdown Timer for Next Major Event -->
-<section class="py-10 bg-[#003366] text-white">
+<section class="py-10 bg-green-600 text-white">
     <div class="container mx-auto px-4">
         <div class="flex flex-col md:flex-row items-center justify-between">
             <div class="mb-6 md:mb-0">
@@ -337,17 +336,17 @@
 <section id="join-us" class="py-16 bg-gradient-to-b from-white to-gray-100">
     <div class="container mx-auto px-4">
         <div class="text-center max-w-3xl mx-auto">
-            <h2 class="text-3xl font-bold mb-8 text-[#003366]">Join Our Community</h2>
+            <h2 class="text-3xl font-bold mb-8 text-blue-900">Join Our Community</h2>
             <p class="text-lg mb-10 text-gray-700">Become a part of ESA and connect with like-minded engineering students, access exclusive resources, and enhance your professional development.</p>
             
             <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 mb-12">
-                <a href="{% url 'membership' %}" class="inline-flex items-center justify-center px-8 py-3 bg-[#003366] text-white font-semibold rounded-lg hover:bg-[#002244] transition duration-300 shadow-md">
+                <a href="{% url 'membership' %}" class="inline-flex items-center justify-center px-8 py-3 bg-blue-900 text-white font-semibold rounded-lg hover:bg-blue-800 transition duration-300 shadow-md">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
                     </svg>
                     Become a Member
                 </a>
-                <a href="{% url 'contact' %}" class="inline-flex items-center justify-center px-8 py-3 border-2 border-[#003366] text-[#003366] font-semibold rounded-lg hover:bg-gray-100 transition duration-300">
+                <a href="{% url 'contact' %}" class="inline-flex items-center justify-center px-8 py-3 border-2 border-green-700 text-green-700 font-semibold rounded-lg hover:bg-gray-100 transition duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                     </svg>
@@ -357,7 +356,7 @@
             
             <!-- Newsletter Subscription Form -->
             <div class="bg-white p-8 rounded-xl shadow-md">
-                <h3 class="text-xl font-bold mb-4 text-[#003366]">Subscribe to Our Newsletter</h3>
+                <h3 class="text-xl font-bold mb-4 text-blue-900">Subscribe to Our Newsletter</h3>
                 <p class="text-gray-600 mb-6">Stay updated with the latest events, news, and opportunities from ESA.</p>
                 <form action="{% url 'home' %}" method="post" class="max-w-md mx-auto">
                     {% csrf_token %}
@@ -367,7 +366,7 @@
                             type="email"
                             name="email" 
                             placeholder="Your email address" 
-                            class="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#003366]"
+                            class="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-900"
                             required
                         >
                         <button 
@@ -420,7 +419,7 @@
 <div id="back-to-top" class="fixed bottom-8 right-8 z-50 hidden">
     <button 
         onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
-        class="bg-[#003366] text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:bg-[#002244] transition-colors duration-300"
+        class="bg-blue-900 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:bg-blue-700 transition-colors duration-300"
         aria-label="Back to top"
     >
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
