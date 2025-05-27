@@ -37,7 +37,7 @@
                 <a href="{% url 'membership' %}" class="bg-blue-900 hover:bg-blue-800 text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors duration-300">
                     <span>Join ESA</span>
                 </a>
-                <a href="#programs" class="bg-green-800 border-2 border-white hover:bg-white hover:text-blue-900 text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors duration-300">
+                <a href="#programs" class="bg-transparent border-2 border-green-700 hover:bg-green-700 hover:text-white text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors duration-300">
                     <span>Explore Programs</span>
                 </a>
             </div>
@@ -96,55 +96,139 @@
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Program 1 -->
-            <div class="bg-gray-50 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all">
-                <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1581094794329-c8112a989a91?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"></div>
-                <div class="p-6">
+            <div class="bg-gray-50 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all h-full flex flex-col">
+                <div class="h-48 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1581094794329-c8112a989a91?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')">
+                    <div class="absolute bottom-0 left-0 bg-blue-900 text-white py-1 px-3 text-sm font-bold">
+                        Skill Development
+                    </div>
+                </div>
+                <div class="p-6 flex-grow flex flex-col">
                     <h3 class="text-xl font-bold text-blue-900 mb-2">Technical Workshops</h3>
-                    <p class="text-gray-600 mb-4">
-                        Hands-on learning experiences with cutting-edge technologies and engineering tools.
+                    <p class="text-gray-600 mb-4 flex-grow">
+                        Hands-on learning experiences with cutting-edge technologies and engineering tools. Our workshops cover programming, CAD design, circuit building, and more. Led by industry professionals and experienced faculty.
                     </p>
-                    <a href="{% url 'events' %}" class="text-blue-900 font-semibold hover:text-blue-800 flex items-center">
-                        <span>Learn more</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </a>
+                    <div class="mt-auto">
+                        <ul class="text-gray-600 mb-4 text-sm">
+                            <li class="flex items-center mb-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Weekly hands-on sessions
+                            </li>
+                            <li class="flex items-center mb-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Certificate of completion
+                            </li>
+                            <li class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Industry-relevant skills
+                            </li>
+                        </ul>
+                        <a href="{% url 'events' %}" class="text-green-700 font-semibold hover:underline flex items-center">
+                            <span>View upcoming workshops</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
                 </div>
             </div>
             
             <!-- Program 2 -->
-            <div class="bg-gray-50 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all">
-                <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1507537297725-24a1c029d37d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"></div>
-                <div class="p-6">
+            <div class="bg-gray-50 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all h-full flex flex-col">
+                <div class="h-48 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1507537297725-24a1c029d37d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')">
+                    <div class="absolute bottom-0 left-0 bg-blue-900 text-white py-1 px-3 text-sm font-bold">
+                        Career Growth
+                    </div>
+                </div>
+                <div class="p-6 flex-grow flex flex-col">
                     <h3 class="text-xl font-bold text-blue-900 mb-2">Industry Connections</h3>
-                    <p class="text-gray-600 mb-4">
-                        Networking events, company visits, and mentorship opportunities with leading engineering firms.
+                    <p class="text-gray-600 mb-4 flex-grow">
+                        Networking events, company visits, and mentorship opportunities with leading engineering firms. Build relationships with industry professionals and explore potential career paths.
                     </p>
-                    <a href="{% url 'communities' %}" class="text-green-700 font-semibold hover:underline flex items-center">
-                        <span>Learn more</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </a>
+                    <div class="mt-auto">
+                        <ul class="text-gray-600 mb-4 text-sm">
+                            <li class="flex items-center mb-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Networking events
+                            </li>
+                            <li class="flex items-center mb-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Industry mentorship
+                            </li>
+                            <li class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Company site visits
+                            </li>
+                        </ul>
+                        <a href="{% url 'communities' %}" class="text-green-700 font-semibold hover:underline flex items-center">
+                            <span>Join our communities</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
                 </div>
             </div>
             
             <!-- Program 3 -->
-            <div class="bg-gray-50 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all">
-                <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"></div>
-                <div class="p-6">
+            <div class="bg-gray-50 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all h-full flex flex-col">
+                <div class="h-48 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')">
+                    <div class="absolute bottom-0 left-0 bg-blue-900 text-white py-1 px-3 text-sm font-bold">
+                        Innovation
+                    </div>
+                </div>
+                <div class="p-6 flex-grow flex flex-col">
                     <h3 class="text-xl font-bold text-blue-900 mb-2">Research Projects</h3>
-                    <p class="text-gray-600 mb-4">
-                        Collaborative research opportunities to solve real-world engineering challenges.
+                    <p class="text-gray-600 mb-4 flex-grow">
+                        Collaborative research opportunities to solve real-world engineering challenges. Work on projects that address local and global issues, with guidance from faculty and industry experts.
                     </p>
-                    <a href="{% url 'resources' %}" class="text-green-700 font-semibold hover:underline flex items-center">
-                        <span>Learn more</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </a>
+                    <div class="mt-auto">
+                        <ul class="text-gray-600 mb-4 text-sm">
+                            <li class="flex items-center mb-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Team-based projects
+                            </li>
+                            <li class="flex items-center mb-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Research publication opportunities
+                            </li>
+                            <li class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Funding and resource support
+                            </li>
+                        </ul>
+                        <a href="{% url 'resources' %}" class="text-green-700 font-semibold hover:underline flex items-center">
+                            <span>Explore research resources</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
                 </div>
             </div>
+        </div>
+        <!--
+        <div class="text-center mt-12">
+            <a href="{% url 'communities' %}" class="inline-block bg-blue-900 text-white hover:bg-blue-800 py-3 px-6 rounded-lg font-bold transition-colors">
+                View All Programs
+            </a>
         </div>
     </div>
 </section>
@@ -239,7 +323,7 @@
                             class="w-full h-56 object-cover lazy-load"
                             loading="lazy">
                         {% endif %}
-                        <div class="absolute top-4 left-4 bg-{% if post.category == 'research' %}green-600{% elif post.category == 'journal' %}blue-500{% elif post.category == 'projects' %}orange-500{% else %}purple-500{% endif %} text-white text-sm font-semibold py-1 px-3 rounded-full">
+                        <div class="absolute top-4 left-4 bg-{% if post.category == 'research' %}blue-900{% elif post.category == 'journal' %}blue-700{% elif post.category == 'projects' %}blue-800{% else %}blue-600{% endif %} text-white text-sm font-semibold py-1 px-3 rounded-full">
                             {{ post.get_category_display|default:post.category|title }}
                         </div>
                     </div>
@@ -277,7 +361,7 @@
 </section>
 
 <!-- Countdown Timer for Next Major Event -->
-<section class="py-10 bg-green-600 text-white">
+<section class="py-10 bg-blue-900 text-white">
     <div class="container mx-auto px-4">
         <div class="flex flex-col md:flex-row items-center justify-between">
             <div class="mb-6 md:mb-0">
@@ -346,7 +430,7 @@
                     </svg>
                     Become a Member
                 </a>
-                <a href="{% url 'contact' %}" class="inline-flex items-center justify-center px-8 py-3 border-2 border-green-700 text-green-700 font-semibold rounded-lg hover:bg-gray-100 transition duration-300">
+                <a href="{% url 'contact' %}" class="inline-flex items-center justify-center px-8 py-3 border-2 border-blue-900 text-blue-900 font-semibold rounded-lg hover:bg-gray-100 transition duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                     </svg>

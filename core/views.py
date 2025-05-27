@@ -2076,21 +2076,14 @@ def more_sites(request):
     community_links = ExternalSite.objects.filter(site_type='community', is_approved=True)
     partner_sites = ExternalSite.objects.filter(site_type='partner', is_approved=True)
     
-    # For admin users, get count of pending site suggestions
-    pending_count = 0
-    if request.user.is_authenticated and hasattr(request.user, 'profile') and request.user.profile.is_esa_admin():
-        pending_count = ExternalSite.objects.filter(is_approved=False, is_rejected=False).count()
-    
     context = {
         'title': 'Engineering Resources & Links',
         'university_clubs': university_clubs,
         'community_links': community_links,
-        'sites': partner_sites,
-        'pending_count': pending_count
+        'sites': partner_sites
     }
     return render(request, 'core/more_sites.html', context)
 
-@login_required
 def suggest_resource(request):
     """Handle suggestions for new resource links from users"""
     if request.method == 'POST':
@@ -2098,15 +2091,18 @@ def suggest_resource(request):
         url = request.POST.get('url')
         description = request.POST.get('description')
         category = request.POST.get('category')
+        icon = request.POST.get('icon', '')
         
         if name and url and description and category:
             # Map form category to site_type
             site_type_mapping = {
                 'education': 'community',
-                'professional': 'community',
-                'organization': 'community',
+                'professional': 'partner',
+                'organization': 'partner',
                 'university': 'university',
-                'other': 'community'
+                'other': 'community',
+                'partner': 'partner',  # Direct mapping from site_form radio buttons
+                'community': 'community'  # Direct mapping from site_form radio buttons
             }
             site_type = site_type_mapping.get(category, 'community')
             
@@ -2119,12 +2115,13 @@ def suggest_resource(request):
                 url=url,
                 description=description,
                 site_type=site_type,
+                icon=icon,
                 added_by=request.user,
                 is_approved=False  # Requires admin approval
             )
             site.save()
             
-            messages.success(request, 'Thank you for suggesting this resource! It will be reviewed by an administrator.')
+            messages.success(request, 'Thank you for suggesting this connection! It will be reviewed by an administrator.')
         else:
             messages.error(request, 'Please fill in all the required fields.')
             
@@ -2133,33 +2130,8 @@ def suggest_resource(request):
 @login_required
 def add_resource_link(request):
     """Allow authenticated users to add resource links"""
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        url = request.POST.get('url')
-        description = request.POST.get('description')
-        icon = request.POST.get('icon', 'fas fa-link')
-        site_type = request.POST.get('site_type', 'community')
-        
-        if name and url and description:
-            # Create a new ExternalSite object
-            site = ExternalSite(
-                name=name,
-                url=url,
-                description=description,
-                site_type=site_type,
-                icon=icon,
-                added_by=request.user,
-                is_approved=False  # Requires admin approval
-            )
-            site.save()
-            messages.success(request, 'Resource link added successfully! It will be reviewed by an administrator.')
-        else:
-            messages.error(request, 'Please fill in all the required fields.')
-    
-    # If not POST, or after processing, render a form
-    return render(request, 'core/add_resource.html', {
-        'title': 'Add Resource Link'
-    })
+    # For GET requests, direct user to the appropriate form based on request
+    return redirect('site_form')
 
 def donate(request):
     """Render the donation page for ESA with various donation options"""
@@ -2177,6 +2149,7 @@ def member_get_member(request):
         messages.error(request, 'Please complete your profile first.')
         return redirect('profile')
         
+           
     # Check if user is an active member
     if not profile.is_membership_active():
         messages.info(request, 'You need to be an active member to participate in the referral program.')
@@ -3071,3 +3044,10 @@ def admin_add_site(request):
     
     # This should not normally be reached directly
     return redirect('manage_sites')
+
+@login_required
+def site_form(request):
+    """Display form for suggesting a professional site or connection"""
+    return render(request, 'core/site_form.html', {
+        'title': 'Suggest Engineering Connection'
+    })

@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
-    # Public URLs
+    # URLs
     path('', views.home, name='home'),
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
@@ -15,6 +15,7 @@ urlpatterns = [
     path('journals/', views.esa_journals, name='esa_journals'),
     path('more-sites/', views.more_sites, name='more_sites'),
     path('more-sites/add/', views.suggest_resource, name='add_resource_link'),
+    path('more-sites/suggest/', views.site_form, name='site_form'),
     path('more-sites/manage/', views.manage_sites, name='manage_sites'),
     path('more-sites/approve/<int:site_id>/', views.approve_site, name='approve_site'),
     path('more-sites/reject/<int:site_id>/', views.reject_site, name='reject_site'),
