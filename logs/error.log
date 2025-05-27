@@ -7398,3 +7398,459 @@ Traceback (most recent call last):
 django.template.exceptions.TemplateSyntaxError: Invalid filter: 'add_class'
 ERROR 2025-05-21 16:31:51,944 log 18266 140130581993024 Internal Server Error: /contact/
 ERROR 2025-05-21 16:31:51,945 basehttp 18266 140130581993024 "GET /contact/ HTTP/1.1" 500 18923
+ERROR 2025-05-27 18:46:12,196 middleware 7440 140674963863104 Error: The file 'js/auth.js' could not be found with <whitenoise.storage.CompressedManifestStaticFilesStorage object at 0x7ff1716bbc70>.
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/templatetags/static.py", line 116, in render
+    url = self.url(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/templatetags/static.py", line 113, in url
+    return self.handle_simple(path)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/templatetags/static.py", line 129, in handle_simple
+    return staticfiles_storage.url(path)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 203, in url
+    return self._url(self.stored_name, name, force)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 182, in _url
+    hashed_name = hashed_name_func(*args)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 519, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/whitenoise/storage.py", line 105, in hashed_name
+    name = super().hashed_name(*args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 143, in hashed_name
+    raise ValueError(
+ValueError: The file 'js/auth.js' could not be found with <whitenoise.storage.CompressedManifestStaticFilesStorage object at 0x7ff1716bbc70>.
+ERROR 2025-05-27 18:46:12,202 log 7440 140674963863104 Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/templatetags/static.py", line 116, in render
+    url = self.url(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/templatetags/static.py", line 113, in url
+    return self.handle_simple(path)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/templatetags/static.py", line 129, in handle_simple
+    return staticfiles_storage.url(path)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 203, in url
+    return self._url(self.stored_name, name, force)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 182, in _url
+    hashed_name = hashed_name_func(*args)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 519, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/whitenoise/storage.py", line 105, in hashed_name
+    name = super().hashed_name(*args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 143, in hashed_name
+    raise ValueError(
+ValueError: The file 'js/auth.js' could not be found with <whitenoise.storage.CompressedManifestStaticFilesStorage object at 0x7ff1716bbc70>.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 199, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 362, in process_exception_by_middleware
+    response = middleware_method(request, exception)
+  File "/home/lindah/django website tutorials/esa-website/puddle/core/middleware.py", line 88, in process_exception
+    html = render_to_string(template, context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/templatetags/static.py", line 116, in render
+    url = self.url(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/templatetags/static.py", line 113, in url
+    return self.handle_simple(path)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/templatetags/static.py", line 129, in handle_simple
+    return staticfiles_storage.url(path)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 203, in url
+    return self._url(self.stored_name, name, force)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 182, in _url
+    hashed_name = hashed_name_func(*args)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 519, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/whitenoise/storage.py", line 105, in hashed_name
+    name = super().hashed_name(*args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 143, in hashed_name
+    raise ValueError(
+ValueError: The file 'js/auth.js' could not be found with <whitenoise.storage.CompressedManifestStaticFilesStorage object at 0x7ff1716bbc70>.
+ERROR 2025-05-27 18:46:12,204 basehttp 7440 140674963863104 "GET / HTTP/1.1" 500 145
+ERROR 2025-05-27 18:46:42,375 middleware 7698 140424789358144 Error: The file 'js/auth.js' could not be found with <whitenoise.storage.CompressedManifestStaticFilesStorage object at 0x7fb731e85ff0>.
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/templatetags/static.py", line 116, in render
+    url = self.url(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/templatetags/static.py", line 113, in url
+    return self.handle_simple(path)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/templatetags/static.py", line 129, in handle_simple
+    return staticfiles_storage.url(path)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 203, in url
+    return self._url(self.stored_name, name, force)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 182, in _url
+    hashed_name = hashed_name_func(*args)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 519, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/whitenoise/storage.py", line 105, in hashed_name
+    name = super().hashed_name(*args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 143, in hashed_name
+    raise ValueError(
+ValueError: The file 'js/auth.js' could not be found with <whitenoise.storage.CompressedManifestStaticFilesStorage object at 0x7fb731e85ff0>.
+ERROR 2025-05-27 18:46:42,379 log 7698 140424789358144 Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/templatetags/static.py", line 116, in render
+    url = self.url(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/templatetags/static.py", line 113, in url
+    return self.handle_simple(path)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/templatetags/static.py", line 129, in handle_simple
+    return staticfiles_storage.url(path)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 203, in url
+    return self._url(self.stored_name, name, force)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 182, in _url
+    hashed_name = hashed_name_func(*args)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 519, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/whitenoise/storage.py", line 105, in hashed_name
+    name = super().hashed_name(*args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 143, in hashed_name
+    raise ValueError(
+ValueError: The file 'js/auth.js' could not be found with <whitenoise.storage.CompressedManifestStaticFilesStorage object at 0x7fb731e85ff0>.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 199, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 362, in process_exception_by_middleware
+    response = middleware_method(request, exception)
+  File "/home/lindah/django website tutorials/esa-website/puddle/core/middleware.py", line 88, in process_exception
+    html = render_to_string(template, context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/templatetags/static.py", line 116, in render
+    url = self.url(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/templatetags/static.py", line 113, in url
+    return self.handle_simple(path)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/templatetags/static.py", line 129, in handle_simple
+    return staticfiles_storage.url(path)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 203, in url
+    return self._url(self.stored_name, name, force)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 182, in _url
+    hashed_name = hashed_name_func(*args)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 519, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/whitenoise/storage.py", line 105, in hashed_name
+    name = super().hashed_name(*args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 143, in hashed_name
+    raise ValueError(
+ValueError: The file 'js/auth.js' could not be found with <whitenoise.storage.CompressedManifestStaticFilesStorage object at 0x7fb731e85ff0>.
+ERROR 2025-05-27 18:46:42,381 basehttp 7698 140424789358144 "GET / HTTP/1.1" 500 145
+ERROR 2025-05-27 18:46:43,177 middleware 7698 140424789358144 Error: The file 'js/auth.js' could not be found with <whitenoise.storage.CompressedManifestStaticFilesStorage object at 0x7fb731e85ff0>.
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/templatetags/static.py", line 116, in render
+    url = self.url(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/templatetags/static.py", line 113, in url
+    return self.handle_simple(path)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/templatetags/static.py", line 129, in handle_simple
+    return staticfiles_storage.url(path)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 203, in url
+    return self._url(self.stored_name, name, force)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 182, in _url
+    hashed_name = hashed_name_func(*args)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 519, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/whitenoise/storage.py", line 105, in hashed_name
+    name = super().hashed_name(*args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 143, in hashed_name
+    raise ValueError(
+ValueError: The file 'js/auth.js' could not be found with <whitenoise.storage.CompressedManifestStaticFilesStorage object at 0x7fb731e85ff0>.
+ERROR 2025-05-27 18:46:43,180 log 7698 140424789358144 Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/templatetags/static.py", line 116, in render
+    url = self.url(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/templatetags/static.py", line 113, in url
+    return self.handle_simple(path)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/templatetags/static.py", line 129, in handle_simple
+    return staticfiles_storage.url(path)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 203, in url
+    return self._url(self.stored_name, name, force)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 182, in _url
+    hashed_name = hashed_name_func(*args)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 519, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/whitenoise/storage.py", line 105, in hashed_name
+    name = super().hashed_name(*args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 143, in hashed_name
+    raise ValueError(
+ValueError: The file 'js/auth.js' could not be found with <whitenoise.storage.CompressedManifestStaticFilesStorage object at 0x7fb731e85ff0>.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 199, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/core/handlers/base.py", line 362, in process_exception_by_middleware
+    response = middleware_method(request, exception)
+  File "/home/lindah/django website tutorials/esa-website/puddle/core/middleware.py", line 88, in process_exception
+    html = render_to_string(template, context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/templatetags/static.py", line 116, in render
+    url = self.url(context)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/templatetags/static.py", line 113, in url
+    return self.handle_simple(path)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/templatetags/static.py", line 129, in handle_simple
+    return staticfiles_storage.url(path)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 203, in url
+    return self._url(self.stored_name, name, force)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 182, in _url
+    hashed_name = hashed_name_func(*args)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 519, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/whitenoise/storage.py", line 105, in hashed_name
+    name = super().hashed_name(*args, **kwargs)
+  File "/home/lindah/django website tutorials/esa-website/puddle/venv/lib/python3.10/site-packages/django/contrib/staticfiles/storage.py", line 143, in hashed_name
+    raise ValueError(
+ValueError: The file 'js/auth.js' could not be found with <whitenoise.storage.CompressedManifestStaticFilesStorage object at 0x7fb731e85ff0>.
+ERROR 2025-05-27 18:46:43,182 basehttp 7698 140424789358144 "GET / HTTP/1.1" 500 145
