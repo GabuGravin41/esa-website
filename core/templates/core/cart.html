@@ -74,19 +74,19 @@
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap">
                     <form action="{% url 'update_cart' %}" method="post" class="update-cart-form">
-                      {% csrf_token %}
-                      <input type="hidden" name="product_id" value="{{ item.product.id }}">
-                      <div class="custom-number-input h-8 w-24">
-                        <div class="flex flex-row h-8 w-full rounded-lg relative bg-transparent">
-                          <button type="button" data-action="decrement" class="bg-gray-200 text-gray-600 hover:text-gray-700 hover:bg-gray-300 h-full w-8 rounded-l cursor-pointer outline-none">
-                            <span class="m-auto text-xl font-semibold">−</span>
-                          </button>
-                          <input type="number" name="quantity" min="1" max="{{ item.product.stock }}" value="{{ item.quantity }}" class="outline-none focus:outline-none text-center w-full bg-gray-100 font-semibold text-sm hover:text-black focus:text-black cursor-default flex items-center text-gray-700">
-                          <button type="button" data-action="increment" class="bg-gray-200 text-gray-600 hover:text-gray-700 hover:bg-gray-300 h-full w-8 rounded-r cursor-pointer">
-                            <span class="m-auto text-xl font-semibold">+</span>
-                          </button>
+                        {% csrf_token %}
+                        <input type="hidden" name="product_id" value="{{ item.product.id }}">
+                        <div class="custom-number-input h-8 w-24">
+                            <div class="flex flex-row h-8 w-full rounded-lg relative bg-transparent">
+                                <button type="button" data-action="decrement" class="bg-gray-200 text-gray-600 hover:text-gray-700 hover:bg-gray-300 h-full w-8 rounded-l cursor-pointer outline-none">
+                                    <span class="m-auto text-xl font-semibold">−</span>
+                                </button>
+                                <input type="number" name="quantity" min="1" max="{{ item.product.stock }}" value="{{ item.quantity }}" class="outline-none focus:outline-none text-center w-full bg-gray-100 font-semibold text-sm hover:text-black focus:text-black cursor-default flex items-center text-gray-700">
+                                <button type="button" data-action="increment" class="bg-gray-200 text-gray-600 hover:text-gray-700 hover:bg-gray-300 h-full w-8 rounded-r cursor-pointer">
+                                    <span class="m-auto text-xl font-semibold">+</span>
+                                </button>
+                            </div>
                         </div>
-                      </div>
                     </form>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap">
@@ -187,30 +187,30 @@
   // Handle quantity increment/decrement
   document.addEventListener('DOMContentLoaded', function() {
     const forms = document.querySelectorAll('.update-cart-form');
-    
+
     forms.forEach(form => {
-      const decrementBtn = form.querySelector('[data-action="decrement"]');
-      const incrementBtn = form.querySelector('[data-action="increment"]');
-      const input = form.querySelector('input[type="number"]');
-      
-      decrementBtn.addEventListener('click', function() {
-        if (parseInt(input.value) > parseInt(input.min)) {
-          input.value = parseInt(input.value) - 1;
-          form.submit();
-        }
-      });
-      
-      incrementBtn.addEventListener('click', function() {
-        if (parseInt(input.value) < parseInt(input.max)) {
-          input.value = parseInt(input.value) + 1;
-          form.submit();
-        }
-      });
-      
-      input.addEventListener('change', function() {
-        form.submit();
-      });
+        const decrementBtn = form.querySelector('[data-action="decrement"]');
+        const incrementBtn = form.querySelector('[data-action="increment"]');
+        const input = form.querySelector('input[type="number"]');
+
+        decrementBtn.addEventListener('click', function() {
+            if (parseInt(input.value) > parseInt(input.min)) {
+                input.value = parseInt(input.value) - 1;
+                form.submit();
+            }
+        });
+
+        incrementBtn.addEventListener('click', function() {
+            if (parseInt(input.value) < parseInt(input.max)) {
+                input.value = parseInt(input.value) + 1;
+                form.submit();
+            }
+        });
+
+        input.addEventListener('change', function() {
+            form.submit();
+        });
     });
-  });
+});
 </script>
 {% endblock %} 

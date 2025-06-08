@@ -1324,26 +1324,63 @@ def remove_member(request, community_slug, user_id):
     
     return redirect('community_members', slug=community_slug)
 
+# def update_cart(request):
+#     if request.method == 'POST':
+#         product_id = request.POST.get('product_id')
+#         quantity = int(request.POST.get('quantity', 1))
+        
+#         if 'cart' not in request.session:
+#             request.session['cart'] = {}
+        
+#         cart = request.session['cart']
+        
+#         # Update quantity or remove if quantity is 0
+#         if quantity > 0:
+#             cart[product_id] = quantity
+#         elif product_id in cart:
+#             del cart[product_id]
+            
+#         request.session.modified = True
+#         messages.success(request, 'Cart updated successfully')
+    
+#     return redirect('cart')
+
+
+
+from django.http import JsonResponse
+
 def update_cart(request):
     if request.method == 'POST':
-        product_id = request.POST.get('product_id')
-        quantity = int(request.POST.get('quantity', 1))
-        
-        if 'cart' not in request.session:
-            request.session['cart'] = {}
-        
-        cart = request.session['cart']
-        
-        # Update quantity or remove if quantity is 0
-        if quantity > 0:
-            cart[product_id] = quantity
-        elif product_id in cart:
-            del cart[product_id]
-            
-        request.session.modified = True
-        messages.success(request, 'Cart updated successfully')
-    
-    return redirect('cart')
+        try:
+            product_id = int(request.POST.get('product_id'))
+            quantity = int(request.POST.get('quantity'))
+
+            # Validate quantity
+            if quantity < 1:
+                return JsonResponse({"status": "error", "message": "Quantity must be at least 1."})
+
+            # Get the cart from the session
+            cart = request.session.get('cart', {})
+            product_id_str = str(product_id)
+
+            # Check if the product exists in the cart
+            if product_id_str not in cart:
+                return JsonResponse({"status": "error", "message": "Product not found in cart."})
+
+            # Update the quantity
+            cart[product_id_str] = quantity
+            request.session['cart'] = cart
+            request.session.modified = True
+
+            return JsonResponse({"status": "success", "message": "Cart updated successfully."})
+        except (ValueError, TypeError):
+            return JsonResponse({"status": "error", "message": "Invalid input."})
+    else:
+        return JsonResponse({"status": "error", "message": "Invalid request method."})
+
+
+
+
 
 def remove_from_cart(request):
     if request.method == 'POST':
@@ -2618,22 +2655,82 @@ def product_delete(request, slug):
         'title': f"Delete {product.name}"
     })
 
+# def product_detail(request, slug):
+#     """Display product details"""
+#     product = get_object_or_404(Product, slug=slug)
+    
+#     # Increment view count
+#     if request.session.get(f'viewed_product_{product.id}') != 'yes':
+#         product.view_count = product.view_count + 1
+#         product.save(update_fields=['view_count'])
+#         request.session[f'viewed_product_{product.id}'] = 'yes'
+    
+#     # Get related products
+#     related_products = Product.objects.filter(
+#         category=product.category, 
+#         is_active=True
+#     ).exclude(id=product.id).order_by('-created_at')[:4]
+    
+#     # Check if product is in user's cart
+#     in_cart = False
+#     cart_quantity = 0
+#     if 'cart' in request.session:
+#         cart = request.session['cart']
+#         product_id_str = str(product.id)
+#         if product_id_str in cart:
+#             in_cart = True
+#             cart_quantity = cart[product_id_str]
+    
+#     # Check if user can edit/delete
+#     can_edit = False
+#     if request.user.is_authenticated and hasattr(request.user, 'profile'):
+#         profile = request.user.profile
+#         can_edit = profile.can_manage_store() or (product.created_by and product.created_by == request.user)
+    
+#     return render(request, 'core/product_detail.html', {
+#         'product': product,
+#         'related_products': related_products,
+#         'in_cart': in_cart,
+#         'cart_quantity': cart_quantity,
+#         'can_edit': can_edit
+#     })
+
+
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
+
 def product_detail(request, slug):
     """Display product details"""
     product = get_object_or_404(Product, slug=slug)
-    
+
+    # Handle Add to Cart form submission
+    if request.method == 'POST' and 'add_to_cart' in request.POST:
+        quantity = int(request.POST.get('quantity', 1))
+        if quantity > product.stock:
+            messages.error(request, "Requested quantity exceeds available stock.")
+        else:
+            cart = request.session.get('cart', {})
+            product_id_str = str(product.id)
+            if product_id_str in cart:
+                cart[product_id_str] += quantity
+            else:
+                cart[product_id_str] = quantity
+            request.session['cart'] = cart
+            messages.success(request, f"{product.name} has been added to your cart.")
+        return redirect('product_detail', slug=product.slug)
+
     # Increment view count
     if request.session.get(f'viewed_product_{product.id}') != 'yes':
         product.view_count = product.view_count + 1
         product.save(update_fields=['view_count'])
         request.session[f'viewed_product_{product.id}'] = 'yes'
-    
+
     # Get related products
     related_products = Product.objects.filter(
-        category=product.category, 
+        category=product.category,
         is_active=True
     ).exclude(id=product.id).order_by('-created_at')[:4]
-    
+
     # Check if product is in user's cart
     in_cart = False
     cart_quantity = 0
@@ -2643,13 +2740,13 @@ def product_detail(request, slug):
         if product_id_str in cart:
             in_cart = True
             cart_quantity = cart[product_id_str]
-    
+
     # Check if user can edit/delete
     can_edit = False
     if request.user.is_authenticated and hasattr(request.user, 'profile'):
         profile = request.user.profile
         can_edit = profile.can_manage_store() or (product.created_by and product.created_by == request.user)
-    
+
     return render(request, 'core/product_detail.html', {
         'product': product,
         'related_products': related_products,
@@ -2658,27 +2755,32 @@ def product_detail(request, slug):
         'can_edit': can_edit
     })
 
+
+
+
 def cart(request):
     """Display shopping cart"""
-    products = []
+    cart_items = []
     total = 0
-    
+    item_count = 0  # Track the total number of items in the cart
+
     if 'cart' in request.session:
         cart = request.session['cart']
-        
+
         for product_id_str, quantity in cart.items():
             try:
                 product_id = int(product_id_str)
                 product = Product.objects.get(id=product_id)
-                
+
                 # Skip products that are no longer active or in stock
                 if not product.is_active or product.stock < quantity:
                     continue
-                
+
                 item_total = product.price * quantity
                 total += item_total
-                
-                products.append({
+                item_count += quantity
+
+                cart_items.append({
                     'product': product,
                     'quantity': quantity,
                     'item_total': item_total
@@ -2687,104 +2789,182 @@ def cart(request):
                 # Remove invalid product IDs from cart
                 cart.pop(product_id_str, None)
                 request.session.modified = True
-    
+
     return render(request, 'core/cart.html', {
-        'products': products,
+        'cart_items': cart_items,
         'total': total,
+        'item_count': item_count,
         'title': 'Shopping Cart'
     })
+    print(request.session.get('cart', {}))
+
+
+
+
+
+# def checkout(request):
+#     """Process checkout for products in cart"""
+#     # Check if cart is empty
+#     if 'cart' not in request.session or not request.session['cart']:
+#         messages.info(request, 'Your cart is empty. Please add items before checkout.')
+#         return redirect('store')
+    
+#     # Get cart items and validate
+#     cart = request.session['cart']
+#     cart_items = []
+#     total_amount = 0
+#     invalid_items = False
+    
+#     for product_id_str, quantity in cart.items():
+#         try:
+#             product_id = int(product_id_str)
+#             product = Product.objects.get(id=product_id)
+            
+#             # Check if product is still available and in stock
+#             if not product.is_active:
+#                 messages.warning(request, f"'{product.name}' is no longer available and has been removed from your cart.")
+#                 invalid_items = True
+#                 continue
+                
+#             if product.stock < quantity:
+#                 messages.warning(request, f"Only {product.stock} of '{product.name}' are available. Your cart has been updated.")
+#                 cart[product_id_str] = product.stock
+#                 quantity = product.stock
+#                 request.session.modified = True
+#                 invalid_items = True
+            
+#             item_total = product.price * quantity
+#             total_amount += item_total
+            
+#             cart_items.append({
+#                 'product': product,
+#                 'quantity': quantity,
+#                 'item_total': item_total
+#             })
+#         except (ValueError, Product.DoesNotExist):
+#             # Remove invalid product IDs from cart
+#             cart.pop(product_id_str, None)
+#             request.session.modified = True
+#             invalid_items = True
+    
+#     # Redirect back to cart if there were any invalid items
+#     if invalid_items:
+#         return redirect('cart')
+    
+#     if request.method == 'POST':
+#         form = OrderForm(request.POST)
+#         if form.is_valid():
+#             # Create the order
+#             order = form.save(commit=False)
+#             order.user = request.user.profile
+#             order.total_amount = total_amount
+#             order.save()
+            
+#             # Create order items
+#             for item in cart_items:
+#                 product = item['product']
+#                 quantity = item['quantity']
+                
+#                 OrderItem.objects.create(
+#                     order=order,
+#                     product=product,
+#                     quantity=quantity,
+#                     price=product.price
+#                 )
+                
+#                 # Update product stock
+#                 product.stock -= quantity
+#                 product.save()
+            
+#             # Clear the cart
+#             request.session['cart'] = {}
+#             request.session.modified = True
+            
+#             messages.success(request, 'Your order has been placed successfully!')
+#             return redirect('order_confirmation', order_id=order.id)
+#     else:
+#         form = OrderForm(initial={'shipping_address': request.user.profile.address if hasattr(request.user, 'profile') and hasattr(request.user.profile, 'address') else ''})
+    
+#     return render(request, 'core/checkout.html', {
+#         'cart_items': cart_items,
+#         'total_amount': total_amount,
+#         'form': form,
+#         'title': 'Checkout'
+#     })
+    
+
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .services import MpesaService
 
 @login_required
 def checkout(request):
-    """Process checkout for products in cart"""
-    # Check if cart is empty
-    if 'cart' not in request.session or not request.session['cart']:
-        messages.info(request, 'Your cart is empty. Please add items before checkout.')
-        return redirect('store')
-    
-    # Get cart items and validate
-    cart = request.session['cart']
     cart_items = []
-    total_amount = 0
-    invalid_items = False
-    
-    for product_id_str, quantity in cart.items():
-        try:
-            product_id = int(product_id_str)
-            product = Product.objects.get(id=product_id)
-            
-            # Check if product is still available and in stock
-            if not product.is_active:
-                messages.warning(request, f"'{product.name}' is no longer available and has been removed from your cart.")
-                invalid_items = True
-                continue
-                
-            if product.stock < quantity:
-                messages.warning(request, f"Only {product.stock} of '{product.name}' are available. Your cart has been updated.")
-                cart[product_id_str] = product.stock
-                quantity = product.stock
+    total = 0
+    item_count = 0
+
+    if 'cart' in request.session:
+        cart = request.session.get('cart', {})
+
+        for product_id_str, quantity in cart.items():
+            try:
+                product_id = int(product_id_str)
+                product = Product.objects.get(id=product_id)
+
+                if not product.is_active or product.stock < quantity:
+                    continue
+
+                item_total = product.price * quantity
+                total += item_total
+                item_count += quantity
+
+                cart_items.append({
+                    'product': product,
+                    'quantity': quantity,
+                    'item_total': item_total
+                })
+            except (ValueError, Product.DoesNotExist):
+                cart.pop(product_id_str, None)
                 request.session.modified = True
-                invalid_items = True
-            
-            item_total = product.price * quantity
-            total_amount += item_total
-            
-            cart_items.append({
-                'product': product,
-                'quantity': quantity,
-                'item_total': item_total
-            })
-        except (ValueError, Product.DoesNotExist):
-            # Remove invalid product IDs from cart
-            cart.pop(product_id_str, None)
-            request.session.modified = True
-            invalid_items = True
-    
-    # Redirect back to cart if there were any invalid items
-    if invalid_items:
-        return redirect('cart')
-    
+
     if request.method == 'POST':
-        form = OrderForm(request.POST)
-        if form.is_valid():
-            # Create the order
-            order = form.save(commit=False)
-            order.user = request.user.profile
-            order.total_amount = total_amount
-            order.save()
-            
-            # Create order items
-            for item in cart_items:
-                product = item['product']
-                quantity = item['quantity']
-                
-                OrderItem.objects.create(
-                    order=order,
-                    product=product,
-                    quantity=quantity,
-                    price=product.price
+        payment_method = request.POST.get('payment_method')
+        if payment_method == 'mpesa':
+            mpesa_phone = request.POST.get('mpesa_phone')
+            if not mpesa_phone:
+                messages.error(request, "Please enter your M-Pesa phone number.")
+                return redirect('checkout')
+
+            # Initiate M-Pesa STK Push
+            mpesa_service = MpesaService()
+            try:
+                response = mpesa_service.initiate_stk_push(
+                    phone_number=mpesa_phone,
+                    amount=total,
+                    reference="ESA Checkout",
+                    description="Payment for ESA Store Order"
                 )
-                
-                # Update product stock
-                product.stock -= quantity
-                product.save()
-            
-            # Clear the cart
-            request.session['cart'] = {}
-            request.session.modified = True
-            
-            messages.success(request, 'Your order has been placed successfully!')
-            return redirect('order_confirmation', order_id=order.id)
-    else:
-        form = OrderForm(initial={'shipping_address': request.user.profile.address if hasattr(request.user, 'profile') and hasattr(request.user.profile, 'address') else ''})
-    
+                if response.get('ResponseCode') == '0':
+                    messages.success(request, "M-Pesa STK Push sent. Please complete the payment on your phone.")
+                    return redirect('checkout')
+                else:
+                    messages.error(request, f"M-Pesa Error: {response.get('ResponseDescription', 'Unknown error')}")
+            except Exception as e:
+                messages.error(request, f"Failed to initiate M-Pesa payment: {str(e)}")
+        else:
+            messages.error(request, "Only M-Pesa payment is supported at the moment.")
+
     return render(request, 'core/checkout.html', {
         'cart_items': cart_items,
-        'total_amount': total_amount,
-        'form': form,
+        'total': total,
+        'item_count': item_count,
         'title': 'Checkout'
     })
-    
+
+
+
+
+
 
 @login_required
 @require_POST
@@ -3071,3 +3251,90 @@ def admin_add_site(request):
     
     # This should not normally be reached directly
     return redirect('manage_sites')
+
+
+
+
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
+from .models import Product, Review
+
+@login_required
+def add_review(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    if request.method == 'POST':
+        rating = request.POST.get('rating')
+        comment = request.POST.get('comment')
+        if not rating or int(rating) < 1 or int(rating) > 5:
+            messages.error(request, "Invalid rating. Please provide a rating between 1 and 5.")
+            return redirect('product_detail', slug=product.slug)
+        Review.objects.create(product=product, user=request.user, rating=rating, comment=comment)
+        messages.success(request, "Your review has been added.")
+        return redirect('product_detail', slug=product.slug)
+    return redirect('product_detail', slug=product.slug)
+
+
+
+
+
+# MPWSA
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+
+@csrf_exempt
+def mpesa_callback(request):
+    """Handle M-Pesa callback"""
+    try:
+        # Get callback data
+        data = json.loads(request.body)
+        
+        # Extract relevant information
+        result_code = data.get('Body', {}).get('stkCallback', {}).get('ResultCode')
+        checkout_request_id = data.get('Body', {}).get('stkCallback', {}).get('CheckoutRequestID')
+        
+        # Find the transaction
+        try:
+            mpesa_tx = MpesaTransaction.objects.get(checkout_request_id=checkout_request_id)
+            
+            if result_code == 0:  # Successful payment
+                # Extract payment details
+                payment_data = data.get('Body', {}).get('stkCallback', {}).get('CallbackMetadata', {}).get('Item', [])
+                amount = next((item['Value'] for item in payment_data if item['Name'] == 'Amount'), None)
+                receipt_number = next((item['Value'] for item in payment_data if item['Name'] == 'MpesaReceiptNumber'), None)
+                
+                # Update transaction status
+                mpesa_tx.status = 'completed'
+                mpesa_tx.transaction_id = receipt_number
+                mpesa_tx.mpesa_receipt = receipt_number
+                mpesa_tx.save(update_fields=['status', 'transaction_id', 'mpesa_receipt'])
+                
+                # Complete payment and activate membership
+                payment = mpesa_tx.payment
+                payment.complete_payment(receipt_number)
+            else:
+                # Payment failed
+                mpesa_tx.status = 'failed'
+                mpesa_tx.save(update_fields=['status'])
+                
+                # Mark payment as failed
+                payment = mpesa_tx.payment
+                payment.status = 'failed'
+                payment.save(update_fields=['status'])
+            
+            return JsonResponse({
+                "ResultCode": 0,
+                "ResultDesc": "Success"
+            })
+            
+        except MpesaTransaction.DoesNotExist:
+            return JsonResponse({
+                "ResultCode": 1,
+                "ResultDesc": "Transaction not found"
+            })
+            
+    except Exception as e:
+        return JsonResponse({
+            "ResultCode": 1,
+            "ResultDesc": f"Error processing callback: {str(e)}"
+        })
