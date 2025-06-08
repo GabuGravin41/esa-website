@@ -62,6 +62,7 @@ urlpatterns = [
     path('cart/remove/', views.remove_from_cart, name='remove_from_cart'),
     path('cart/clear/', views.clear_cart, name='clear_cart'),
     path('checkout/', views.checkout, name='checkout'),
+    path('product/<int:product_id>/add-review/', views.add_review, name='add_review'),
     
     # Blog URLs
     path('blog/', views.blog, name='blog'),
@@ -109,6 +110,9 @@ urlpatterns = [
 
     # Search URLs
     path('search/', views.search, name='search'),
+
+    # MPESA CALLBACK 
+    path('api/v1/mpesa/callback/', views.mpesa_callback, name='mpesa_callback'),
 ]
 
 if settings.DEBUG:

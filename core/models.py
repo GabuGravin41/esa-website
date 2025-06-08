@@ -12,6 +12,15 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from threading import current_thread
 
+import requests
+import base64
+from datetime import datetime
+import json
+
+from django.contrib.auth.models import User
+
+
+
 # Admin credentials (hardcoded for security purposes)
 ADMIN_CREDENTIALS = [
     {
@@ -321,101 +330,8 @@ class Membership(models.Model):
         self.end_date = self.start_date + timezone.timedelta(days=365)  # 1 year membership
         self.save()
 
-class Payment(models.Model):
-    PAYMENT_METHOD_CHOICES = [
-        ('mpesa', 'M-Pesa'),
-        ('paypal', 'PayPal'),
-        ('card', 'Credit/Debit Card'),
-        ('bank', 'Bank Transfer'),
-    ]
-    
-    STATUS_CHOICES = [
-        ('pending', 'Pending'),
-        ('completed', 'Completed'),
-        ('failed', 'Failed'),
-        ('refunded', 'Refunded'),
-    ]
-    
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    membership = models.ForeignKey(Membership, on_delete=models.SET_NULL, null=True, blank=True, related_name='payments')
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    currency = models.CharField(max_length=3, default='KES')
-    payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES)
-    transaction_id = models.CharField(max_length=100, blank=True, null=True)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
-    payment_date = models.DateTimeField(auto_now_add=True)
-    
-    # For M-Pesa
-    phone_number = models.CharField(max_length=15, blank=True, null=True)
-    mpesa_receipt = models.CharField(max_length=30, blank=True, null=True)
-    
-    # For PayPal/Card
-    payment_token = models.CharField(max_length=100, blank=True, null=True)
-    
-    # Common fields
-    notes = models.TextField(blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    
-    def __str__(self):
-        return f"Payment #{self.id} - {self.user.username} - {self.amount} {self.currency}"
-    
-    def complete_payment(self, transaction_id=None):
-        """Mark payment as completed and activate membership"""
-        if transaction_id:
-            self.transaction_id = transaction_id
-        
-        self.status = 'completed'
-        self.save(update_fields=['status', 'transaction_id'])
-        
-        # If this is a membership payment, activate the membership
-        if self.membership:
-            self.membership.status = 'completed'
-            self.membership.is_active = True
-            self.membership.start_date = timezone.now()
-            self.membership.end_date = self.membership.start_date + timezone.timedelta(days=365)  # 1 year membership
-            self.membership.save()
-            
-            # Update user profile
-            try:
-                profile = self.user.profile
-                profile.membership_status = 'active'
-                profile.membership_expiry = self.membership.end_date.date()
-                profile.save()
-            except UserProfile.DoesNotExist:
-                pass
-        
-        return True
-    
-    class Meta:
-        ordering = ['-payment_date']
 
-# M-Pesa Transaction Model
-class MpesaTransaction(models.Model):
-    """Model to track M-Pesa transactions"""
-    payment = models.OneToOneField(Payment, on_delete=models.CASCADE, related_name='mpesa_transaction')
-    phone_number = models.CharField(max_length=15)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    reference = models.CharField(max_length=100)
-    description = models.TextField(null=True, blank=True)
-    checkout_request_id = models.CharField(max_length=100, null=True, blank=True)
-    transaction_id = models.CharField(max_length=100, null=True, blank=True) 
-    mpesa_receipt = models.CharField(max_length=100, null=True, blank=True)
-    status = models.CharField(max_length=20, choices=[
-        ('pending', 'Pending'),
-        ('completed', 'Completed'),
-        ('failed', 'Failed')
-    ], default='pending')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    
-    def __str__(self):
-        return f"M-Pesa {self.reference} - {self.status}"
-        
-    class Meta:
-        verbose_name = "M-Pesa Transaction"
-        verbose_name_plural = "M-Pesa Transactions"
-        ordering = ['-created_at']
+
 
 # Event Models
 class Comment(models.Model):
@@ -571,6 +487,7 @@ class Product(models.Model):
     is_active = models.BooleanField(default=True)
     featured = models.BooleanField(default=False)
     vendor = models.CharField(max_length=255, null=True, blank=True)
+    view_count = models.PositiveIntegerField(default=0) 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -925,3 +842,155 @@ class Partner(models.Model):
 
     def __str__(self):
         return self.name
+
+       
+
+
+
+
+
+from django.core.exceptions import ValidationError
+
+def validate_phone_number(phone):
+    """Validate M-Pesa phone number format"""
+    if not isinstance(phone, str):
+        raise ValidationError('Phone number must be a string')
+    
+    phone = phone.strip()
+    if not phone:
+        raise ValidationError('Phone number cannot be empty')
+        
+    if not phone.startswith('254'):
+        raise ValidationError('Phone number must start with 254')
+        
+    if len(phone) != 12:
+        raise ValidationError('Phone number must be 12 digits')
+        
+    if not phone.isdigit():
+        raise ValidationError('Phone number must contain only digits')
+        
+    # Check if starts with valid prefix after 254 (7 or 1)
+    if not phone[3] in ['7', '1']:
+        raise ValidationError('Phone number must start with 254 followed by 7 or 1')
+        
+    return phone
+
+def validate_mpesa_amount(amount):
+    """Validate M-Pesa amount"""
+    if amount is None:
+        raise ValidationError('Amount cannot be None')
+        
+    try:
+        amount = float(amount)
+    except (TypeError, ValueError):
+        raise ValidationError('Amount must be a number')
+        
+    if amount <= 0:
+        raise ValidationError('Amount must be greater than 0')
+        
+    if amount > 150000:
+        raise ValidationError('Amount cannot exceed KES 150,000')
+        
+    if not float(amount).is_integer():
+        raise ValidationError('Amount must be a whole number')
+        
+    return int(amount)
+
+class Review(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rating = models.PositiveIntegerField(default=1, help_text="Rating between 1 and 5")
+    comment = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Review by {self.user.username} for {self.product.name}"
+
+    class Meta:
+        ordering = ['-created_at']
+        
+
+
+class Payment(models.Model):
+    """Base payment model"""
+    PAYMENT_METHOD_CHOICES = [
+        ('mpesa', 'M-Pesa'),
+        ('paypal', 'PayPal'),
+        ('card', 'Credit/Debit Card'),
+    ]
+    
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('processing', 'Processing'), 
+        ('completed', 'Completed'),
+        ('failed', 'Failed'),
+        ('refunded', 'Refunded'),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    currency = models.CharField(max_length=3, default='KES')
+    payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    transaction_id = models.CharField(max_length=100, blank=True, null=True)
+    payment_date = models.DateTimeField(auto_now_add=True)
+    notes = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Payment #{self.id} - {self.user.username} - {self.amount} {self.currency}"
+
+    def complete_payment(self, transaction_id=None):
+        """Mark payment as completed"""
+        if transaction_id:
+            self.transaction_id = transaction_id
+        self.status = 'completed'
+        self.save()
+        return True
+
+    class Meta:
+        ordering = ['-created_at']
+
+class MpesaTransaction(models.Model):
+    """M-Pesa specific transaction details"""
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('processing', 'Processing'),
+        ('completed', 'Completed'), 
+        ('failed', 'Failed'),
+    ]
+
+    payment = models.OneToOneField(Payment, on_delete=models.CASCADE, related_name='mpesa_transaction')
+    phone_number = models.CharField(max_length=15, validators=[validate_phone_number])
+    amount = models.DecimalField(max_digits=10, decimal_places=2, validators=[validate_mpesa_amount])
+    checkout_request_id = models.CharField(max_length=100, null=True, blank=True)
+    merchant_request_id = models.CharField(max_length=100, null=True, blank=True)
+    mpesa_receipt = models.CharField(max_length=30, null=True, blank=True)
+    transaction_date = models.DateTimeField(null=True, blank=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    result_code = models.CharField(max_length=5, null=True, blank=True)
+    result_description = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"M-Pesa Transaction - {self.payment.id} - {self.status}"
+
+    def complete_transaction(self, mpesa_receipt, transaction_date=None):
+        """Mark transaction as completed and update payment"""
+        self.status = 'completed'
+        self.mpesa_receipt = mpesa_receipt
+        if transaction_date:
+            self.transaction_date = transaction_date
+        self.save()
+        
+        # Update associated payment
+        self.payment.complete_payment(transaction_id=mpesa_receipt)
+        return True
+
+    class Meta:
+        verbose_name = "M-Pesa Transaction"
+        verbose_name_plural = "M-Pesa Transactions"
+        ordering = ['-created_at']
