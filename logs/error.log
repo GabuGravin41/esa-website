@@ -7854,3 +7854,3285 @@ Traceback (most recent call last):
     raise ValueError(
 ValueError: The file 'js/auth.js' could not be found with <whitenoise.storage.CompressedManifestStaticFilesStorage object at 0x7fb731e85ff0>.
 ERROR 2025-05-27 18:46:43,182 basehttp 7698 140424789358144 "GET / HTTP/1.1" 500 145
+ERROR 2025-06-08 19:31:30,694 middleware 36429 140285307778624 Error: Invalid filter: 'markdown_to_html'
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 828, in blog
+    return render(request, 'core/blog.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 33, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 295, in do_extends
+    nodelist = parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 961, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 861, in do_for
+    nodelist_loop = parser.parse(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 481, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 479, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 597, in compile_filter
+    return FilterExpression(token, self)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 693, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 603, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'markdown_to_html'
+ERROR 2025-06-08 19:31:30,723 log 36429 140285307778624 Internal Server Error: /blog/
+ERROR 2025-06-08 19:31:30,724 basehttp 36429 140285307778624 "GET /blog/ HTTP/1.1" 500 19051
+ERROR 2025-06-08 19:51:50,537 middleware 36556 140675345544768 Error: Invalid filter: 'markdown_to_html'
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 33, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 295, in do_extends
+    nodelist = parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 961, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 861, in do_for
+    nodelist_loop = parser.parse(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 481, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 479, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 597, in compile_filter
+    return FilterExpression(token, self)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 693, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 603, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'markdown_to_html'
+ERROR 2025-06-08 19:51:50,541 log 36556 140675345544768 Internal Server Error: /
+ERROR 2025-06-08 19:51:50,541 basehttp 36556 140675345544768 "GET / HTTP/1.1" 500 19051
+ERROR 2025-06-08 19:53:21,614 middleware 36556 140675345544768 Error: 'messages' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'messages'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'messages' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+ERROR 2025-06-08 19:53:21,617 log 36556 140675345544768 Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'messages'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'messages' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'messages'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 199, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 362, in process_exception_by_middleware
+    response = middleware_method(request, exception)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/middleware.py", line 88, in process_exception
+    html = render_to_string(template, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'messages' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+ERROR 2025-06-08 19:53:21,618 basehttp 36556 140675345544768 "GET / HTTP/1.1" 500 145
+ERROR 2025-06-08 19:54:49,620 middleware 37668 140549301462592 Error: Invalid filter: 'markdown_to_html'
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 33, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 295, in do_extends
+    nodelist = parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 961, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 861, in do_for
+    nodelist_loop = parser.parse(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 481, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 479, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 597, in compile_filter
+    return FilterExpression(token, self)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 693, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 603, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'markdown_to_html'
+ERROR 2025-06-08 19:54:49,625 log 37668 140549301462592 Internal Server Error: /
+ERROR 2025-06-08 19:54:49,625 basehttp 37668 140549301462592 "GET / HTTP/1.1" 500 19046
+ERROR 2025-06-08 19:55:34,250 middleware 37668 140549301462592 Error: 'messages' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'messages'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'messages' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+ERROR 2025-06-08 19:55:34,251 log 37668 140549301462592 Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'messages'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'messages' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'messages'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 199, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 362, in process_exception_by_middleware
+    response = middleware_method(request, exception)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/middleware.py", line 88, in process_exception
+    html = render_to_string(template, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'messages' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+ERROR 2025-06-08 19:55:34,252 basehttp 37668 140549301462592 "GET / HTTP/1.1" 500 145
+ERROR 2025-06-08 19:55:46,929 middleware 37668 140549301462592 Error: 'messages' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'messages'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'messages' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+ERROR 2025-06-08 19:55:46,932 log 37668 140549301462592 Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'messages'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'messages' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'messages'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 199, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 362, in process_exception_by_middleware
+    response = middleware_method(request, exception)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/middleware.py", line 88, in process_exception
+    html = render_to_string(template, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'messages' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+ERROR 2025-06-08 19:55:46,933 basehttp 37668 140549301462592 "GET / HTTP/1.1" 500 145
+ERROR 2025-06-08 20:25:30,535 middleware 40516 139901693589056 Error: Invalid block tag on line 325: 'staticfiles'. Did you forget to register or load this tag?
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 502, in parse
+    compile_func = self.tags[command]
+KeyError: 'staticfiles'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 504, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 565, in invalid_block_tag
+    raise self.error(
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 325: 'staticfiles'. Did you forget to register or load this tag?
+ERROR 2025-06-08 20:25:30,541 log 40516 139901693589056 Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 502, in parse
+    compile_func = self.tags[command]
+KeyError: 'staticfiles'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 504, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 565, in invalid_block_tag
+    raise self.error(
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 325: 'staticfiles'. Did you forget to register or load this tag?
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 502, in parse
+    compile_func = self.tags[command]
+KeyError: 'staticfiles'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 199, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 362, in process_exception_by_middleware
+    response = middleware_method(request, exception)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/middleware.py", line 88, in process_exception
+    html = render_to_string(template, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 504, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 565, in invalid_block_tag
+    raise self.error(
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 325: 'staticfiles'. Did you forget to register or load this tag?
+ERROR 2025-06-08 20:25:30,544 basehttp 40516 139901693589056 "GET / HTTP/1.1" 500 145
+ERROR 2025-06-08 20:25:31,068 middleware 40516 139901693589056 Error: Invalid block tag on line 325: 'staticfiles'. Did you forget to register or load this tag?
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 502, in parse
+    compile_func = self.tags[command]
+KeyError: 'staticfiles'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 504, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 565, in invalid_block_tag
+    raise self.error(
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 325: 'staticfiles'. Did you forget to register or load this tag?
+ERROR 2025-06-08 20:25:31,069 log 40516 139901693589056 Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 502, in parse
+    compile_func = self.tags[command]
+KeyError: 'staticfiles'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 504, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 565, in invalid_block_tag
+    raise self.error(
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 325: 'staticfiles'. Did you forget to register or load this tag?
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 502, in parse
+    compile_func = self.tags[command]
+KeyError: 'staticfiles'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 199, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 362, in process_exception_by_middleware
+    response = middleware_method(request, exception)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/middleware.py", line 88, in process_exception
+    html = render_to_string(template, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 504, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 565, in invalid_block_tag
+    raise self.error(
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 325: 'staticfiles'. Did you forget to register or load this tag?
+ERROR 2025-06-08 20:25:31,070 basehttp 40516 139901693589056 "GET / HTTP/1.1" 500 145
+ERROR 2025-06-08 20:26:41,870 middleware 40516 139901693589056 Error: 'messages' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'messages'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'messages' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+ERROR 2025-06-08 20:26:41,872 log 40516 139901693589056 Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'messages'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'messages' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'messages'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 199, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 362, in process_exception_by_middleware
+    response = middleware_method(request, exception)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/middleware.py", line 88, in process_exception
+    html = render_to_string(template, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'messages' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+ERROR 2025-06-08 20:26:41,873 basehttp 40516 139901693589056 "GET / HTTP/1.1" 500 145
+ERROR 2025-06-08 20:26:42,691 middleware 40516 139901693589056 Error: 'messages' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'messages'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'messages' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+ERROR 2025-06-08 20:26:42,692 log 40516 139901693589056 Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'messages'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'messages' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'messages'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 199, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 362, in process_exception_by_middleware
+    response = middleware_method(request, exception)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/middleware.py", line 88, in process_exception
+    html = render_to_string(template, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'messages' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+ERROR 2025-06-08 20:26:42,692 basehttp 40516 139901693589056 "GET / HTTP/1.1" 500 145
+ERROR 2025-06-08 20:27:00,301 middleware 40806 140260372641344 Error: 'messages' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'messages'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'messages' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+ERROR 2025-06-08 20:27:00,304 log 40806 140260372641344 Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'messages'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'messages' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'messages'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 199, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 362, in process_exception_by_middleware
+    response = middleware_method(request, exception)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/middleware.py", line 88, in process_exception
+    html = render_to_string(template, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'messages' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+ERROR 2025-06-08 20:27:00,304 basehttp 40806 140260372641344 "GET / HTTP/1.1" 500 145
+ERROR 2025-06-08 20:27:01,108 middleware 40806 140260372641344 Error: 'messages' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'messages'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'messages' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+ERROR 2025-06-08 20:27:01,109 log 40806 140260372641344 Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'messages'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'messages' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'messages'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 199, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 362, in process_exception_by_middleware
+    response = middleware_method(request, exception)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/middleware.py", line 88, in process_exception
+    html = render_to_string(template, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'messages' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+ERROR 2025-06-08 20:27:01,110 basehttp 40806 140260372641344 "GET / HTTP/1.1" 500 145
+ERROR 2025-06-08 20:27:48,390 middleware 40951 140638612878912 Error: 'staticfiles' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'staticfiles'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'staticfiles' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+ERROR 2025-06-08 20:27:48,393 log 40951 140638612878912 Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'staticfiles'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'staticfiles' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'staticfiles'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 199, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 362, in process_exception_by_middleware
+    response = middleware_method(request, exception)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/middleware.py", line 88, in process_exception
+    html = render_to_string(template, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'staticfiles' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+ERROR 2025-06-08 20:27:48,394 basehttp 40951 140638612878912 "GET / HTTP/1.1" 500 145
+ERROR 2025-06-08 20:27:49,079 middleware 40951 140638612878912 Error: 'staticfiles' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'staticfiles'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'staticfiles' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+ERROR 2025-06-08 20:27:49,080 log 40951 140638612878912 Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'staticfiles'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'staticfiles' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'staticfiles'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 199, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 362, in process_exception_by_middleware
+    response = middleware_method(request, exception)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/middleware.py", line 88, in process_exception
+    html = render_to_string(template, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'staticfiles' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+ERROR 2025-06-08 20:27:49,081 basehttp 40951 140638612878912 "GET / HTTP/1.1" 500 145
+ERROR 2025-06-08 20:42:23,732 middleware 41757 139707347363392 Error: 'humanize' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+django_browser_reload
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'humanize'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'humanize' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+django_browser_reload
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+ERROR 2025-06-08 20:42:23,796 log 41757 139707347363392 Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'humanize'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'humanize' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+django_browser_reload
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1034, in find_library
+    return parser.libraries[name]
+KeyError: 'humanize'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 199, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 362, in process_exception_by_middleware
+    response = middleware_method(request, exception)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/middleware.py", line 88, in process_exception
+    html = render_to_string(template, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1096, in load
+    lib = find_library(parser, name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 1036, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'humanize' is not a registered tag library. Must be one of:
+account
+admin_list
+admin_modify
+admin_urls
+allauth
+allauth_ui
+cache
+core_filters
+crispy_forms_field
+crispy_forms_filters
+crispy_forms_tags
+crispy_forms_utils
+django_browser_reload
+i18n
+l10n
+log
+markdown_extras
+slippers
+socialaccount
+static
+tailwind_field
+tailwind_filters
+tz
+widget_tweaks
+ERROR 2025-06-08 20:42:23,799 basehttp 41757 139707347363392 "GET / HTTP/1.1" 500 411732
+ERROR 2025-06-08 20:47:21,807 middleware 42434 140543870887488 Error: Invalid filter: 'markdown_to_html'
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 33, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 295, in do_extends
+    nodelist = parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 961, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 861, in do_for
+    nodelist_loop = parser.parse(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 481, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 479, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 597, in compile_filter
+    return FilterExpression(token, self)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 693, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 603, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'markdown_to_html'
+ERROR 2025-06-08 20:47:21,817 log 42434 140543870887488 Internal Server Error: /
+ERROR 2025-06-08 20:47:21,817 basehttp 42434 140543870887488 "POST / HTTP/1.1" 500 19057
+ERROR 2025-06-08 20:48:40,292 middleware 42821 139719196268096 Error: Invalid filter: 'markdown_to_html'
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 33, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 295, in do_extends
+    nodelist = parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 961, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 861, in do_for
+    nodelist_loop = parser.parse(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 481, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 479, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 597, in compile_filter
+    return FilterExpression(token, self)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 693, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 603, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'markdown_to_html'
+ERROR 2025-06-08 20:48:40,299 log 42821 139719196268096 Internal Server Error: /
+ERROR 2025-06-08 20:48:40,299 basehttp 42821 139719196268096 "GET / HTTP/1.1" 500 19053
+ERROR 2025-06-08 20:48:50,770 middleware 43035 139872161494592 Error: Invalid filter: 'markdown_to_html'
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 109, in home
+    return render(request, 'core/home.html', context)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/backends/django.py", line 33, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 295, in do_extends
+    nodelist = parser.parse()
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 961, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/defaulttags.py", line 861, in do_for
+    nodelist_loop = parser.parse(
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 481, in parse
+    raise self.error(token, e)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 479, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 597, in compile_filter
+    return FilterExpression(token, self)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 693, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/template/base.py", line 603, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'markdown_to_html'
+ERROR 2025-06-08 20:48:50,802 log 43035 139872161494592 Internal Server Error: /
+ERROR 2025-06-08 20:48:50,802 basehttp 43035 139872161494592 "GET / HTTP/1.1" 500 19053
