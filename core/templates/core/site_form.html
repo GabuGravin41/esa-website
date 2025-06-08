@@ -1,0 +1,153 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Suggest External Site{% endblock %}
+
+{% block content %}
+<section class="relative bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1507537297725-24a1c029d37d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
+  <div class="bg-black bg-opacity-60">
+    <div class="container mx-auto px-4 py-24 text-center text-white">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">Suggest Engineering Connection</h1>
+      <p class="max-w-2xl mx-auto mb-6 text-lg">
+        Share valuable engineering community links and professional resources with fellow ESA members
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="container mx-auto px-4 py-12">
+  {% if messages %}
+    <div class="mb-8">
+      {% for message in messages %}
+        <div class="p-4 {% if message.tags == 'success' %}bg-green-100 text-green-700 border-green-400{% elif message.tags == 'error' %}bg-red-100 text-red-700 border-red-400{% else %}bg-blue-100 text-blue-700 border-blue-400{% endif %} rounded border-l-4">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+  
+  <div class="max-w-3xl mx-auto">
+    <div class="bg-white shadow-md rounded-lg p-8">
+      <div class="mb-6 text-center">
+        <div class="w-16 h-16 rounded-full bg-blue-100 text-blue-900 flex items-center justify-center mx-auto mb-4">
+          <i class="fas fa-globe text-2xl"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-800">Expand Our Network</h2>
+        <p class="text-gray-600 mt-2">Share engineering organizations, professional communities, and networking opportunities</p>
+      </div>
+      
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="grid grid-cols-1 gap-6">
+          <div>
+            <label for="{{ form.name.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+              Site/Organization Name *
+            </label>
+            {{ form.name }}
+            {% if form.name.errors %}
+              <p class="text-red-500 text-xs mt-1">{{ form.name.errors.0 }}</p>
+            {% endif %}
+          </div>
+          
+          <div>
+            <label for="{{ form.url.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+              Website URL *
+            </label>
+            {{ form.url }}
+            {% if form.url.errors %}
+              <p class="text-red-500 text-xs mt-1">{{ form.url.errors.0 }}</p>
+            {% endif %}
+            <p class="text-gray-500 text-xs mt-1">Full URL including https:// (e.g., https://example.org)</p>
+          </div>
+          
+          <div>
+            <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+              Description *
+            </label>
+            {{ form.description }}
+            {% if form.description.errors %}
+              <p class="text-red-500 text-xs mt-1">{{ form.description.errors.0 }}</p>
+            {% endif %}
+            <p class="text-gray-500 text-xs mt-1">Explain how this site or organization benefits engineering students</p>
+          </div>
+          
+          <div>
+            <label for="{{ form.site_type.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+              Connection Type *
+            </label>
+            {{ form.site_type }}
+            {% if form.site_type.errors %}
+              <p class="text-red-500 text-xs mt-1">{{ form.site_type.errors.0 }}</p>
+            {% endif %}
+          </div>
+          
+          <div>
+            <label for="{{ form.logo.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+              Organization Logo
+            </label>
+            {{ form.logo }}
+            {% if form.logo.errors %}
+              <p class="text-red-500 text-xs mt-1">{{ form.logo.errors.0 }}</p>
+            {% endif %}
+            <p class="text-gray-500 text-xs mt-1">Optional: Upload the organization's logo (JPG, PNG, or SVG)</p>
+          </div>
+          
+          <div>
+            <label for="{{ form.icon.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+              Icon Class
+            </label>
+            {{ form.icon }}
+            {% if form.icon.errors %}
+              <p class="text-red-500 text-xs mt-1">{{ form.icon.errors.0 }}</p>
+            {% endif %}
+            <p class="text-gray-500 text-xs mt-1">Optional: FontAwesome icon class (e.g., 'fas fa-users')</p>
+          </div>
+        </div>
+        
+        <div class="mt-8 flex flex-col sm:flex-row justify-end gap-3">
+          <a href="{% url 'more_sites' %}" class="text-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-6 rounded-lg transition-colors">
+            Cancel
+          </a>
+          <button type="submit" class="text-center bg-blue-900 hover:bg-blue-800 text-white font-medium py-2 px-6 rounded-lg transition-colors">
+            <i class="fas fa-paper-plane mr-2"></i> Submit Connection
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Information about alternative form -->
+  <div class="max-w-3xl mx-auto mt-8 bg-green-50 rounded-lg border border-green-200 p-6">
+    <div class="flex items-start">
+      <div class="flex-shrink-0 text-green-500 mt-1">
+        <i class="fas fa-info-circle text-xl"></i>
+      </div>
+      <div class="ml-4">
+        <h3 class="font-medium text-gray-900">Looking to share educational materials instead?</h3>
+        <p class="text-gray-600 mt-1">
+          If you want to share study materials, lecture notes, or academic resources with fellow students,
+          please use our <a href="{% url 'resource_create' %}" class="text-green-700 underline hover:text-green-900">Learning Resources Form</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Simple JavaScript for icon preview -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const iconInput = document.getElementById('icon');
+    const iconPreview = document.getElementById('icon-preview');
+    
+    iconInput.addEventListener('input', function() {
+      const iconClass = this.value.trim();
+      if (iconClass) {
+        iconPreview.className = iconClass + ' text-lg';
+      } else {
+        iconPreview.className = 'fas fa-link text-lg';
+      }
+    });
+  });
+</script>
+{% endblock %}

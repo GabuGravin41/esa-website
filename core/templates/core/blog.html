@@ -82,7 +82,7 @@
             </div>
             <h2 class="text-2xl font-mono text-blue-900">{{ post.title }}</h2>
             <p class="text-base text-gray-700">
-              {{ post.content|truncatewords:50 }}
+              {{ post.content|markdown_to_html|truncatewords:50 }}
             </p>
             <div class="flex flex-wrap gap-4">
               <a href="{% url 'blog_post_detail' post_id=post.id %}" 

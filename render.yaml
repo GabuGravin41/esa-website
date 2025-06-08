@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: esa-website
+    runtime: python
+    buildCommand: ./build.sh
+    startCommand: cd puddle && gunicorn puddle.wsgi:application
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: False
+      - key: ALLOWED_HOSTS
+        value: ".onrender.com"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: esa-db
+          property: connectionString
+
+databases:
+  - name: esa-db
+    databaseName: esa
+    user: esa
