@@ -1,0 +1,338 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block content %}
+<!-- Hero Section for More Sites -->
+<section class="relative bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1581094794329-c8112a989a91?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
+  <div class="bg-black bg-opacity-50">
+    <div class="container mx-auto px-4 py-24 text-center text-white">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4"> Engineering Sites Hub </h1>
+      <p class="max-w-2xl mx-auto mb-6 text-lg">
+        Explore engineering  partner sites, and learning materials to enhance your academic journey
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Filter System -->
+<section class="max-w-6xl mx-auto my-8 px-6">
+  <div class="bg-white shadow rounded-lg p-6 flex flex-wrap justify-between gap-4">
+    <!-- Resource Types -->
+    <div class="flex flex-wrap gap-4">
+      <span class="filter-tab cursor-pointer px-4 py-2 bg-blue-900 text-white rounded-full border-2 border-transparent font-medium">
+        All Sites
+      </span>
+      <span class="filter-tab cursor-pointer px-4 py-2 bg-gray-100 rounded-full border-2 border-transparent font-medium hover:border-blue-900 transition">
+        University Clubs
+      </span>
+      <span class="filter-tab cursor-pointer px-4 py-2 bg-gray-100 rounded-full border-2 border-transparent font-medium hover:border-blue-900 transition">
+        Community Resources
+      </span>
+      <span class="filter-tab cursor-pointer px-4 py-2 bg-gray-100 rounded-full border-2 border-transparent font-medium hover:border-blue-900 transition">
+        Partner Sites
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- Main Content & Sidebar Grid -->
+<div class="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+  <!-- Main Content Column (spanning 2 columns) -->
+  <main class="lg:col-span-2 space-y-8">
+    <!-- University Club Websites Section -->
+    <section class="mb-8">
+      <h2 class="text-2xl font-bold text-blue-900 mb-6 flex items-center">
+        <i class="fas fa-university mr-3 text-blue-800"></i> University Club Websites
+      </h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {% for club in university_clubs %}
+        <article class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all transform hover:-translate-y-1 overflow-hidden">
+          <div class="p-6">
+            <div class="flex items-start mb-4">
+              {% if club.logo %}
+              <img src="{{ club.logo.url }}" alt="{{ club.name }} Logo" class="h-12 w-12 object-contain mr-4">
+              {% else %}
+              <div class="w-12 h-12 rounded-full bg-blue-900 text-white flex items-center justify-center mr-4">
+                <i class="{{ club.icon|default:'fas fa-users' }} text-lg"></i>
+              </div>
+              {% endif %}
+              <div>
+                <h3 class="text-xl font-bold text-blue-900">{{ club.name }}</h3>
+                <p class="text-sm text-gray-500">University Club</p>
+              </div>
+            </div>
+            <p class="text-gray-600 mb-4">{{ club.description }}</p>
+            <a href="{{ club.url }}" target="_blank" rel="noopener noreferrer" 
+               class="inline-flex items-center text-blue-900 hover:text-blue-700 font-medium">
+              <i class="fas fa-external-link-alt mr-2"></i> Visit Website
+            </a>
+          </div>
+        </article>
+        {% empty %}
+        <div class="md:col-span-2 bg-white rounded-lg shadow p-6 text-center">
+          <div class="w-16 h-16 rounded-full bg-blue-100 mx-auto mb-4 flex items-center justify-center">
+            <i class="fas fa-school text-blue-400 text-2xl"></i>
+          </div>
+          <h3 class="text-lg font-medium text-gray-900 mb-1">No University Clubs Yet</h3>
+          <p class="text-gray-500">Check back later for university engineering club websites.</p>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- Community Added Links Section -->
+    <section class="mb-8">
+      <h2 class="text-2xl font-bold text-blue-900 mb-6 flex items-center">
+        <i class="fas fa-users mr-3 text-blue-800"></i> Community Resources
+      </h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {% for link in community_links %}
+        <article class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all transform hover:-translate-y-1 overflow-hidden">
+          <div class="p-6">
+            <div class="mb-4">
+              <div class="w-12 h-12 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center mb-3">
+                <i class="{{ link.icon|default:'fas fa-link' }} text-lg"></i>
+              </div>
+              <h3 class="text-xl font-bold text-blue-900">{{ link.name }}</h3>
+              <p class="text-xs text-gray-500">Added by: {{ link.added_by.get_full_name|default:link.added_by.username }}</p>
+            </div>
+            <p class="text-gray-600 mb-4">{{ link.description }}</p>
+            <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" 
+               class="flex items-center px-3 py-2 bg-gray-100 text-gray-800 rounded hover:bg-blue-900 hover:text-white transition inline-block">
+              <i class="fas fa-external-link-alt mr-2"></i> Visit Resource
+            </a>
+          </div>
+        </article>
+        {% empty %}
+        <div class="md:col-span-2 bg-white rounded-lg shadow p-6 text-center">
+          <div class="w-16 h-16 rounded-full bg-orange-100 mx-auto mb-4 flex items-center justify-center">
+            <i class="fas fa-link text-orange-400 text-2xl"></i>
+          </div>
+          <h3 class="text-lg font-medium text-gray-900 mb-1">No Community Resources Yet</h3>
+          <p class="text-gray-500 mb-4">Be the first to share a valuable engineering resource!</p>
+          {% if request.user.is_authenticated %}
+          <a href="{% url 'add_resource_link' %}" class="inline-block bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-lg transition">
+            <i class="fas fa-plus-circle mr-2"></i> Add a Resource
+          </a>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- Administration Added Links -->
+    <section class="mb-8">
+      <h2 class="text-2xl font-bold text-blue-900 mb-6 flex items-center">
+        <i class="fas fa-handshake mr-3 text-blue-800"></i> Official Partners & Resources
+      </h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {% for site in sites %}
+        <article class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all transform hover:-translate-y-1 overflow-hidden">
+          <div class="p-6">
+            <div class="mb-4">
+              <div class="w-12 h-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center mb-3">
+                <i class="{{ site.icon|default:'fas fa-building' }} text-lg"></i>
+              </div>
+              <h3 class="text-xl font-bold text-blue-900">{{ site.name }}</h3>
+              <p class="text-xs text-gray-500">Official Partner</p>
+            </div>
+            <p class="text-gray-600 mb-4">{{ site.description }}</p>
+            <a href="{{ site.url }}" target="_blank" rel="noopener noreferrer" 
+               class="flex items-center px-3 py-2 bg-gray-100 text-gray-800 rounded hover:bg-blue-900 hover:text-white transition inline-block">
+              <i class="fas fa-external-link-alt mr-2"></i> Visit Site
+            </a>
+          </div>
+        </article>
+        {% empty %}
+        <div class="md:col-span-2 bg-white rounded-lg shadow p-6 text-center">
+          <div class="w-16 h-16 rounded-full bg-green-100 mx-auto mb-4 flex items-center justify-center">
+            <i class="fas fa-building text-green-400 text-2xl"></i>
+          </div>
+          <h3 class="text-lg font-medium text-gray-900 mb-1">No Partner Sites Yet</h3>
+          <p class="text-gray-500">Check back soon for official ESA partner websites.</p>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+  </main>
+
+  <!-- Sidebar Section -->  
+  <aside class="sidebar space-y-6">
+    <!-- Add Resource -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <h3 class="text-lg font-bold border-b-2 border-red-600 pb-2 text-gray-700">Add Resource</h3>
+      <div class="mt-4">
+        <p class="text-gray-600 mb-4">
+          Know a valuable engineering resource that should be listed here? Share it with the community!
+        </p>
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'add_resource_link' %}" class="bg-blue-900 text-white px-4 py-2 rounded inline-block hover:bg-blue-700 transition">
+          <i class="fas fa-plus mr-2"></i> Suggest Resource
+        </a>
+        {% else %}
+        <a href="{% url 'account_login' %}" class="bg-blue-900 text-white px-4 py-2 rounded inline-block hover:bg-blue-700 transition">
+          <i class="fas fa-sign-in-alt mr-2"></i> Login to Add
+        </a>
+        {% endif %}
+      </div>
+    </div>
+    
+    {% if request.user.is_authenticated and request.user.profile.is_esa_admin %}
+    <!-- Admin Site Management -->
+    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-red-600">
+      <h3 class="text-lg font-bold pb-2 text-gray-700 flex items-center">
+        <i class="fas fa-cog mr-2 text-red-600"></i> Admin Controls
+      </h3>
+      <div class="mt-4">
+        <p class="text-gray-600 mb-4">
+          Manage site suggestions and resources
+        </p>
+        <a href="{% url 'manage_sites' %}" class="bg-red-600 text-white px-4 py-2 rounded inline-block hover:bg-red-700 transition flex items-center w-full justify-center">
+          <i class="fas fa-tools mr-2"></i> Manage Sites
+        </a>
+        {% if pending_count > 0 %}
+        <div class="mt-2 text-center">
+          <span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full">{{ pending_count }} pending sites</span>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+    
+    <!-- Engineering Standards & References -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <h3 class="text-lg font-bold border-b-2 border-red-600 pb-2 text-gray-700">Standards & References</h3>
+      <ul class="mt-4 space-y-3">
+        <li>
+          <a href="https://www.iso.org" target="_blank" rel="noopener noreferrer" 
+             class="flex items-start hover:bg-gray-50 p-2 rounded-lg transition-colors">
+            <div class="w-8 h-8 rounded bg-blue-100 text-blue-600 flex items-center justify-center mr-3">
+              <i class="fas fa-file-alt"></i>
+            </div>
+            <div>
+              <span class="font-medium block">ISO Standards</span>
+              <span class="text-gray-600 text-sm">International Organization for Standardization</span>
+            </div>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.ieee.org" target="_blank" rel="noopener noreferrer"
+             class="flex items-start hover:bg-gray-50 p-2 rounded-lg transition-colors">
+            <div class="w-8 h-8 rounded bg-blue-100 text-blue-600 flex items-center justify-center mr-3">
+              <i class="fas fa-bolt"></i>
+            </div>
+            <div>
+              <span class="font-medium block">IEEE</span>
+              <span class="text-gray-600 text-sm">Institute of Electrical and Electronics Engineers</span>
+            </div>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.asme.org" target="_blank" rel="noopener noreferrer"
+             class="flex items-start hover:bg-gray-50 p-2 rounded-lg transition-colors">
+            <div class="w-8 h-8 rounded bg-blue-100 text-blue-600 flex items-center justify-center mr-3">
+              <i class="fas fa-cogs"></i>
+            </div>
+            <div>
+              <span class="font-medium block">ASME</span>
+              <span class="text-gray-600 text-sm">American Society of Mechanical Engineers</span>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+    
+    <!-- Learning Resources -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <h3 class="text-lg font-bold border-b-2 border-red-600 pb-2 text-gray-700">Learning Resources</h3>
+      <ul class="mt-4 space-y-3">
+        <li>
+          <a href="https://www.khanacademy.org" target="_blank" rel="noopener noreferrer"
+             class="flex items-start hover:bg-gray-50 p-2 rounded-lg transition-colors">
+            <div class="w-8 h-8 rounded bg-green-100 text-green-600 flex items-center justify-center mr-3">
+              <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div>
+              <span class="font-medium block">Khan Academy</span>
+              <span class="text-gray-600 text-sm">Free courses in math, science, and engineering</span>
+            </div>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.coursera.org" target="_blank" rel="noopener noreferrer"
+             class="flex items-start hover:bg-gray-50 p-2 rounded-lg transition-colors">
+            <div class="w-8 h-8 rounded bg-green-100 text-green-600 flex items-center justify-center mr-3">
+              <i class="fas fa-laptop"></i>
+            </div>
+            <div>
+              <span class="font-medium block">Coursera</span>
+              <span class="text-gray-600 text-sm">Online courses from top universities</span>
+            </div>
+          </a>
+        </li>
+        <li>
+          <a href="https://ocw.mit.edu" target="_blank" rel="noopener noreferrer"
+             class="flex items-start hover:bg-gray-50 p-2 rounded-lg transition-colors">
+            <div class="w-8 h-8 rounded bg-green-100 text-green-600 flex items-center justify-center mr-3">
+              <i class="fas fa-university"></i>
+            </div>
+            <div>
+              <span class="font-medium block">MIT OpenCourseWare</span>
+              <span class="text-gray-600 text-sm">Free engineering course materials from MIT</span>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+    
+    <!-- Suggest a Site Form -->
+    {% if request.user.is_authenticated %}
+    <div class="bg-white rounded-lg shadow p-6">
+      <h3 class="text-lg font-bold border-b-2 border-red-600 pb-2 text-gray-700">Suggest a Site</h3>
+      <form method="post" action="{% url 'suggest_resource' %}" class="mt-4">
+        {% csrf_token %}
+        
+        <div class="mb-4">
+          <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Resource Name</label>
+          <input type="text" id="name" name="name" required
+                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+        </div>
+        
+        <div class="mb-4">
+          <label for="url" class="block text-sm font-medium text-gray-700 mb-1">URL</label>
+          <input type="url" id="url" name="url" required
+                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+        </div>
+        
+        <div class="mb-4">
+          <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+          <textarea id="description" name="description" rows="3" required
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+        </div>
+        
+        <div class="mb-4">
+          <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+          <select id="category" name="category" required
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            <option value="">Select a category</option>
+            <option value="education">Educational</option>
+            <option value="professional">Professional</option>
+            <option value="organization">Organization</option>
+            <option value="university">University</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        
+        <button type="submit" 
+                class="w-full bg-blue-900 hover:bg-blue-800 text-white py-2 px-4 rounded-lg transition-colors font-medium">
+          <i class="fas fa-paper-plane mr-2"></i> Submit Resource
+        </button>
+      </form>
+    </div>
+    {% endif %}
+  </aside>
+</div>
+{% endblock %}

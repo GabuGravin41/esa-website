@@ -1,0 +1,132 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto p-6">
+    <!-- Back button -->
+    <div class="mb-6">
+        <a href="{% url 'blog' %}" class="text-blue-900 hover:underline flex items-center">
+            <i class="fas fa-arrow-left mr-2"></i> Back to Blog
+        </a>
+    </div>
+
+    <!-- Form Header -->
+    <div class="bg-white rounded-lg shadow-lg p-8">
+        <h1 class="text-3xl font-bold text-blue-900 mb-6 border-b pb-2">
+            {% if is_create %}Create New Post{% else %}Edit Post{% endif %}
+        </h1>
+        
+        <form method="POST" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+            
+            <!-- Title Field -->
+            <div class="form-group">
+                <label for="{{ form.title.id_for_label }}" class="block text-gray-700 font-bold mb-2">Title</label>
+                {{ form.title.errors }}
+                <input type="text" name="{{ form.title.name }}" id="{{ form.title.id_for_label }}" 
+                       value="{{ form.title.value|default:'' }}"
+                       class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent"
+                       placeholder="Enter post title">
+            </div>
+            
+            <!-- Category Field -->
+            <div class="form-group">
+                <label for="{{ form.category.id_for_label }}" class="block text-gray-700 font-bold mb-2">Category</label>
+                {{ form.category.errors }}
+                <select name="{{ form.category.name }}" id="{{ form.category.id_for_label }}"
+                        class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent">
+                    {% for value, label in form.fields.category.choices %}
+                        <option value="{{ value }}" {% if form.category.value == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <!-- Content Field -->
+            <div class="form-group">
+                <label for="{{ form.content.id_for_label }}" class="block text-gray-700 font-bold mb-2">Content</label>
+                {{ form.content.errors }}
+                <div class="markdown-editor-container">
+                    <textarea name="{{ form.content.name }}" id="{{ form.content.id_for_label }}" rows="12"
+                              class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent"
+                              placeholder="Write your post content here...">{{ form.content.value|default:'' }}</textarea>
+                </div>
+                <div class="text-sm text-gray-600 mt-2">
+                    Use Markdown to format your content:
+                    <ul class="list-disc ml-5 mt-1">
+                        <li># Header 1, ## Header 2, ### Header 3</li>
+                        <li>**bold text**, *italic text*</li>
+                        <li>`code snippet`</li>
+                        <li>- Bullet points, 1. Numbered lists</li>
+                        <li>[Link text](url)</li>
+                        <li>![Alt text](image-url)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Image Field -->
+            <div class="form-group">
+                <label for="{{ form.image.id_for_label }}" class="block text-gray-700 font-bold mb-2">Featured Image</label>
+                {{ form.image.errors }}
+                
+                {% if post.image %}
+                <div class="mb-3">
+                    <p class="text-sm text-gray-600 mb-2">Current image:</p>
+                    <img src="{{ post.image.url }}" alt="{{ post.title }}" class="h-32 object-cover rounded">
+                </div>
+                {% endif %}
+                
+                <input type="file" name="{{ form.image.name }}" id="{{ form.image.id_for_label }}"
+                       class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent">
+                <p class="text-xs text-gray-500 mt-1">Optional. Recommended size: 1200x600px.</p>
+            </div>
+            
+            <!-- Published Status -->
+            <div class="form-group">
+                <div class="flex items-center">
+                    <input type="checkbox" name="{{ form.is_published.name }}" id="{{ form.is_published.id_for_label }}"
+                           {% if form.is_published.value %}checked{% endif %}
+                           class="w-4 h-4 text-blue-900 rounded focus:ring-blue-900">
+                    <label for="{{ form.is_published.id_for_label }}" class="ml-2 block text-gray-700 font-bold">
+                        Publish immediately
+                    </label>
+                </div>
+                <p class="text-xs text-gray-500 mt-1">Uncheck to save as draft.</p>
+            </div>
+            
+            <!-- Form Actions -->
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button type="submit" class="bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded font-semibold">
+                    {% if is_create %}Publish Post{% else %}Save Changes{% endif %}
+                </button>
+                <a href="{% url 'blog' %}" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded font-semibold">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- SimpleMDE CSS and JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+<script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const easyMDE = new EasyMDE({
+            element: document.getElementById('{{ form.content.id_for_label }}'),
+            spellChecker: false,
+            autosave: {
+                enabled: true,
+                uniqueId: 'blog-post-editor',
+                delay: 1000,
+            },
+            toolbar: [
+                'bold', 'italic', 'heading', '|',
+                'quote', 'unordered-list', 'ordered-list', '|',
+                'link', 'image', '|',
+                'preview', 'side-by-side', 'fullscreen', '|',
+                'guide'
+            ],
+            placeholder: 'Write your post content here...',
+        });
+    });
+</script>
+{% endblock %} 

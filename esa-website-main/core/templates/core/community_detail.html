@@ -1,0 +1,328 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}{{ community.name }}{% endblock %}
+
+{% block content %}
+<!-- Hero/Banner Section -->
+<div class="relative h-64 md:h-80 bg-gray-200 overflow-hidden">
+  {% if community.image %}
+    <img src="{{ community.image.url }}" alt="{{ community.name }}" class="w-full h-full object-cover">
+    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+  {% else %}
+    <div class="w-full h-full bg-gradient-to-r from-blue-500 to-indigo-600"></div>
+  {% endif %}
+  
+  <div class="absolute inset-0 flex items-center">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row items-center md:items-end">
+        <div class="w-24 h-24 md:w-32 md:h-32 rounded-full bg-white p-1 shadow-lg mb-4 md:mb-0 md:mr-6 flex-shrink-0">
+          {% if community.image %}
+            <img src="{{ community.image.url }}" alt="{{ community.name }}" class="w-full h-full object-cover rounded-full">
+          {% else %}
+            <div class="w-full h-full rounded-full bg-gray-300 flex items-center justify-center">
+              <i class="fas fa-users text-5xl text-gray-400"></i>
+            </div>
+          {% endif %}
+        </div>
+        <div class="text-center md:text-left text-white">
+          <h1 class="text-3xl md:text-4xl font-bold mb-2">{{ community.name }}</h1>
+          <div class="flex flex-wrap justify-center md:justify-start items-center gap-2">
+            <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm">
+              {{ community.get_category_display }}
+            </span>
+            {% if community.is_private %}
+              <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm">
+                <i class="fas fa-lock mr-1"></i> Private
+              </span>
+            {% else %}
+              <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm">
+                <i class="fas fa-globe mr-1"></i> Public
+              </span>
+            {% endif %}
+            <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm">
+              <i class="fas fa-user-friends mr-1"></i> {{ community.member_count }} members
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="container mx-auto px-4 py-8">
+  {% if messages %}
+    <div class="mb-8">
+      {% for message in messages %}
+        <div class="p-4 {% if message.tags == 'success' %}bg-green-100 text-green-700 border-green-400{% elif message.tags == 'error' %}bg-red-100 text-red-700 border-red-400{% else %}bg-blue-100 text-blue-700 border-blue-400{% endif %} rounded border-l-4">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+  
+  <div class="flex flex-col lg:flex-row gap-8">
+    <!-- Main Content Column -->
+    <div class="w-full lg:w-2/3">
+      <!-- Join/Leave Community Button -->
+      <div class="mb-6 flex justify-between items-center">
+        <div class="flex gap-2">
+          <a href="{% url 'communities' %}" class="text-blue-600 hover:text-blue-800">
+            <i class="fas fa-arrow-left mr-1"></i> All Communities
+          </a>
+        </div>
+        
+        {% if request.user.is_authenticated %}
+          {% if is_member %}
+            <form method="POST" action="{% url 'leave_community' community.slug %}">
+              {% csrf_token %}
+              <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
+                <i class="fas fa-sign-out-alt mr-1"></i> Leave Community
+              </button>
+            </form>
+          {% else %}
+            <form method="POST" action="{% url 'join_community' community.slug %}">
+              {% csrf_token %}
+              <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                <i class="fas fa-sign-in-alt mr-1"></i> Join Community
+              </button>
+            </form>
+          {% endif %}
+        {% else %}
+          <a href="{% url 'account_login' %}?next={{ request.path }}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+            <i class="fas fa-sign-in-alt mr-1"></i> Log in to Join
+          </a>
+        {% endif %}
+      </div>
+      
+      <!-- About Tab -->
+      <div class="mb-8">
+        <h2 class="text-2xl font-bold mb-4">About</h2>
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <p class="text-gray-700 whitespace-pre-line">{{ community.description }}</p>
+        </div>
+      </div>
+      
+      <!-- Community Rules -->
+      {% if community.rules %}
+        <div class="mb-8">
+          <h2 class="text-2xl font-bold mb-4">Community Rules</h2>
+          <div class="bg-white rounded-lg shadow-md p-6">
+            <p class="text-gray-700 whitespace-pre-line">{{ community.rules }}</p>
+          </div>
+        </div>
+      {% endif %}
+      
+      <!-- Discussions Tab -->
+      <div class="mb-8">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-2xl font-bold">Discussions</h2>
+          {% if is_member %}
+            <a href="{% url 'create_discussion' community.slug %}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+              <i class="fas fa-plus mr-1"></i> New Discussion
+            </a>
+          {% endif %}
+        </div>
+        
+        {% if discussions %}
+          <div class="bg-white rounded-lg shadow-md divide-y">
+            {% for discussion in discussions %}
+              <div class="p-4 flex items-start">
+                <div class="flex-shrink-0 mr-4">
+                  {% if discussion.created_by.profile.avatar %}
+                    <img src="{{ discussion.created_by.profile.avatar.url }}" alt="{{ discussion.created_by.username }}" class="w-10 h-10 rounded-full">
+                  {% else %}
+                    <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
+                      <i class="fas fa-user text-gray-400"></i>
+                    </div>
+                  {% endif %}
+                </div>
+                <div class="flex-grow">
+                  <a href="{% url 'discussion_detail' community.slug discussion.slug %}" class="text-lg font-semibold hover:text-blue-600">{{ discussion.title }}</a>
+                  <div class="text-sm text-gray-600 mt-1">
+                    Posted by {{ discussion.created_by.username }} • {{ discussion.created_at|timesince }} ago
+                  </div>
+                  <div class="flex items-center mt-2 text-sm text-gray-500">
+                    <span class="mr-4"><i class="far fa-comment mr-1"></i> {{ discussion.comment_count }} comments</span>
+                    <span><i class="far fa-eye mr-1"></i> {{ discussion.view_count }} views</span>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          
+          {% if discussions_page_obj.has_other_pages %}
+            <div class="mt-4 flex justify-center">
+              <a href="{% url 'community_discussions' community.slug %}" class="text-blue-600 hover:text-blue-800">
+                View all discussions <i class="fas fa-arrow-right ml-1"></i>
+              </a>
+            </div>
+          {% endif %}
+        {% else %}
+          <div class="bg-white rounded-lg shadow-md p-8 text-center">
+            <i class="far fa-comments text-5xl text-gray-400 mb-4"></i>
+            <h3 class="text-xl font-bold mb-2">No discussions yet</h3>
+            <p class="text-gray-600 mb-6">Be the first to start a discussion in this community</p>
+            {% if is_member %}
+              <a href="{% url 'create_discussion' community.slug %}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+                <i class="fas fa-plus mr-2"></i> Start a Discussion
+              </a>
+            {% else %}
+              <p class="text-gray-600">Join this community to start discussions</p>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+      
+      <!-- Events Tab -->
+      <div class="mb-8">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-2xl font-bold">Upcoming Events</h2>
+          {% if is_member %}
+            <a href="{% url 'create_event' community.slug %}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+              <i class="fas fa-plus mr-1"></i> New Event
+            </a>
+          {% endif %}
+        </div>
+        
+        {% if events %}
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {% for event in events %}
+              <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="p-4">
+                  <div class="flex justify-between items-start">
+                    <div>
+                      <h3 class="font-bold text-lg">{{ event.title }}</h3>
+                      <p class="text-sm text-gray-600">{{ event.start_date|date:"F j, Y • g:i A" }}</p>
+                    </div>
+                    <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                      {{ event.get_event_type_display }}
+                    </span>
+                  </div>
+                  <p class="mt-2 text-gray-700 line-clamp-2">{{ event.description }}</p>
+                  <div class="mt-4 flex justify-between items-center">
+                    <span class="text-sm text-gray-600">
+                      <i class="fas fa-user-friends mr-1"></i> {{ event.attendee_count }} attendees
+                    </span>
+                    <a href="{% url 'event_detail' community.slug event.slug %}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                      View details <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          
+          {% if events_page_obj.has_other_pages %}
+            <div class="mt-4 flex justify-center">
+              <a href="{% url 'community_events' community.slug %}" class="text-blue-600 hover:text-blue-800">
+                View all events <i class="fas fa-arrow-right ml-1"></i>
+              </a>
+            </div>
+          {% endif %}
+        {% else %}
+          <div class="bg-white rounded-lg shadow-md p-8 text-center">
+            <i class="far fa-calendar-alt text-5xl text-gray-400 mb-4"></i>
+            <h3 class="text-xl font-bold mb-2">No upcoming events</h3>
+            <p class="text-gray-600 mb-6">There are no scheduled events for this community yet</p>
+            {% if is_member %}
+              <a href="{% url 'create_event' community.slug %}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+                <i class="fas fa-plus mr-2"></i> Create Event
+              </a>
+            {% else %}
+              <p class="text-gray-600">Join this community to create events</p>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    
+    <!-- Sidebar -->
+    <div class="w-full lg:w-1/3">
+      <!-- Admin/Moderators Section -->
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h3 class="text-lg font-bold mb-4">Community Leaders</h3>
+        <div class="space-y-4">
+          {% for admin in admins %}
+            <div class="flex items-center">
+              <div class="mr-3">
+                {% if admin.profile.avatar %}
+                  <img src="{{ admin.profile.avatar.url }}" alt="{{ admin.username }}" class="w-10 h-10 rounded-full">
+                {% else %}
+                  <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
+                    <i class="fas fa-user text-gray-400"></i>
+                  </div>
+                {% endif %}
+              </div>
+              <div>
+                <div class="font-medium">{{ admin.get_full_name|default:admin.username }}</div>
+                <div class="text-xs text-gray-500">
+                  {% if admin == community.created_by %}
+                    Founder
+                  {% else %}
+                    Moderator
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      
+      <!-- Members List -->
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-bold">Members ({{ community.member_count }})</h3>
+          <a href="{% url 'community_members' community.slug %}" class="text-blue-600 hover:text-blue-800 text-sm">
+            View all
+          </a>
+        </div>
+        
+        <div class="space-y-3">
+          {% for member in members %}
+            <div class="flex items-center">
+              <div class="mr-3">
+                {% if member.profile.avatar %}
+                  <img src="{{ member.profile.avatar.url }}" alt="{{ member.username }}" class="w-8 h-8 rounded-full">
+                {% else %}
+                  <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center">
+                    <i class="fas fa-user text-sm text-gray-400"></i>
+                  </div>
+                {% endif %}
+              </div>
+              <div class="text-sm">{{ member.get_full_name|default:member.username }}</div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      
+      <!-- Related Communities -->
+      {% if related_communities %}
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h3 class="text-lg font-bold mb-4">Related Communities</h3>
+          <div class="space-y-3">
+            {% for related in related_communities %}
+              <div class="flex items-center">
+                <div class="mr-3 w-10 h-10 flex-shrink-0">
+                  {% if related.image %}
+                    <img src="{{ related.image.url }}" alt="{{ related.name }}" class="w-10 h-10 rounded-full object-cover">
+                  {% else %}
+                    <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
+                      <i class="fas fa-users text-gray-400"></i>
+                    </div>
+                  {% endif %}
+                </div>
+                <div>
+                  <a href="{% url 'community_detail' related.slug %}" class="font-medium hover:text-blue-600">{{ related.name }}</a>
+                  <div class="text-xs text-gray-500">{{ related.member_count }} members</div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %} 

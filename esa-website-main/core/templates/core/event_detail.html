@@ -1,0 +1,404 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 py-8">
+    <!-- Back button -->
+    <div class="mb-4">
+        <a href="{% url 'events' %}" class="inline-flex items-center text-[#003366] hover:text-blue-700 transition-colors">
+            <i class="fas fa-arrow-left mr-2"></i> Back to Events
+        </a>
+    </div>
+
+    <!-- Event Header -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+        <!-- Event Image -->
+        <div class="relative h-[300px] md:h-[400px] bg-[#003366]">
+            {% if event.image %}
+            <img src="{{ event.image.url }}" alt="{{ event.title }}" class="w-full h-full object-cover">
+            {% else %}
+            <div class="h-full flex items-center justify-center">
+                <i class="fas fa-calendar-alt text-6xl text-white opacity-20"></i>
+            </div>
+            {% endif %}
+            
+            <!-- Overlay with date -->
+            <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black to-transparent text-white">
+                <!-- Status Badge -->
+                <div class="mb-2">
+                    {% if event.status == 'upcoming' %}
+                    <span class="inline-block bg-green-500 text-white text-xs px-3 py-1 rounded-full">Upcoming</span>
+                    {% elif event.status == 'ongoing' %}
+                    <span class="inline-block bg-blue-500 text-white text-xs px-3 py-1 rounded-full">Ongoing</span>
+                    {% elif event.status == 'completed' %}
+                    <span class="inline-block bg-gray-500 text-white text-xs px-3 py-1 rounded-full">Completed</span>
+                    {% elif event.status == 'cancelled' %}
+                    <span class="inline-block bg-red-500 text-white text-xs px-3 py-1 rounded-full">Cancelled</span>
+                    {% endif %}
+                    
+                    <!-- Category Badge -->
+                    <span class="inline-block bg-[#FFD700] text-[#003366] text-xs px-3 py-1 rounded-full ml-2">
+                        {{ event.get_category_display }}
+                    </span>
+                </div>
+                
+                <h1 class="text-3xl md:text-4xl font-bold mb-2">{{ event.title }}</h1>
+                
+                <div class="flex flex-wrap items-center gap-4 text-sm">
+                    <div class="flex items-center">
+                        <i class="far fa-calendar-alt mr-2"></i>
+                        <span>{{ event.date|date:"F j, Y - g:i A" }}</span>
+                    </div>
+                    
+                    {% if event.end_date %}
+                    <div class="flex items-center">
+                        <i class="far fa-calendar-check mr-2"></i>
+                        <span>Until {{ event.end_date|date:"F j, Y - g:i A" }}</span>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="flex items-center">
+                        <i class="fas fa-map-marker-alt mr-2"></i>
+                        <span>{{ event.location }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Event Content -->
+        <div class="p-8">
+            <!-- Registration Status -->
+            <div class="flex flex-wrap justify-between items-center mb-8 p-6 bg-gray-50 rounded-lg">
+                <div>
+                    <h3 class="text-xl font-bold text-[#003366] mb-1">Registration Status</h3>
+                    
+                    {% if event.is_registration_open %}
+                        <p class="text-green-600">
+                            <i class="fas fa-check-circle mr-1"></i> Registration is open
+                        </p>
+                        {% if event.registration_deadline %}
+                        <p class="text-sm text-gray-600 mt-1">
+                            Deadline: {{ event.registration_deadline|date:"F j, Y - g:i A" }}
+                        </p>
+                        {% endif %}
+                    {% elif event.status == 'completed' %}
+                        <p class="text-gray-600">
+                            <i class="fas fa-hourglass-end mr-1"></i> Event has ended
+                        </p>
+                    {% elif event.status == 'cancelled' %}
+                        <p class="text-red-600">
+                            <i class="fas fa-times-circle mr-1"></i> Event has been cancelled
+                        </p>
+                    {% elif event.is_fully_booked %}
+                        <p class="text-orange-600">
+                            <i class="fas fa-exclamation-circle mr-1"></i> Event is fully booked
+                        </p>
+                    {% else %}
+                        <p class="text-red-600">
+                            <i class="fas fa-times-circle mr-1"></i> Registration is closed
+                        </p>
+                    {% endif %}
+                </div>
+                
+                <div class="flex flex-col items-end">
+                    {% if event.capacity > 0 %}
+                    <div class="text-right mb-2">
+                        <span class="text-2xl font-bold text-[#003366]">{{ event.seats_left }}</span>
+                        <span class="text-gray-600"> / {{ event.capacity }} seats left</span>
+                    </div>
+                    
+                    <div class="w-64 bg-gray-200 rounded-full h-3">
+                        <div class="bg-green-600 h-3 rounded-full" style="width: {{ event.registered_count|floatformat:0 }}%;"></div>
+                    </div>
+                    {% else %}
+                    <div class="text-right">
+                        <span class="text-green-600"><i class="fas fa-infinity mr-1"></i> Unlimited seats</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="flex flex-wrap gap-4 mb-8">
+                {% if event.status == 'upcoming' %}
+                    {% if registration %}
+                        {% if registration.status == 'registered' %}
+                        <div class="bg-green-100 text-green-800 px-4 py-3 rounded-lg">
+                            <i class="fas fa-check-circle mr-2"></i> You're registered for this event
+                        </div>
+                        <a href="{% url 'event_cancel_registration' event_id=event.id %}" 
+                           class="bg-red-100 text-red-800 hover:bg-red-200 px-4 py-3 rounded-lg transition-colors">
+                            <i class="fas fa-times-circle mr-2"></i> Cancel Registration
+                        </a>
+                        {% elif registration.status == 'cancelled' %}
+                        <div class="bg-gray-100 text-gray-800 px-4 py-3 rounded-lg">
+                            <i class="fas fa-times-circle mr-2"></i> You cancelled your registration
+                        </div>
+                        <a href="{% url 'event_register' event_id=event.id %}" 
+                           class="bg-[#003366] text-white hover:bg-[#00468a] px-6 py-3 rounded-lg transition-colors font-medium">
+                            <i class="fas fa-user-plus mr-2"></i> Register Again
+                        </a>
+                        {% endif %}
+                    {% elif event.is_registration_open %}
+                        <a href="{% url 'event_register' event_id=event.id %}" 
+                           class="bg-[#003366] text-white hover:bg-[#00468a] px-6 py-3 rounded-lg transition-colors font-medium">
+                            <i class="fas fa-user-plus mr-2"></i> Register Now
+                        </a>
+                    {% elif event.is_fully_booked %}
+                        <button disabled class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg cursor-not-allowed">
+                            <i class="fas fa-ban mr-2"></i> Fully Booked
+                        </button>
+                    {% else %}
+                        <button disabled class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg cursor-not-allowed">
+                            <i class="fas fa-ban mr-2"></i> Registration Closed
+                        </button>
+                    {% endif %}
+                {% elif event.status == 'completed' %}
+                    <a href="#" class="bg-[#003366] text-white hover:bg-[#00468a] px-6 py-3 rounded-lg transition-colors font-medium">
+                        <i class="fas fa-images mr-2"></i> View Gallery
+                    </a>
+                    <a href="#" class="bg-[#FFD700] text-[#003366] hover:bg-yellow-400 px-6 py-3 rounded-lg transition-colors font-medium">
+                        <i class="fas fa-file-pdf mr-2"></i> Download Materials
+                    </a>
+                {% endif %}
+                
+                <!-- Admin Actions -->
+                {% if user.is_authenticated and user.profile.can_manage_events %}
+                <div class="ml-auto">
+                    <a href="{% url 'event_edit' event_id=event.id %}" 
+                       class="bg-gray-100 text-gray-800 hover:bg-gray-200 px-4 py-3 rounded-lg transition-colors">
+                        <i class="fas fa-edit mr-2"></i> Edit Event
+                    </a>
+                    <a href="{% url 'event_delete' event_id=event.id %}" 
+                       class="bg-red-100 text-red-800 hover:bg-red-200 px-4 py-3 rounded-lg transition-colors ml-2">
+                        <i class="fas fa-trash-alt mr-2"></i> Delete
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Event Details -->
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Left Column: Description -->
+                <div class="md:col-span-2">
+                    <h2 class="text-2xl font-bold text-[#003366] mb-4">About This Event</h2>
+                    <div class="prose max-w-none mb-8">
+                        {{ event.description|linebreaks }}
+                    </div>
+                    
+                    {% if event.speaker %}
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold text-[#003366] mb-4">Speaker</h3>
+                        <div class="flex items-start">
+                            <div class="bg-[#003366] text-white p-4 rounded-full mr-4">
+                                <i class="fas fa-user text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">{{ event.speaker }}</h4>
+                                <p class="text-gray-600">Guest Speaker</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Share Section -->
+                    <div>
+                        <h3 class="text-xl font-bold text-[#003366] mb-4">Share This Event</h3>
+                        <div class="flex gap-3">
+                            <a href="#" onclick="shareOnFacebook()" class="bg-blue-600 text-white p-3 rounded-full hover:bg-blue-700 transition-colors">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" onclick="shareOnTwitter()" class="bg-blue-400 text-white p-3 rounded-full hover:bg-blue-500 transition-colors">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" onclick="shareOnLinkedIn()" class="bg-blue-700 text-white p-3 rounded-full hover:bg-blue-800 transition-colors">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" onclick="shareViaEmail()" class="bg-red-500 text-white p-3 rounded-full hover:bg-red-600 transition-colors">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Column: Event Details -->
+                <div>
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        <h3 class="text-xl font-bold text-[#003366] mb-4">Event Details</h3>
+                        
+                        <ul class="space-y-4">
+                            <li class="flex">
+                                <i class="fas fa-calendar-day text-[#003366] mt-1 mr-3 w-5"></i>
+                                <div>
+                                    <strong class="block text-gray-700">Date & Time</strong>
+                                    <span class="text-gray-600">{{ event.date|date:"F j, Y" }}</span><br>
+                                    <span class="text-gray-600">{{ event.date|date:"g:i A" }}
+                                    {% if event.end_date %} - {{ event.end_date|date:"g:i A" }}{% endif %}</span>
+                                </div>
+                            </li>
+                            
+                            <li class="flex">
+                                <i class="fas fa-map-marker-alt text-[#003366] mt-1 mr-3 w-5"></i>
+                                <div>
+                                    <strong class="block text-gray-700">Location</strong>
+                                    <span class="text-gray-600">{{ event.location }}</span>
+                                    {% if event.venue_type == 'virtual' %}
+                                    <span class="block mt-1 text-sm text-blue-600">
+                                        <i class="fas fa-video mr-1"></i> Virtual Event
+                                    </span>
+                                    {% elif event.venue_type == 'hybrid' %}
+                                    <span class="block mt-1 text-sm text-purple-600">
+                                        <i class="fas fa-laptop-house mr-1"></i> Hybrid Event
+                                    </span>
+                                    {% endif %}
+                                </div>
+                            </li>
+                            
+                            <li class="flex">
+                                <i class="fas fa-ticket-alt text-[#003366] mt-1 mr-3 w-5"></i>
+                                <div>
+                                    <strong class="block text-gray-700">Ticket Price</strong>
+                                    {% if event.price == 0 %}
+                                    <span class="text-green-600 font-medium">Free Event</span>
+                                    {% else %}
+                                    <span class="text-gray-600">KSh {{ event.price }}</span>
+                                    {% endif %}
+                                </div>
+                            </li>
+                            
+                            {% if event.capacity > 0 %}
+                            <li class="flex">
+                                <i class="fas fa-users text-[#003366] mt-1 mr-3 w-5"></i>
+                                <div>
+                                    <strong class="block text-gray-700">Capacity</strong>
+                                    <span class="text-gray-600">{{ event.capacity }} attendees</span>
+                                </div>
+                            </li>
+                            {% endif %}
+                            
+                            {% if event.registration_deadline %}
+                            <li class="flex">
+                                <i class="fas fa-hourglass-half text-[#003366] mt-1 mr-3 w-5"></i>
+                                <div>
+                                    <strong class="block text-gray-700">Registration Deadline</strong>
+                                    <span class="text-gray-600">{{ event.registration_deadline|date:"F j, Y - g:i A" }}</span>
+                                </div>
+                            </li>
+                            {% endif %}
+                            
+                            <li class="flex">
+                                <i class="fas fa-tag text-[#003366] mt-1 mr-3 w-5"></i>
+                                <div>
+                                    <strong class="block text-gray-700">Category</strong>
+                                    <span class="text-gray-600">{{ event.get_category_display }}</span>
+                                </div>
+                            </li>
+                        </ul>
+                        
+                        <!-- Add to Calendar -->
+                        <div class="mt-6 pt-6 border-t border-gray-200">
+                            <button onclick="addToCalendar()" class="w-full bg-[#003366] text-white hover:bg-[#00468a] py-3 rounded-lg transition-colors flex justify-center items-center">
+                                <i class="fas fa-calendar-plus mr-2"></i> Add to Calendar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Related Events -->
+    {% if related_events %}
+    <section class="mb-12">
+        <h2 class="text-2xl font-bold text-[#003366] mb-6">Similar Events You Might Like</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {% for related_event in related_events %}
+            <a href="{% url 'event_detail' event_id=related_event.id %}" class="block group">
+                <article class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all">
+                    <div class="relative h-[150px] overflow-hidden">
+                        {% if related_event.image %}
+                        <img src="{{ related_event.image.url }}" alt="{{ related_event.title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
+                        {% else %}
+                        <div class="h-full w-full flex items-center justify-center bg-[#003366]">
+                            <i class="fas fa-calendar-alt text-4xl text-white opacity-20"></i>
+                        </div>
+                        {% endif %}
+                        <div class="absolute top-4 left-4 flex flex-col bg-[#003366] text-white py-1 px-3 rounded-lg text-center">
+                            <span class="text-lg font-bold">{{ related_event.date|date:"d" }}</span>
+                            <span class="text-xs uppercase">{{ related_event.date|date:"M" }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4">
+                        <span class="inline-block bg-[#FFD700] text-[#003366] text-xs px-2 py-1 rounded-full">
+                            {{ related_event.get_category_display }}
+                        </span>
+                        <h3 class="mt-2 text-lg font-bold text-[#003366] group-hover:text-[#00468a] transition-colors">{{ related_event.title }}</h3>
+                        <p class="mt-1 text-sm text-gray-600 flex items-center">
+                            <i class="fas fa-map-marker-alt w-4 mr-1"></i> {{ related_event.location }}
+                        </p>
+                    </div>
+                </article>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+    
+    <!-- Registration Form -->
+    {% if event.status == 'upcoming' and event.is_registration_open and not registration %}
+    <section class="mb-8 bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="p-8">
+            <h2 class="text-2xl font-bold text-[#003366] mb-6">Register for this Event</h2>
+            
+            <form method="POST" class="max-w-lg">
+        {% csrf_token %}
+        {{ form.as_p }}
+                <button type="submit" class="mt-4 bg-[#003366] text-white hover:bg-[#00468a] px-6 py-3 rounded-lg transition-colors font-medium">
+                    <i class="fas fa-user-plus mr-2"></i> Complete Registration
+                </button>
+    </form>
+        </div>
+    </section>
+    {% endif %}
+</div>
+
+<script>
+    function addToCalendar() {
+        const eventTitle = "{{ event.title }}";
+        const eventStart = "{{ event.date|date:'Y-m-d' }}T{{ event.date|date:'H:i:s' }}";
+        const eventEnd = "{% if event.end_date %}{{ event.end_date|date:'Y-m-d' }}T{{ event.end_date|date:'H:i:s' }}{% else %}{{ event.date|date:'Y-m-d' }}T{{ event.date|date:'H:i:s' }}{% endif %}";
+        const eventLocation = "{{ event.location }}";
+        const eventDescription = "{{ event.description|truncatechars:200|escapejs }}";
+        
+        // Google Calendar
+        const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(eventTitle)}&dates=${eventStart.replace(/[-:]/g, '')}/${eventEnd.replace(/[-:]/g, '')}&details=${encodeURIComponent(eventDescription)}&location=${encodeURIComponent(eventLocation)}`;
+        
+        window.open(googleUrl, '_blank');
+    }
+    
+    function shareOnFacebook() {
+        const url = encodeURIComponent(window.location.href);
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+    }
+    
+    function shareOnTwitter() {
+        const url = encodeURIComponent(window.location.href);
+        const text = encodeURIComponent("Check out this event: {{ event.title }}");
+        window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
+    }
+    
+    function shareOnLinkedIn() {
+        const url = encodeURIComponent(window.location.href);
+        const title = encodeURIComponent("{{ event.title }}");
+        window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
+    }
+    
+    function shareViaEmail() {
+        const subject = encodeURIComponent("Check out this event: {{ event.title }}");
+        const body = encodeURIComponent("I thought you might be interested in this event:\n\n{{ event.title }}\n\nDate: {{ event.date|date:'F j, Y' }}\nLocation: {{ event.location }}\n\nMore details: " + window.location.href);
+        window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    }
+</script>
+{% endblock %}
