@@ -1,24 +1,41 @@
 # Python
 *.pyc
 *.pyo
+*.pyd
 __pycache__/
+*.pdb
+*.egg
+*.egg-info/
+dist/
+build/
+*.manifest
+*.spec
 
 # Virtual Environment
 env/
 venv/
+ENV/
+env.bak/
+venv.bak/
 *.env
 
 # Django
 db.sqlite3
 *.log
+*.pot
+*.py[co]
+local_settings.py
 
 # Environment Variables
 .env
+.env.*
 
 # IDEs and Editors
 .vscode/
 .idea/
 *.swp
+*.sublime-workspace
+*.sublime-project
 
 # Byte-compiled / optimized / DLL files
 *.py[cod]
@@ -26,7 +43,49 @@ db.sqlite3
 
 # macOS
 .DS_Store
+.AppleDouble
+.LSOverride
 
 # Windows
 Thumbs.db
 ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# Testing
+.tox/
+.nox/
+coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Logs
+*.log
+*.out
+*.err
+
+# Packaging
+*.wheel
+*.egg-info/
+.installed.cfg
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre
+.pyre/
+
+# Profiling
+.prof
