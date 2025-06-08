@@ -160,15 +160,14 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'core/static'),
     os.path.join(BASE_DIR, 'static'),
 ]
 
 # Media files (Uploaded files)
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-MEDIA_URL = "media/"
+MEDIA_URL = "/media/"
 
 # Whitenoise configuration
 if not DEBUG:
@@ -228,7 +227,7 @@ EMAIL_PORT = env_config('EMAIL_PORT', default=587, cast=int)
 EMAIL_HOST_USER = env_config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = env_config('EMAIL_HOST_PASSWORD', default='')
 EMAIL_USE_TLS = env_config('EMAIL_USE_TLS', default=True, cast=bool)
-DEFAULT_FROM_EMAIL = env_config('DEFAULT_FROM_EMAIL', default='noreply@esa-ku.com')
+DEFAULT_FROM_EMAIL = env_config('DEFAULT_FROM_EMAIL', default='esa.kenyattauniv@gmail.com')
 
 # Error Handling
 ADMINS = [('Admin', env_config('ADMIN_EMAIL', default='admin@esa-ku.com'))]
