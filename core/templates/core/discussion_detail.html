@@ -1,0 +1,220 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}{{ discussion.title }} - {{ community.name }}{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50 min-h-screen">
+  <div class="container mx-auto px-4 py-8">
+    <!-- Breadcrumbs -->
+    <div class="mb-6">
+      <div class="flex flex-wrap items-center text-gray-600 text-sm">
+        <a href="{% url 'communities' %}" class="hover:text-blue-600">Communities</a>
+        <span class="mx-2">/</span>
+        <a href="{% url 'community_detail' community.slug %}" class="hover:text-blue-600">{{ community.name }}</a>
+        <span class="mx-2">/</span>
+        <a href="{% url 'community_discussions' community.slug %}" class="hover:text-blue-600">Discussions</a>
+        <span class="mx-2">/</span>
+        <span class="text-gray-900 font-medium">{{ discussion.title }}</span>
+      </div>
+    </div>
+    
+    {% if messages %}
+      <div class="mb-8">
+        {% for message in messages %}
+          <div class="p-4 {% if message.tags == 'success' %}bg-green-100 text-green-700 border-green-400{% elif message.tags == 'error' %}bg-red-100 text-red-700 border-red-400{% else %}bg-blue-100 text-blue-700 border-blue-400{% endif %} rounded border-l-4">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    
+    <div class="flex flex-col lg:flex-row gap-8">
+      <!-- Main Content -->
+      <div class="w-full lg:w-3/4">
+        <!-- Discussion Card -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-8">
+          <!-- Discussion Header -->
+          <div class="p-6 border-b">
+            <h1 class="text-2xl md:text-3xl font-bold mb-4">{{ discussion.title }}</h1>
+            <div class="flex items-center justify-between text-sm">
+              <div class="flex items-center">
+                {% if discussion.created_by.profile.avatar %}
+                  <img src="{{ discussion.created_by.profile.avatar.url }}" alt="{{ discussion.created_by.username }}" class="w-10 h-10 rounded-full mr-3">
+                {% else %}
+                  <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center mr-3">
+                    <i class="fas fa-user text-gray-400"></i>
+                  </div>
+                {% endif %}
+                <div>
+                  <div class="font-medium">{{ discussion.created_by.get_full_name|default:discussion.created_by.username }}</div>
+                  <div class="text-gray-500">
+                    <span>Posted {{ discussion.created_at|date:"F j, Y" }} at {{ discussion.created_at|date:"g:i A" }}</span>
+                    {% if discussion.updated_at > discussion.created_at %}
+                      <span>• Edited {{ discussion.updated_at|date:"F j, Y" }}</span>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center text-gray-500">
+                <span class="mr-4"><i class="far fa-comment mr-1"></i> {{ comments|length }} comments</span>
+                <span><i class="far fa-eye mr-1"></i> {{ discussion.view_count }} views</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Discussion Content -->
+          <div class="p-6 prose max-w-none">
+            {{ discussion.content|linebreaks }}
+          </div>
+        </div>
+        
+        <!-- Comments Section -->
+        <div class="mb-8">
+          <h2 class="text-2xl font-bold mb-4">Comments ({{ comments|length }})</h2>
+          
+          {% if comments %}
+            <div class="bg-white rounded-lg shadow-md overflow-hidden divide-y">
+              {% for comment in comments %}
+                <div class="p-4 md:p-6 {% if comment.created_by == discussion.created_by %}bg-blue-50{% endif %}">
+                  <div class="flex">
+                    <div class="flex-shrink-0 mr-4">
+                      {% if comment.created_by.profile.avatar %}
+                        <img src="{{ comment.created_by.profile.avatar.url }}" alt="{{ comment.created_by.username }}" class="w-10 h-10 rounded-full">
+                      {% else %}
+                        <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
+                          <i class="fas fa-user text-gray-400"></i>
+                        </div>
+                      {% endif %}
+                    </div>
+                    <div class="flex-grow">
+                      <div class="flex items-center justify-between mb-2">
+                        <div>
+                          <div class="font-medium {% if comment.created_by == discussion.created_by %}text-blue-600{% endif %}">
+                            {{ comment.created_by.get_full_name|default:comment.created_by.username }}
+                            {% if comment.created_by == discussion.created_by %}
+                              <span class="ml-2 text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">Author</span>
+                            {% endif %}
+                          </div>
+                          <div class="text-sm text-gray-500">
+                            {{ comment.created_at|date:"F j, Y" }} at {{ comment.created_at|date:"g:i A" }}
+                            {% if comment.updated_at > comment.created_at %}
+                              • Edited {{ comment.updated_at|date:"F j, Y" }}
+                            {% endif %}
+                          </div>
+                        </div>
+                        {% if comment.created_by == request.user %}
+                          <div class="dropdown relative">
+                            <button class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                              <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <!-- Dropdown menu -->
+                          </div>
+                        {% endif %}
+                      </div>
+                      <div class="prose prose-sm max-w-none">
+                        {{ comment.content|linebreaks }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <div class="bg-white rounded-lg shadow-md p-8 text-center">
+              <i class="far fa-comment-dots text-5xl text-gray-400 mb-4"></i>
+              <h3 class="text-xl font-bold mb-2">No comments yet</h3>
+              <p class="text-gray-600 mb-4">Be the first to share your thoughts on this discussion</p>
+            </div>
+          {% endif %}
+        </div>
+        
+        <!-- Add Comment Form -->
+        {% if request.user.is_authenticated and is_member %}
+          <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="p-6 border-b">
+              <h2 class="text-xl font-bold">Add Your Comment</h2>
+            </div>
+            <div class="p-6">
+              <form method="POST">
+                {% csrf_token %}
+                <div class="mb-4">
+                  {{ form.content }}
+                  {% if form.content.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ form.content.errors.0 }}</p>
+                  {% endif %}
+                </div>
+                <div class="flex justify-end">
+                  <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                    Post Comment
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        {% elif not request.user.is_authenticated %}
+          <div class="bg-white rounded-lg shadow-md p-6 text-center">
+            <p class="text-gray-600 mb-4">You need to be logged in to comment on this discussion</p>
+            <a href="{% url 'account_login' %}?next={{ request.path }}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+              Log in to Comment
+            </a>
+          </div>
+        {% elif not is_member %}
+          <div class="bg-white rounded-lg shadow-md p-6 text-center">
+            <p class="text-gray-600 mb-4">You need to be a member of this community to comment</p>
+            <a href="{% url 'join_community' community.slug %}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+              Join Community
+            </a>
+          </div>
+        {% endif %}
+      </div>
+      
+      <!-- Sidebar -->
+      <div class="w-full lg:w-1/4">
+        <!-- Community Info -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+          <h3 class="text-lg font-bold mb-4">About Community</h3>
+          <div class="flex items-center mb-4">
+            <div class="mr-3 w-10 h-10 flex-shrink-0">
+              {% if community.image %}
+                <img src="{{ community.image.url }}" alt="{{ community.name }}" class="w-10 h-10 rounded-full object-cover">
+              {% else %}
+                <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
+                  <i class="fas fa-users text-gray-400"></i>
+                </div>
+              {% endif %}
+            </div>
+            <div>
+              <a href="{% url 'community_detail' community.slug %}" class="font-medium hover:text-blue-600">{{ community.name }}</a>
+              <div class="text-xs text-gray-500">{{ community.member_count }} members</div>
+            </div>
+          </div>
+          <p class="text-gray-600 text-sm mb-4 line-clamp-3">{{ community.description }}</p>
+          <a href="{% url 'community_detail' community.slug %}" class="text-blue-600 hover:text-blue-800 text-sm">
+            View Community
+          </a>
+        </div>
+        
+        <!-- Recent Discussions -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h3 class="text-lg font-bold mb-4">Recent Discussions</h3>
+          <div class="space-y-4">
+            {% for recent_discussion in recent_discussions %}
+              <div>
+                <a href="{% url 'discussion_detail' community.slug recent_discussion.slug %}" class="font-medium hover:text-blue-600 line-clamp-2">
+                  {{ recent_discussion.title }}
+                </a>
+                <div class="text-xs text-gray-500 mt-1">
+                  {{ recent_discussion.created_at|timesince }} ago • {{ recent_discussion.comment_count }} comments
+                </div>
+              </div>
+            {% empty %}
+              <p class="text-gray-600 text-sm">No recent discussions</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} 

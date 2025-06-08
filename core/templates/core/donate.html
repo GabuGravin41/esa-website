@@ -1,0 +1,171 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Donate to ESA-KU{% endblock %}
+
+{% block content %}
+<div class="bg-blue-900">
+  <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+    <h1 class="text-3xl font-extrabold text-white sm:text-4xl">
+      Support ESA-KU
+    </h1>
+    <p class="mt-4 text-lg text-blue-100">
+      Your donation helps fund student engineering projects, events, and initiatives
+    </p>
+  </div>
+</div>
+
+<div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Donation Information -->
+    <div class="lg:col-span-2">
+      <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
+        <h2 class="text-2xl font-bold text-blue-900 mb-6">Why Support ESA?</h2>
+        <div class="prose max-w-none">
+          <p>
+            The Engineering Students Association at Kenyatta University (ESA-KU) is committed to enhancing the academic and professional development of engineering students. Your donations directly support:
+          </p>
+          
+          <ul>
+            <li><strong>Student Projects:</strong> Fund innovative engineering projects developed by students</li>
+            <li><strong>Technical Competitions:</strong> Support student participation in national and international engineering competitions</li>
+            <li><strong>Workshop Equipment:</strong> Help upgrade workshop facilities and equipment</li>
+            <li><strong>Industry Tours:</strong> Sponsor educational visits to engineering firms and manufacturing plants</li>
+            <li><strong>Guest Speakers:</strong> Bring industry professionals to share knowledge and experience</li>
+            <li><strong>Community Outreach:</strong> Support engineering solutions for local community challenges</li>
+          </ul>
+          
+          <h3>Impact of Your Donation</h3>
+          <p>
+            Your contribution, regardless of size, makes a significant impact on the education and future careers of engineering students at Kenyatta University. By supporting ESA-KU, you're investing in the next generation of engineers who will solve tomorrow's challenges.
+          </p>
+          
+          <h3>Recognition Programs</h3>
+          <p>
+            Donors will be recognized based on their level of support:
+          </p>
+          <ul>
+            <li><strong>Bronze Supporter:</strong> KSh 1,000 - 4,999</li>
+            <li><strong>Silver Supporter:</strong> KSh 5,000 - 19,999</li>
+            <li><strong>Gold Supporter:</strong> KSh 20,000 - 49,999</li>
+            <li><strong>Platinum Supporter:</strong> KSh 50,000+</li>
+          </ul>
+          <p>
+            All donors will be acknowledged on our website and annual reports (unless anonymity is requested).
+          </p>
+        </div>
+      </div>
+      
+      <div class="bg-white rounded-lg shadow-lg p-8">
+        <h2 class="text-2xl font-bold text-blue-900 mb-6">Recent Initiatives Funded by Donations</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="border border-gray-200 rounded-lg overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1581092921461-39b9884e1d83?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Solar Car Project" class="w-full h-48 object-cover">
+            <div class="p-4">
+              <h3 class="font-bold text-lg mb-2">Solar-Powered Vehicle Project</h3>
+              <p class="text-gray-600 text-sm">A team of mechanical and electrical engineering students built a solar-powered vehicle for the African Solar Challenge.</p>
+            </div>
+          </div>
+          
+          <div class="border border-gray-200 rounded-lg overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Robotics Workshop" class="w-full h-48 object-cover">
+            <div class="p-4">
+              <h3 class="font-bold text-lg mb-2">Robotics Laboratory Equipment</h3>
+              <p class="text-gray-600 text-sm">New robotics equipment enabling students to build and program advanced robotic systems for competitions.</p>
+            </div>
+          </div>
+          
+          <div class="border border-gray-200 rounded-lg overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1563694983011-6f4d90358083?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Water Filter Project" class="w-full h-48 object-cover">
+            <div class="p-4">
+              <h3 class="font-bold text-lg mb-2">Community Water Filtration System</h3>
+              <p class="text-gray-600 text-sm">Environmental engineering students designed and implemented water filtration systems for neighboring communities.</p>
+            </div>
+          </div>
+          
+          <div class="border border-gray-200 rounded-lg overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1544531585-9847b68c8c86?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Hackathon" class="w-full h-48 object-cover">
+            <div class="p-4">
+              <h3 class="font-bold text-lg mb-2">Annual Engineering Hackathon</h3>
+              <p class="text-gray-600 text-sm">A three-day event bringing together engineering students to solve real-world problems with innovative solutions.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Donation Form -->
+    <div class="lg:col-span-1">
+      <div class="bg-white rounded-lg shadow-lg p-6 sticky top-6">
+        <h2 class="text-2xl font-bold text-blue-900 mb-4">Make a Donation</h2>
+        
+        <form action="#" method="POST" class="space-y-4">
+          {% csrf_token %}
+          
+          <div>
+            <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
+            <input type="text" name="name" id="name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+          </div>
+          
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+            <input type="email" name="email" id="email" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+          </div>
+          
+          <div>
+            <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
+            <input type="tel" name="phone" id="phone" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+          </div>
+          
+          <div>
+            <label for="amount" class="block text-sm font-medium text-gray-700">Donation Amount (KSh)</label>
+            <input type="number" name="amount" id="amount" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+          </div>
+          
+          <div>
+            <label for="payment_method" class="block text-sm font-medium text-gray-700">Payment Method</label>
+            <select name="payment_method" id="payment_method" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+              <option value="mpesa">M-PESA</option>
+              <option value="card">Credit/Debit Card</option>
+              <option value="bank">Bank Transfer</option>
+            </select>
+          </div>
+          
+          <div>
+            <label for="donation_purpose" class="block text-sm font-medium text-gray-700">Purpose (Optional)</label>
+            <select name="donation_purpose" id="donation_purpose" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+              <option value="general">General Support</option>
+              <option value="projects">Student Projects</option>
+              <option value="competitions">Engineering Competitions</option>
+              <option value="equipment">Workshop Equipment</option>
+              <option value="outreach">Community Outreach</option>
+            </select>
+          </div>
+          
+          <div>
+            <label for="message" class="block text-sm font-medium text-gray-700">Message (Optional)</label>
+            <textarea name="message" id="message" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"></textarea>
+          </div>
+          
+          <div class="flex items-start">
+            <input type="checkbox" name="anonymous" id="anonymous" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-1">
+            <label for="anonymous" class="ml-2 block text-sm text-gray-700">Make my donation anonymous</label>
+          </div>
+          
+          <div>
+            <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+              Proceed to Payment
+            </button>
+          </div>
+        </form>
+        
+        <div class="mt-6 text-sm text-gray-500 space-y-2">
+          <p><i class="fas fa-lock mr-1"></i> All transactions are secure and encrypted.</p>
+          <p><i class="fas fa-info-circle mr-1"></i> For large donations or corporate giving, please contact us directly at treasurer@esa-ku.ac.ke.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} 
