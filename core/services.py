@@ -214,8 +214,8 @@ class MpesaService:
                 "TransactionDesc": description
             }
             
-            # Log the payload
-            print("Payload:", payload)
+            # Log the payload (excluding sensitive fields)
+            logging.info("Payload: %s", {k: v for k, v in payload.items() if k not in ['Password', 'PhoneNumber']})
             
             # Send request
             response = requests.post(
