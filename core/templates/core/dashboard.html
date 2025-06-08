@@ -1,0 +1,120 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}My Dashboard - ESA-KU{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50 min-h-screen">
+    <!-- Dashboard Header -->
+    <div class="bg-blue-900">
+        <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+            <h1 class="text-3xl font-extrabold text-white sm:text-4xl">
+                Welcome back, {{ user_profile.user.first_name|default:user_profile.user.username }}
+            </h1>
+            <p class="mt-4 text-lg text-blue-100">
+                Manage your ESA-KU activities and view your membership status
+            </p>
+        </div>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <!-- Membership Status -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Membership Status</h2>
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-lg text-gray-600">Status: 
+                        <span class="font-semibold {% if membership_status == 'active' %}text-green-600{% else %}text-red-600{% endif %}">
+                            {{ membership_status|title }}
+                        </span>
+                    </p>
+                    {% if membership_expiry %}
+                    <p class="text-gray-600">Expires: {{ membership_expiry|date:"F d, Y" }}</p>
+                    {% endif %}
+                </div>
+                {% if membership_status != 'active' %}
+                <a href="{% url 'join_membership' %}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                    Join ESA-KU
+                </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Upcoming Events -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Upcoming Events</h2>
+            {% if upcoming_events %}
+            <div class="space-y-4">
+                {% for registration in upcoming_events %}
+                <div class="border-b border-gray-200 pb-4">
+                    <h3 class="text-lg font-medium text-gray-900">{{ registration.event.title }}</h3>
+                    <p class="text-sm text-gray-500">{{ registration.event.start_date|date:"F d, Y" }}</p>
+                    <a href="{% url 'event_detail' registration.event.id %}" class="text-blue-600 hover:text-blue-800 text-sm">
+                        View Details →
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-gray-500">No upcoming events</p>
+            {% endif %}
+        </div>
+
+        <!-- Recent Orders -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Recent Orders</h2>
+            {% if recent_orders %}
+            <div class="space-y-4">
+                {% for order in recent_orders %}
+                <div class="border-b border-gray-200 pb-4">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-900">Order #{{ order.id }}</h3>
+                            <p class="text-sm text-gray-500">{{ order.created_at|date:"F d, Y" }}</p>
+                        </div>
+                        <span class="text-lg font-semibold text-gray-900">KSh {{ order.total_amount }}</span>
+                    </div>
+                    <a href="#" class="text-blue-600 hover:text-blue-800 text-sm">
+                        View Details →
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-gray-500">No recent orders</p>
+            {% endif %}
+        </div>
+
+        <!-- Recent Blog Posts -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Your Blog Posts</h2>
+            {% if recent_posts %}
+            <div class="space-y-4">
+                {% for post in recent_posts %}
+                <div class="border-b border-gray-200 pb-4">
+                    <h3 class="text-lg font-medium text-gray-900">{{ post.title }}</h3>
+                    <p class="text-sm text-gray-500">{{ post.created_at|date:"F d, Y" }}</p>
+                    <div class="mt-2 space-x-4">
+                        <a href="{% url 'blog_detail' post.slug %}" class="text-blue-600 hover:text-blue-800 text-sm">
+                            View Post →
+                        </a>
+                        <a href="{% url 'blog_edit' post.slug %}" class="text-gray-600 hover:text-gray-800 text-sm">
+                            Edit →
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-gray-500">No blog posts yet</p>
+            {% endif %}
+            <div class="mt-4">
+                <a href="{% url 'blog_create' %}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                    Create New Post
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

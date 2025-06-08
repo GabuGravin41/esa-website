@@ -1,0 +1,258 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Pay for a Friend's Membership - ESA{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-12">
+    <div class="flex justify-center">
+        <div class="w-full lg:w-2/3">
+            <nav class="mb-6">
+                <ol class="flex text-sm">
+                    <li><a href="{% url 'home' %}" class="text-blue-900 hover:text-green-700">Home</a></li>
+                    <li><span class="mx-2">/</span></li>
+                    <li><a href="{% url 'membership' %}" class="text-blue-900 hover:text-green-700">Membership</a></li>
+                    <li><span class="mx-2">/</span></li>
+                    <li class="text-gray-500">Pay for a Friend</li>
+                </ol>
+            </nav>
+            
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-blue-900 text-white p-4">
+                    <h3 class="text-2xl font-bold">Member-Get-a-Member: Gift a Membership</h3>
+                </div>
+                <div class="p-6">
+                    <div class="bg-green-50 border-l-4 border-green-500 text-green-700 p-4 mb-6">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-gift text-xl text-green-600"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm">
+                                    Thank you for helping grow our engineering community! By gifting a membership, you're supporting a fellow engineer's professional development.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h5 class="text-xl font-semibold mb-4">Pay for Someone's Membership</h5>
+                    <p class="text-gray-700 mb-6">
+                        Please provide the email address of the person you'd like to sponsor. They must already have an account on our platform.
+                    </p>
+                    
+                    <!-- Benefits Section -->
+                    <div class="mb-8 bg-blue-50 p-5 rounded-lg">
+                        <h6 class="font-semibold text-blue-900 mb-3">When you refer someone, you both benefit:</h6>
+                        <ul class="list-disc pl-6 mb-4 space-y-2">
+                            <li><span class="font-semibold">Recognition</span> - Be acknowledged on our website and events</li>
+                            <li><span class="font-semibold">Rewards</span> - Earn points that can be redeemed for ESA merchandise</li>
+                            <li><span class="font-semibold">Community Growth</span> - Help build a stronger engineering network</li>
+                        </ul>
+                        <div class="flex items-center justify-center">
+                            <i class="fas fa-users text-3xl text-blue-900 mr-3"></i>
+                            <span class="text-blue-900 font-medium">Growing Together: We're stronger as a community</span>
+                        </div>
+                    </div>
+                    
+                    <form method="post" class="space-y-6">
+                        {% csrf_token %}
+                        
+                        {% if form.non_field_errors %}
+                            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4">
+                                {% for error in form.non_field_errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        
+                        <div>
+                            <label for="{{ form.referred_email.id_for_label }}" class="block text-gray-700 font-medium mb-2">
+                                Email Address of Recipient
+                            </label>
+                            {{ form.referred_email }}
+                            {% if form.referred_email.help_text %}
+                                <p class="text-gray-500 text-sm mt-1">{{ form.referred_email.help_text }}</p>
+                            {% endif %}
+                            {% if form.referred_email.errors %}
+                                <div class="text-red-600 text-sm mt-1">
+                                    {% for error in form.referred_email.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div>
+                            <label for="{{ form.student_id.id_for_label }}" class="block text-gray-700 font-medium mb-2">
+                                Student Registration Number
+                            </label>
+                            {{ form.student_id }}
+                            {% if form.student_id.help_text %}
+                                <p class="text-gray-500 text-sm mt-1">{{ form.student_id.help_text }}</p>
+                            {% endif %}
+                            {% if form.student_id.errors %}
+                                <div class="text-red-600 text-sm mt-1">
+                                    {% for error in form.student_id.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div>
+                            <label for="{{ form.plan_type.id_for_label }}" class="block text-gray-700 font-medium mb-2">
+                                Membership Plan
+                            </label>
+                            {{ form.plan_type }}
+                            {% if form.plan_type.errors %}
+                                <div class="text-red-600 text-sm mt-1">
+                                    {% for error in form.plan_type.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            
+                            <div class="mt-3 grid grid-cols-1 md:grid-cols-3 gap-4" id="plan-prices">
+                                {% for plan in plans %}
+                                <div class="bg-gray-50 p-3 rounded-lg border border-gray-300">
+                                    <div class="font-medium">{{ plan.get_plan_type_display }}</div>
+                                    <div class="text-blue-900 font-bold">KSh {{ plan.price }}</div>
+                                    <div class="text-sm text-gray-600">{{ plan.duration }} months</div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="{{ form.payment_method.id_for_label }}" class="block text-gray-700 font-medium mb-2">
+                                Payment Method
+                            </label>
+                            {{ form.payment_method }}
+                            {% if form.payment_method.errors %}
+                                <div class="text-red-600 text-sm mt-1">
+                                    {% for error in form.payment_method.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div id="phone-field" class="hidden">
+                            <label for="{{ form.phone_number.id_for_label }}" class="block text-gray-700 font-medium mb-2">
+                                Phone Number (for M-Pesa)
+                            </label>
+                            {{ form.phone_number }}
+                            <p class="text-gray-500 text-sm mt-1">Enter phone number in format: 254XXXXXXXXX</p>
+                            {% if form.phone_number.errors %}
+                                <div class="text-red-600 text-sm mt-1">
+                                    {% for error in form.phone_number.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mt-8 flex flex-wrap gap-4">
+                            <button type="submit" class="bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded-lg font-bold transition">
+                                Continue to Payment
+                            </button>
+                            <a href="{% url 'membership' %}" class="border border-gray-300 hover:bg-gray-100 text-gray-700 px-6 py-3 rounded-lg font-medium transition">
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+                <div class="bg-gray-50 p-4 border-t">
+                    <div class="flex flex-wrap items-center">
+                        <div class="mr-6 mb-2">
+                            <img src="{% static 'images/mpesa_logo.png' %}" alt="M-Pesa Logo" class="h-8">
+                        </div>
+                        <div class="mb-2">
+                            <img src="{% static 'images/paypal_logo.png' %}" alt="PayPal Logo" class="h-8">
+                        </div>
+                        <span class="ml-auto text-gray-500">Secure Payment</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- FAQ Section -->
+            <div class="mt-12">
+                <h3 class="text-xl font-bold text-blue-900 mb-6">Frequently Asked Questions</h3>
+                
+                <div class="space-y-4">
+                    <div class="bg-white rounded-lg shadow overflow-hidden">
+                        <button class="w-full flex justify-between items-center p-4 text-left font-medium text-blue-900 hover:bg-gray-50" onclick="toggleFAQ(this)">
+                            <span>Can I pay for someone who doesn't have an account?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="p-4 border-t hidden">
+                            <p class="text-gray-700">
+                                The recipient must already have an account on our platform. They can create a free account, and then you can gift them the membership.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow overflow-hidden">
+                        <button class="w-full flex justify-between items-center p-4 text-left font-medium text-blue-900 hover:bg-gray-50" onclick="toggleFAQ(this)">
+                            <span>Will they be notified that I paid for their membership?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="p-4 border-t hidden">
+                            <p class="text-gray-700">
+                                Yes, they will receive an email notification letting them know that you have gifted them a membership.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow overflow-hidden">
+                        <button class="w-full flex justify-between items-center p-4 text-left font-medium text-blue-900 hover:bg-gray-50" onclick="toggleFAQ(this)">
+                            <span>Can I pay for renewal of an existing membership?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="p-4 border-t hidden">
+                            <p class="text-gray-700">
+                                Yes, you can pay for someone's membership renewal. If they already have an active membership, the new one will take effect after their current one expires.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const paymentMethod = document.getElementById('id_payment_method');
+        const phoneField = document.getElementById('phone-field');
+        
+        function togglePhoneField() {
+            if (paymentMethod.value === 'mpesa') {
+                phoneField.classList.remove('hidden');
+            } else {
+                phoneField.classList.add('hidden');
+            }
+        }
+        
+        // Initial check
+        togglePhoneField();
+        
+        // Listen for changes
+        paymentMethod.addEventListener('change', togglePhoneField);
+    });
+    
+    function toggleFAQ(element) {
+        const content = element.nextElementSibling;
+        const icon = element.querySelector('i');
+        
+        // Toggle display
+        if (content.classList.contains('hidden')) {
+            content.classList.remove('hidden');
+            icon.classList.add('transform', 'rotate-180');
+        } else {
+            content.classList.add('hidden');
+            icon.classList.remove('transform', 'rotate-180');
+        }
+    }
+</script>
+{% endblock %} 

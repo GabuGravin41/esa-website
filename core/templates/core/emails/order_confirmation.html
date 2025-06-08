@@ -1,0 +1,39 @@
+{% extends "core/emails/base_email.html" %}
+
+{% block content %}
+<h2>Order Confirmation</h2>
+
+<p>Dear {{ user.first_name|default:user.username }},</p>
+
+<p>Thank you for your order! Your order has been successfully placed.</p>
+
+<h3>Order Details:</h3>
+<ul>
+    <li>Order Number: #{{ order.id }}</li>
+    <li>Date: {{ order.created_at|date:"F d, Y H:i" }}</li>
+    <li>Total Amount: KSh {{ order.total_amount }}</li>
+    <li>Payment Status: {{ order.payment_status|title }}</li>
+</ul>
+
+<h3>Order Items:</h3>
+<ul>
+{% for item in order.items.all %}
+    <li>{{ item.product.name }} x {{ item.quantity }} - KSh {{ item.total_price }}</li>
+{% endfor %}
+</ul>
+
+<h3>Shipping Details:</h3>
+<ul>
+    <li>Name: {{ order.shipping_name }}</li>
+    <li>Address: {{ order.shipping_address }}</li>
+    <li>Phone: {{ order.shipping_phone }}</li>
+</ul>
+
+<p>You can track your order status in your dashboard.</p>
+
+<a href="{{ dashboard_url }}" class="button">Track Order</a>
+
+<p>If you have any questions about your order, please contact our support team.</p>
+
+<p>Best regards,<br>The ESA-KU Team</p>
+{% endblock %} 
