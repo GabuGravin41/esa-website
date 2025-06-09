@@ -1,3 +1,4 @@
+<<<<<<<<< Temporary merge branch 1
 aiohappyeyeballs==2.6.1
 aiohttp==3.11.18
 aiosignal==1.3.2
@@ -175,7 +176,9 @@ whitenoise==6.9.0
 wsproto==1.2.0
 yarl==1.20.0
 zipp==3.21.0
-markdown==3.5.2# Core Django and Dependencies
+markdown==3.5.2
+=========
+# Core Django and Dependencies
 Django==5.0.8
 asgiref==3.8.0
 sqlparse==0.5.0
@@ -228,3 +231,4 @@ whitenoise==6.9.0
 redis==4.5.0
 django-redis==5.3.0
 markdown==3.5.1
+>>>>>>>>> Temporary merge branch 2

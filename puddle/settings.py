@@ -13,15 +13,11 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 from pathlib import Path
-from decouple import config  # Change this line
+from decouple import config
 import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-# Remove this section since we're using config directly
-# Set up config to look for .env file in the project root
-# config = AutoConfig(search_path=Path(__file__).resolve().parent.parent)
 
 # ======================
 # SECURITY SETTINGS
@@ -32,9 +28,8 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = config(
     'ALLOWED_HOSTS', 
     default='localhost,127.0.0.1',
-    cast=lambda v: [s.strip() for s in v.split(',')]  # Fix typo in split() function
+    cast=lambda v: [s.strip() for s in v.split(',')]
 )
-
 
 # Security headers
 if not DEBUG:
@@ -285,11 +280,8 @@ LOGGING = {
 }
 
 # ======================
-# DEFAULT AUTO FIELD
+# SECURITY
 # ======================
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# Security Settings
 SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=False, cast=bool)
 SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=False, cast=bool)
 CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=False, cast=bool)
@@ -298,7 +290,9 @@ SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
 
-# Cache Settings
+# ======================
+# CACHE & SESSIONS
+# ======================
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
@@ -306,17 +300,24 @@ CACHES = {
     }
 }
 
-# Session Settings
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 7  # 7 days
 SESSION_SAVE_EVERY_REQUEST = True
 
+# ======================
+# DEFAULT AUTO FIELD
+# ======================
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Allauth
+# ======================
+# ALLAUTH
+# ======================
 ALLAUTH_UI_THEME = "light"
 LOGIN_REDIRECT_URL = "/"
 
-# Default user ID for system operations
+# ======================
+# MISC
+# ======================
 DEFAULT_USER_ID = 1
 
 
@@ -342,9 +343,6 @@ MPESA_CONSUMER_SECRET = config('MPESA_CONSUMER_SECRET')
 MPESA_SHORTCODE = config('MPESA_SHORTCODE')
 MPESA_PASSKEY = config('MPESA_PASSKEY')
 MPESA_CALLBACK_URL = config('MPESA_CALLBACK_URL')
-
-
-
 
 # PayPal Settings
 PAYPAL_ENVIRONMENT = 'sandbox'  # Change to 'production' for live environment

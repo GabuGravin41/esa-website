@@ -159,6 +159,88 @@ import base64
 from datetime import datetime
 from django.conf import settings
 
+# class MpesaService:
+#     def __init__(self):
+#         self.business_shortcode = settings.MPESA_SHORTCODE
+#         self.passkey = settings.MPESA_PASSKEY
+#         self.consumer_key = settings.MPESA_CONSUMER_KEY
+#         self.consumer_secret = settings.MPESA_CONSUMER_SECRET
+#         self.environment = settings.MPESA_ENVIRONMENT
+#         self.callback_url = settings.MPESA_CALLBACK_URL
+#         self.reference = settings.MPESA_REFERENCE
+#         self.base_url = 'https://sandbox.safaricom.co.ke' if self.environment == 'sandbox' else 'https://api.safaricom.co.ke'
+
+#     def get_access_token(self):
+#         url = f"{self.base_url}/oauth/v1/generate?grant_type=client_credentials"
+#         auth = base64.b64encode(f"{self.consumer_key}:{self.consumer_secret}".encode()).decode()
+#         headers = {'Authorization': f'Basic {auth}'}
+        
+#         try:
+#             response = requests.get(url, headers=headers)
+#             response.raise_for_status()
+#             return response.json()['access_token']
+#         except Exception as e:
+#             raise Exception(f"Failed to get access token: {str(e)}")
+
+#     def initiate_stk_push(self, phone_number, amount, reference, description):
+#         """Initiate STK push for payment"""
+#         try:
+#             # Get access token
+#             access_token = self.get_access_token()
+            
+#             # Generate timestamp and password
+#             timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+#             password = base64.b64encode(
+#                 f"{self.business_shortcode}{self.passkey}{timestamp}".encode()
+#             ).decode()
+            
+#             # Set headers
+#             headers = {
+#                 'Authorization': f'Bearer {access_token}',
+#                 'Content-Type': 'application/json'
+#             }
+            
+#             # Prepare payload
+#             payload = {
+#                 "BusinessShortCode": self.business_shortcode,
+#                 "Password": password,
+#                 "Timestamp": timestamp,
+#                 "TransactionType": "CustomerPayBillOnline",
+#                 "Amount": int(amount),
+#                 "PartyA": phone_number,
+#                 "PartyB": self.business_shortcode,
+#                 "PhoneNumber": phone_number,
+#                 "CallBackURL": self.callback_url,
+#                 "AccountReference": reference,
+#                 "TransactionDesc": description
+#             }
+            
+#             # Log the payload
+#             print("Payload:", payload)
+            
+#             # Send request
+#             response = requests.post(
+#                 f"{self.base_url}/mpesa/stkpush/v1/processrequest",
+#                 headers=headers,
+#                 json=payload  
+#             )
+            
+#             # Log the response
+#             print("Response Status Code:", response.status_code)
+#             print("Response Text:", response.text)
+            
+#             # Raise exception for non-200 status codes
+#             response.raise_for_status()
+            
+#             # Return response JSON
+#             return response.json()
+        
+#         except requests.exceptions.RequestException as e:
+#             raise Exception(f"Failed to initiate STK push: {str(e)}")
+    
+
+
+
 class MpesaService:
     def __init__(self):
         self.business_shortcode = settings.MPESA_SHORTCODE
@@ -167,6 +249,7 @@ class MpesaService:
         self.consumer_secret = settings.MPESA_CONSUMER_SECRET
         self.environment = settings.MPESA_ENVIRONMENT
         self.callback_url = settings.MPESA_CALLBACK_URL
+        self.reference = settings.MPESA_REFERENCE
         self.base_url = 'https://sandbox.safaricom.co.ke' if self.environment == 'sandbox' else 'https://api.safaricom.co.ke'
 
     def get_access_token(self):
@@ -210,7 +293,7 @@ class MpesaService:
                 "PartyB": self.business_shortcode,
                 "PhoneNumber": phone_number,
                 "CallBackURL": self.callback_url,
-                "AccountReference": reference,
+                "AccountReference": self.reference,
                 "TransactionDesc": description
             }
             

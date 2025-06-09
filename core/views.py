@@ -2914,7 +2914,7 @@ def checkout(request):
                 response = mpesa_service.initiate_stk_push(
                     phone_number=mpesa_phone,
                     amount=total,
-                    reference="ESA Checkout",
+                    reference="ESA Payment",
                     description="Payment for ESA Store Order"
                 )
                 if response.get('ResponseCode') == '0':
