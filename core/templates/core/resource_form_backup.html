@@ -1,0 +1,139 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<section class="relative bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
+  <div class="bg-black bg-opacity-60">
+    <div class="container mx-auto px-4 py-24 text-center text-white">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">{{ title }}</h1>
+      <p class="max-w-2xl mx-auto mb-6 text-lg">
+        Share valuable resources with the ESA-KU community
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="container mx-auto px-4 py-12">
+  {% if messages %}
+    <div class="mb-8">
+      {% for message in messages %}
+        <div class="p-4 {% if message.tags == 'success' %}bg-green-100 text-green-700 border-green-400{% elif message.tags == 'error' %}bg-red-100 text-red-700 border-red-400{% else %}bg-blue-100 text-blue-700 border-blue-400{% endif %} rounded border-l-4">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+  
+  <div class="max-w-3xl mx-auto">
+    <form method="POST" enctype="multipart/form-data" class="bg-white shadow-md rounded-lg p-6">
+      {% csrf_token %}
+      
+      <div class="grid grid-cols-1 gap-6">
+        <div>
+          <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+            Resource Title *
+          </label>
+          {{ form.title }}
+          {% if form.title.errors %}
+            <p class="text-red-500 text-xs mt-1">{{ form.title.errors.0 }}</p>
+          {% endif %}
+        </div>
+        
+        <div>
+          <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+            Description *
+          </label>
+          {{ form.description }}
+          {% if form.description.errors %}
+            <p class="text-red-500 text-xs mt-1">{{ form.description.errors.0 }}</p>
+          {% endif %}
+        </div>
+        
+        <div>
+          <label for="{{ form.category.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+            Category *
+          </label>
+          {{ form.category }}
+          {% if form.category.errors %}
+            <p class="text-red-500 text-xs mt-1">{{ form.category.errors.0 }}</p>
+          {% endif %}
+        </div>
+        
+        <div id="resource-type-selector" class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Resource Type *</label>
+          <div class="flex space-x-4">
+            <div class="flex items-center">
+              <input type="radio" id="type-file" name="resource_type" value="file" checked 
+                     class="h-4 w-4 text-blue-600 focus:ring-blue-500" onchange="toggleResourceType()">
+              <label for="type-file" class="ml-2 block text-sm text-gray-700">File Upload</label>
+            </div>
+            <div class="flex items-center">
+              <input type="radio" id="type-link" name="resource_type" value="link" 
+                     class="h-4 w-4 text-blue-600 focus:ring-blue-500" onchange="toggleResourceType()">
+              <label for="type-link" class="ml-2 block text-sm text-gray-700">External Link</label>
+            </div>
+          </div>
+        </div>
+        
+        <div id="file-upload-section">
+          <label for="{{ form.file.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+            File Upload *
+          </label>
+          {{ form.file }}
+          <p class="text-gray-500 text-xs mt-1">Supported formats: PDF, DOC/DOCX, PPT/PPTX, XLS/XLSX, ZIP, etc.</p>
+          {% if form.file.errors %}
+            <p class="text-red-500 text-xs mt-1">{{ form.file.errors.0 }}</p>
+          {% endif %}
+        </div>
+        
+        <div id="link-section" class="hidden">
+          <label for="{{ form.link.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+            External Link *
+          </label>
+          {{ form.link }}
+          <p class="text-gray-500 text-xs mt-1">URL to the external resource (must start with http:// or https://)</p>
+          {% if form.link.errors %}
+            <p class="text-red-500 text-xs mt-1">{{ form.link.errors.0 }}</p>
+          {% endif %}
+        </div>
+      </div>
+      
+      <div class="mt-8 flex justify-end">
+        <a href="{% url 'resources' %}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2">
+          Cancel
+        </a>
+        <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+          Upload Resource
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  function toggleResourceType() {
+    const fileSection = document.getElementById('file-upload-section');
+    const linkSection = document.getElementById('link-section');
+    const fileRadio = document.getElementById('type-file');
+    
+    if (fileRadio.checked) {
+      fileSection.classList.remove('hidden');
+      linkSection.classList.add('hidden');
+      document.getElementById('{{ form.link.id_for_label }}').value = '';
+    } else {
+      fileSection.classList.add('hidden');
+      linkSection.classList.remove('hidden');
+      document.getElementById('{{ form.file.id_for_label }}').value = '';
+    }
+  }
+  
+  // Initial setup
+  document.addEventListener('DOMContentLoaded', function() {
+    toggleResourceType();
+  });
+</script>
+{% endblock %}

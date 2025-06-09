@@ -14,12 +14,16 @@
         <p class="text-sm text-gray-500 mt-1">Engineering Students Association</p>
       </div>
 
-      <!-- Messages -->
-      {% if messages %}
-      <div class="mb-6 p-3 bg-blue-50 rounded-lg text-blue-700 text-sm text-center">
-        {% for message in messages %}
-        <p>{{ message }}</p>
-        {% endfor %}
+      <!-- Form-specific error messages -->
+      {% if form.errors %}
+      <div class="mb-6 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+        {% if form.non_field_errors %}
+          {% for error in form.non_field_errors %}
+            <p class="text-center">{{ error }}</p>
+          {% endfor %}
+        {% else %}
+          <p class="text-center">Please correct the errors below.</p>
+        {% endif %}
       </div>
       {% endif %}
 

@@ -6,9 +6,9 @@
 <section class="relative bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1581094794329-c8112a989a91?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
   <div class="bg-black bg-opacity-50">
     <div class="container mx-auto px-4 py-24 text-center text-white">
-      <h1 class="text-4xl md:text-5xl font-bold mb-4"> Engineering Sites Hub </h1>
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">Engineering Networks & Communities</h1>
       <p class="max-w-2xl mx-auto mb-6 text-lg">
-        Explore engineering  partner sites, and learning materials to enhance your academic journey
+        Explore engineering clubs, professional organizations, and partner sites to enhance your academic and professional journey
       </p>
     </div>
   </div>
@@ -161,19 +161,33 @@
 
   <!-- Sidebar Section -->  
   <aside class="sidebar space-y-6">
-    <!-- Add Resource -->
+    <!-- About This Page -->
     <div class="bg-white rounded-lg shadow p-6">
-      <h3 class="text-lg font-bold border-b-2 border-red-600 pb-2 text-gray-700">Add Resource</h3>
+      <h3 class="text-lg font-bold border-b-2 border-red-600 pb-2 text-gray-700">About Engineering Networks</h3>
       <div class="mt-4">
         <p class="text-gray-600 mb-4">
-          Know a valuable engineering resource that should be listed here? Share it with the community!
+          This page showcases professional connections, clubs, and organizations for networking and career development. 
+          <span class="block mt-2 font-medium">Looking for learning materials instead?</span>
+        </p>
+        <a href="{% url 'resources' %}" class="bg-green-600 text-white px-4 py-2 rounded inline-block hover:bg-green-700 transition flex items-center w-full justify-center">
+          <i class="fas fa-book mr-2"></i> Go to Learning Resources
+        </a>
+      </div>
+    </div>
+    
+    <!-- Add Professional Connection -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <h3 class="text-lg font-bold border-b-2 border-blue-600 pb-2 text-gray-700">Suggest Professional Connection</h3>
+      <div class="mt-4">
+        <p class="text-gray-600 mb-4">
+          Know a valuable engineering organization or professional website that should be listed here? Help grow our network!
         </p>
         {% if request.user.is_authenticated %}
-        <a href="{% url 'add_resource_link' %}" class="bg-blue-900 text-white px-4 py-2 rounded inline-block hover:bg-blue-700 transition">
-          <i class="fas fa-plus mr-2"></i> Suggest Resource
+        <a href="{% url 'site_form' %}" class="bg-blue-900 text-white px-4 py-2 rounded inline-block hover:bg-blue-700 transition flex items-center w-full justify-center">
+          <i class="fas fa-plus mr-2"></i> Suggest Connection
         </a>
         {% else %}
-        <a href="{% url 'account_login' %}" class="bg-blue-900 text-white px-4 py-2 rounded inline-block hover:bg-blue-700 transition">
+        <a href="{% url 'account_login' %}" class="bg-blue-900 text-white px-4 py-2 rounded inline-block hover:bg-blue-700 transition flex items-center w-full justify-center">
           <i class="fas fa-sign-in-alt mr-2"></i> Login to Add
         </a>
         {% endif %}
@@ -291,46 +305,25 @@
     <!-- Suggest a Site Form -->
     {% if request.user.is_authenticated %}
     <div class="bg-white rounded-lg shadow p-6">
-      <h3 class="text-lg font-bold border-b-2 border-red-600 pb-2 text-gray-700">Suggest a Site</h3>
-      <form method="post" action="{% url 'suggest_resource' %}" class="mt-4">
-        {% csrf_token %}
-        
-        <div class="mb-4">
-          <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Resource Name</label>
-          <input type="text" id="name" name="name" required
-                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-        </div>
-        
-        <div class="mb-4">
-          <label for="url" class="block text-sm font-medium text-gray-700 mb-1">URL</label>
-          <input type="url" id="url" name="url" required
-                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-        </div>
-        
-        <div class="mb-4">
-          <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-          <textarea id="description" name="description" rows="3" required
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
-        </div>
-        
-        <div class="mb-4">
-          <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
-          <select id="category" name="category" required
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-            <option value="">Select a category</option>
-            <option value="education">Educational</option>
-            <option value="professional">Professional</option>
+      <h3 class="text-lg font-bold border-b-2 border-blue-600 pb-2 text-gray-700 flex items-center">
+        <i class="fas fa-handshake mr-2 text-blue-600"></i> Add Professional Connection
+      </h3>
+      <div class="mt-4">
+        <p class="text-gray-600 mb-4">
+          Use our dedicated professional connection form to share organizations, clubs, and resources with the engineering community.
+        </p>
+        <a href="{% url 'site_form' %}" class="bg-blue-900 text-white px-4 py-2 rounded-lg inline-block hover:bg-blue-800 transition w-full flex items-center justify-center">
+          <i class="fas fa-external-link-alt mr-2"></i> Go to Connection Form
+        </a>
+      </div>
+    </div>
             <option value="organization">Organization</option>
             <option value="university">University</option>
             <option value="other">Other</option>
           </select>
         </div>
         
-        <button type="submit" 
-                class="w-full bg-blue-900 hover:bg-blue-800 text-white py-2 px-4 rounded-lg transition-colors font-medium">
-          <i class="fas fa-paper-plane mr-2"></i> Submit Resource
-        </button>
-      </form>
+              </div>
     </div>
     {% endif %}
   </aside>
