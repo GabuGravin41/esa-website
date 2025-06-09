@@ -11226,3 +11226,12 @@ Traceback (most recent call last):
 AttributeError: 'Product' object has no attribute 'view_count'
 ERROR 2025-06-09 22:26:44,515 log 41905 140658702546496 Internal Server Error: /store/shorts/
 ERROR 2025-06-09 22:26:44,516 basehttp 41905 140658702546496 "GET /store/shorts/ HTTP/1.1" 500 19073
+ERROR 2025-06-09 22:31:34,789 middleware 42798 140622262433344 Error: 'Product' object has no attribute 'view_count'
+Traceback (most recent call last):
+  File "/home/lindah/.local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lindah/django website tutorials/ESA-KU/esa-website2/esa-website/core/views.py", line 2600, in product_detail
+    product.view_count = product.view_count + 1
+AttributeError: 'Product' object has no attribute 'view_count'
+ERROR 2025-06-09 22:31:34,791 log 42798 140622262433344 Internal Server Error: /store/shorts/
+ERROR 2025-06-09 22:31:34,792 basehttp 42798 140622262433344 "GET /store/shorts/ HTTP/1.1" 500 19073

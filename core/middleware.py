@@ -109,6 +109,11 @@ class LoadingStateMiddleware:
             '/store/',
         ]
         
+        # CRITICAL FIX: Product detail pages should not be converted to JSON
+        import re
+        if re.match(r'^/store/[^/]+/$', request.path):
+            return response
+        
         # Don't process the response if:
         # 1. It's not a successful response (status code 200)
         # 2. It's not HTML content
