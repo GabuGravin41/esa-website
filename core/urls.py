@@ -58,6 +58,7 @@ urlpatterns = [
     path('store/<slug:slug>/', views.product_detail, name='product_detail'),
     path('store/<slug:slug>/edit/', views.product_edit, name='product_edit'),
     path('store/<slug:slug>/delete/', views.product_delete, name='product_delete'),
+    path('store/review/<int:product_id>/', views.add_review, name='add_review'),
     path('cart/', views.cart, name='cart'),
     path('cart/update/', views.update_cart, name='update_cart'),
     path('cart/remove/', views.remove_from_cart, name='remove_from_cart'),

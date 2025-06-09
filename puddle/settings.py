@@ -239,30 +239,30 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 # Payment API Settings
-MPESA_CONSUMER_KEY = env_config('MPESA_CONSUMER_KEY', default='')
-MPESA_CONSUMER_SECRET = env_config('MPESA_CONSUMER_SECRET', default='')
-MPESA_SHORTCODE = env_config('MPESA_SHORTCODE', default='')
-MPESA_PASSKEY = env_config('MPESA_PASSKEY', default='')
-MPESA_CALLBACK_URL = env_config('MPESA_CALLBACK_URL', default='')
+MPESA_CONSUMER_KEY = config('MPESA_CONSUMER_KEY', default='')
+MPESA_CONSUMER_SECRET = config('MPESA_CONSUMER_SECRET', default='')
+MPESA_SHORTCODE = config('MPESA_SHORTCODE', default='')
+MPESA_PASSKEY = config('MPESA_PASSKEY', default='')
+MPESA_CALLBACK_URL = config('MPESA_CALLBACK_URL', default='')
 
 # PayPal Settings
-PAYPAL_CLIENT_ID = env_config('PAYPAL_CLIENT_ID', default='')
-PAYPAL_SECRET = env_config('PAYPAL_SECRET', default='')
-PAYPAL_MODE = env_config('PAYPAL_MODE', default='sandbox')
+PAYPAL_CLIENT_ID = config('PAYPAL_CLIENT_ID', default='')
+PAYPAL_SECRET = config('PAYPAL_SECRET', default='')
+PAYPAL_MODE = config('PAYPAL_MODE', default='sandbox')
 
 # Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Override for development
 # EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
-EMAIL_HOST = env_config('EMAIL_HOST', default='smtp.gmail.com')
-EMAIL_PORT = env_config('EMAIL_PORT', default=587, cast=int)
-EMAIL_HOST_USER = env_config('EMAIL_HOST_USER', default='')
-EMAIL_HOST_PASSWORD = env_config('EMAIL_HOST_PASSWORD', default='')
-EMAIL_USE_TLS = env_config('EMAIL_USE_TLS', default=True, cast=bool)
-DEFAULT_FROM_EMAIL = env_config('DEFAULT_FROM_EMAIL', default='esa.kenyattauniv@gmail.com')
+EMAIL_HOST = config('EMAIL_HOST', default='smtp.gmail.com')
+EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='esa.kenyattauniv@gmail.com')
 
 # Error Handling
-ADMINS = [('Admin', env_config('ADMIN_EMAIL', default='admin@esa-ku.com'))]
-SERVER_EMAIL = env_config('SERVER_EMAIL', default='server@esa-ku.com')
+ADMINS = [('Admin', config('ADMIN_EMAIL', default='admin@esa-ku.com'))]
+SERVER_EMAIL = config('SERVER_EMAIL', default='server@esa-ku.com')
 
 # Logging Configuration
 LOGGING = {
