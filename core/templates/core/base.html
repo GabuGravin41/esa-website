@@ -278,20 +278,20 @@
       50% { transform: scale(1.2); }
     }
 
-    /* Add this to your existing styles */
-  .group:hover .group-hover\:block {
-    display: block;
-  }
-  
-  /* Add a small delay before hiding the dropdown */
-  .group-hover\:block {
-    transition-delay: 2s;
-  }
-  
-  /* Make the dropdown area slightly larger to prevent accidental mouseout */
-  .group {
-    padding-bottom: 5px; /* Add padding to keep dropdown open when moving mouse to it */
-  }
+      /* Add this to your existing styles */
+    .group:hover .group-hover\:block {
+      display: block;
+    }
+    
+    /* Add a small delay before hiding the dropdown */
+    .group-hover\:block {
+      transition-delay: 2s;
+    }
+    
+    /* Make the dropdown area slightly larger to prevent accidental mouseout */
+    .group {
+      padding-bottom: 5px; /* Add padding to keep dropdown open when moving mouse to it */
+    }
   </style>
 
 </head>
@@ -300,7 +300,7 @@
   <header>
     <!-- Top Bar -->
     <div class="bg-blue-900 text-white text-sm">
-      <div class="container mx-auto px-4 py-2 flex justify-between items-center">
+      <div class="container mx-auto px-4 py-2 flex justify-between items-center  ">
         <div class="space-x-2">
           <a href="{% url 'constitution' %}" class="hover:underline">ESA Constitution</a>
           <span>|</span>
@@ -316,11 +316,11 @@
           <a href="{% url 'cart' %}" class="hover:underline">
             Cart {% if request.session.cart %}({{ request.session.cart|length }}){% else %}(0){% endif %}
           </a>
-          <span>|</span>
+          
 
           {% if user.is_authenticated %}
             <div class="relative group">
-              <button type="button" class="hover:underline flex items-center">
+              <button type="button" class="hover:underline flex items-center inline-block">
                 {{ user.username }}
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -337,6 +337,7 @@
               <a href="{% url 'admin_dashboard' %}" class="hover:underline text-red-300">Admin Panel</a>
             {% endif %}
           {% else %}
+            <span>|</span>
             <a href="{% url 'account_login' %}" class="hover:underline">Sign In</a>
             <span>|</span>
             <a href="{% url 'register' %}" class="hover:underline">Create Account</a>
