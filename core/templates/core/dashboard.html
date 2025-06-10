@@ -185,12 +185,16 @@
                     <h3 class="text-lg font-medium text-gray-900">{{ post.title }}</h3>
                     <p class="text-sm text-gray-500">{{ post.created_at|date:"F d, Y" }}</p>
                     <div class="mt-2 space-x-4">
-                        <a href="{% url 'blog_detail' post.slug %}" class="text-blue-600 hover:text-blue-800 text-sm">
+                        {% if post.id %}
+                        <a href="{% url 'blog_detail' post.id %}" class="text-blue-600 hover:text-blue-800 text-sm">
                             View Post →
                         </a>
-                        <a href="{% url 'blog_edit' post.slug %}" class="text-gray-600 hover:text-gray-800 text-sm">
+                        <a href="{% url 'blog_post_edit' post.id %}" class="text-gray-600 hover:text-gray-800 text-sm">
                             Edit →
                         </a>
+                        {% else %}
+                        <span class="text-gray-500">Post ID missing</span>
+                        {% endif %}
                     </div>
                 </div>
                 {% endfor %}
@@ -199,7 +203,7 @@
             <p class="text-gray-500">No blog posts yet</p>
             {% endif %}
             <div class="mt-4">
-                <a href="{% url 'blog_create' %}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                <a href="{% url 'blog_post_create' %}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
                     Create New Post
                 </a>
             </div>

@@ -1838,13 +1838,6 @@ def create_community(request):
     })
 
 @login_required
-def dashboard(request):
-    """
-    Redirect to profile page as it contains all the user information
-    The
-    """
-    return redirect('profile')
-
 def search(request):
     query = request.GET.get('q', '')
     if query:
@@ -2675,6 +2668,9 @@ from django.contrib import messages
 def product_detail(request, slug):
     """Display product details"""
     product = get_object_or_404(Product, slug=slug)
+    profile = None
+    if request.user.is_authenticated:
+        profile = request.user.profile
 
     # Handle Add to Cart form submission
     if request.method == 'POST' and 'add_to_cart' in request.POST:
@@ -2715,11 +2711,15 @@ def product_detail(request, slug):
             cart_quantity = cart[product_id_str]
 
     # Check if user can edit/delete
-    can_edit = False
-    if request.user.is_authenticated and hasattr(request.user, 'profile'):
-        profile = request.user.profile
-        can_edit = profile.can_manage_store() or (product.created_by and product.created_by == request.user)
+    #can_edit = False
+    #if request.user.is_authenticated and hasattr(request.user, 'profile'):
+    #    profile = request.user.profile
+    #    can_edit = profile.can_manage_store() or (product.created_by and product.created_by == request.user)
 
+    can_edit = profile and profile.can_manage_store()
+    if hasattr(product, 'created_by'):
+        can_edit = can_edit or (product.created_by == request.user)
+        
     return render(request, 'core/product_detail.html', {
         'product': product,
         'related_products': related_products,
@@ -2727,9 +2727,6 @@ def product_detail(request, slug):
         'cart_quantity': cart_quantity,
         'can_edit': can_edit
     })
-
-
-
 
 def cart(request):
     """Display shopping cart"""
@@ -3409,7 +3406,10 @@ def dashboard(request):
         recent_orders = Order.objects.filter(user=user_profile).order_by('-created_at')[:3]
         
         # Get user's blog posts
-        recent_posts = BlogPost.objects.filter(author=user_profile).order_by('-created_at')[:3]
+        recent_posts = BlogPost.objects.filter(
+            author=user_profile,
+            id__isnull=False  # Ensure we only get posts with valid IDs
+        ).order_by('-created_at')[:3]
         
         return render(request, 'core/dashboard.html', {
             'user_profile': user_profile,

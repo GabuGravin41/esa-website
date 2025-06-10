@@ -277,6 +277,21 @@
     @keyframes checkboxCheck {
       50% { transform: scale(1.2); }
     }
+
+    /* Add this to your existing styles */
+  .group:hover .group-hover\:block {
+    display: block;
+  }
+  
+  /* Add a small delay before hiding the dropdown */
+  .group-hover\:block {
+    transition-delay: 2s;
+  }
+  
+  /* Make the dropdown area slightly larger to prevent accidental mouseout */
+  .group {
+    padding-bottom: 5px; /* Add padding to keep dropdown open when moving mouse to it */
+  }
   </style>
 
 </head>
@@ -305,7 +320,7 @@
 
           {% if user.is_authenticated %}
             <div class="relative group">
-              <button class="hover:underline flex items-center">
+              <button type="button" class="hover:underline flex items-center">
                 {{ user.username }}
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -314,14 +329,12 @@
               <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden group-hover:block">
                 <a href="{% url 'dashboard' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
                 <a href="{% url 'profile' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
-                <a href="{% url 'payment_history' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Payment History</a>
                 <div class="border-t border-gray-100 my-1"></div>
                 <a href="{% url 'account_logout' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" id="logout-link">Logout</a>
               </div>
             </div>
             {% if request.is_esa_admin %}
-            <span>|</span>
-            <a href="{% url 'admin_dashboard' %}" class="hover:underline text-red-300">Admin Panel</a>
+              <a href="{% url 'admin_dashboard' %}" class="hover:underline text-red-300">Admin Panel</a>
             {% endif %}
           {% else %}
             <a href="{% url 'account_login' %}" class="hover:underline">Sign In</a>
@@ -574,6 +587,8 @@
       });
     });
   </script>
+  
+
 
   <style>
     .notification {
