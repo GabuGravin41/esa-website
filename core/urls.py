@@ -65,6 +65,7 @@ urlpatterns = [
     path('cart/remove/', views.remove_from_cart, name='remove_from_cart'),
     path('cart/clear/', views.clear_cart, name='clear_cart'),
     path('checkout/', views.checkout, name='checkout'),
+    path('product/<int:product_id>/review/', views.add_review, name='add_review'),
     
     # Blog URLs
     path('blog/', views.blog, name='blog'),
@@ -72,6 +73,8 @@ urlpatterns = [
     path('blog/create/', views.blog_post_create, name='blog_post_create'),
     path('blog/post/<int:post_id>/edit/', views.blog_post_edit, name='blog_post_edit'),
     path('blog/post/<int:post_id>/delete/', views.blog_post_delete, name='blog_post_delete'),
+    # Add this alias
+    path('blog/<int:post_id>/', views.blog_post_detail, name='blog_detail'),
     
     # Resources URLs
     path('resources/', views.resources, name='resources'),
@@ -112,6 +115,7 @@ urlpatterns = [
 
     # Search URLs
     path('search/', views.search, name='search'),
+    
 ]
 
 # Add media URL configuration in development
