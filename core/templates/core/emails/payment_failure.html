@@ -1,0 +1,35 @@
+{% extends "core/emails/base_email.html" %}
+
+{% block content %}
+<h2>Payment Failed</h2>
+
+<p>Dear {{ user.first_name|default:user.username }},</p>
+
+<p>We're sorry, but your recent payment attempt on ESA-KU website was unsuccessful.</p>
+
+<h3>Payment Details:</h3>
+<ul>
+    <li>Amount: KSh {{ payment.amount }}</li>
+    <li>Date: {{ payment.created_at|date:"F d, Y H:i" }}</li>
+    <li>Payment Method: {{ payment.payment_method|title }}</li>
+</ul>
+
+<h3>Failure Reason:</h3>
+<p class="error-message">{{ error_message }}</p>
+
+<p>Common reasons for payment failures include:</p>
+<ul>
+    <li>Insufficient funds in your account</li>
+    <li>Incorrect PIN entered</li>
+    <li>Transaction timeout</li>
+    <li>Daily transaction limit reached</li>
+</ul>
+
+<p>You can try again by visiting your dashboard and selecting the payment option again.</p>
+
+<a href="{{ dashboard_url|default:'#' }}" class="button">Go to Dashboard</a>
+
+<p>If you continue to experience issues, please contact our support team for assistance.</p>
+
+<p>Best regards,<br>The ESA-KU Team</p>
+{% endblock %}

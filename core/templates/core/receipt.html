@@ -1,0 +1,283 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Payment Receipt - ESA{% endblock %}
+
+{% block styles %}
+<style>
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+        .receipt-container, .receipt-container * {
+            visibility: visible;
+        }
+        .receipt-container {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+        }
+        .no-print {
+            display: none !important;
+        }
+    }
+    
+    .receipt-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    .receipt-header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    .receipt-logo {
+        max-width: 150px;
+        margin-bottom: 10px;
+    }
+    
+    .receipt-title {
+        font-size: 24px;
+        font-weight: bold;
+        color: #1a365d;
+        margin-bottom: 5px;
+    }
+    
+    .receipt-number {
+        font-size: 16px;
+        color: #4a5568;
+        margin-bottom: 20px;
+    }
+    
+    .receipt-content {
+        margin-bottom: 30px;
+    }
+    
+    .receipt-section {
+        margin-bottom: 20px;
+    }
+    
+    .receipt-section-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #1a365d;
+        border-bottom: 1px solid #e2e8f0;
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+    }
+    
+    .receipt-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid #f7fafc;
+    }
+    
+    .receipt-label {
+        font-weight: 500;
+        color: #4a5568;
+    }
+    
+    .receipt-value {
+        font-weight: 600;
+        color: #2d3748;
+    }
+    
+    .receipt-total {
+        font-size: 18px;
+        font-weight: bold;
+        color: #1a365d;
+        padding: 10px 0;
+        border-top: 2px solid #e2e8f0;
+        margin-top: 10px;
+    }
+    
+    .receipt-footer {
+        text-align: center;
+        font-size: 14px;
+        color: #718096;
+        border-top: 1px solid #e2e8f0;
+        padding-top: 20px;
+    }
+    
+    .receipt-barcode {
+        text-align: center;
+        margin: 20px 0;
+    }
+    
+    .receipt-message {
+        margin: 20px 0;
+        padding: 15px;
+        background-color: #f7fafc;
+        border-radius: 8px;
+        text-align: center;
+    }
+    
+    /* Stamp effect */
+    .receipt-stamp {
+        position: relative;
+        display: inline-block;
+        color: #3182ce;
+        padding: 15px 30px;
+        font-size: 28px;
+        font-weight: bold;
+        text-align: center;
+        text-transform: uppercase;
+        transform: rotate(-5deg);
+        border: 5px solid #3182ce;
+        border-radius: 10px;
+        opacity: 0.5;
+        margin: 30px auto;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <nav class="mb-6 no-print">
+        <ol class="flex text-sm">
+            <li><a href="{% url 'home' %}" class="text-blue-900 hover:text-green-700">Home</a></li>
+            <li><span class="mx-2">/</span></li>
+            <li><a href="{% url 'dashboard' %}" class="text-blue-900 hover:text-green-700">Dashboard</a></li>
+            <li><span class="mx-2">/</span></li>
+            <li class="text-gray-500">Receipt</li>
+        </ol>
+    </nav>
+    
+    <div class="flex justify-end mb-4 no-print">
+        <button onclick="window.print()" class="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-lg font-semibold transition inline-flex items-center">
+            <i class="fas fa-print mr-2"></i> Print Receipt
+        </button>
+    </div>
+    
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden receipt-container">
+        <div class="receipt-header">
+            <img src="{% static 'images/logo.png' %}" alt="ESA-KU Logo" class="receipt-logo mx-auto">
+            <h2 class="receipt-title">Engineering Students Association</h2>
+            <p class="text-gray-600">Kenyatta University</p>
+            <div class="receipt-number">Receipt #{{ payment.id }}-{{ payment.created_at|date:"Ymd" }}</div>
+        </div>
+        
+        <div class="receipt-content">
+            <div class="receipt-section">
+                <h3 class="receipt-section-title">Payment Information</h3>
+                <div class="receipt-row">
+                    <span class="receipt-label">Transaction Date:</span>
+                    <span class="receipt-value">{{ payment.created_at|date:"F d, Y H:i" }}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Payment Method:</span>
+                    <span class="receipt-value">{{ payment.get_payment_method_display }}</span>
+                </div>
+                {% if payment.transaction_id %}
+                <div class="receipt-row">
+                    <span class="receipt-label">Transaction ID:</span>
+                    <span class="receipt-value">{{ payment.transaction_id }}</span>
+                </div>
+                {% endif %}
+                <div class="receipt-row">
+                    <span class="receipt-label">Status:</span>
+                    <span class="receipt-value {% if payment.status == 'completed' %}text-green-700{% elif payment.status == 'failed' %}text-red-700{% else %}text-yellow-600{% endif %}">
+                        {{ payment.get_status_display }}
+                    </span>
+                </div>
+            </div>
+            
+            <div class="receipt-section">
+                <h3 class="receipt-section-title">Customer Information</h3>
+                <div class="receipt-row">
+                    <span class="receipt-label">Name:</span>
+                    <span class="receipt-value">{{ payment.user.get_full_name }}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Email:</span>
+                    <span class="receipt-value">{{ payment.user.email }}</span>
+                </div>
+                {% if payment.user.profile.membership_number %}
+                <div class="receipt-row">
+                    <span class="receipt-label">Membership Number:</span>
+                    <span class="receipt-value">{{ payment.user.profile.membership_number }}</span>
+                </div>
+                {% endif %}
+                {% if payment.user.profile.student_id %}
+                <div class="receipt-row">
+                    <span class="receipt-label">Student ID:</span>
+                    <span class="receipt-value">{{ payment.user.profile.student_id }}</span>
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="receipt-section">
+                <h3 class="receipt-section-title">Payment Details</h3>
+                <div class="receipt-row">
+                    <span class="receipt-label">Item:</span>
+                    <span class="receipt-value">
+                        {% if membership %}
+                            ESA Membership ({{ membership.get_plan_type_display }})
+                        {% else %}
+                            ESA Payment
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Quantity:</span>
+                    <span class="receipt-value">1</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Unit Price:</span>
+                    <span class="receipt-value">{{ payment.amount }} {{ payment.currency }}</span>
+                </div>
+                <div class="receipt-total">
+                    <div class="flex justify-between">
+                        <span>Total:</span>
+                        <span>{{ payment.amount }} {{ payment.currency }}</span>
+                    </div>
+                </div>
+                
+                {% if payment.status == 'completed' %}
+                <div class="flex justify-center mt-6">
+                    <div class="receipt-stamp">
+                        Paid
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            
+            {% if membership and membership.status == 'completed' %}
+            <div class="receipt-section">
+                <h3 class="receipt-section-title">Membership Information</h3>
+                <div class="receipt-row">
+                    <span class="receipt-label">Membership Type:</span>
+                    <span class="receipt-value">{{ membership.get_plan_type_display }}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Start Date:</span>
+                    <span class="receipt-value">{{ membership.start_date|date:"F d, Y" }}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Expiry Date:</span>
+                    <span class="receipt-value">{{ membership.end_date|date:"F d, Y" }}</span>
+                </div>
+            </div>
+            {% endif %}
+            
+            <div class="receipt-message">
+                <p>Thank you for your payment. This is your official receipt.</p>
+                <p>If you have any questions, please contact us at <a href="mailto:info@esa-ku.org" class="text-blue-700">info@esa-ku.org</a></p>
+            </div>
+            
+            <div class="receipt-barcode">
+                <img src="{% static 'images/barcode.png' %}" alt="Barcode" class="h-16">
+            </div>
+        </div>
+        
+        <div class="receipt-footer">
+            <p>Engineering Students Association - Kenyatta University</p>
+            <p>© {{ payment.created_at|date:"Y" }} ESA-KU. All rights reserved.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

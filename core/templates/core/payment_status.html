@@ -30,15 +30,46 @@
                             <img src="{% static 'images/payment_success.png' %}" alt="Payment Success" class="mx-auto max-h-40">
                             <h4 class="text-xl font-bold text-green-700 mt-4">Payment Successful!</h4>
                             <p class="text-gray-700">Your membership is now active.</p>
+                            
+                            {% if user.profile.membership_number %}
+                            <div class="mt-4 bg-green-50 border border-green-200 rounded-lg p-4">
+                                <p class="text-gray-700 mb-1">Your ESA Membership Number:</p>
+                                <p class="text-xl font-bold text-green-800">{{ user.profile.membership_number }}</p>
+                                <p class="text-sm text-gray-600 mt-1">Keep this number for reference in all ESA communications</p>
+                            </div>
+                            {% endif %}
+                            
+                            <div class="mt-4 flex justify-center space-x-4">
+                                <a href="{% url 'dashboard' %}" class="flex items-center text-blue-700 hover:text-blue-900">
+                                    <i class="fas fa-user-circle mr-1"></i> View Your Profile
+                                </a>
+                                <a href="{% url 'generate_receipt' payment.id %}" class="flex items-center text-blue-700 hover:text-blue-900">
+                                    <i class="fas fa-file-invoice mr-1"></i> View Receipt
+                                </a>
+                            </div>
                         {% elif payment.status == 'failed' %}
                             <img src="{% static 'images/payment_failed.png' %}" alt="Payment Failed" class="mx-auto max-h-40">
                             <h4 class="text-xl font-bold text-red-700 mt-4">Payment Failed</h4>
                             <p class="text-gray-700">{{ payment.notes|default:"We couldn't process your payment. Please try again." }}</p>
+                            
+                            <div class="mt-4 bg-yellow-50 border-l-4 border-yellow-500 p-4 text-sm">
+                                <p class="font-semibold text-yellow-700">Common reasons for payment failure:</p>
+                                <ul class="list-disc list-inside mt-1 text-gray-600">
+                                    <li>Insufficient funds in your M-Pesa account</li>
+                                    <li>Incorrect M-Pesa PIN entered</li>
+                                    <li>Transaction timed out</li>
+                                    <li>Daily transaction limit reached</li>
+                                </ul>
+                            </div>
                         {% else %}
                             <img src="{% static 'images/payment_pending.png' %}" alt="Payment Pending" class="mx-auto max-h-40">
                             <h4 class="text-xl font-bold text-blue-900 mt-4">Payment Pending</h4>
                             {% if payment.payment_method == 'mpesa' %}
                                 <p class="text-gray-700">Please check your phone and complete the M-Pesa payment prompt.</p>
+                                <div class="flex justify-center mt-4">
+                                    <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-blue-900"></div>
+                                </div>
+                                <p class="text-sm text-gray-500 mt-2">This page will automatically refresh to check the payment status.</p>
                             {% else %}
                                 <p class="text-gray-700">We're waiting for confirmation from the payment provider.</p>
                             {% endif %}
@@ -112,6 +143,12 @@
                                     <span class="text-gray-600">Expiry Date:</span>
                                     <span class="font-semibold">{{ membership.end_date|date:"M d, Y" }}</span>
                                 </li>
+                                {% if user.profile.membership_number %}
+                                <li class="flex justify-between items-center px-4 py-3">
+                                    <span class="text-gray-600">Membership Number:</span>
+                                    <span class="font-semibold">{{ user.profile.membership_number }}</span>
+                                </li>
+                                {% endif %}
                                 {% endif %}
                             </ul>
                         </div>
@@ -138,9 +175,14 @@
                                 <i class="fas fa-redo mr-2"></i>Try Again
                             </a>
                         {% else %}
-                            <a href="{% url 'dashboard' %}" class="bg-green-700 hover:bg-green-800 text-white px-6 py-2 rounded-lg font-bold transition inline-flex items-center">
-                                <i class="fas fa-home mr-2"></i>Go to Dashboard
-                            </a>
+                            <div class="flex flex-wrap justify-center gap-4">
+                                <a href="{% url 'dashboard' %}" class="bg-blue-900 hover:bg-blue-800 text-white px-6 py-2 rounded-lg font-bold transition inline-flex items-center">
+                                    <i class="fas fa-home mr-2"></i>Go to Dashboard
+                                </a>
+                                <a href="{% url 'payment_history' %}" class="bg-green-700 hover:bg-green-800 text-white px-6 py-2 rounded-lg font-bold transition inline-flex items-center">
+                                    <i class="fas fa-history mr-2"></i>View Payment History
+                                </a>
+                            </div>
                         {% endif %}
                     </div>
                 </div>
@@ -148,6 +190,25 @@
         </div>
     </div>
 </div>
+
+<!-- Toast notification for successful payment -->
+{% if payment.status == 'completed' and not hide_notification %}
+<div id="successNotification" class="fixed bottom-4 right-4 bg-green-700 text-white p-4 rounded-lg shadow-lg max-w-sm animate-slide-up">
+    <div class="flex items-start">
+        <div class="flex-shrink-0">
+            <i class="fas fa-check-circle text-2xl"></i>
+        </div>
+        <div class="ml-3">
+            <h3 class="font-bold">Payment Successful!</h3>
+            <p class="text-sm">Your ESA membership is now active.</p>
+        </div>
+        <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-green-800 text-white rounded-lg p-1.5 inline-flex h-8 w-8" onclick="document.getElementById('successNotification').classList.add('hidden')">
+            <span class="sr-only">Close</span>
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+</div>
+{% endif %}
 
 {% if payment.status == 'pending' %}
 <script>
@@ -157,4 +218,33 @@
     }, 10000); // Check every 10 seconds
 </script>
 {% endif %}
-{% endblock %} 
+
+{% if payment.status == 'completed' and not hide_notification %}
+<script>
+    // Auto-hide the success notification after 5 seconds
+    setTimeout(function() {
+        const notification = document.getElementById('successNotification');
+        if (notification) {
+            notification.classList.add('opacity-0');
+            setTimeout(() => notification.classList.add('hidden'), 500);
+        }
+    }, 5000);
+</script>
+{% endif %}
+
+<style>
+    @keyframes slide-up {
+        0% { transform: translateY(100%); opacity: 0; }
+        100% { transform: translateY(0); opacity: 1; }
+    }
+    .animate-slide-up {
+        animation: slide-up 0.3s ease-out forwards;
+    }
+    #successNotification {
+        transition: opacity 0.5s ease-out;
+    }
+    #successNotification.opacity-0 {
+        opacity: 0;
+    }
+</style>
+{% endblock %}

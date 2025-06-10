@@ -1,0 +1,95 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Payment History - ESA{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <nav class="mb-6">
+        <ol class="flex text-sm">
+            <li><a href="{% url 'home' %}" class="text-blue-900 hover:text-green-700">Home</a></li>
+            <li><span class="mx-2">/</span></li>
+            <li><a href="{% url 'dashboard' %}" class="text-blue-900 hover:text-green-700">Dashboard</a></li>
+            <li><span class="mx-2">/</span></li>
+            <li class="text-gray-500">Payment History</li>
+        </ol>
+    </nav>
+    
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-blue-900 text-white p-4">
+            <h3 class="text-2xl font-bold flex items-center">
+                <i class="fas fa-history mr-2"></i>
+                Payment History
+            </h3>
+        </div>
+        
+        <div class="p-6">
+            {% if payments %}
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 uppercase text-sm leading-normal">
+                                <th class="py-3 px-6 text-left">Date</th>
+                                <th class="py-3 px-6 text-left">Description</th>
+                                <th class="py-3 px-6 text-left">Amount</th>
+                                <th class="py-3 px-6 text-left">Status</th>
+                                <th class="py-3 px-6 text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 text-sm">
+                            {% for payment in payments %}
+                                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                    <td class="py-3 px-6 text-left whitespace-nowrap">
+                                        {{ payment.created_at|date:"M d, Y H:i" }}
+                                    </td>
+                                    <td class="py-3 px-6 text-left">
+                                        {% if payment.membership %}
+                                            ESA Membership ({{ payment.membership.get_plan_type_display }})
+                                        {% else %}
+                                            ESA Payment
+                                        {% endif %}
+                                    </td>
+                                    <td class="py-3 px-6 text-left">
+                                        {{ payment.amount }} {{ payment.currency }}
+                                    </td>
+                                    <td class="py-3 px-6 text-left">
+                                        <span class="{% if payment.status == 'completed' %}bg-green-100 text-green-800{% elif payment.status == 'failed' %}bg-red-100 text-red-800{% else %}bg-yellow-100 text-yellow-800{% endif %} py-1 px-3 rounded-full text-xs">
+                                            {{ payment.get_status_display }}
+                                        </span>
+                                    </td>
+                                    <td class="py-3 px-6 text-center">
+                                        <div class="flex item-center justify-center">
+                                            <a href="{% url 'payment_status' payment.id %}" class="w-4 mr-4 transform hover:text-blue-700 hover:scale-110 transition" title="View Details">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            {% if payment.status == 'completed' %}
+                                                <a href="{% url 'generate_receipt' payment.id %}" class="w-4 mr-4 transform hover:text-blue-700 hover:scale-110 transition" title="View Receipt">
+                                                    <i class="fas fa-file-invoice"></i>
+                                                </a>
+                                            {% endif %}
+                                            {% if payment.status == 'pending' and payment.payment_method == 'mpesa' %}
+                                                <a href="{% url 'mpesa_payment' payment.id %}" class="w-4 transform hover:text-green-700 hover:scale-110 transition" title="Retry Payment">
+                                                    <i class="fas fa-redo"></i>
+                                                </a>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-center py-8">
+                    <img src="{% static 'images/no_records.png' %}" alt="No Payment Records" class="mx-auto h-32">
+                    <h4 class="text-xl font-bold text-gray-700 mt-4">No Payment Records Found</h4>
+                    <p class="text-gray-600 mt-2">You haven't made any payments yet.</p>
+                    <a href="{% url 'membership' %}" class="mt-4 inline-block bg-blue-900 hover:bg-blue-800 text-white px-6 py-2 rounded-lg font-bold transition">
+                        Become a Member
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

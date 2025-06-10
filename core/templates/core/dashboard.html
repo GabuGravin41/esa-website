@@ -61,6 +61,95 @@
             {% endif %}
         </div>
 
+        <!-- Recent Payments -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold text-gray-900">Recent Payments</h2>
+                <a href="{% url 'payment_history' %}" class="text-sm text-blue-600 hover:text-blue-800">View All →</a>
+            </div>
+            {% if recent_payments %}
+            <div class="space-y-4">
+                {% for payment in recent_payments %}
+                <div class="border-b border-gray-200 pb-4">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-900">
+                                {% if payment.membership %}
+                                    ESA Membership ({{ payment.membership.get_plan_type_display }})
+                                {% else %}
+                                    Payment #{{ payment.id }}
+                                {% endif %}
+                            </h3>
+                            <p class="text-sm text-gray-500">{{ payment.created_at|date:"F d, Y" }}</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-lg font-semibold text-gray-900">{{ payment.amount }} {{ payment.currency }}</span>
+                            <p class="text-sm {% if payment.status == 'completed' %}text-green-600{% elif payment.status == 'failed' %}text-red-600{% else %}text-yellow-600{% endif %}">
+                                {{ payment.get_status_display }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mt-2 flex space-x-4">
+                        <a href="{% url 'payment_status' payment.id %}" class="text-blue-600 hover:text-blue-800 text-sm">
+                            View Details →
+                        </a>
+                        {% if payment.status == 'completed' %}
+                        <a href="{% url 'generate_receipt' payment.id %}" class="text-blue-600 hover:text-blue-800 text-sm">
+                            View Receipt →
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-gray-500">No recent payments</p>
+            {% endif %}
+        </div>
+        
+        <!-- Recent Orders -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Recent Orders</h2>
+            {% if recent_orders %}
+            <div class="space-y-4">
+                {% for payment in recent_payments %}
+                <div class="border-b border-gray-200 pb-4">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-900">
+                                {% if payment.membership %}
+                                    ESA Membership ({{ payment.membership.get_plan_type_display }})
+                                {% else %}
+                                    Payment #{{ payment.id }}
+                                {% endif %}
+                            </h3>
+                            <p class="text-sm text-gray-500">{{ payment.created_at|date:"F d, Y" }}</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-lg font-semibold text-gray-900">{{ payment.amount }} {{ payment.currency }}</span>
+                            <p class="text-sm {% if payment.status == 'completed' %}text-green-600{% elif payment.status == 'failed' %}text-red-600{% else %}text-yellow-600{% endif %}">
+                                {{ payment.get_status_display }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mt-2 flex space-x-4">
+                        <a href="{% url 'payment_status' payment.id %}" class="text-blue-600 hover:text-blue-800 text-sm">
+                            View Details →
+                        </a>
+                        {% if payment.status == 'completed' %}
+                        <a href="{% url 'generate_receipt' payment.id %}" class="text-blue-600 hover:text-blue-800 text-sm">
+                            View Receipt →
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-gray-500">No recent payments</p>
+            {% endif %}
+        </div>
+        
         <!-- Recent Orders -->
         <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
             <h2 class="text-2xl font-bold text-gray-900 mb-4">Recent Orders</h2>

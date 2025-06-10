@@ -1,0 +1,69 @@
+{% comment %}
+Manual M-Pesa Payment Instructions Component
+Include this with: {% include 'core/components/manual_payment_instructions.html' %}
+{% endcomment %}
+
+<div id="manualPaymentInstructions" class="bg-gray-50 border border-gray-200 rounded-lg p-4 mt-6">
+  <h4 class="text-lg font-semibold flex items-center text-gray-800">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-yellow-600" viewBox="0 0 20 20" fill="currentColor">
+      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+    </svg>
+    Manual Payment Instructions
+  </h4>
+  
+  <p class="text-sm text-gray-600 mb-3 mt-2">
+    If you don't receive the M-Pesa prompt or the STK push fails, you can make a manual payment using these steps:
+  </p>
+  
+  <ol class="list-decimal list-inside text-sm text-gray-700 space-y-2 ml-2">
+    <li>Go to M-Pesa on your phone</li>
+    <li>Select "Lipa na M-Pesa"</li>
+    <li>Select "Pay Bill"</li>
+    <li>Enter Business Number: <span class="font-semibold">{{ business_number|default:"174379" }}</span></li>
+    <li>Enter Account Number: <span class="font-semibold">{{ account_number|default:"ESA-KU" }}</span></li>
+    <li>Enter Amount: <span class="font-semibold">{{ payment.amount }} KSh</span></li>
+    <li>Enter your M-Pesa PIN</li>
+    <li>Confirm and send</li>
+  </ol>
+  
+  <div class="mt-4 bg-blue-50 border-l-4 border-blue-500 p-3 text-xs text-blue-700">
+    <p class="font-semibold mb-1">After making the payment:</p>
+    <p>Please send your M-Pesa transaction code to our support team at <a href="mailto:support@esa-ku.org" class="text-blue-700 underline">support@esa-ku.org</a> or via WhatsApp at <a href="tel:+254XXXXXXXXX" class="text-blue-700 underline">+254 XXXXXXXXX</a> for manual verification.</p>
+  </div>
+  
+  <div class="mt-4 flex justify-end">
+    <button id="toggleInstructionsBtn" class="text-sm text-gray-600 hover:text-gray-900 flex items-center">
+      <span id="hideInstructionsText">Hide instructions</span>
+      <span id="showInstructionsText" class="hidden">Show instructions</span>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
+      </svg>
+    </button>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const toggleBtn = document.getElementById('toggleInstructionsBtn');
+    const container = document.getElementById('manualPaymentInstructions');
+    const hideText = document.getElementById('hideInstructionsText');
+    const showText = document.getElementById('showInstructionsText');
+    
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', function() {
+        // Toggle the height/visibility of the container
+        if (container.classList.contains('h-auto') || !container.classList.contains('h-12')) {
+          // Collapse
+          container.classList.add('h-12', 'overflow-hidden');
+          hideText.classList.add('hidden');
+          showText.classList.remove('hidden');
+        } else {
+          // Expand
+          container.classList.remove('h-12', 'overflow-hidden');
+          hideText.classList.remove('hidden');
+          showText.classList.add('hidden');
+        }
+      });
+    }
+  });
+</script>

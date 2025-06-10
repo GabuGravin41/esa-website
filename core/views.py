@@ -3225,12 +3225,51 @@ def admin_add_site(request):
     # This should not normally be reached directly
     return redirect('manage_sites')
 
-@login_required
+#@login_required
+#def site_form(request):
+#    """Display form for suggesting a professional site or connection"""
+#    return render(request, 'core/site_form.html', {
+#        'title': 'Suggest Engineering Connection'
+#    })
+
+
 def site_form(request):
-    """Display form for suggesting a professional site or connection"""
-    return render(request, 'core/site_form.html', {
-        'title': 'Suggest Engineering Connection'
-    })
+    """Display and process the form for suggesting external engineering sites"""
+    from django import forms
+    
+    class ExternalSiteForm(forms.Form):
+        name = forms.CharField(
+            max_length=255,
+            widget=forms.TextInput(attrs={'class': 'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50'})
+        )
+        url = forms.URLField(
+            widget=forms.URLInput(attrs={'class': 'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50'})
+        )
+        description = forms.CharField(
+            widget=forms.Textarea(attrs={'class': 'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50', 'rows': 4})
+        )
+        site_type = forms.ChoiceField(
+            choices=[
+                ('university', 'University Club or Society'),
+                ('community', 'Community Resource'),
+                ('partner', 'Professional Organization')
+            ],
+            widget=forms.RadioSelect(attrs={'class': 'mr-2'})
+        )
+        icon = forms.CharField(
+            required=False,
+            max_length=50,
+            widget=forms.TextInput(attrs={'class': 'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50'})
+        )
+      
+    if request.method == 'POST':
+        form = ExternalSiteForm(request.POST)
+        if form.is_valid():       # Process the form data
+            return suggest_resource(request)
+    else:
+        form = ExternalSiteForm()
+    
+    return render(request, 'core/site_form.html', {'form': form})
 
 
 from django.shortcuts import get_object_or_404, redirect
@@ -3316,3 +3355,72 @@ def mpesa_callback(request):
             "ResultCode": 1,
             "ResultDesc": f"Error processing callback: {str(e)}"
         })
+        
+    
+@login_required
+def generate_receipt(request, payment_id):
+    """Generate a receipt for a payment"""
+    # Get the payment or return 404 if not found
+    payment = get_object_or_404(Payment, id=payment_id, user=request.user)
+    
+    # Get membership if it exists
+    membership = None
+    if hasattr(payment, 'membership'):
+        membership = payment.membership
+    
+    return render(request, 'core/receipt.html', {
+        'payment': payment,
+        'membership': membership
+    })
+    
+@login_required
+def payment_history(request):
+    """View user's payment history"""
+    # Get all payments for the current user
+    payments = Payment.objects.filter(user=request.user).order_by('-created_at')
+    
+    return render(request, 'core/payment_history.html', {
+        'payments': payments
+    })
+    
+@login_required
+def dashboard(request):
+    """
+    User dashboard showing membership status, recent payments, events, and more
+    """
+    try:
+        # Get the user profile
+        user_profile = request.user.profile
+        
+        # Check membership status
+        membership_status = user_profile.membership_status
+        membership_expiry = user_profile.membership_expiry
+        
+        # Get recent payments (limit to 3)
+        recent_payments = Payment.objects.filter(user=request.user).order_by('-created_at')[:3]
+        
+        # Get user's event registrations (upcoming events)
+        upcoming_events = EventRegistration.objects.filter(
+            user=user_profile,
+            event__start_date__gte=timezone.now().date()
+        ).order_by('event__start_date')[:3]
+        
+        # Get recent orders
+        recent_orders = Order.objects.filter(user=user_profile).order_by('-created_at')[:3]
+        
+        # Get user's blog posts
+        recent_posts = BlogPost.objects.filter(author=user_profile).order_by('-created_at')[:3]
+        
+        return render(request, 'core/dashboard.html', {
+            'user_profile': user_profile,
+            'membership_status': membership_status,
+            'membership_expiry': membership_expiry,
+            'recent_payments': recent_payments,
+            'upcoming_events': upcoming_events,
+            'recent_orders': recent_orders,
+            'recent_posts': recent_posts,
+        })
+        
+    except Exception as e:
+        messages.error(request, f"Error loading dashboard: {str(e)}")
+        return redirect('profile')

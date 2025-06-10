@@ -81,19 +81,52 @@ class EmailService:
     @staticmethod
     def send_payment_confirmation(user, payment):
         """Send payment confirmation email"""
+        # Get user profile for membership number if available
+        try:
+            profile = user.profile
+            membership_number = profile.membership_number
+        except:
+            membership_number = None
+            
+        # Get dashboard URL
+        dashboard_url = f"{settings.SITE_URL}/dashboard/" if hasattr(settings, 'SITE_URL') else "/dashboard/"
+        
         context = {
             'user': user,
             'payment': payment,
             'site_name': 'ESA-KU',
+            'dashboard_url': dashboard_url,
+            'membership_number': membership_number
         }
         
         return EmailService.send_email(
-            subject="Payment Confirmation",
+            subject="ESA-KU Payment Confirmation",
             recipient_list=[user.email],
             template_name="core/emails/payment_confirmation.html",
             context=context,
         )
+        
+    @staticmethod
+    def send_payment_failure(user, payment, error_message=None):
+        """Send payment failure email"""
+        context = {
+            'user': user,
+            'payment': payment,
+            'site_name': 'ESA-KU',
+            'error_message': error_message or "Unknown error"
+        }
+        
+        return EmailService.send_email(
+            subject="ESA-KU Payment Failed",
+            recipient_list=[user.email],
+            template_name="core/emails/payment_failure.html",
+            context=context,
+        )
 
-def send_payment_confirmation_email(user, membership):
+def send_payment_confirmation_email(user, payment):
     """Helper function to send payment confirmation email"""
-    return EmailService.send_payment_confirmation(user, membership)
+    return EmailService.send_payment_confirmation(user, payment)
+
+def send_payment_failure_email(user, payment, error_message=None):
+    """Helper function to send payment failure email"""
+    return EmailService.send_payment_failure(user, payment, error_message)
