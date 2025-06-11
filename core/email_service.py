@@ -130,3 +130,40 @@ def send_payment_confirmation_email(user, payment):
 def send_payment_failure_email(user, payment, error_message=None):
     """Helper function to send payment failure email"""
     return EmailService.send_payment_failure(user, payment, error_message)
+
+def send_welcome_email_to_user(user):
+    """Helper function to send welcome email"""
+    return EmailService.send_welcome_email(user)
+
+def send_event_registration_email(user, event, registration):
+    """Helper function to send event registration confirmation"""
+    context = {
+        'user': user,
+        'event': event,
+        'registration': registration,
+        'dashboard_url': f"{settings.SITE_URL}/dashboard/" if hasattr(settings, 'SITE_URL') else "/dashboard/",
+        'site_name': 'ESA-KU',
+    }
+    
+    return EmailService.send_email(
+        subject=f"ESA-KU Event Registration: {event.title}",
+        recipient_list=[user.email],
+        template_name="core/emails/event_registration.html",
+        context=context,
+    )
+
+def send_order_confirmation_email(user, order):
+    """Helper function to send order confirmation email"""
+    context = {
+        'user': user,
+        'order': order,
+        'dashboard_url': f"{settings.SITE_URL}/dashboard/" if hasattr(settings, 'SITE_URL') else "/dashboard/",
+        'site_name': 'ESA-KU',
+    }
+    
+    return EmailService.send_email(
+        subject=f"ESA-KU Order Confirmation #{order.id}",
+        recipient_list=[user.email],
+        template_name="core/emails/order_confirmation.html",
+        context=context,
+    )

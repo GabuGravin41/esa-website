@@ -165,9 +165,9 @@ USE_TZ = True
 # STATIC & MEDIA FILES
 # ======================
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'core/staticfiles/static'),
+    os.path.join(BASE_DIR, 'core/static'),
 ]
 
 # Media files (Uploaded files)
@@ -180,11 +180,6 @@ if not DEBUG:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
     # Enable WhiteNoise compression and caching 
     WHITENOISE_MANIFEST_STRICT = False
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = [BASE_DIR / 'static']
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
 
 STORAGES = {
     "default": {
@@ -201,16 +196,7 @@ STORAGES = {
 # ======================
 # EMAIL
 # ======================
-if DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-else:
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_HOST = config('EMAIL_HOST')
-    EMAIL_PORT = config('EMAIL_PORT', cast=int)
-    EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-    EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-    EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
-    DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
+# Email settings are defined later in this file
 
 # ======================
 # THIRD-PARTY SETTINGS
@@ -251,14 +237,28 @@ PAYPAL_SECRET = config('PAYPAL_SECRET', default='')
 PAYPAL_MODE = config('PAYPAL_MODE', default='sandbox')
 
 # Email settings
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Override for development
-# EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
+# Choose the appropriate email backend based on environment
+EMAIL_BACKEND = config(
+    'EMAIL_BACKEND',
+    default='django.core.mail.backends.console.EmailBackend' if DEBUG else 'django.core.mail.backends.smtp.EmailBackend'
+)
 EMAIL_HOST = config('EMAIL_HOST', default='smtp.gmail.com')
 EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+EMAIL_USE_SSL = config('EMAIL_USE_SSL', default=False, cast=bool)
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='esa.kenyattauniv@gmail.com')
+
+# Configure a timeout (in seconds) for email sending
+EMAIL_TIMEOUT = config('EMAIL_TIMEOUT', default=30, cast=int)
+
+# Email display name format: "ESA-KU <esa.kenyattauniv@gmail.com>"
+if DEFAULT_FROM_EMAIL and '@' in DEFAULT_FROM_EMAIL and not DEFAULT_FROM_EMAIL.startswith('ESA-KU'):
+    DEFAULT_FROM_EMAIL = f'ESA-KU <{DEFAULT_FROM_EMAIL}>'
+
+# Define the site URL for use in emails (used for links in emails)
+SITE_URL = config('SITE_URL', default='http://localhost:8000' if DEBUG else 'https://esa-ku.com')
 
 # Error Handling
 ADMINS = [('Admin', config('ADMIN_EMAIL', default='admin@esa-ku.com'))]

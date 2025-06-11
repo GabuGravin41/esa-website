@@ -1,0 +1,84 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-8">
+    <!-- Back button -->
+    <div class="mb-4">
+        <a href="{% url 'event_detail' event_id=event.id %}" class="inline-flex items-center text-[#003366] hover:text-blue-700 transition-colors">
+            <i class="fas fa-arrow-left mr-2"></i> Back to Event Details
+        </a>
+    </div>
+    
+    <!-- Form Header -->
+    <div class="bg-white rounded-xl shadow-lg p-8">
+        <h1 class="text-3xl font-bold text-[#003366] mb-6 border-b pb-2">
+            Cancel Registration
+        </h1>
+        
+        <!-- Event Summary -->
+        <div class="bg-gray-50 p-6 rounded-lg mb-8">
+            <div class="flex flex-col md:flex-row">
+                <div class="md:w-1/3 mb-4 md:mb-0">
+                    {% if event.image %}
+                        <img src="{{ event.image.url }}" alt="{{ event.title }}" class="rounded-lg w-full h-auto object-cover">
+                    {% else %}
+                        <div class="bg-gray-200 h-48 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-calendar-alt text-gray-400 text-4xl"></i>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="md:w-2/3 md:pl-6">
+                    <h2 class="text-xl font-bold text-[#003366] mb-2">{{ event.title }}</h2>
+                    <p class="text-gray-600 mb-4">{{ event.short_description|default:event.description|truncatewords:30 }}</p>
+                    
+                    <ul class="space-y-2">
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-calendar-day w-5 text-[#003366]"></i>
+                            <span class="ml-3">{{ event.start_date|date:"F d, Y" }}</span>
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-clock w-5 text-[#003366]"></i>
+                            <span class="ml-3">{{ event.start_time|time:"g:i A" }} - {{ event.end_time|time:"g:i A" }}</span>
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-map-marker-alt w-5 text-[#003366]"></i>
+                            <span class="ml-3">{{ event.location|default:"Online Event" }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Cancellation Warning -->
+        <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-exclamation-triangle text-red-500"></i>
+                </div>
+                <div class="ml-3">
+                    <h3 class="text-sm font-medium text-red-800">Are you sure you want to cancel your registration?</h3>
+                    <div class="mt-2 text-sm text-red-700">
+                        <p>This action cannot be undone. You will need to register again if you change your mind.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Cancellation Form -->
+        <form method="POST" class="space-y-6">
+            {% csrf_token %}
+            
+            <!-- Form Actions -->
+            <div class="flex flex-wrap gap-4 mt-8 pt-4 border-t border-gray-200">
+                <button type="submit" class="bg-red-600 text-white hover:bg-red-700 px-6 py-3 rounded-lg transition-colors font-medium">
+                    Confirm Cancellation
+                </button>
+                <a href="{% url 'event_detail' event_id=event.id %}" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-lg transition-colors font-medium">
+                    Keep My Registration
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

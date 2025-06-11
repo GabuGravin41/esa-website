@@ -1,0 +1,206 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Order #{{ order.id }} - ESA Store{% endblock %}
+
+{% block content %}
+<!-- Breadcrumb -->
+<div class="bg-gray-100 py-4">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center text-sm">
+      <a href="{% url 'home' %}" class="text-blue-900 hover:underline">Home</a>
+      <span class="mx-2">/</span>
+      <a href="{% url 'store' %}" class="text-blue-900 hover:underline">Store</a>
+      <span class="mx-2">/</span>
+      <span class="text-gray-600">Order #{{ order.id }}</span>
+    </div>
+  </div>
+</div>
+
+<!-- Order Status Content -->
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="bg-blue-900 px-6 py-4">
+            <h1 class="text-2xl font-bold text-white">Order #{{ order.id }}</h1>
+            <p class="text-blue-100">Placed on {{ order.created_at|date:"F d, Y h:i A" }}</p>
+        </div>
+        
+        <div class="p-6">
+            <!-- Order Status -->
+            <div class="mb-8">
+                <div class="flex items-center mb-4">
+                    <div class="mr-4">
+                        {% if order.status == 'completed' %}
+                            <div class="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center">
+                                <i class="fas fa-check-circle text-green-600 text-2xl"></i>
+                            </div>
+                        {% elif order.status == 'cancelled' %}
+                            <div class="h-12 w-12 rounded-full bg-red-100 flex items-center justify-center">
+                                <i class="fas fa-times-circle text-red-600 text-2xl"></i>
+                            </div>
+                        {% else %}
+                            <div class="h-12 w-12 rounded-full bg-yellow-100 flex items-center justify-center">
+                                <i class="fas fa-clock text-yellow-600 text-2xl"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-semibold text-gray-900">
+                            Order Status: 
+                            <span class="{% if order.status == 'completed' %}text-green-600{% elif order.status == 'cancelled' %}text-red-600{% else %}text-yellow-600{% endif %}">
+                                {{ order.get_status_display }}
+                            </span>
+                        </h2>
+                        <p class="text-gray-600">
+                            {% if order.status == 'completed' %}
+                                Your order has been processed and is on its way!
+                            {% elif order.status == 'cancelled' %}
+                                This order has been cancelled.
+                            {% else %}
+                                Your order is being processed. Please check back later for updates.
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+                
+                {% if order.status == 'pending' %}
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                    <p class="text-yellow-700">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        Your payment is still being processed. Once confirmed, your order will be processed.
+                    </p>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Order Details -->
+            <div class="mb-8">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4 border-b pb-2">Order Details</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-medium text-gray-700 mb-2">Shipping Information</h4>
+                        <p class="text-gray-600">{{ order.shipping_name }}</p>
+                        <p class="text-gray-600">{{ order.shipping_address }}</p>
+                        <p class="text-gray-600">{{ order.shipping_phone }}</p>
+                        <p class="text-gray-600">{{ order.shipping_email }}</p>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-medium text-gray-700 mb-2">Payment Information</h4>
+                        <p class="text-gray-600">
+                            <span class="font-medium">Status:</span> 
+                            <span class="{% if order.payment_status %}text-green-600{% else %}text-yellow-600{% endif %}">
+                                {{ order.payment_status|yesno:"Paid,Pending" }}
+                            </span>
+                        </p>
+                        <p class="text-gray-600"><span class="font-medium">Total Amount:</span> KSh {{ order.total_amount }}</p>
+                        {% if order.payment and order.payment.payment_method %}
+                            <p class="text-gray-600"><span class="font-medium">Payment Method:</span> {{ order.payment.get_payment_method_display }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Order Items -->
+            <div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-4 border-b pb-2">Order Items</h3>
+                
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            {% for item in order_items %}
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10 mr-3">
+                                            {% if item.product.image %}
+                                                <img class="h-10 w-10 object-cover rounded" src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                                            {% else %}
+                                                <div class="h-10 w-10 bg-gray-200 flex items-center justify-center rounded">
+                                                    <i class="fas fa-shopping-bag text-gray-400"></i>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-900">{{ item.product.name }}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">KSh {{ item.price }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{ item.quantity }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm font-medium text-gray-900">KSh {{ item.total_price }}</div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot class="bg-gray-50">
+                            <tr>
+                                <td colspan="3" class="px-6 py-4 text-right font-medium">Total:</td>
+                                <td class="px-6 py-4 whitespace-nowrap font-bold text-green-700">KSh {{ order.total_amount }}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Actions -->
+            <div class="mt-8 flex justify-between">
+                <a href="{% url 'dashboard' %}" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-lg transition-colors font-medium">
+                    <i class="fas fa-user mr-2"></i> Go to Dashboard
+                </a>
+                
+                <a href="{% url 'store' %}" class="bg-blue-900 hover:bg-blue-800 text-white px-6 py-3 rounded-lg transition-colors font-medium">
+                    <i class="fas fa-shopping-cart mr-2"></i> Continue Shopping
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast notification for successful payment -->
+{% if order.status == 'completed' and not hide_notification %}
+<div id="successNotification" class="fixed bottom-4 right-4 bg-green-700 text-white p-4 rounded-lg shadow-lg max-w-sm animate-slide-up">
+    <div class="flex items-start">
+        <div class="flex-shrink-0">
+            <i class="fas fa-check-circle text-xl"></i>
+        </div>
+        <div class="ml-3">
+            <h3 class="text-base font-medium">Payment Successful!</h3>
+            <p class="text-sm mt-1">Your order has been confirmed and is being processed.</p>
+            <button onclick="document.getElementById('successNotification').classList.add('hidden')" class="mt-2 text-xs underline">Dismiss</button>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<style>
+.animate-slide-up {
+    animation: slideUp 0.5s ease-out forwards;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+</style>
+{% endblock %}

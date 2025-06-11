@@ -53,6 +53,17 @@ class CommunityForm(forms.ModelForm):
             'is_private': forms.CheckboxInput(attrs={'class': 'h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500'}),
         }
 
+class CommunityEditForm(forms.ModelForm):
+    """Simple form for editing just the community image and description"""
+    class Meta:
+        model = Community
+        fields = ['description', 'image', 'rules']
+        widgets = {
+            'description': forms.Textarea(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500', 'rows': 5}),
+            'image': forms.FileInput(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}),
+            'rules': forms.Textarea(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500', 'rows': 5}),
+        }
+
 class DiscussionForm(forms.ModelForm):
     class Meta:
         model = Discussion
@@ -90,15 +101,36 @@ class EventForm(forms.ModelForm):
         input_formats=['%Y-%m-%dT%H:%M']
     )
     
+    registration_deadline = forms.DateTimeField(
+        required=False,
+        widget=forms.DateTimeInput(
+            attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500', 'type': 'datetime-local'},
+            format='%Y-%m-%dT%H:%M'
+        ),
+        input_formats=['%Y-%m-%dT%H:%M']
+    )
+    
     class Meta:
         model = Event
-        fields = ['title', 'description', 'event_type', 'location', 'online_link', 'start_date', 'end_date', 'image', 'is_active', 'featured']
+        fields = [
+            'title', 'short_description', 'description', 
+            'category', 'status', 'event_type', 
+            'location', 'online_link', 'start_date', 'end_date', 
+            'registration_deadline', 'capacity', 'price', 'speaker',
+            'image', 'is_active', 'featured'
+        ]
         widgets = {
             'title': forms.TextInput(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}),
+            'short_description': forms.Textarea(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500', 'rows': 2}),
             'description': forms.Textarea(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500', 'rows': 5}),
+            'category': forms.Select(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}),
+            'status': forms.Select(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}),
             'event_type': forms.Select(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}),
             'location': forms.TextInput(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}),
             'online_link': forms.URLInput(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}),
+            'capacity': forms.NumberInput(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}),
+            'price': forms.NumberInput(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500', 'step': '0.01'}),
+            'speaker': forms.TextInput(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}),
             'image': forms.FileInput(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}),
             'is_active': forms.CheckboxInput(attrs={'class': 'h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500'}),
             'featured': forms.CheckboxInput(attrs={'class': 'h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500'}),
@@ -147,7 +179,7 @@ class ProductForm(forms.ModelForm):
             'price': forms.NumberInput(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}),
             'stock': forms.NumberInput(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}),
             'category': forms.Select(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}),
-            'vendor': forms.Select(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}),
+            'vendor': forms.TextInput(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}),
             'image': forms.FileInput(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}),
         }
 

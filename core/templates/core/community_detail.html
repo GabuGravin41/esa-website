@@ -43,6 +43,11 @@
             <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm">
               <i class="fas fa-user-friends mr-1"></i> {{ community.member_count }} members
             </span>
+            {% if is_admin %}
+              <a href="{% url 'edit_community' community.slug %}" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-full text-sm ml-2">
+                <i class="fas fa-edit mr-1"></i> Edit Community
+              </a>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -71,6 +76,12 @@
           <a href="{% url 'communities' %}" class="text-blue-600 hover:text-blue-800">
             <i class="fas fa-arrow-left mr-1"></i> All Communities
           </a>
+          
+          {% if request.user.is_authenticated and is_admin %}
+            <a href="{% url 'edit_community' community.slug %}" class="text-blue-600 hover:text-blue-800 ml-4">
+              <i class="fas fa-edit mr-1"></i> Edit Community
+            </a>
+          {% endif %}
         </div>
         
         {% if request.user.is_authenticated %}
@@ -179,7 +190,7 @@
       <div class="mb-8">
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-2xl font-bold">Upcoming Events</h2>
-          {% if is_member %}
+          {% if is_admin %}
             <a href="{% url 'create_event' community.slug %}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
               <i class="fas fa-plus mr-1"></i> New Event
             </a>
@@ -226,12 +237,12 @@
             <i class="far fa-calendar-alt text-5xl text-gray-400 mb-4"></i>
             <h3 class="text-xl font-bold mb-2">No upcoming events</h3>
             <p class="text-gray-600 mb-6">There are no scheduled events for this community yet</p>
-            {% if is_member %}
+            {% if is_admin %}
               <a href="{% url 'create_event' community.slug %}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
                 <i class="fas fa-plus mr-2"></i> Create Event
               </a>
             {% else %}
-              <p class="text-gray-600">Join this community to create events</p>
+              <p class="text-gray-600">Only community administrators can create events</p>
             {% endif %}
           </div>
         {% endif %}

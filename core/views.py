@@ -21,6 +21,7 @@ from django.utils.text import slugify
 from django.core.paginator import Paginator
 from django.core.mail import send_mail
 from .email_service import send_payment_confirmation_email
+from dateutil.relativedelta import relativedelta
 
 from .models import (
     Event, EventRegistration, ExternalSite, Product, Order,
@@ -35,7 +36,7 @@ from .forms import (
     ProductForm, OrderForm, OrderItemForm,
     BlogPostForm, CommentForm, ResourceForm,
     MembershipPaymentForm, MpesaPaymentForm,
-    ContactForm, CommunityForm, DiscussionForm,
+    ContactForm, CommunityForm, CommunityEditForm, DiscussionForm,
     MemberGetMemberForm
 )
 from .services import MpesaService, PayPalService
@@ -446,10 +447,11 @@ def events(request):
     """Display all events"""
     # Get all future events
     current_time = timezone.now()
-    future_events = Event.objects.filter(end_date__gt=current_time).order_by('start_date')
+    current_date = current_time.date()  # Convert to date for proper comparison
+    future_events = Event.objects.filter(end_date__gt=current_date).order_by('start_date')
     
     # Get past events (optional to show)
-    past_events = Event.objects.filter(end_date__lte=current_time).order_by('-start_date')[:5]  # Limit to recent past events
+    past_events = Event.objects.filter(end_date__lte=current_date).order_by('-start_date')[:5]  # Limit to recent past events
     
     # Filter by event type if specified
     event_type = request.GET.get('type')
@@ -535,17 +537,27 @@ def event_detail(request, event_id):
     event = get_object_or_404(Event, id=event_id)
     
     # Check if user is registered
+    registration = None
     is_registered = False
     if request.user.is_authenticated:
-        is_registered = EventRegistration.objects.filter(event=event, user=request.user).exists()
+        try:
+            user_profile = UserProfile.objects.get(user=request.user)
+            try:
+                registration = EventRegistration.objects.get(event=event, user=user_profile)
+                is_registered = True
+            except EventRegistration.DoesNotExist:
+                is_registered = False
+        except UserProfile.DoesNotExist:
+            is_registered = False
     
     # Get attendees count
     attendees_count = EventRegistration.objects.filter(event=event).count()
     
     # Get similar events
+    current_date = timezone.now().date()  # Convert to date for proper comparison
     similar_events = Event.objects.filter(
         event_type=event.event_type, 
-        end_date__gt=timezone.now()
+        end_date__gt=current_date
     ).exclude(id=event.id).order_by('start_date')[:3]
     
     # Check if user can edit the event
@@ -553,13 +565,14 @@ def event_detail(request, event_id):
     if hasattr(request.user, 'profile'):
         try:
             profile = request.user.profile
-            can_edit = profile.can_manage_events() or event.organizer == profile
+            can_edit = profile.can_manage_events() or (event.created_by == request.user)
         except UserProfile.DoesNotExist:
             can_edit = False
     
     return render(request, 'core/event_detail.html', {
         'event': event,
         'is_registered': is_registered,
+        'registration': registration,
         'attendees_count': attendees_count,
         'similar_events': similar_events,
         'title': event.title,
@@ -578,7 +591,7 @@ def event_create(request):
         form = EventForm(request.POST, request.FILES)
         if form.is_valid():
             event = form.save(commit=False)
-            event.organizer = request.user.profile
+            event.created_by = request.user
             event.save()
             
             messages.success(request, 'Event created successfully!')
@@ -602,7 +615,7 @@ def event_edit(request, event_id):
     if hasattr(request.user, 'profile'):
         try:
             profile = request.user.profile
-            can_edit = profile.can_manage_events() or event.organizer == profile
+            can_edit = profile.can_manage_events() or (event.created_by == request.user)
         except UserProfile.DoesNotExist:
             can_edit = False
             
@@ -636,7 +649,7 @@ def event_delete(request, event_id):
     if hasattr(request.user, 'profile'):
         try:
             profile = request.user.profile
-            can_delete = profile.can_manage_events() or event.organizer == profile
+            can_delete = profile.can_manage_events() or (event.created_by == request.user)
         except UserProfile.DoesNotExist:
             can_delete = False
     
@@ -667,13 +680,21 @@ def event_register(request, event_id):
     """Register user for an event"""
     event = get_object_or_404(Event, id=event_id)
     
+    # Get user profile
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+    except UserProfile.DoesNotExist:
+        messages.error(request, "User profile not found. Please complete your profile setup first.")
+        return redirect('event_detail', event_id=event.id)
+    
     # Check if event is in the past
-    if event.end_date < timezone.now():
+    current_date = timezone.now().date()  # Convert datetime to date for comparison
+    if event.end_date < current_date:
         messages.error(request, "You cannot register for past events.")
         return redirect('event_detail', event_id=event.id)
     
     # Check if user is already registered
-    if EventRegistration.objects.filter(event=event, user=request.user).exists():
+    if EventRegistration.objects.filter(event=event, user=user_profile).exists():
         messages.info(request, "You are already registered for this event.")
         return redirect('event_detail', event_id=event.id)
     
@@ -682,36 +703,14 @@ def event_register(request, event_id):
         if form.is_valid():
             registration = form.save(commit=False)
             registration.event = event
-            registration.user = request.user
+            registration.user = user_profile  # Use user_profile instead of request.user
             registration.save()
+            
             
             # Send confirmation email
             try:
-                subject = f"Registration Confirmation: {event.title}"
-                message = f"""
-                Dear {request.user.username},
-                
-                Thank you for registering for {event.title}!
-                
-                Event Details:
-                Date: {event.start_date.strftime('%B %d, %Y')}
-                Time: {event.start_date.strftime('%I:%M %p')} to {event.end_date.strftime('%I:%M %p')}
-                Location: {event.location if event.location else 'Online'}
-                
-                {f'Online link: {event.online_link}' if event.online_link else ''}
-                
-                We look forward to seeing you there!
-                
-                Best regards,
-                ESA Team
-                """
-                send_mail(
-                    subject,
-                    message,
-                    settings.DEFAULT_FROM_EMAIL,
-                    [request.user.email],
-                    fail_silently=True,
-                )
+                from .email_service import send_event_registration_email
+                send_event_registration_email(request.user, event, registration)
             except Exception as e:
                 # Log the error but don't stop the registration
                 logger = logging.getLogger(__name__)
@@ -733,13 +732,21 @@ def event_cancel_registration(request, event_id):
     """Cancel event registration"""
     event = get_object_or_404(Event, id=event_id)
     
+    # Get user profile
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+    except UserProfile.DoesNotExist:
+        messages.error(request, "User profile not found. Please complete your profile setup first.")
+        return redirect('event_detail', event_id=event.id)
+    
     # Check if event already started
-    if event.start_date <= timezone.now():
+    current_date = timezone.now().date()  # Convert datetime to date for comparison
+    if event.start_date <= current_date:
         messages.error(request, "You cannot cancel registration for an event that has already started.")
         return redirect('event_detail', event_id=event.id)
     
     # Check if registration exists
-    registration = get_object_or_404(EventRegistration, event=event, user=request.user)
+    registration = get_object_or_404(EventRegistration, event=event, user=user_profile)
     
     if request.method == 'POST':
         registration.delete()
@@ -879,6 +886,17 @@ def blog_post_detail(request, post_id):
         'recent_posts': recent_posts,
         'same_category_posts': same_category_posts,
     }
+    
+    # Add permission flags for template
+    can_edit = False
+    if request.user.is_authenticated:
+        try:
+            if hasattr(request.user, 'profile'):
+                can_edit = request.user.profile.is_esa_admin() or post.author == request.user.profile
+        except:
+            pass
+    context['can_edit'] = can_edit
+    
     return render(request, 'core/blog_post_detail.html', context)
 
 @login_required
@@ -966,11 +984,7 @@ def resources(request):
 @login_required
 def resource_create(request):
     """Create a new resource"""
-    # Check if user has permission to create resources
-    if not request.user.profile.can_manage_resources():
-        messages.error(request, "You don't have permission to upload resources.")
-        return redirect('resources')
-    
+    # All authenticated users can create resources
     if request.method == 'POST':
         form = ResourceForm(request.POST, request.FILES)
         if form.is_valid():
@@ -1430,16 +1444,24 @@ def community_detail(request, slug):
     
     # Check if user is a member
     is_member = False
+    is_admin = False
     if request.user.is_authenticated:
-        is_member = CommunityMember.objects.filter(community=community, user=request.user).exists()
+        try:
+            membership = CommunityMember.objects.get(community=community, user=request.user)
+            is_member = True
+            is_admin = membership.role == 'admin'
+        except CommunityMember.DoesNotExist:
+            is_member = False
+            is_admin = False
     
     # Get discussions
     discussions = Discussion.objects.filter(community=community)[:5]
     
     # Get upcoming events
+    current_date = timezone.now().date()  # Convert to date for proper comparison
     upcoming_events = Event.objects.filter(
         community=community,
-        end_date__gte=timezone.now()
+        end_date__gte=current_date
     ).order_by('start_date')[:4]
     
     # Get community admins and moderators
@@ -1461,6 +1483,7 @@ def community_detail(request, slug):
     return render(request, 'core/community_detail.html', {
         'community': community,
         'is_member': is_member,
+        'is_admin': is_admin,
         'discussions': discussions,
         'events': upcoming_events,
         'admins': admins,
@@ -1533,13 +1556,13 @@ def edit_community(request, slug):
         return redirect('community_detail', slug=community.slug)
     
     if request.method == 'POST':
-        form = CommunityForm(request.POST, request.FILES, instance=community)
+        form = CommunityEditForm(request.POST, request.FILES, instance=community)
         if form.is_valid():
             form.save()
             messages.success(request, f'{community.name} updated successfully!')
             return redirect('community_detail', slug=community.slug)
     else:
-        form = CommunityForm(instance=community)
+        form = CommunityEditForm(instance=community)
     
     return render(request, 'core/community_form.html', {
         'form': form,
@@ -1577,7 +1600,12 @@ def create_discussion(request, community_slug):
     community = get_object_or_404(Community, slug=community_slug)
     
     # Check if user is a member
-    is_member = CommunityMember.objects.filter(community=community, user=request.user).exists()
+    try:
+        membership = CommunityMember.objects.get(community=community, user=request.user)
+        is_member = True
+    except CommunityMember.DoesNotExist:
+        is_member = False
+        
     if not is_member:
         messages.error(request, 'You must be a member to create discussions')
         return redirect('community_detail', slug=community.slug)
@@ -1642,8 +1670,19 @@ def discussion_detail(request, community_slug, slug):
     
     # Check if user is a member
     is_member = False
+    is_discussion_owner = False
+    is_admin = False
+    
     if request.user.is_authenticated:
-        is_member = CommunityMember.objects.filter(community=community, user=request.user).exists()
+        try:
+            membership = CommunityMember.objects.get(community=community, user=request.user)
+            is_member = True
+            is_admin = membership.role == 'admin'
+        except CommunityMember.DoesNotExist:
+            is_member = False
+        
+        # Check if user is the discussion creator
+        is_discussion_owner = (discussion.created_by == request.user)
     
     # Handle comment form
     if request.method == 'POST' and request.user.is_authenticated:
@@ -1667,6 +1706,8 @@ def discussion_detail(request, community_slug, slug):
         'comments': comments,
         'form': form,
         'is_member': is_member,
+        'is_discussion_owner': is_discussion_owner,
+        'is_admin': is_admin,
     })
 
 # Event views
@@ -1674,10 +1715,14 @@ def discussion_detail(request, community_slug, slug):
 def create_event(request, community_slug):
     community = get_object_or_404(Community, slug=community_slug)
     
-    # Check if user is a member
-    is_member = CommunityMember.objects.filter(community=community, user=request.user).exists()
-    if not is_member:
-        messages.error(request, 'You must be a member to create events')
+    # Check if user is an admin of the community
+    try:
+        membership = CommunityMember.objects.get(community=community, user=request.user)
+        if membership.role != 'admin':
+            messages.error(request, 'Only community administrators can create events')
+            return redirect('community_detail', slug=community.slug)
+    except CommunityMember.DoesNotExist:
+        messages.error(request, 'You must be a community administrator to create events')
         return redirect('community_detail', slug=community.slug)
     
     if request.method == 'POST':
@@ -1726,15 +1771,17 @@ def community_events(request, slug):
         is_member = CommunityMember.objects.filter(community=community, user=request.user).exists()
     
     # Get upcoming events
+    current_date = timezone.now().date()  # Convert to date for proper comparison
     upcoming_events = Event.objects.filter(
         community=community,
-        end_date__gte=timezone.now()
+        end_date__gte=current_date
     ).order_by('start_date')
     
     # Get past events
+    current_date = timezone.now().date()  # Convert to date for proper comparison
     past_events = Event.objects.filter(
         community=community,
-        end_date__lt=timezone.now()
+        end_date__lt=current_date
     ).order_by('-start_date')
     
     # Pagination for upcoming events
@@ -2391,10 +2438,11 @@ def admin_dashboard(request):
         return redirect('home')
     
     # Get key statistics for the dashboard
+    current_date = timezone.now().date()  # Convert to date for proper comparison
     stats = {
         'total_users': User.objects.count(),
         'total_members': Membership.objects.filter(is_active=True).count(),
-        'upcoming_events': Event.objects.filter(end_date__gt=timezone.now()).count(),
+        'upcoming_events': Event.objects.filter(end_date__gt=current_date).count(),
         'active_products': Product.objects.filter(is_active=True).count(),
         'pending_resources': Resource.objects.filter(is_approved=False).count(),
         'total_communities': Community.objects.count(),
@@ -2405,7 +2453,7 @@ def admin_dashboard(request):
     recent = {
         'new_members': Membership.objects.filter(is_active=True).order_by('-start_date')[:5],
         'new_resources': Resource.objects.order_by('-created_at')[:5],
-        'upcoming_events': Event.objects.filter(end_date__gt=timezone.now()).order_by('start_date')[:5],
+        'upcoming_events': Event.objects.filter(end_date__gt=current_date).order_by('start_date')[:5],
     }
     
     # Get revenue statistics (simplified)
@@ -2438,7 +2486,7 @@ def event_suggestion(request):
             event.is_active = False
             
             if hasattr(request.user, 'profile'):
-                event.organizer = request.user.profile
+                event.created_by = request.user
             
             event.save()
             
@@ -2899,30 +2947,66 @@ def checkout(request):
 
     if request.method == 'POST':
         payment_method = request.POST.get('payment_method')
+        
+        # Collect shipping information
+        shipping_info = {
+            'name': f"{request.POST.get('first_name', '')} {request.POST.get('last_name', '')}".strip(),
+            'email': request.POST.get('email', request.user.email),
+            'phone': request.POST.get('phone', ''),
+            'address': request.POST.get('address', ''),
+            'delivery_method': request.POST.get('delivery_method', 'pickup'),
+            'student_id': request.POST.get('student_id', '')
+        }
+        
         if payment_method == 'mpesa':
             mpesa_phone = request.POST.get('mpesa_phone')
             if not mpesa_phone:
                 messages.error(request, "Please enter your M-Pesa phone number.")
                 return redirect('checkout')
-
-            # Initiate M-Pesa STK Push
-            mpesa_service = MpesaService()
+                
+            # Create the order first
+            from core.order_service import OrderService
             try:
+                # Create order with pending status
+                order = OrderService.create_order(
+                    user=request.user.profile,
+                    cart_items=cart_items,
+                    total_amount=total,
+                    shipping_info=shipping_info
+                )
+                
+                # Store order ID in session for payment completion
+                request.session['pending_order_id'] = order.id
+                
+                # Initiate M-Pesa STK Push
+                mpesa_service = MpesaService()
                 response = mpesa_service.initiate_stk_push(
                     phone_number=mpesa_phone,
                     amount=total,
-                    reference="ESA Payment",
+                    reference=f"ESA-Order-{order.id}",
                     description="Payment for ESA Store Order"
                 )
+                
                 if response.get('ResponseCode') == '0':
+                    # Clear the cart
+                    request.session['cart'] = {}
+                    request.session.modified = True
+                    
                     messages.success(request, "M-Pesa STK Push sent. Please complete the payment on your phone.")
-                    return redirect('checkout')
+                    return redirect('order_status', order_id=order.id)
                 else:
                     messages.error(request, f"M-Pesa Error: {response.get('ResponseDescription', 'Unknown error')}")
             except Exception as e:
-                messages.error(request, f"Failed to initiate M-Pesa payment: {str(e)}")
+                messages.error(request, f"Failed to process your order: {str(e)}")
+        
+        elif payment_method == 'paypal':
+            messages.info(request, "PayPal integration coming soon!")
+        
+        elif payment_method == 'card':
+            messages.info(request, "Card payment integration coming soon!")
+        
         else:
-            messages.error(request, "Only M-Pesa payment is supported at the moment.")
+            messages.error(request, "Please select a valid payment method.")
 
     return render(request, 'core/checkout.html', {
         'cart_items': cart_items,
@@ -2935,6 +3019,50 @@ def checkout(request):
 
 
 
+
+@login_required
+def order_status(request, order_id):
+    """Check order status and display details"""
+    order = get_object_or_404(Order, id=order_id, user=request.user.profile)
+    
+    # Check for M-Pesa transaction if payment is pending
+    # This logic would be similar to the payment_status view for membership payments
+    if order.status == 'pending' and hasattr(order, 'payment') and order.payment.payment_method == 'mpesa':
+        payment = order.payment
+        if hasattr(payment, 'mpesa_transaction'):
+            mpesa_tx = payment.mpesa_transaction
+            
+            # Only query status if we have a checkout request ID and status is still pending
+            if mpesa_tx.checkout_request_id and mpesa_tx.status == 'pending':
+                mpesa_service = MpesaService()
+                response = mpesa_service.query_transaction_status(mpesa_tx.checkout_request_id)
+                
+                # Process response if successful
+                if 'ResultCode' in response and response['ResultCode'] == '0':
+                    # Update transaction details
+                    mpesa_tx.status = 'completed'
+                    mpesa_tx.transaction_id = response.get('MpesaReceiptNumber')
+                    mpesa_tx.save(update_fields=['status', 'transaction_id'])
+                    
+                    # Complete order
+                    order.status = 'completed'
+                    order.payment_status = True
+                    order.save()
+                    
+                    # Send confirmation email
+                    from core.email_service import send_order_confirmation_email
+                    send_order_confirmation_email(request.user, order)
+                    
+                    messages.success(request, "Your payment has been completed successfully!")
+    
+    # Get order items
+    order_items = order.items.all()
+    
+    return render(request, 'core/order_status.html', {
+        'order': order,
+        'order_items': order_items,
+        'title': f'Order #{order.id}'
+    })
 
 @login_required
 @require_POST
@@ -2997,19 +3125,25 @@ def update_cart(request):
 @login_required
 def blog_post_create(request):
     """Create a new blog post"""
-    # Check if user has permission to create blog posts
-    if not hasattr(request.user, 'profile') or not request.user.profile.is_esa_admin():
-        messages.error(request, "You don't have permission to create blog posts.")
-        return redirect('blog')
-    
+    # All authenticated users can create blog posts
     if request.method == 'POST':
         form = BlogPostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user.profile
+            
+            # Only admin posts are auto-published
+            if request.user.profile.is_esa_admin():
+                post.is_published = True
+            else:
+                post.is_published = False  # Regular user posts need approval
+                
             post.save()
             
-            messages.success(request, 'Blog post created successfully!')
+            if post.is_published:
+                messages.success(request, 'Blog post created and published successfully!')
+            else:
+                messages.success(request, 'Blog post submitted successfully! It will be reviewed by an administrator.')
             return redirect('blog_post_detail', post_id=post.id)
     else:
         form = BlogPostForm()

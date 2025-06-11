@@ -47,13 +47,13 @@
                 <div class="flex flex-wrap items-center gap-4 text-sm">
                     <div class="flex items-center">
                         <i class="far fa-calendar-alt mr-2"></i>
-                        <span>{{ event.date|date:"F j, Y - g:i A" }}</span>
+                        <span>{{ event.start_date|date:"F j, Y" }} - {{ event.start_time|time:"g:i A" }}</span>
                     </div>
                     
                     {% if event.end_date %}
                     <div class="flex items-center">
                         <i class="far fa-calendar-check mr-2"></i>
-                        <span>Until {{ event.end_date|date:"F j, Y - g:i A" }}</span>
+                        <span>Until {{ event.end_date|date:"F j, Y" }} - {{ event.end_time|time:"g:i A" }}</span>
                     </div>
                     {% endif %}
                     
@@ -78,7 +78,7 @@
                         </p>
                         {% if event.registration_deadline %}
                         <p class="text-sm text-gray-600 mt-1">
-                            Deadline: {{ event.registration_deadline|date:"F j, Y - g:i A" }}
+                            Deadline: {{ event.registration_deadline|date:"F j, Y" }} at {{ event.registration_deadline|time:"g:i A" }}
                         </p>
                         {% endif %}
                     {% elif event.status == 'completed' %}
@@ -231,9 +231,9 @@
                                 <i class="fas fa-calendar-day text-[#003366] mt-1 mr-3 w-5"></i>
                                 <div>
                                     <strong class="block text-gray-700">Date & Time</strong>
-                                    <span class="text-gray-600">{{ event.date|date:"F j, Y" }}</span><br>
-                                    <span class="text-gray-600">{{ event.date|date:"g:i A" }}
-                                    {% if event.end_date %} - {{ event.end_date|date:"g:i A" }}{% endif %}</span>
+                                    <span class="text-gray-600">{{ event.start_date|date:"F j, Y" }}</span><br>
+                                    <span class="text-gray-600">{{ event.start_time|time:"g:i A" }}
+                                    {% if event.end_time %} - {{ event.end_time|time:"g:i A" }}{% endif %}</span>
                                 </div>
                             </li>
                             
@@ -253,6 +253,16 @@
                                     {% endif %}
                                 </div>
                             </li>
+                            
+                            {% if event.created_by %}
+                            <li class="flex">
+                                <i class="fas fa-user text-[#003366] mt-1 mr-3 w-5"></i>
+                                <div>
+                                    <strong class="block text-gray-700">Created By</strong>
+                                    <span class="text-gray-600">{{ event.created_by.get_full_name|default:event.created_by.username }}</span>
+                                </div>
+                            </li>
+                            {% endif %}
                             
                             <li class="flex">
                                 <i class="fas fa-ticket-alt text-[#003366] mt-1 mr-3 w-5"></i>
@@ -281,7 +291,7 @@
                                 <i class="fas fa-hourglass-half text-[#003366] mt-1 mr-3 w-5"></i>
                                 <div>
                                     <strong class="block text-gray-700">Registration Deadline</strong>
-                                    <span class="text-gray-600">{{ event.registration_deadline|date:"F j, Y - g:i A" }}</span>
+                                    <span class="text-gray-600">{{ event.registration_deadline|date:"F j, Y" }} at {{ event.registration_deadline|time:"g:i A" }}</span>
                                 </div>
                             </li>
                             {% endif %}
@@ -325,8 +335,8 @@
                         </div>
                         {% endif %}
                         <div class="absolute top-4 left-4 flex flex-col bg-[#003366] text-white py-1 px-3 rounded-lg text-center">
-                            <span class="text-lg font-bold">{{ related_event.date|date:"d" }}</span>
-                            <span class="text-xs uppercase">{{ related_event.date|date:"M" }}</span>
+                            <span class="text-lg font-bold">{{ related_event.start_date|date:"d" }}</span>
+                            <span class="text-xs uppercase">{{ related_event.start_date|date:"M" }}</span>
                         </div>
                     </div>
                     
@@ -367,8 +377,8 @@
 <script>
     function addToCalendar() {
         const eventTitle = "{{ event.title }}";
-        const eventStart = "{{ event.date|date:'Y-m-d' }}T{{ event.date|date:'H:i:s' }}";
-        const eventEnd = "{% if event.end_date %}{{ event.end_date|date:'Y-m-d' }}T{{ event.end_date|date:'H:i:s' }}{% else %}{{ event.date|date:'Y-m-d' }}T{{ event.date|date:'H:i:s' }}{% endif %}";
+        const eventStart = "{{ event.start_date|date:'Y-m-d' }}T{{ event.start_time|time:'H:i:s' }}";
+        const eventEnd = "{% if event.end_date %}{{ event.end_date|date:'Y-m-d' }}T{{ event.end_time|time:'H:i:s' }}{% else %}{{ event.start_date|date:'Y-m-d' }}T{{ event.start_time|time:'H:i:s' }}{% endif %}";
         const eventLocation = "{{ event.location }}";
         const eventDescription = "{{ event.description|truncatechars:200|escapejs }}";
         
@@ -397,7 +407,7 @@
     
     function shareViaEmail() {
         const subject = encodeURIComponent("Check out this event: {{ event.title }}");
-        const body = encodeURIComponent("I thought you might be interested in this event:\n\n{{ event.title }}\n\nDate: {{ event.date|date:'F j, Y' }}\nLocation: {{ event.location }}\n\nMore details: " + window.location.href);
+        const body = encodeURIComponent("I thought you might be interested in this event:\n\n{{ event.title }}\n\nDate: {{ event.start_date|date:'F j, Y' }}\nLocation: {{ event.location }}\n\nMore details: " + window.location.href);
         window.location.href = `mailto:?subject=${subject}&body=${body}`;
     }
 </script>

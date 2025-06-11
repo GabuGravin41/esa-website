@@ -11,7 +11,7 @@
 <ul>
     <li>Title: {{ event.title }}</li>
     <li>Date: {{ event.start_date|date:"F d, Y" }}</li>
-    <li>Time: {{ event.start_date|date:"g:i A" }}</li>
+    <li>Time: {{ event.start_time|time:"g:i A" }}</li>
     <li>Location: {{ event.location }}</li>
 </ul>
 

@@ -65,6 +65,7 @@ urlpatterns = [
     path('cart/remove/', views.remove_from_cart, name='remove_from_cart'),
     path('cart/clear/', views.clear_cart, name='clear_cart'),
     path('checkout/', views.checkout, name='checkout'),
+    path('order/<int:order_id>/', views.order_status, name='order_status'),
     path('product/<int:product_id>/review/', views.add_review, name='add_review'),
     
     # Blog URLs

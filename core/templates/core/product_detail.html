@@ -93,11 +93,17 @@
                             class="flex-1 bg-blue-900 text-white px-6 py-3 rounded-lg hover:bg-blue-800 transition">
                         <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
                     </button>
-                    <button type="submit" name="buy_now"
+                    <button href="{% url "cart" %}" type="submit" name="buy_now"
                             class="flex-1 bg-green-700 text-white px-6 py-3 rounded-lg hover:bg-green-800 transition">
-                        <i class="fas fa-bolt mr-2"></i> Buy Now
+                        <a href="{% url 'checkout' %}" class="flex items-center justify-center">
+                            <i class="fas fa-bolt mr-2"></i> Buy Now
+                        </a>
                     </button>
                 </div>
+                <div class="prose max-w-none mb-8">
+                <h3 class="text-lg font-semibold mb-2">Notice</h3>
+                <p class="text-gray-600">First click to add item to cart before proceeding to click to buy.</p>
+            </div>
             </form>
         </div>
     </div>
