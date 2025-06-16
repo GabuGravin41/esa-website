@@ -82,17 +82,38 @@
             <div class="space-y-4">
               <div class="flex items-center">
                 <input type="radio" id="mpesa" name="payment_method" value="mpesa" class="mr-2" checked>
-                <label for="mpesa" class="text-gray-700">M-Pesa</label>
+                <label for="mpesa" class="text-gray-700">
+                  <span class="flex items-center">
+                    M-Pesa
+                    <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                      Available
+                    </span>
+                  </span>
+                </label>
               </div>
               
               <div class="flex items-center">
                 <input type="radio" id="card" name="payment_method" value="card" class="mr-2">
-                <label for="card" class="text-gray-700">Credit/Debit Card</label>
+                <label for="card" class="text-gray-700">
+                  <span class="flex items-center">
+                    Credit/Debit Card
+                    <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
+                      Coming Soon
+                    </span>
+                  </span>
+                </label>
               </div>
               
               <div class="flex items-center">
                 <input type="radio" id="paypal" name="payment_method" value="paypal" class="mr-2">
-                <label for="paypal" class="text-gray-700">PayPal</label>
+                <label for="paypal" class="text-gray-700">
+                  <span class="flex items-center">
+                    PayPal
+                    <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
+                      Coming Soon
+                    </span>
+                  </span>
+                </label>
               </div>
               
               <div class="payment-details mpesa-details">
@@ -103,12 +124,40 @@
               
               <div class="payment-details card-details hidden">
                 <!-- Card payment fields would go here -->
-                <p class="text-sm text-gray-500">Card payment integration coming soon.</p>
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                  <div class="flex">
+                    <div class="flex-shrink-0">
+                      <i class="fas fa-info-circle text-yellow-400"></i>
+                    </div>
+                    <div class="ml-3">
+                      <p class="text-sm text-yellow-700 font-medium">
+                        Credit/Debit Card payment is coming soon
+                      </p>
+                      <p class="text-sm text-yellow-600 mt-1">
+                        We're currently finalizing our card payment integration. Please use M-Pesa for now, or check back later.
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
               
               <div class="payment-details paypal-details hidden">
                 <!-- PayPal payment info would go here -->
-                <p class="text-sm text-gray-500">You will be redirected to PayPal to complete your payment.</p>
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                  <div class="flex">
+                    <div class="flex-shrink-0">
+                      <i class="fas fa-info-circle text-yellow-400"></i>
+                    </div>
+                    <div class="ml-3">
+                      <p class="text-sm text-yellow-700 font-medium">
+                        PayPal integration coming soon
+                      </p>
+                      <p class="text-sm text-yellow-600 mt-1">
+                        We're working on integrating PayPal as a payment option. Please use M-Pesa for now, or check back later.
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -209,6 +258,42 @@
     
     // Show the initially selected payment method details
     showSelectedPaymentDetails();
+    
+    // Disable non-M-Pesa options with better UI
+    function updatePaymentButtonState() {
+      const selectedMethod = document.querySelector('input[name="payment_method"]:checked').value;
+      const submitButton = document.querySelector('button[type="submit"]');
+      
+      if (selectedMethod !== 'mpesa') {
+        submitButton.disabled = true;
+        submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+        submitButton.innerText = selectedMethod === 'card' ? 'Card Payments Coming Soon' : 
+                                selectedMethod === 'paypal' ? 'PayPal Coming Soon' : 
+                                'Coming Soon';
+        
+        // Show more prominent notice
+        const paymentDetails = document.querySelector(`.${selectedMethod}-details`);
+        if (paymentDetails) {
+          const notice = paymentDetails.querySelector('.bg-yellow-50');
+          if (notice) {
+            notice.classList.add('animate-pulse');
+            setTimeout(() => {
+              notice.classList.remove('animate-pulse');
+            }, 1000);
+          }
+        }
+      } else {
+        submitButton.disabled = false;
+        submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
+        submitButton.innerText = 'Complete Order';
+      }
+    }
+    
+    // Apply initially and on change
+    updatePaymentButtonState();
+    paymentRadios.forEach(radio => {
+      radio.addEventListener('change', updatePaymentButtonState);
+    });
   });
 </script>
 {% endblock %} 

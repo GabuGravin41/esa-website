@@ -125,11 +125,14 @@
           
           <div>
             <label for="payment_method" class="block text-sm font-medium text-gray-700">Payment Method</label>
-            <select name="payment_method" id="payment_method" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            <select name="payment_method" id="payment_method" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500" onchange="checkPaymentMethod()">
               <option value="mpesa">M-PESA</option>
-              <option value="card">Credit/Debit Card</option>
-              <option value="bank">Bank Transfer</option>
+              <option value="card">Credit/Debit Card (Coming Soon)</option>
+              <option value="bank">Bank Transfer (Coming Soon)</option>
             </select>
+            <p id="payment_method_notice" class="text-sm text-yellow-600 mt-1 hidden">
+              <i class="fas fa-info-circle"></i> Only M-PESA payments are currently available. Other payment methods coming soon.
+            </p>
           </div>
           
           <div>
@@ -168,4 +171,31 @@
     </div>
   </div>
 </div>
+
+<script>
+  function checkPaymentMethod() {
+    const paymentMethod = document.getElementById('payment_method').value;
+    const notice = document.getElementById('payment_method_notice');
+    const submitButton = document.querySelector('button[type="submit"]');
+    
+    if (paymentMethod !== 'mpesa') {
+      notice.classList.remove('hidden');
+      submitButton.disabled = true;
+      submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+      submitButton.innerText = paymentMethod === 'card' ? 'Card Payments Coming Soon' : 
+                              paymentMethod === 'bank' ? 'Bank Transfers Coming Soon' : 
+                              'Coming Soon';
+    } else {
+      notice.classList.add('hidden');
+      submitButton.disabled = false;
+      submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
+      submitButton.innerText = 'Proceed to Payment';
+    }
+  }
+  
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    checkPaymentMethod();
+  });
+</script>
 {% endblock %} 

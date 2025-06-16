@@ -7,7 +7,6 @@
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
 
 <!-- Custom Calendar CSS -->
-<link href="/static/css/event-calendar.css" rel="stylesheet" />
 <style>
   .fc-event {
     cursor: pointer;
@@ -15,7 +14,6 @@
     padding: 2px 4px;
     margin-bottom: 2px;
   }
-  
   
   .fc-daygrid-event {
     white-space: normal;
@@ -454,35 +452,71 @@
     <section class="bg-gray-50 rounded-2xl p-8 mb-16">
       <div class="flex justify-between items-center mb-8">
         <h2 class="text-2xl font-bold text-[#003366]">Event Calendar</h2>
-        <a href="#" id="view-full-calendar" class="text-[#003366] hover:text-[#00468a] font-medium">View Full Calendar</a>
-      </div>
-
-      <!-- Calendar Navigation Controls -->
-      <div class="flex justify-between items-center mb-4">
-        <button id="prev-month" class="bg-gray-100 hover:bg-gray-200 text-[#003366] py-2 px-4 rounded-lg flex items-center">
-          <i class="fas fa-chevron-left mr-2"></i> Previous Month
-        </button>
-        <h3 id="current-month-display" class="text-xl font-semibold text-[#003366]">{{ future_events.first.start_date|date:"F Y"|default:"Upcoming Events" }}</h3>
-        <button id="next-month" class="bg-gray-100 hover:bg-gray-200 text-[#003366] py-2 px-4 rounded-lg flex items-center">
-          Next Month <i class="fas fa-chevron-right ml-2"></i>
-        </button>
+        <a href="#" class="text-[#003366] hover:text-[#00468a] font-medium">View Full Calendar</a>
       </div>
 
       <div class="overflow-x-auto">
         <table class="min-w-full bg-white rounded-xl shadow-md">
           <thead>
             <tr class="bg-[#003366] text-white">
+              <th class="px-6 py-4 text-left">{{ future_events.first.start_date|date:"F Y"|default:"Upcoming Events" }}</th>
               <th class="px-6 py-4 text-center">Monday</th>
               <th class="px-6 py-4 text-center">Tuesday</th>
               <th class="px-6 py-4 text-center">Wednesday</th>
               <th class="px-6 py-4 text-center">Thursday</th>
               <th class="px-6 py-4 text-center">Friday</th>
-              <th class="px-6 py-4 text-center">Saturday</th>
-              <th class="px-6 py-4 text-center">Sunday</th>
+              <th class="px-6 py-4 text-center">Weekend</th>
             </tr>
           </thead>
-          <tbody id="calendar-body">
-            <!-- Calendar will be populated by JavaScript -->
+          <tbody>
+            <!-- Calendar data will be populated dynamically in future implementation -->
+            <tr class="border-b border-gray-200">
+              <td class="px-6 py-4 font-medium">Week 1</td>
+              <td class="px-6 py-4 text-center">-</td>
+              <td class="px-6 py-4 text-center">1</td>
+              <td class="px-6 py-4 text-center">2</td>
+              <td class="px-6 py-4 text-center">3</td>
+              <td class="px-6 py-4 text-center">4
+                <div class="text-xs bg-green-100 text-green-800 p-1 rounded mt-1">ESA Meeting</div>
+              </td>
+              <td class="px-6 py-4 text-center">5-6</td>
+            </tr>
+            <!-- Week 2 -->
+            <tr class="border-b border-gray-200">
+              <td class="px-6 py-4 font-medium">Week 2</td>
+              <td class="px-6 py-4 text-center">7</td>
+              <td class="px-6 py-4 text-center">8</td>
+              <td class="px-6 py-4 text-center">9</td>
+              <td class="px-6 py-4 text-center">10</td>
+              <td class="px-6 py-4 text-center">11</td>
+              <td class="px-6 py-4 text-center">12-13</td>
+            </tr>
+            <!-- Week 3 -->
+            <tr class="border-b border-gray-200">
+              <td class="px-6 py-4 font-medium">Week 3</td>
+              <td class="px-6 py-4 text-center">14</td>
+              <td class="px-6 py-4 text-center">15
+                <div class="text-xs bg-blue-100 text-blue-800 p-1 rounded mt-1">Robotics Workshop</div>
+              </td>
+              <td class="px-6 py-4 text-center">16</td>
+              <td class="px-6 py-4 text-center">17</td>
+              <td class="px-6 py-4 text-center">18</td>
+              <td class="px-6 py-4 text-center">19-20</td>
+            </tr>
+            <!-- Week 4 -->
+            <tr>
+              <td class="px-6 py-4 font-medium">Week 4</td>
+              <td class="px-6 py-4 text-center">21</td>
+              <td class="px-6 py-4 text-center">22
+                <div class="text-xs bg-purple-100 text-purple-800 p-1 rounded mt-1">AI Seminar</div>
+              </td>
+              <td class="px-6 py-4 text-center">23</td>
+              <td class="px-6 py-4 text-center">24</td>
+              <td class="px-6 py-4 text-center">25</td>
+              <td class="px-6 py-4 text-center">26-27
+                <div class="text-xs bg-green-100 text-green-800 p-1 rounded mt-1">Field Trip</div>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -821,277 +855,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     window.calendar.render();
-  }
-});
-</script>
-
-<!-- Calendar Functionality -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  // Reference to the calendar elements
-  const calendarBody = document.getElementById('calendar-body');
-  const viewFullCalendarBtn = document.getElementById('view-full-calendar');
-  const prevMonthBtn = document.getElementById('prev-month');
-  const nextMonthBtn = document.getElementById('next-month');
-  const currentMonthDisplay = document.getElementById('current-month-display');
-  
-  // Current date information
-  const today = new Date();
-  let currentMonth = today.getMonth();
-  let currentYear = today.getFullYear();
-  
-  // Update the month display
-  function updateMonthDisplay() {
-    const monthNames = [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'
-    ];
-    currentMonthDisplay.textContent = `${monthNames[currentMonth]} ${currentYear}`;
-  }
-  
-  // Month navigation functions
-  function goToPreviousMonth() {
-    currentMonth--;
-    if (currentMonth < 0) {
-      currentMonth = 11;
-      currentYear--;
-    }
-    updateMonthDisplay();
-    generateCalendar(currentYear, currentMonth);
-  }
-  
-  function goToNextMonth() {
-    currentMonth++;
-    if (currentMonth > 11) {
-      currentMonth = 0;
-      currentYear++;
-    }
-    updateMonthDisplay();
-    generateCalendar(currentYear, currentMonth);
-  }
-  
-  // Add event listeners to the navigation buttons
-  if (prevMonthBtn) {
-    prevMonthBtn.addEventListener('click', goToPreviousMonth);
-  }
-  
-  if (nextMonthBtn) {
-    nextMonthBtn.addEventListener('click', goToNextMonth);
-  }
-  
-  // Function to generate the calendar
-  function generateCalendar(year = currentYear, month = currentMonth) {
-    // Clear previous calendar data
-    calendarBody.innerHTML = '';
-    
-    // Fetch events for the current month
-    console.log(`Fetching events for year=${year}, month=${month+1}`);
-    fetch(`/api/events/?year=${year}&month=${month+1}`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(events => {
-        console.log("Events data received:", events);
-        
-        // Create a mapping of events by date
-        const eventsByDate = {};
-        events.forEach(event => {
-          const eventDate = new Date(event.start);
-          const dateKey = eventDate.getDate();
-          
-          if (!eventsByDate[dateKey]) {
-            eventsByDate[dateKey] = [];
-          }
-          eventsByDate[dateKey].push(event);
-        });
-        
-        // Get the first day of the month
-        const firstDay = new Date(year, month, 1);
-        // Get the last day of the month
-        const lastDay = new Date(year, month + 1, 0);
-        // Get the day of the week for the first day (0 = Sunday)
-        const firstDayOfWeek = firstDay.getDay();
-        // Get the number of days in the month
-        const daysInMonth = lastDay.getDate();
-        
-        // Get the last day of the previous month
-        const prevMonthLastDay = new Date(year, month, 0).getDate();
-        
-        // Calculate days from previous month to display
-        const daysFromPrevMonth = getAdjustedFirstDay(firstDayOfWeek);
-        
-        // Calculate the number of weeks needed
-        const weeksNeeded = Math.ceil((daysInMonth + daysFromPrevMonth) / 7);
-        
-        // Generate calendar rows for each week
-        for (let week = 0; week < weeksNeeded; week++) {
-          const row = document.createElement('tr');
-          row.className = 'border-b border-gray-200 h-24';
-          
-          for (let day = 0; day < 7; day++) {
-            // Calculate the day number and determine if it's from prev month, current month, or next month
-            const dayNumber = week * 7 + day + 1 - daysFromPrevMonth;
-            
-            // Create the day cell
-            const dayCell = document.createElement('td');
-            dayCell.className = 'p-2 border border-gray-100 relative align-top';
-            
-            // Add date number with appropriate styling
-            const dateDiv = document.createElement('div');
-            dateDiv.className = 'font-medium mb-1 text-right';
-            
-            if (dayNumber <= 0) {
-              // Previous month date
-              const prevMonthDate = prevMonthLastDay + dayNumber;
-              dateDiv.textContent = prevMonthDate;
-              dateDiv.className += ' text-gray-400';
-              dayCell.className += ' bg-gray-50';
-            } else if (dayNumber > daysInMonth) {
-              // Next month date
-              const nextMonthDate = dayNumber - daysInMonth;
-              dateDiv.textContent = nextMonthDate;
-              dateDiv.className += ' text-gray-400';
-              dayCell.className += ' bg-gray-50';
-            } else {
-              // Current month date
-              dateDiv.textContent = dayNumber;
-              
-              // Check if it's today
-              if (dayNumber === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
-                dateDiv.className += ' text-white bg-[#003366] rounded-full w-8 h-8 flex items-center justify-center ml-auto';
-              }
-              
-              // Add events for this day
-              const dayEvents = eventsByDate[dayNumber] || [];
-              dayEvents.forEach(event => {
-                const eventDiv = createEventElement(event);
-                dayCell.appendChild(eventDiv);
-              });
-            }
-            
-            dayCell.appendChild(dateDiv);
-            row.appendChild(dayCell);
-          }
-          
-          calendarBody.appendChild(row);
-        }
-        
-        // If no rows were added (unlikely but possible)
-        if (calendarBody.children.length === 0) {
-          calendarBody.innerHTML = `
-            <tr>
-              <td colspan="7" class="px-6 py-4 text-center text-gray-500">
-                No calendar data available for ${new Date(year, month).toLocaleString('default', { month: 'long', year: 'numeric' })}.
-              </td>
-            </tr>
-          `;
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching events:', error);
-        calendarBody.innerHTML = `
-          <tr>
-            <td colspan="7" class="px-6 py-4 text-center text-red-500">
-              Error loading calendar data: ${error.message}. Please try again later.
-            </td>
-          </tr>
-        `;
-      });
-  }
-  
-  // Helper function to adjust the first day of the week (converting from Sunday=0 to Monday=0)
-  function getAdjustedFirstDay(firstDayOfWeek) {
-    // If Sunday (0), convert to 6 (last day of week), otherwise subtract 1
-    return firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
-  }
-  
-  // Helper function to create a single event element
-  function createEventElement(event) {
-    const eventDiv = document.createElement('div');
-    eventDiv.className = 'text-xs p-1 rounded mb-1 truncate hover:shadow-sm transition-shadow cursor-pointer flex items-center';
-    
-    // Determine background color based on event type
-    if (event.backgroundColor) {
-      // Custom styling based on event type
-      const color = event.backgroundColor;
-      // Calculate a lighter version for the background
-      eventDiv.style.backgroundColor = `${color}22`; // 22 is hex for low opacity
-      eventDiv.style.color = color;
-      eventDiv.style.borderLeft = `3px solid ${color}`;
-    } else {
-      eventDiv.style.backgroundColor = '#e6f2ff';
-      eventDiv.style.color = '#0056b3';
-      eventDiv.style.borderLeft = '3px solid #0056b3';
-    }
-    
-    // Create color dot indicator
-    const colorDot = document.createElement('span');
-    colorDot.className = 'inline-block w-2 h-2 rounded-full mr-1 flex-shrink-0';
-    colorDot.style.backgroundColor = event.backgroundColor || '#0056b3';
-    
-    // Add tooltip for event details
-    const tooltip = document.createElement('div');
-    tooltip.className = 'absolute hidden bg-white rounded-md shadow-lg p-2 z-10 w-48 left-1/2 transform -translate-x-1/2 bottom-full mb-2';
-    tooltip.innerHTML = `
-      <div class="absolute w-3 h-3 bg-white transform rotate-45 -bottom-1 left-1/2 -translate-x-1/2"></div>
-      <div class="relative z-10">
-        <p class="font-medium mb-1">${event.title}</p>
-        <p class="text-xs text-gray-600 mb-1">
-          <i class="fas fa-clock mr-1"></i> ${new Date(event.start).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-        </p>
-        <p class="text-xs text-gray-600">
-          <i class="fas fa-map-marker-alt mr-1"></i> ${event.location || 'No location'}
-        </p>
-      </div>
-    `;
-    
-    // Show/hide tooltip on hover
-    eventDiv.addEventListener('mouseenter', () => {
-      tooltip.classList.remove('hidden');
-    });
-    
-    eventDiv.addEventListener('mouseleave', () => {
-      tooltip.classList.add('hidden');
-    });
-    
-    // Make the div a link
-    eventDiv.onclick = function(e) {
-      if (!e.target.closest('.tooltip')) {
-        window.location.href = event.url;
-      }
-    };
-    
-    eventDiv.appendChild(colorDot);
-    eventDiv.appendChild(document.createTextNode(event.title));
-    eventDiv.appendChild(tooltip);
-    
-    return eventDiv;
-  }
-  
-  // Initialize the calendar
-  updateMonthDisplay();
-  generateCalendar();
-  
-  // Handle "View Full Calendar" click
-  if (viewFullCalendarBtn) {
-    viewFullCalendarBtn.addEventListener('click', function(e) {
-      e.preventDefault();
-      
-      // If we have a grid-view and calendar-view toggle implemented elsewhere
-      const calendarViewBtn = document.getElementById('calendar-view');
-      if (calendarViewBtn) {
-        calendarViewBtn.click();
-      } else {
-        // Alternative: Scroll to the calendar section
-        const calendarSection = document.querySelector('.bg-gray-50.rounded-2xl');
-        if (calendarSection) {
-          calendarSection.scrollIntoView({ behavior: 'smooth' });
-        }
-      }
-    });
   }
 });
 </script>

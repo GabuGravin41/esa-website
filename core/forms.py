@@ -5,9 +5,11 @@ from .models import (
     UserProfile, MembershipPlan, Membership,
     Event, EventRegistration, Product, Order,
     OrderItem, BlogPost, Comment, Resource,
-    Payment, MpesaTransaction, Contact, Community, Discussion
+    Payment, MpesaTransaction, Contact, Community, Discussion,
+    ResourceTag
 )
 import re
+from django.core.validators import RegexValidator
 
 class UserRegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -300,25 +302,22 @@ class MembershipPaymentForm(forms.Form):
         return cleaned_data
 
 class MpesaPaymentForm(forms.Form):
-    """Form for M-Pesa payment"""
+    """Form to collect M-Pesa phone number for payment"""
     phone_number = forms.CharField(
-        widget=forms.TextInput(attrs={
-            'class': 'flex-1 rounded-r-lg border border-gray-300 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
-            'placeholder': '254XXXXXXXXX'
-        })
+        max_length=15,
+        validators=[
+            RegexValidator(
+                regex=r'^254\d{9}$',
+                message='Phone number must be in the format 254XXXXXXXXX'
+            )
+        ],
+        widget=forms.TextInput(
+            attrs={
+                'class': 'flex-1 rounded-r-lg border border-gray-300 py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500',
+                'placeholder': '254XXXXXXXXX'
+            }
+        )
     )
-    
-    def clean_phone_number(self):
-        phone = self.cleaned_data.get('phone_number', '')
-        
-        # Remove non-digit characters
-        phone = re.sub(r'\D', '', phone)
-        
-        # Ensure it's a valid Kenyan number starting with 254
-        if not phone.startswith('254') or len(phone) != 12:
-            raise forms.ValidationError('Please enter a valid Kenyan phone number starting with 254')
-            
-        return phone
 
 class MemberGetMemberForm(forms.Form):
     referred_email = forms.EmailField(
@@ -411,3 +410,22 @@ class EventSuggestionForm(forms.Form):
         if len(description) < 20:
             raise forms.ValidationError("Please provide a more detailed description (at least 20 characters)")
         return description
+
+
+class MpesaPaymentForm(forms.Form):
+    """Form to collect M-Pesa phone number for payment"""
+    phone_number = forms.CharField(
+        max_length=15,
+        validators=[
+            RegexValidator(
+                regex=r'^254\d{9}$',
+                message='Phone number must be in the format 254XXXXXXXXX'
+            )
+        ],
+        widget=forms.TextInput(
+            attrs={
+                'class': 'flex-1 rounded-r-lg border border-gray-300 py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500',
+                'placeholder': '254XXXXXXXXX'
+            }
+        )
+    )

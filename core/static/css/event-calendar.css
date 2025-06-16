@@ -1,4 +1,101 @@
-/* Event Calendar Styles */
+/* FullCalendar Custom Styles */
+
+/* Main container */
+#event-calendar {
+  min-height: 600px;
+  width: 100%;
+}
+
+/* Calendar header */
+.fc-header-toolbar {
+  flex-wrap: wrap;
+  row-gap: 0.5rem;
+  padding: 0.75rem 0;
+}
+
+.fc-toolbar-chunk {
+  margin-bottom: 0.5rem;
+}
+
+/* Events */
+.fc-event {
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  margin-bottom: 2px;
+  font-size: 0.875rem;
+  white-space: normal;
+}
+
+.fc-daygrid-event-dot {
+  border-color: currentColor;
+}
+
+/* Day cells */
+.fc-daygrid-day-frame {
+  min-height: 100px;
+}
+
+.fc-day-today {
+  background-color: rgba(0, 51, 102, 0.1) !important;
+}
+
+/* Typography */
+.fc-toolbar-title {
+  font-size: 1.5rem !important;
+  color: #003366;
+  font-weight: 700;
+}
+
+.fc .fc-button-primary {
+  background-color: #003366;
+  border-color: #002855;
+}
+
+.fc .fc-button-primary:hover {
+  background-color: #004480;
+  border-color: #003366;
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+  .fc-header-toolbar {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .fc-toolbar-chunk {
+    margin-bottom: 0.75rem;
+  }
+  
+  .fc-daygrid-day-number {
+    font-size: 0.875rem;
+  }
+  
+  .fc-col-header-cell-cushion {
+    font-size: 0.875rem;
+  }
+  
+  .fc-event-title {
+    font-size: 0.75rem;
+  }
+  
+  .fc-daygrid-event {
+    padding: 2px;
+  }
+}
+
+/* View toggle buttons */
+#grid-view.active, #calendar-view.active {
+  background-color: #003366 !important;
+  color: white !important;
+}
+
+#grid-view.active i, #calendar-view.active i {
+  color: white !important;
+}
+
+/* Legacy styles for the existing calendar implementation */
 .event-calendar {
     background-color: #ffffff;
     border-radius: 0.5rem;
@@ -235,29 +332,211 @@
     }
 }
 
-@media (max-width: 576px) {
-    .day {
-        min-height: 3rem;
-    }
-    
-    .day-events {
-        display: none;
-    }
-    
-    .day.has-events .day-number::after {
-        content: "";
-        display: block;
-        width: 5px;
-        height: 5px;
-        background-color: #003366;
-        border-radius: 50%;
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-    
-    .calendar-header h3 {
-        font-size: 1rem;
-    }
+/* Calendar table enhancements */
+/* Additional responsive styles for the calendar table */
+#calendar-body td {
+  position: relative;
+  height: 120px;
+  transition: background-color 0.2s ease;
+  vertical-align: top;
+  overflow: hidden;
+}
+
+#calendar-body td:hover {
+  background-color: #f8fafc;
+}
+
+/* Current day highlight */
+#calendar-body td .text-white.bg-\[\#003366\] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-weight: bold;
+  margin-left: auto;
+}
+
+/* Previous/next month dates */
+#calendar-body td .text-gray-400 {
+  color: #9ca3af;
+}
+
+/* Day cells with gray background */
+#calendar-body td.bg-gray-50 {
+  background-color: #f9fafb;
+}
+
+/* Event tooltip */
+#calendar-body .absolute.hidden.bg-white {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-radius: 0.375rem;
+  width: 12rem;
+  z-index: 50;
+}
+
+/* Navigation buttons */
+#prev-month, #next-month {
+  transition: all 0.2s ease;
+}
+
+#prev-month:hover, #next-month:hover {
+  background-color: #e5e7eb;
+}
+
+/* Month display */
+#current-month-display {
+  font-weight: 600;
+  color: #003366;
+}
+
+/* Responsive calendar */
+@media (max-width: 768px) {
+  #calendar-body td {
+    padding: 0.5rem 0.25rem;
+    font-size: 0.875rem;
+    height: 100px;
+  }
+  
+  .table th {
+    padding: 0.5rem 0.25rem;
+    font-size: 0.75rem;
+  }
+  
+  #calendar-body .text-xs {
+    font-size: 0.65rem;
+  }
+  
+  #prev-month, #next-month {
+    font-size: 0.875rem;
+    padding: 0.375rem 0.75rem;
+  }
+  
+  #prev-month i, #next-month i {
+    display: none;
+  }
+  
+  #current-month-display {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  #calendar-body td {
+    padding: 0.25rem;
+    font-size: 0.75rem;
+    height: 80px;
+  }
+  
+  #calendar-body .text-xs {
+    font-size: 0.6rem;
+  }
+  
+  /* Stack multiple events indicator to save space */
+  #calendar-body td div:nth-child(n+3) {
+    margin-top: 0.125rem;
+    font-size: 0.6rem;
+    padding: 0.125rem 0.25rem;
+  }
+  
+  #current-month-display {
+    font-size: 0.875rem;
+  }
+  
+  #prev-month, #next-month {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* For the smallest screens, simplify further */
+  #calendar-body td {
+    padding: 0.125rem;
+    font-size: 0.7rem;
+    height: 60px;
+  }
+  
+  /* Hide event details on smaller screens, just show indicator */
+  #calendar-body td div:not(:first-child) {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    margin: 0.125rem auto 0;
+    padding: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  
+  /* But show the tooltip on hover */
+  #calendar-body td div:hover {
+    width: auto;
+    height: auto;
+    text-indent: 0;
+    border-radius: 0.25rem;
+    padding: 0.125rem 0.25rem;
+    margin-top: 0.125rem;
+    z-index: 10;
+    position: absolute;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+  }
+  
+  #prev-month, #next-month {
+    padding: 0.25rem;
+  }
+  
+  #prev-month span, #next-month span {
+    display: none;
+  }
+}
+
+/* Event styling */
+.text-xs.p-1.rounded.mb-1 {
+  margin-bottom: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.text-xs.p-1.rounded.mb-1:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Multi-day events */
+.event-spanning {
+  position: relative;
+  margin: 2px 0;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border-radius: 4px;
+}
+
+.event-spanning.start {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-right: 0;
+  padding-right: 12px;
+}
+
+.event-spanning.middle {
+  border-radius: 0;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.event-spanning.end {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  margin-left: 0;
+  padding-left: 12px;
 }

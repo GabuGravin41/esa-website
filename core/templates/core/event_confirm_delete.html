@@ -26,7 +26,8 @@
                 <div class="flex-1">
                     <h2 class="text-xl font-semibold text-gray-800">{{ event.title }}</h2>
                     <div class="text-sm text-gray-500 mt-1">
-                        <div><span class="font-medium">Date:</span> {{ event.date|date:"F j, Y, g:i a" }}</div>
+                        <div><span class="font-medium">Date:</span> {{ event.start_date|date:"F j, Y" }} - {{ event.end_date|date:"F j, Y" }}</div>
+                        <div><span class="font-medium">Time:</span> {{ event.start_time|time:"g:i a" }} - {{ event.end_time|time:"g:i a" }}</div>
                         <div><span class="font-medium">Location:</span> {{ event.location }}</div>
                         <div><span class="font-medium">Status:</span> {{ event.get_status_display }}</div>
                     </div>

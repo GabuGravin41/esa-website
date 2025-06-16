@@ -1,0 +1,547 @@
+{% extends 'core/base.html' %}
+
+{% block extra_head %}
+<!-- FullCalendar Core CSS -->
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet" />
+<!-- FullCalendar Core JS -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+
+<!-- Custom Calendar CSS -->
+<style>
+  .fc-event {
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 2px 4px;
+    margin-bottom: 2px;
+    font-size: 0.875rem;
+  }
+  
+  .fc-daygrid-event {
+    white-space: normal;
+  }
+  
+  .fc-toolbar-title {
+    font-size: 1.5rem !important;
+    color: #003366;
+    font-weight: 700;
+  }
+  
+  .fc-button-primary {
+    background-color: #003366 !important;
+    border-color: #002855 !important;
+  }
+  
+  .fc-button-primary:hover {
+    background-color: #004480 !important;
+  }
+  
+  .fc-day-today {
+    background-color: rgba(0, 51, 102, 0.1) !important;
+  }
+  
+  #grid-view.active, #calendar-view.active {
+    background-color: #003366;
+    color: white;
+  }
+  
+  #grid-view.active i, #calendar-view.active i {
+    color: white !important;
+  }
+
+  /* Responsive calendar styles */
+  @media (max-width: 768px) {
+    .fc-header-toolbar {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .fc-toolbar-chunk {
+      margin-bottom: 0.5rem;
+    }
+    
+    .fc-toolbar-title {
+      font-size: 1.2rem !important;
+    }
+    
+    .fc-button {
+      font-size: 0.85rem !important;
+      padding: 0.2rem 0.5rem !important;
+    }
+    
+    .fc-daygrid-day-number {
+      font-size: 0.85rem;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<body class="bg-white text-[#2D3748] font-sans">
+<!-- Hero Section for Events -->
+<section class="relative bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');">
+  <div class="bg-black bg-opacity-50">
+    <div class="container mx-auto px-4 py-24 text-center text-white">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">ESA-KU Events</h1>
+      <p class="max-w-2xl mx-auto mb-6 text-lg">
+        Connect, learn, and grow with our vibrant community through engaging workshops, seminars, and networking opportunities.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="#upcoming" class="bg-blue-900 hover:bg-blue-800 text-white px-6 py-3 rounded font-semibold">
+          Upcoming Events
+        </a>
+        <a href="#past" class="bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded font-semibold">
+          Past Events
+        </a>
+      </div>
+      {% if future_events.first %}
+      <div class="mt-8 flex justify-center">
+        <div class="bg-white bg-opacity-20 backdrop-blur-sm py-2 px-6 rounded-full inline-flex items-center">
+          <i class="fas fa-calendar-alt text-green-400 mr-2"></i>
+          <span>Next event: {{ future_events.first.title }} - {{ future_events.first.start_date|date:"M d, Y" }}</span>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+  
+<!-- Events Container -->
+<div class="max-w-[1200px] mx-auto py-8 px-4">
+
+    
+    <!-- Events Filters -->
+    <section class="bg-white p-5 rounded-xl shadow-lg relative mx-auto mb-12 mt-[-4rem]">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-xl font-bold text-[#003366]">Find Events</h2>
+        <div class="flex gap-3">
+          <button class="bg-gray-100 p-2 rounded-md hover:bg-gray-200 transition-colors active" id="grid-view">
+            <i class="fas fa-th-large text-[#003366]"></i>
+          </button>
+          <button class="bg-gray-100 p-2 rounded-md hover:bg-gray-200 transition-colors" id="calendar-view">
+            <i class="fas fa-calendar-alt text-[#003366]"></i>
+          </button>
+        </div>
+      </div>
+      <form method="GET" action="{% url 'events' %}" class="relative mb-8">
+        <div class="grid md:grid-cols-4 gap-4">
+          <!-- Search Input - Curved like blog page -->
+          <div class="md:col-span-4 mb-4 relative">
+          
+            <input type="text" name="q" placeholder="Search for events" 
+              class="w-full p-3 border-2 border-gray-300 rounded-[25px] pl-10"
+              value="{{ search_query|default:'' }}">
+            <button type="submit" class=" absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-600">
+              <i class="fas fa-search "></i>
+            </button>
+          
+          </div>
+          
+          <!-- Category Filter -->
+          <div>
+            <select name="type" class="w-full p-2 border-2 border-gray-300 rounded-[25px] text-base pl-10 appearance-none bg-white shadow-sm" style="background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23003366%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>'); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 3rem;">
+              <option value="">All Categories</option>
+              <option value="workshop" {% if event_type == 'workshop' %}selected{% endif %}>Workshops</option>
+              <option value="seminar" {% if event_type == 'seminar' %}selected{% endif %}>Seminars</option>
+              <option value="conference" {% if event_type == 'conference' %}selected{% endif %}>Conferences</option>
+              <option value="project" {% if event_type == 'project' %}selected{% endif %}>Student Projects</option>
+              <option value="social" {% if event_type == 'social' %}selected{% endif %}>Social Events</option>
+              <option value="competition" {% if event_type == 'competition' %}selected{% endif %}>Competitions</option>
+            </select>
+          </div>
+          
+          <!-- Date Filter -->
+          <div>
+            <select name="date" class="w-full p-2 border-2 border-gray-300 rounded-[25px] pl-10 text-base appearance-none bg-white shadow-sm" style="background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23003366%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>'); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 3rem;">
+              <option value="">All Dates</option>
+              <option value="today">Today</option>
+              <option value="week">This Week</option>
+              <option value="month">This Month</option>
+              <option value="next_month">Next Month</option>
+            </select>
+          </div>
+          
+          <!-- Location Filter -->
+          <div>
+            <select name="location" class="w-full p-2 border-2 border-gray-300 rounded-[25px] pl-10 text-base appearance-none bg-white shadow-sm" style="background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23003366%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>'); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 3rem;">
+              <option value="">All Locations</option>
+              <option value="Engineering Block">Engineering Block</option>
+              <option value="Auditorium">Auditorium</option>
+              <option value="Science Complex">Science Complex</option>
+              <option value="Student Center">Student Center</option>
+              <option value="Virtual">Virtual</option>
+            </select>
+          </div>
+          
+          <!-- Filter Button  -->
+          <div>
+            <button type="submit" class="w-full bg-green-600 text-white py-2 px-4 rounded-[5px] cursor-pointer transition-all hover:bg-green-700 font-semibold shadow-md">
+              <i class="fas fa-filter mr-2"></i> Filter Events
+            </button>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <!-- Admin Controls -->
+    {% if user.is_authenticated and user.profile.can_manage_events %}
+    <div class="mb-6 flex justify-end">
+      <a href="{% url 'event_create' %}" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full transition flex items-center shadow-md">
+        <i class="fas fa-plus-circle mr-2"></i> Add New Event
+      </a>
+    </div>
+    {% endif %}
+
+    {% if future_events.first %}
+    <!-- Featured Event -->
+    <section class="mb-16">
+      <div class="bg-gradient-to-r from-[#003366] to-[#00468a] rounded-2xl overflow-hidden shadow-xl">
+        <div class="grid md:grid-cols-2 items-center">
+          <div class="p-8 md:p-12 text-white">
+            <div class="inline-block bg-green-500 text-white px-4 py-1 rounded-full text-sm font-bold mb-4">
+              FEATURED EVENT
+            </div>
+            <h2 class="text-3xl font-bold mb-4">{{ future_events.first.title }}</h2>
+            <p class="mb-6 text-gray-100">
+              {{ future_events.first.description|truncatewords:50 }}
+            </p>
+            <div class="flex flex-wrap gap-6 mb-8">
+              <div class="flex items-center">
+                <i class="fas fa-calendar-alt mr-2 text-green-400"></i>
+                <span>{{ future_events.first.start_date|date:"M d, Y" }}</span>
+              </div>
+              <div class="flex items-center">
+                <i class="fas fa-map-marker-alt mr-2 text-green-400"></i>
+                <span>{{ future_events.first.location|default:"Online" }}</span>
+              </div>
+              <div class="flex items-center">
+                <i class="fas fa-ticket-alt mr-2 text-green-400"></i>
+                <span>{{ future_events.first.price|default:"Free" }}</span>
+              </div>
+            </div>
+            <a href="{% url 'event_detail' event_id=future_events.first.id %}" class="inline-block bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-full font-bold transition-all shadow-md">
+              Learn More
+            </a>
+          </div>
+          <div class="h-full">
+            {% if future_events.first.image %}
+              <img src="{{ future_events.first.image.url }}" alt="{{ future_events.first.title }}" class="h-full w-full object-cover">
+            {% else %}
+              <img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80" 
+                 alt="{{ future_events.first.title }}" class="h-full w-full object-cover">
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </section>
+    {% endif %}
+
+    <!-- Upcoming Events -->
+    <section id="upcoming" class="mb-16">
+      <div class="flex justify-between items-center mb-8">
+        <h2 class="text-2xl font-bold text-[#003366]">Upcoming Events</h2>
+        <div class="flex items-center gap-2 text-[#003366]">
+          <span class="font-medium">View: </span>
+          <select class="p-2 border border-[#003366] rounded-lg" onchange="window.location.href='{% url 'events' %}?timeframe=' + this.value">
+            <option value="">All</option>
+            <option value="week">This Week</option>
+            <option value="month">This Month</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- Grid View -->
+      <div class="events-grid-view grid grid-cols-1 md:grid-cols-3 gap-8">
+        {% for event in future_events %}
+        <article class="bg-white rounded-xl overflow-hidden shadow-lg transition-all hover:-translate-y-2 hover:shadow-xl">
+          <div class="relative h-[200px] overflow-hidden">
+            {% if event.image %}
+              <img src="{{ event.image.url }}" alt="{{ event.title }}" class="w-full h-full object-cover transition-transform hover:scale-110">
+            {% else %}
+              <img src="https://images.unsplash.com/photo-1581092921461-7360eb9a8885?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                alt="{{ event.title }}" class="w-full h-full object-cover transition-transform hover:scale-110">
+            {% endif %}
+            <!-- Date badge with improved styling -->
+            <div class="absolute top-4 left-4 flex flex-col bg-[#003366] text-white py-1 px-3 rounded-lg text-center">
+              <span class="text-2xl font-bold">{{ event.start_date|date:"d" }}</span>
+              <span class="text-xs uppercase">{{ event.start_date|date:"M" }}</span>
+            </div>
+            {% if user.is_authenticated %}
+            <!-- Added a save/bookmark button -->
+            <button class="absolute top-4 right-4 bg-white rounded-full p-2 shadow hover:bg-green-500 transition-colors bookmark-btn">
+              <i class="far fa-bookmark text-[#003366]"></i>
+            </button>
+            {% endif %}
+          </div>
+          
+          <div class="p-6">
+            <!-- Category badge with improved styling -->
+            <div class="flex justify-between items-center mb-2">
+              <span class="bg-blue-100 text-[#003366] font-medium px-3 py-1 rounded-full text-sm">{{ event.get_event_type_display }}</span>
+              {% if event.max_attendees %}
+              <!-- Added an attendance indicator -->
+              <span class="text-sm text-gray-600 flex items-center">
+                <i class="fas fa-user-friends mr-1"></i> 
+                {{ event.attendees.count|default:"0" }}/{{ event.max_attendees }}
+              </span>
+              {% endif %}
+            </div>
+            
+            <!-- Event title with better styling -->
+            <h3 class="text-xl font-bold text-[#003366] mb-3 hover:text-[#00468a]">
+              <a href="{% url 'event_detail' event_id=event.id %}">{{ event.title }}</a>
+            </h3>
+            
+            <!-- Event details with improved icons and layout -->
+            <ul class="space-y-3 mb-6">
+              <li class="flex items-center text-gray-600">
+                <i class="fas fa-clock w-5 text-[#003366]"></i>
+                <span class="ml-3">{{ event.start_time|time:"g:i A" }} - {{ event.end_time|time:"g:i A" }}</span>
+              </li>
+              <li class="flex items-center text-gray-600">
+                <i class="fas fa-map-marker-alt w-5 text-[#003366]"></i>
+                <span class="ml-3">{{ event.location|default:"Online Event" }}</span>
+              </li>
+              {% if event.created_by %}
+              <li class="flex items-center text-gray-600">
+                <i class="fas fa-chalkboard-teacher w-5 text-[#003366]"></i>
+                <span class="ml-3">{{ event.created_by.get_full_name|default:event.created_by.username }}</span>
+              </li>
+              {% endif %}
+            </ul>
+            
+            <!-- Action buttons with better styling and layout -->
+            <div class="flex items-center justify-between">
+              {% if event.id in user_registrations %}
+                <span class="bg-green-100 text-green-700 py-2 px-4 rounded-lg font-medium">
+                  <i class="fas fa-check-circle mr-2"></i> Registered
+                </span>
+              {% else %}
+                <a href="{% url 'event_register' event_id=event.id %}" class="bg-[#003366] text-white py-2 px-4 rounded-full hover:bg-green-600 hover:text-white transition-colors font-medium shadow-sm">
+                  Register Now
+                </a>
+              {% endif %}
+
+              {% if event.max_attendees %}
+                <span class="text-sm font-medium {% if event.attendees.count >= event.max_attendees %}text-red-600{% else %}text-green-600{% endif %}">
+                  {{ event.max_attendees|add:"-"|add:event.attendees.count }} seats left
+                </span>
+              {% else %}
+                <span class="text-sm font-medium text-green-600">Open Registration</span>
+              {% endif %}
+            </div>
+          </div>
+        </article>
+        {% empty %}
+        <div class="md:col-span-3 p-8 bg-gray-100 rounded-xl text-center">
+          <i class="fas fa-calendar-times text-5xl text-gray-400 mb-4"></i>
+          <h3 class="text-xl font-bold text-gray-600 mb-2">No upcoming events found</h3>
+          <p class="text-gray-500">Check back later or adjust your search filters.</p>
+        </div>
+        {% endfor %}
+      </div>
+      
+      <!-- Calendar View - Hidden by default -->
+      <div class="events-calendar-view hidden mt-8">
+        <div class="bg-white rounded-xl shadow-lg p-4 md:p-6">
+          <div id="calendar" class="w-full min-h-[600px]"></div>
+        </div>
+      </div>
+      
+      <!-- Pagination -->
+      {% if future_events.paginator.num_pages > 1 %}
+      <div class="flex justify-center mt-8">
+        <nav class="inline-flex rounded-md shadow">
+          <!-- Previous page -->
+          {% if future_events.has_previous %}
+          <a href="?page={{ future_events.previous_page_number }}{% if event_type %}&type={{ event_type }}{% endif %}{% if date_filter %}&date={{ date_filter }}{% endif %}{% if location_filter %}&location={{ location_filter }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" 
+             class="px-4 py-2 bg-white text-[#003366] rounded-l-md border border-gray-300 hover:bg-gray-50">
+            <i class="fas fa-chevron-left"></i>
+          </a>
+          {% else %}
+          <span class="px-4 py-2 bg-gray-100 text-gray-400 rounded-l-md border border-gray-300 cursor-not-allowed">
+            <i class="fas fa-chevron-left"></i>
+          </span>
+          {% endif %}
+          
+          <!-- Page numbers -->
+          {% for i in future_events.paginator.page_range %}
+            {% if future_events.number == i %}
+            <span class="px-4 py-2 bg-[#003366] text-white border border-[#003366]">{{ i }}</span>
+            {% elif i > future_events.number|add:"-3" and i < future_events.number|add:"3" %}
+            <a href="?page={{ i }}{% if event_type %}&type={{ event_type }}{% endif %}{% if date_filter %}&date={{ date_filter }}{% endif %}{% if location_filter %}&location={{ location_filter }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" 
+               class="px-4 py-2 bg-white text-[#003366] border border-gray-300 hover:bg-gray-50">{{ i }}</a>
+            {% endif %}
+          {% endfor %}
+          
+          <!-- Next page -->
+          {% if future_events.has_next %}
+          <a href="?page={{ future_events.next_page_number }}{% if event_type %}&type={{ event_type }}{% endif %}{% if date_filter %}&date={{ date_filter }}{% endif %}{% if location_filter %}&location={{ location_filter }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" 
+             class="px-4 py-2 bg-white text-[#003366] rounded-r-md border border-gray-300 hover:bg-gray-50">
+            <i class="fas fa-chevron-right"></i>
+          </a>
+          {% else %}
+          <span class="px-4 py-2 bg-gray-100 text-gray-400 rounded-r-md border border-gray-300 cursor-not-allowed">
+            <i class="fas fa-chevron-right"></i>
+          </span>
+          {% endif %}
+        </nav>
+      </div>
+      {% endif %}
+    </section>
+
+    <!-- Past Events Section -->
+    <section id="past" class="mt-16 pt-8 border-t-2 border-gray-100 mb-16">
+      <!-- Past events content (unchanged) -->
+    </section>
+  </div>
+</body>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Grid/Calendar view toggle
+  const gridViewBtn = document.getElementById('grid-view');
+  const calendarViewBtn = document.getElementById('calendar-view');
+  const eventsGrid = document.querySelector('.events-grid-view');
+  const calendarView = document.querySelector('.events-calendar-view');
+  
+  // Make sure both buttons and views exist
+  if (gridViewBtn && calendarViewBtn && eventsGrid && calendarView) {
+    // Initialize view
+    gridViewBtn.classList.add('active');
+    calendarViewBtn.classList.remove('active');
+    eventsGrid.classList.remove('hidden');
+    calendarView.classList.add('hidden');
+    
+    // Grid view button click
+    gridViewBtn.addEventListener('click', function() {
+      // Update button styles
+      gridViewBtn.classList.add('active');
+      calendarViewBtn.classList.remove('active');
+      
+      // Show grid view, hide calendar view
+      eventsGrid.classList.remove('hidden');
+      calendarView.classList.add('hidden');
+    });
+    
+    // Calendar view button click
+    calendarViewBtn.addEventListener('click', function() {
+      // Update button styles
+      calendarViewBtn.classList.add('active');
+      gridViewBtn.classList.remove('active');
+      
+      // Show calendar view, hide grid view
+      calendarView.classList.remove('hidden');
+      eventsGrid.classList.add('hidden');
+      
+      // Initialize the calendar if it hasn't been already
+      if (!window.calendar) {
+        initializeCalendar();
+      }
+    });
+    
+    // "View Full Calendar" link
+    const viewFullCalendarLink = document.querySelector('a[href="#"]:contains("View Full Calendar")');
+    if (viewFullCalendarLink) {
+      viewFullCalendarLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        calendarViewBtn.click(); // Simulate clicking the calendar view button
+        
+        // Scroll to the calendar
+        calendarView.scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+    
+    // Initialize bookmark buttons
+    const bookmarkButtons = document.querySelectorAll('.bookmark-btn');
+    bookmarkButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const icon = this.querySelector('i');
+        
+        // Toggle bookmark
+        if (icon.classList.contains('far')) { // Not bookmarked yet
+          icon.classList.remove('far');
+          icon.classList.add('fas');
+          this.classList.add('bg-green-500');
+          icon.classList.add('text-white');
+          icon.classList.remove('text-[#003366]');
+        } else { // Already bookmarked
+          icon.classList.remove('fas');
+          icon.classList.add('far');
+          this.classList.remove('bg-green-500');
+          icon.classList.add('text-[#003366]');
+          icon.classList.remove('text-white');
+        }
+        
+        // You would typically send an AJAX request here to save the bookmark state
+        console.log('Bookmark toggled');
+      });
+    });
+  }
+  
+  // Function to initialize FullCalendar
+  function initializeCalendar() {
+    const calendarEl = document.getElementById('calendar');
+    if (!calendarEl) return;
+    
+    // Create the calendar instance
+    window.calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,listMonth'
+      },
+      eventSources: [{
+        url: '/api/events/',
+        method: 'GET',
+        extraParams: {
+          year: function() { return window.calendar.getDate().getFullYear(); },
+          month: function() { return window.calendar.getDate().getMonth() + 1; }
+        },
+        failure: function() {
+          console.error('Failed to fetch events');
+          alert('There was an error loading the events. Please try again later.');
+        }
+      }],
+      eventClick: function(info) {
+        // Navigate to the event detail page when an event is clicked
+        window.location.href = info.event.url;
+      },
+      eventTimeFormat: {
+        hour: '2-digit',
+        minute: '2-digit',
+        meridiem: 'short'
+      },
+      height: 'auto',
+      // Make calendar responsive
+      windowResize: function(view) {
+        if (window.innerWidth < 768) {
+          window.calendar.changeView('listMonth');
+        } else {
+          window.calendar.changeView('dayGridMonth');
+        }
+      },
+      // Loading indicator
+      loading: function(isLoading) {
+        if (isLoading) {
+          // Add loading indicator
+          calendarEl.classList.add('opacity-50');
+          // You could add a spinner here
+        } else {
+          // Remove loading indicator
+          calendarEl.classList.remove('opacity-50');
+        }
+      }
+    });
+    
+    // Render the calendar
+    window.calendar.render();
+    
+    // Initial view based on screen size
+    if (window.innerWidth < 768) {
+      window.calendar.changeView('listMonth');
+    }
+  }
+});
+</script>
+{% endblock %}

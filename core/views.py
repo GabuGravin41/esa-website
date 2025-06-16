@@ -528,7 +528,9 @@ def events(request):
         'date_filter': date_filter,
         'location_filter': location_filter,
         'search_query': search_query,
-        'title': 'Events'
+        'title': 'Events',
+        'current_month': current_date.month,
+        'current_year': current_date.year
     })
 
 @login_required
@@ -660,6 +662,9 @@ def event_delete(request, event_id):
     if request.method == 'POST':
         # Delete registrations first (to avoid foreign key constraints)
         EventRegistration.objects.filter(event=event).delete()
+        
+        # Delete attendees if any (for community events)
+        EventAttendee.objects.filter(event=event).delete()
         
         # Delete event image if it exists
         if event.image:
@@ -2212,6 +2217,133 @@ def add_resource_link(request):
 
 def donate(request):
     """Render the donation page for ESA with various donation options"""
+    if request.method == 'POST':
+        payment_method = request.POST.get('payment_method')
+        
+        if payment_method == 'card':
+            messages.info(request, "Credit/Debit Card payments will be available soon. Currently only M-PESA is supported.")
+            return render(request, 'core/donate.html')
+        
+        elif payment_method == 'bank':
+            messages.info(request, "Bank Transfer payments will be available soon. Currently only M-PESA is supported.")
+            return render(request, 'core/donate.html')
+            
+        elif payment_method != 'mpesa':
+            messages.info(request, f"{payment_method.title()} payments will be available soon. Currently only M-PESA is supported.")
+            return render(request, 'core/donate.html')
+        
+        # Process M-Pesa payment
+        phone_number = request.POST.get('phone')
+        amount = request.POST.get('amount')
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        donation_purpose = request.POST.get('donation_purpose', 'general')
+        message = request.POST.get('message', '')
+        anonymous = request.POST.get('anonymous', False)
+        
+        if not phone_number or not amount:
+            messages.error(request, "Please provide both phone number and amount for M-PESA payment.")
+            return render(request, 'core/donate.html')
+            
+        try:
+            # Create a payment record
+            payment = Payment.objects.create(
+                user=request.user if request.user.is_authenticated else None,
+                amount=amount,
+                currency='KES',
+                payment_method='mpesa',
+                status='pending',
+                notes=f"Donation: {donation_purpose} - {message} - {'Anonymous' if anonymous else name}"
+            )
+            
+            # Redirect to M-Pesa payment page
+            return redirect('donate_mpesa', payment_id=payment.id)
+        except Exception as e:
+            messages.error(request, f"An error occurred: {str(e)}")
+            return render(request, 'core/donate.html')
+    
+    return render(request, 'core/donate.html')
+
+def donate_mpesa(request, payment_id):
+    """Handle M-Pesa payment for donations"""
+    try:
+        payment = Payment.objects.get(id=payment_id)
+        
+        if request.method == 'POST':
+            phone_number = request.POST.get('phone_number')
+            
+            if not phone_number:
+                messages.error(request, "Please provide your M-Pesa phone number.")
+                return render(request, 'core/donate_mpesa.html', {'payment': payment})
+            
+            # Initialize M-Pesa payment service
+            mpesa_service = MpesaService()
+            
+            try:
+                # Initiate STK push
+                response = mpesa_service.initiate_stk_push(
+                    phone_number=phone_number,
+                    amount=payment.amount,
+                    reference=f"ESA-Donation-{payment.id}",
+                    description="ESA-KU Donation"
+                )
+                
+                # Update payment with M-Pesa transaction details
+                mpesa_transaction = MpesaTransaction.objects.create(
+                    payment=payment,
+                    phone_number=phone_number,
+                    amount=payment.amount,
+                    checkout_request_id=response.get('CheckoutRequestID'),
+                    merchant_request_id=response.get('MerchantRequestID'),
+                    status='processing'
+                )
+                
+                messages.success(request, "M-Pesa payment initiated. Please check your phone to complete the transaction.")
+                return redirect('donation_pending', payment_id=payment.id)
+                
+            except Exception as e:
+                messages.error(request, f"Failed to initiate M-Pesa payment: {str(e)}")
+                return render(request, 'core/donate_mpesa.html', {'payment': payment})
+        
+        # GET request - show the payment form
+        context = {
+            'payment': payment,
+            'form': MpesaPaymentForm(),
+        }
+        return render(request, 'core/donate_mpesa.html', context)
+        
+    except Payment.DoesNotExist:
+        messages.error(request, "Payment not found.")
+        return redirect('donate')
+
+def donation_pending(request, payment_id):
+    """Show pending donation status"""
+    try:
+        payment = Payment.objects.get(id=payment_id)
+        return render(request, 'core/donation_pending.html', {'payment': payment})
+    except Payment.DoesNotExist:
+        messages.error(request, "Payment not found.")
+        return redirect('donate')
+
+def donation_success(request):
+    """Show donation success page"""
+    payment_id = request.GET.get('payment_id')
+    
+    try:
+        if payment_id:
+            payment = Payment.objects.get(id=payment_id)
+        else:
+            messages.error(request, "Payment information not found.")
+            return redirect('donate')
+            
+        return render(request, 'core/donation_success.html', {'payment': payment})
+    except Payment.DoesNotExist:
+        messages.error(request, "Payment not found.")
+        return redirect('donate')
+            
+    except Exception as e:
+        messages.error(request, f"Failed to process donation: {str(e)}")
+        
     return render(request, 'core/donate.html')
 
 @login_required
@@ -3000,10 +3132,12 @@ def checkout(request):
                 messages.error(request, f"Failed to process your order: {str(e)}")
         
         elif payment_method == 'paypal':
-            messages.info(request, "PayPal integration coming soon!")
+            messages.info(request, "PayPal integration coming soon! Please use M-Pesa for now.")
+            return redirect('checkout')
         
         elif payment_method == 'card':
-            messages.info(request, "Card payment integration coming soon!")
+            messages.info(request, "Card payment integration coming soon! Please use M-Pesa for now.")
+            return redirect('checkout')
         
         else:
             messages.error(request, "Please select a valid payment method.")

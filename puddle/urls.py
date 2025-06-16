@@ -8,10 +8,12 @@ urlpatterns = [
     #path('accounts/', include('allauth.urls')),
     path('accounts/', include('accounts.urls')),  
     path('admin/', admin.site.urls),
-    path("__reload__/", include("django_browser_reload.urls")),
 ]
 
-# Add media URL configuration in development
+# Add browser reload for development
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns.append(path("__reload__/", include("django_browser_reload.urls")))
+
+# Add media and static URL configuration for both development and production
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

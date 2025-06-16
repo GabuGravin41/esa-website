@@ -3,12 +3,16 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from . import views
+from . import api
 
 urlpatterns = [
     # URLs
     path('', views.home, name='home'),
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
+    
+    # API endpoints
+    path('api/events/', api.events_api, name='events_api'),
     
     # New URL patterns for header links
     path('constitution/', views.constitution, name='constitution'),
@@ -23,6 +27,9 @@ urlpatterns = [
     path('more-sites/delete/<int:site_id>/', views.delete_site, name='delete_site'),
     path('more-sites/admin-add/', views.admin_add_site, name='admin_add_site'),
     path('donate/', views.donate, name='donate'),
+    path('donate/<int:payment_id>/mpesa/', views.donate_mpesa, name='donate_mpesa'),
+    path('donate/<int:payment_id>/pending/', views.donation_pending, name='donation_pending'),
+    path('donate/success/', views.donation_success, name='donation_success'),
     
     # Protected URLs (require login)
     path('membership/', views.membership, name='membership'),
