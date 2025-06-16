@@ -13,6 +13,8 @@ import datetime
 import json
 import uuid
 import os
+import re
+import random
 from decimal import Decimal
 from django.conf import settings
 import requests
@@ -356,6 +358,25 @@ def payment_status(request, payment_id):
     """Check payment status"""
     payment = get_object_or_404(Payment, id=payment_id, user=request.user)
     
+    # Handle development mode payment simulation
+    if settings.DEBUG and request.method == 'POST' and 'simulate_payment' in request.POST:
+        if payment.status == 'pending' and payment.payment_method == 'mpesa' and hasattr(payment, 'mpesa_transaction'):
+            mpesa_tx = payment.mpesa_transaction
+            
+            # Simulate successful payment
+            mpesa_tx.status = 'completed'
+            mpesa_tx.mpesa_receipt = f"DEV{random.randint(10000, 99999)}"
+            mpesa_tx.result_code = '0'
+            mpesa_tx.result_description = 'Development mode: Simulated successful payment'
+            mpesa_tx.transaction_date = timezone.now()
+            mpesa_tx.save()
+            
+            # Complete payment
+            payment.complete_payment(mpesa_tx.mpesa_receipt)
+            
+            messages.success(request, "DEVELOPMENT MODE: Payment simulation completed successfully!")
+            return redirect('payment_status', payment_id=payment.id)
+    
     # Check for M-Pesa transaction
     if payment.payment_method == 'mpesa' and hasattr(payment, 'mpesa_transaction'):
         mpesa_tx = payment.mpesa_transaction
@@ -369,27 +390,48 @@ def payment_status(request, payment_id):
             if 'ResultCode' in response and response['ResultCode'] == '0':
                 # Update transaction details
                 mpesa_tx.status = 'completed'
-                mpesa_tx.transaction_id = response.get('MpesaReceiptNumber')
-                mpesa_tx.save(update_fields=['status', 'transaction_id'])
+                mpesa_tx.mpesa_receipt = response.get('MpesaReceiptNumber')
+                mpesa_tx.save(update_fields=['status', 'mpesa_receipt'])
                 
                 # Complete payment and activate membership
-                payment.complete_payment(mpesa_tx.transaction_id)
+                payment.complete_payment(mpesa_tx.mpesa_receipt)
                 
                 messages.success(request, 'Payment completed successfully! Your membership is now active.')
                 return redirect('dashboard')
     
+    # Check if this is a membership payment or a regular order payment
+    membership = None
+    order = None
+    
+    # Try to get membership associated with this payment
+    try:
+        membership = Membership.objects.get(payment=payment)
+    except Membership.DoesNotExist:
+        # Try to get order associated with this payment
+        try:
+            order = Order.objects.get(payment=payment)
+        except Order.DoesNotExist:
+            pass
+    
     return render(request, 'core/payment_status.html', {
         'payment': payment,
-        'membership': payment.membership
+        'membership': membership,
+        'order': order,
+        'DEBUG': settings.DEBUG
     })
 
 @csrf_exempt
 @require_POST
+@csrf_exempt
 def mpesa_callback(request):
-    """Handle M-Pesa callback from Safaricom"""
+    """Handle M-Pesa callback from Safaricom for both membership and store payments"""
+    logging.info("Received M-Pesa callback")
+    
     try:
         # Parse the callback JSON
         data = json.loads(request.body)
+        logging.info(f"M-Pesa callback data: {json.dumps(data)}")
+        
         body = data.get('Body', {})
         callback_data = body.get('stkCallback', {})
         
@@ -397,6 +439,8 @@ def mpesa_callback(request):
         checkout_request_id = callback_data.get('CheckoutRequestID')
         result_code = callback_data.get('ResultCode')
         result_desc = callback_data.get('ResultDesc')
+        
+        logging.info(f"M-Pesa callback processing: Request ID: {checkout_request_id}, Result: {result_code} - {result_desc}")
         
         # Find the transaction
         try:
@@ -406,42 +450,70 @@ def mpesa_callback(request):
                 # Extract transaction details
                 items = callback_data.get('CallbackMetadata', {}).get('Item', [])
                 receipt_number = next((item['Value'] for item in items if item['Name'] == 'MpesaReceiptNumber'), None)
+                transaction_date = next((item['Value'] for item in items if item['Name'] == 'TransactionDate'), None)
+                
+                if transaction_date:
+                    # Convert to proper datetime
+                    transaction_date = datetime.strptime(str(transaction_date), '%Y%m%d%H%M%S')
+                else:
+                    transaction_date = timezone.now()
                 
                 # Update transaction
                 mpesa_tx.status = 'completed'
-                mpesa_tx.transaction_id = receipt_number
                 mpesa_tx.mpesa_receipt = receipt_number
-                mpesa_tx.save(update_fields=['status', 'transaction_id', 'mpesa_receipt'])
+                mpesa_tx.transaction_date = transaction_date
+                mpesa_tx.result_code = str(result_code)
+                mpesa_tx.result_description = result_desc
+                mpesa_tx.save()
                 
-                # Complete payment and activate membership
+                # Complete payment
                 payment = mpesa_tx.payment
                 payment.complete_payment(receipt_number)
+                
+                # If this is an order payment, update the order status
+                if hasattr(payment, 'order'):
+                    order = payment.order
+                    order.status = 'completed'
+                    order.payment_status = True
+                    order.save()
+                    
+                    # Send confirmation email
+                    try:
+                        from core.email_service import send_order_confirmation_email
+                        send_order_confirmation_email(order)
+                    except Exception as e:
+                        logging.error(f"Failed to send order confirmation email: {str(e)}")
             else:
                 # Payment failed
                 mpesa_tx.status = 'failed'
-                mpesa_tx.save(update_fields=['status'])
+                mpesa_tx.result_code = str(result_code)
+                mpesa_tx.result_description = result_desc
+                mpesa_tx.save()
                 
                 # Mark payment as failed
                 payment = mpesa_tx.payment
                 payment.status = 'failed'
                 payment.notes = f"Failed: {result_desc}"
-                payment.save(update_fields=['status', 'notes'])
+                payment.save()
             
             return JsonResponse({
                 "ResultCode": 0,
                 "ResultDesc": "Callback processed successfully"
             })
         except MpesaTransaction.DoesNotExist:
+            logging.error(f"M-Pesa transaction not found for checkout request ID: {checkout_request_id}")
             return JsonResponse({
                 "ResultCode": 1,
                 "ResultDesc": "Transaction not found"
             })
     except Exception as e:
+        logging.exception(f"Error processing M-Pesa callback: {str(e)}")
         return JsonResponse({
             "ResultCode": 1,
             "ResultDesc": f"Error processing callback: {str(e)}"
         })
-
+        
+    
 @login_required
 def events(request):
     """Display all events"""
@@ -2816,7 +2888,7 @@ def product_delete(request, slug):
 #         category=product.category, 
 #         is_active=True
 #     ).exclude(id=product.id).order_by('-created_at')[:4]
-    
+
 #     # Check if product is in user's cart
 #     in_cart = False
 #     cart_quantity = 0
@@ -2832,7 +2904,7 @@ def product_delete(request, slug):
 #     if request.user.is_authenticated and hasattr(request.user, 'profile'):
 #         profile = request.user.profile
 #         can_edit = profile.can_manage_store() or (product.created_by and product.created_by == request.user)
-    
+
 #     return render(request, 'core/product_detail.html', {
 #         'product': product,
 #         'related_products': related_products,
@@ -3110,26 +3182,117 @@ def checkout(request):
                 # Store order ID in session for payment completion
                 request.session['pending_order_id'] = order.id
                 
-                # Initiate M-Pesa STK Push
-                mpesa_service = MpesaService()
-                response = mpesa_service.initiate_stk_push(
-                    phone_number=mpesa_phone,
-                    amount=total,
-                    reference=f"ESA-Order-{order.id}",
-                    description="Payment for ESA Store Order"
-                )
+                # Check if MPESA settings are properly configured
+                mpesa_settings_ok = all([
+                    getattr(settings, 'MPESA_CONSUMER_KEY', ''),
+                    getattr(settings, 'MPESA_CONSUMER_SECRET', ''),
+                    getattr(settings, 'MPESA_SHORTCODE', ''),
+                    getattr(settings, 'MPESA_PASSKEY', ''),
+                    getattr(settings, 'MPESA_CALLBACK_URL', '')
+                ])
                 
-                if response.get('ResponseCode') == '0':
-                    # Clear the cart
-                    request.session['cart'] = {}
-                    request.session.modified = True
-                    
-                    messages.success(request, "M-Pesa STK Push sent. Please complete the payment on your phone.")
+                if not mpesa_settings_ok:
+                    logging.error("M-Pesa settings are incomplete. Please check your environment variables.")
+                    messages.error(request, "Payment system is not properly configured. Your order has been saved, but payment cannot be processed at this time.")
                     return redirect('order_status', order_id=order.id)
-                else:
-                    messages.error(request, f"M-Pesa Error: {response.get('ResponseDescription', 'Unknown error')}")
+                
+                # Validate the phone number
+                if not mpesa_phone or len(mpesa_phone.strip()) < 9:
+                    messages.error(request, "Please enter a valid M-Pesa phone number.")
+                    return redirect('checkout')
+                
+                # Initiate M-Pesa STK Push
+                try:
+                    mpesa_service = MpesaService()
+                    
+                    # Special handling for development environment
+                    if settings.DEBUG:
+                        # In development, create a simulated successful response
+                        # This allows testing the flow without a real M-Pesa transaction
+                        logging.info("Development mode: simulating successful M-Pesa STK push")
+                        response = {
+                            'ResponseCode': '0',
+                            'ResponseDescription': 'Success. Request accepted for processing',
+                            'CheckoutRequestID': f"ws_{order.id}_{uuid.uuid4().hex[:8]}",
+                            'CustomerMessage': 'Success. Request accepted for processing'
+                        }
+                        
+                        # For sandbox testing, still try the actual API but don't let it break the flow
+                        try:
+                            actual_response = mpesa_service.initiate_stk_push(
+                                phone_number=mpesa_phone,
+                                amount=total,
+                                reference=f"ESA-Order-{order.id}",
+                                description="Payment for ESA Store Order"
+                            )
+                            logging.info(f"Actual API response: {actual_response}")
+                        except Exception as api_error:
+                            logging.warning(f"Sandbox API error (ignored in dev mode): {str(api_error)}")
+                    else:
+                        # In production, use the actual M-Pesa API
+                        response = mpesa_service.initiate_stk_push(
+                            phone_number=mpesa_phone,
+                            amount=total,
+                            reference=f"ESA-Order-{order.id}",
+                            description="Payment for ESA Store Order"
+                        )
+                    
+                    if response.get('ResponseCode') == '0':
+                        # If we have a successful response, update MpesaTransaction
+                        if hasattr(order, 'payment') and hasattr(order.payment, 'mpesa_transaction'):
+                            mpesa_tx = order.payment.mpesa_transaction
+                            if 'CheckoutRequestID' in response:
+                                mpesa_tx.checkout_request_id = response['CheckoutRequestID']
+                                mpesa_tx.save(update_fields=['checkout_request_id'])
+                            
+                            # In development mode, ask the user if they want to simulate a successful payment
+                            if settings.DEBUG:
+                                request.session['pending_dev_payment'] = {
+                                    'order_id': order.id,
+                                    'mpesa_tx_id': mpesa_tx.id if hasattr(order.payment, 'mpesa_transaction') else None,
+                                    'checkout_request_id': response.get('CheckoutRequestID')
+                                }
+                                
+                                # Add a message to explain development mode behavior
+                                messages.info(request, 
+                                    "DEVELOPMENT MODE: In a real environment, you would receive an STK push. " 
+                                    "For testing, you can simulate payment completion from the order status page."
+                                )
+                        
+                        # Clear the cart
+                        request.session['cart'] = {}
+                        request.session.modified = True
+                        
+                        messages.success(request, "M-Pesa STK Push sent. Please complete the payment on your phone.")
+                        return redirect('order_status', order_id=order.id)
+                    else:
+                        error_desc = response.get('ResponseDescription', 'Unknown error')
+                        messages.error(request, f"M-Pesa Error: {error_desc}")
+                        
+                        # Log the error for debugging
+                        logging.error(f"M-Pesa STK Push failed: {error_desc}")
+                        logging.error(f"Response data: {response}")
+                except Exception as e:
+                    import traceback
+                    error_msg = str(e)
+                    messages.error(request, f"Failed to process your order: {error_msg}")
+                    
+                    # Log the exception for debugging
+                    logging.exception("Exception during M-Pesa processing")
+                    print(f"Detailed error: {traceback.format_exc()}")
+                    
+                    # If this is a database constraint error, provide more specific guidance
+                    if "NOT NULL constraint failed" in error_msg:
+                        logging.error("Database constraint error detected")
+                        
+                        # Get the specific field that failed
+                        field_match = re.search(r'NOT NULL constraint failed: ([^)]+)', error_msg)
+                        if field_match:
+                            field_name = field_match.group(1).split('.')[-1]
+                            messages.error(request, f"Payment processing error: The {field_name} field is required but was not provided.")
             except Exception as e:
                 messages.error(request, f"Failed to process your order: {str(e)}")
+                logging.exception("Exception during order creation")
         
         elif payment_method == 'paypal':
             messages.info(request, "PayPal integration coming soon! Please use M-Pesa for now.")
@@ -3149,15 +3312,45 @@ def checkout(request):
         'title': 'Checkout'
     })
 
-
-
-
-
-
 @login_required
 def order_status(request, order_id):
     """Check order status and display details"""
     order = get_object_or_404(Order, id=order_id, user=request.user.profile)
+    
+    # Handle development mode payment simulation
+    if settings.DEBUG and request.method == 'POST' and 'simulate_payment' in request.POST:
+        if order.status == 'pending' and hasattr(order, 'payment') and order.payment.payment_method == 'mpesa':
+            payment = order.payment
+            if hasattr(payment, 'mpesa_transaction'):
+                mpesa_tx = payment.mpesa_transaction
+                
+                # Simulate successful payment
+                mpesa_tx.status = 'completed'
+                mpesa_tx.mpesa_receipt = f"DEV{random.randint(10000, 99999)}"
+                mpesa_tx.result_code = '0'
+                mpesa_tx.result_description = 'Development mode: Simulated successful payment'
+                mpesa_tx.transaction_date = timezone.now()
+                mpesa_tx.save()
+                
+                # Update payment
+                payment.status = 'completed'
+                payment.transaction_id = mpesa_tx.mpesa_receipt
+                payment.save()
+                
+                # Update order
+                order.status = 'processing'
+                order.payment_status = True
+                order.save()
+                
+                # Send confirmation email
+                try:
+                    from core.email_service import send_order_confirmation_email
+                    send_order_confirmation_email(request.user, order)
+                except Exception as e:
+                    logging.error(f"Failed to send order confirmation email: {str(e)}")
+                
+                messages.success(request, "DEVELOPMENT MODE: Payment simulation completed successfully!")
+                return redirect('order_status', order_id=order.id)
     
     # Check for M-Pesa transaction if payment is pending
     # This logic would be similar to the payment_status view for membership payments
@@ -3175,19 +3368,24 @@ def order_status(request, order_id):
                 if 'ResultCode' in response and response['ResultCode'] == '0':
                     # Update transaction details
                     mpesa_tx.status = 'completed'
-                    mpesa_tx.transaction_id = response.get('MpesaReceiptNumber')
-                    mpesa_tx.save(update_fields=['status', 'transaction_id'])
+                    mpesa_tx.mpesa_receipt = response.get('MpesaReceiptNumber')
+                    mpesa_tx.transaction_date = timezone.now()
+                    mpesa_tx.result_code = '0'
+                    mpesa_tx.result_description = response.get('ResultDesc', 'Success')
+                    mpesa_tx.save()
                     
-                    # Complete order
-                    order.status = 'completed'
-                    order.payment_status = True
-                    order.save()
+                    # Complete payment using our unified payment.complete_payment method
+                    payment.complete_payment(mpesa_tx.mpesa_receipt)
                     
                     # Send confirmation email
-                    from core.email_service import send_order_confirmation_email
-                    send_order_confirmation_email(request.user, order)
+                    try:
+                        from core.email_service import send_order_confirmation_email
+                        send_order_confirmation_email(order)
+                    except Exception as e:
+                        logging.error(f"Failed to send order confirmation email: {str(e)}")
                     
-                    messages.success(request, "Your payment has been completed successfully!")
+                    messages.success(request, 'Your payment has been completed successfully!')
+                    return redirect('order_status', order_id=order.id)
     
     # Get order items
     order_items = order.items.all()
@@ -3195,7 +3393,8 @@ def order_status(request, order_id):
     return render(request, 'core/order_status.html', {
         'order': order,
         'order_items': order_items,
-        'title': f'Order #{order.id}'
+        'title': f'Order #{order.id}',
+        'DEBUG': settings.DEBUG
     })
 
 @login_required
@@ -3248,11 +3447,15 @@ def update_cart(request):
 #        
 #        cart.items.all().delete()
 #        messages.success(request, 'Order placed successfully!')
-#        return redirect('store')
+#        return redirect('order_confirmation', order_id=order.id)
+#    else:
+#        form = OrderForm(initial={'shipping_address': request.user.profile.address if hasattr(request.user, 'profile') and hasattr(request.user.profile, 'address') else ''})
 #    
 #    return render(request, 'core/checkout.html', {
 #        'cart_items': cart_items,
-#        'total': total
+#        'total_amount': total,
+#        'form': form,
+#        'title': 'Checkout'
 #    })
 
 
@@ -3560,68 +3763,6 @@ def add_review(request, product_id):
 
 
 # MPWSA
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-import json
-
-@csrf_exempt
-def mpesa_callback(request):
-    """Handle M-Pesa callback"""
-    try:
-        # Get callback data
-        data = json.loads(request.body)
-        
-        # Extract relevant information
-        result_code = data.get('Body', {}).get('stkCallback', {}).get('ResultCode')
-        checkout_request_id = data.get('Body', {}).get('stkCallback', {}).get('CheckoutRequestID')
-        
-        # Find the transaction
-        try:
-            mpesa_tx = MpesaTransaction.objects.get(checkout_request_id=checkout_request_id)
-            
-            if result_code == 0:  # Successful payment
-                # Extract payment details
-                payment_data = data.get('Body', {}).get('stkCallback', {}).get('CallbackMetadata', {}).get('Item', [])
-                amount = next((item['Value'] for item in payment_data if item['Name'] == 'Amount'), None)
-                receipt_number = next((item['Value'] for item in payment_data if item['Name'] == 'MpesaReceiptNumber'), None)
-                
-                # Update transaction status
-                mpesa_tx.status = 'completed'
-                mpesa_tx.transaction_id = receipt_number
-                mpesa_tx.mpesa_receipt = receipt_number
-                mpesa_tx.save(update_fields=['status', 'transaction_id', 'mpesa_receipt'])
-                
-                # Complete payment and activate membership
-                payment = mpesa_tx.payment
-                payment.complete_payment(receipt_number)
-            else:
-                # Payment failed
-                mpesa_tx.status = 'failed'
-                mpesa_tx.save(update_fields=['status'])
-                
-                # Mark payment as failed
-                payment = mpesa_tx.payment
-                payment.status = 'failed'
-                payment.save(update_fields=['status'])
-            
-            return JsonResponse({
-                "ResultCode": 0,
-                "ResultDesc": "Success"
-            })
-            
-        except MpesaTransaction.DoesNotExist:
-            return JsonResponse({
-                "ResultCode": 1,
-                "ResultDesc": "Transaction not found"
-            })
-            
-    except Exception as e:
-        return JsonResponse({
-            "ResultCode": 1,
-            "ResultDesc": f"Error processing callback: {str(e)}"
-        })
-        
-    
 @login_required
 def generate_receipt(request, payment_id):
     """Generate a receipt for a payment"""

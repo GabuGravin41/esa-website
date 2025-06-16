@@ -51,6 +51,7 @@ class OrderService:
             mpesa_tx = MpesaTransaction.objects.create(
                 payment=payment,
                 phone_number=shipping_info.get('phone', '') if shipping_info else '',
+                amount=total_amount,  # Set the amount field to fix the NOT NULL constraint
                 status='pending'
             )
         
@@ -76,9 +77,13 @@ class OrderService:
         # Send order confirmation email
         try:
             from core.email_service import send_order_confirmation_email
-            send_order_confirmation_email(user.user, order)
+            email_sent = send_order_confirmation_email(user.user, order)
+            if not email_sent:
+                logging.warning(f"Order confirmation email could not be sent for order {order.id}")
         except Exception as e:
-            logger.error(f"Failed to send order confirmation email: {str(e)}")
+            # Log error but don't stop order processing
+            logging.error(f"Failed to send order confirmation email: {str(e)}")
+            # Continue with order processing even if email fails
             
         return order
         

@@ -341,6 +341,8 @@ MPESA_CONSUMER_SECRET = config('MPESA_CONSUMER_SECRET')
 MPESA_SHORTCODE = config('MPESA_SHORTCODE')
 MPESA_PASSKEY = config('MPESA_PASSKEY')
 MPESA_CALLBACK_URL = config('MPESA_CALLBACK_URL')
+MPESA_REFERENCE = config('MPESA_REFERENCE', default='ESA-KU')
+MPESA_SIMULATE_IN_DEV = config('MPESA_SIMULATE_IN_DEV', default=True, cast=bool)
 
 # PayPal Settings
 PAYPAL_ENVIRONMENT = 'sandbox'  # Change to 'production' for live environment

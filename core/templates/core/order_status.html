@@ -69,6 +69,19 @@
                         <i class="fas fa-exclamation-triangle mr-2"></i>
                         Your payment is still being processed. Once confirmed, your order will be processed.
                     </p>
+                    
+                    {% if DEBUG and order.payment.payment_method == 'mpesa' %}
+                    <div class="mt-4 p-4 border border-yellow-300 bg-yellow-50 rounded-lg">
+                        <p class="text-yellow-800 font-bold mb-2">DEVELOPMENT MODE ONLY</p>
+                        <form method="post" action="{% url 'order_status' order.id %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="simulate_payment" value="1">
+                            <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded-lg font-bold transition inline-flex items-center">
+                                <i class="fas fa-magic mr-2"></i>Simulate Successful Payment
+                            </button>
+                        </form>
+                    </div>
+                    {% endif %}
                 </div>
                 {% endif %}
             </div>

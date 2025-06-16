@@ -26,25 +26,28 @@ class EmailService:
         """
         try:
             if from_email is None:
-                from_email = settings.DEFAULT_FROM_EMAIL
+                from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', 'esa.kenyattauniv@gmail.com')
                 
             # Render HTML content
             html_message = render_to_string(template_name, context)
             plain_message = strip_tags(html_message)
             
-            # Send email
+            # Send email with fail_silently=True to prevent exceptions from breaking the app flow
             send_mail(
                 subject=subject,
                 message=plain_message,
                 from_email=from_email,
                 recipient_list=recipient_list,
                 html_message=html_message,
-                fail_silently=False,
+                fail_silently=True,  # Changed to True to prevent exceptions from breaking app flow
             )
             
             return True
         except Exception as e:
             logger.error(f"Failed to send email: {str(e)}")
+            # In development, print the error to console for easier debugging
+            if getattr(settings, 'DEBUG', False):
+                print(f"Email sending error: {str(e)}")
             return False
     
     @staticmethod

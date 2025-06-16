@@ -965,6 +965,21 @@ class Payment(models.Model):
             self.transaction_id = transaction_id
         self.status = 'completed'
         self.save()
+        
+        # Update any related models
+        if hasattr(self, 'membership'):
+            # Update membership status
+            membership = self.membership
+            membership.is_active = True
+            membership.save()
+            
+        if hasattr(self, 'order'):
+            # Update order status
+            order = self.order
+            order.status = 'completed'
+            order.payment_status = True
+            order.save()
+            
         return True
 
     class Meta:
