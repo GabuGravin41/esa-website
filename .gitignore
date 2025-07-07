@@ -88,4 +88,5 @@ dmypy.json
 .pyre/
 
 # Profiling
-.prof
+.profvenv/
+media/resources/MATILDA.mp4
