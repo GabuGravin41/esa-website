@@ -105,10 +105,10 @@ def initialize_admin_users():
             # Update profile with admin details if it exists
             profile.student_id = f"ADMIN{user.id:03d}"
             profile.department = "Administration"
-            profile.year_of_study = 0
+            profile.year_of_study = None  # Admin users don't need year of study
             profile.membership_status = "active"
             profile.membership_expiry = timezone.now().date().replace(year=timezone.now().year + 10)
-            profile.user_type = "staff"
+            profile.user_type = "graduate"  # Changed from "staff" to valid choice
             profile.custom_permissions = True
         except UserProfile.DoesNotExist:
             # Only create if it doesn't exist (which should not happen due to the signal)
@@ -116,11 +116,11 @@ def initialize_admin_users():
                 user=user,
                 student_id=f"ADMIN{user.id:03d}",
                 department="Administration",
-                year_of_study=0,
+                year_of_study=None,  # Admin users don't need year of study
                 phone_number="",
                 membership_status="active",
                 membership_expiry=timezone.now().date().replace(year=timezone.now().year + 10),
-                user_type="staff",
+                user_type="graduate",  # Changed from "staff" to valid choice
                 custom_permissions=True
             )
         
@@ -158,6 +158,16 @@ class UserProfile(models.Model):
         ('first_year', 'First Year Student'),
         ('student', 'Regular Student'),
         ('graduate', 'Graduate/Professional'),
+        ('vendor', 'Vendor'),
+        ('admin', 'Administrator'),
+    ]
+    
+    YEAR_OF_STUDY_CHOICES = [
+        (1, 'Year 1'),
+        (2, 'Year 2'), 
+        (3, 'Year 3'),
+        (4, 'Year 4'),
+        (5, 'Year 5'),
     ]
     
     MEMBERSHIP_STATUS_CHOICES = [
@@ -170,7 +180,8 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     student_id = models.CharField(max_length=20, unique=True)
     department = models.CharField(max_length=100)
-    year_of_study = models.IntegerField(null=True, blank=True)
+    course = models.CharField(max_length=150, blank=True, help_text="Full course name")
+    year_of_study = models.IntegerField(choices=YEAR_OF_STUDY_CHOICES, null=True, blank=True)
     phone_number = models.CharField(max_length=15, blank=True)
     profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
     bio = models.TextField(max_length=500, blank=True)
@@ -309,7 +320,7 @@ class Membership(models.Model):
     
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     plan_type = models.CharField(max_length=20, choices=MembershipPlan.PLAN_TYPES, default='other_students')
-    amount = models.DecimalField(max_digits=10, decimal_places=2, default=300)  # Default to other students price
+    amount = models.DecimalField(max_digits=10, decimal_places=2, default=2)  # Test amount for sandbox
     payment_method = models.CharField(max_length=10, choices=PAYMENT_METHODS, default='mpesa')
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     is_active = models.BooleanField(default=False)
@@ -319,6 +330,8 @@ class Membership(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     referred_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, 
                                    related_name='referrals')
+    membership_number = models.CharField(max_length=20, unique=True, null=True, blank=True)
+    payment = models.OneToOneField('Payment', on_delete=models.SET_NULL, null=True, blank=True, related_name='membership')
 
     def __str__(self):
         return f"{self.user.username} - {self.get_plan_type_display()}"
@@ -328,10 +341,31 @@ class Membership(models.Model):
         self.is_active = True
         self.start_date = timezone.now()
         self.end_date = self.start_date + timezone.timedelta(days=365)  # 1 year membership
+        if not self.membership_number:
+            self.membership_number = self.generate_membership_number()
         self.save()
-
-
-
+        # Ensure the user's profile has the membership number
+        try:
+            profile = self.user.profile
+            if not profile.membership_number:
+                profile.membership_number = self.membership_number
+                profile.save(update_fields=['membership_number'])
+        except Exception:
+            pass
+    
+    def generate_membership_number(self):
+        """Generate a unique membership number"""
+        # Generate 5-digit number (10000-99999)
+        random_chars = ''.join(random.choices(string.digits, k=5))
+        membership_number = f"ESA{random_chars}"
+        
+        # Check if membership number already exists
+        while Membership.objects.filter(membership_number=membership_number).exists():
+            random_chars = ''.join(random.choices(string.digits, k=5))
+            membership_number = f"ESA{random_chars}"
+        
+        return membership_number
+        
 
 # Event Models
 class Comment(models.Model):
@@ -486,7 +520,12 @@ class Product(models.Model):
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='general')
     is_active = models.BooleanField(default=True)
     featured = models.BooleanField(default=False)
-    vendor = models.CharField(max_length=255, null=True, blank=True)
+    vendor = models.CharField(max_length=255, null=True, blank=True)  # Legacy text field
+    vendor_user = models.ForeignKey('UserProfile', on_delete=models.SET_NULL, null=True, blank=True, 
+                                   related_name='vendor_products', help_text="User who manages this product")
+    approved_by = models.ForeignKey('UserProfile', on_delete=models.SET_NULL, null=True, blank=True,
+                                   related_name='approved_products', help_text="Admin who approved this product")
+    is_approved = models.BooleanField(default=True, help_text="Whether this product is approved for sale")
     view_count = models.PositiveIntegerField(default=0) 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -499,6 +538,32 @@ class Product(models.Model):
     
     def get_absolute_url(self):
         return reverse('product_detail', kwargs={'slug': self.slug})
+    
+    def get_vendor_name(self):
+        """Get vendor name, prioritizing vendor_user over legacy vendor field"""
+        if self.vendor_user:
+            return f"{self.vendor_user.user.first_name} {self.vendor_user.user.last_name}".strip() or self.vendor_user.user.username
+        return self.vendor or "Store Admin"
+    
+    def can_edit(self, user):
+        """Check if a user can edit this product"""
+        if not hasattr(user, 'profile'):
+            return False
+        
+        profile = user.profile
+        # Admin can edit any product
+        if profile.is_esa_admin():
+            return True
+        
+        # Vendor can edit their own products
+        if self.vendor_user == profile:
+            return True
+            
+        # Store managers can edit products
+        if profile.can_manage_store():
+            return True
+            
+        return False
         
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -818,7 +883,7 @@ def create_user_profile(sender, instance, created, **kwargs):
                         user=instance,
                         student_id=student_id,
                         department="Administration",
-                        year_of_study=0
+                        year_of_study=None  # Admin users don't need year of study
                     )
                 except Exception as e:
                     # Log any errors but don't crash
@@ -970,8 +1035,29 @@ class Payment(models.Model):
         if hasattr(self, 'membership'):
             # Update membership status
             membership = self.membership
+            membership.status = 'completed'
             membership.is_active = True
+            membership.start_date = timezone.now()
+            membership.end_date = membership.start_date + timezone.timedelta(days=365)  # 1 year membership
+            
+            # Generate membership number if not already set
+            if not membership.membership_number:
+                from django.utils.crypto import get_random_string
+                year = timezone.now().year
+                random_str = get_random_string(6, allowed_chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
+                membership.membership_number = f"ESA-{year}-{random_str}"
+            
             membership.save()
+            
+            # Update user profile
+            try:
+                profile = self.user.userprofile
+                profile.membership_status = 'active'
+                profile.membership_expiry = membership.end_date
+                profile.save()
+            except:
+                # Handle case where user profile doesn't exist
+                pass
             
         if hasattr(self, 'order'):
             # Update order status

@@ -65,21 +65,6 @@ class MpesaService:
     def initiate_stk_push(self, phone_number, amount, reference, description):
         """Initiate STK push for payment"""
         try:
-            # Special handling for development mode with simulated success
-            if settings.DEBUG and getattr(settings, 'MPESA_SIMULATE_IN_DEV', True):
-                # Create a unique request ID for development testing
-                dev_request_id = f"ws_{int(timezone.now().timestamp())}_{random.randint(1000, 9999)}"
-                logging.info(f"DEVELOPMENT MODE: Simulated STK Push with request ID {dev_request_id}")
-                
-                # Return simulated success response
-                return {
-                    'MerchantRequestID': f'dev-{dev_request_id}',
-                    'CheckoutRequestID': dev_request_id,
-                    'ResponseCode': '0',
-                    'ResponseDescription': 'Success. Request accepted for processing',
-                    'CustomerMessage': 'Development mode: Success. Request accepted for processing'
-                }
-            
             # Debug information
             logging.info(f"Initiating STK push with: Phone={phone_number}, Amount={amount}, Reference={reference}")
             logging.info(f"Using M-Pesa settings: ShortCode={self.business_shortcode}, Environment={self.environment}, CallbackURL={self.callback_url}")
@@ -180,23 +165,6 @@ class MpesaService:
     def query_transaction_status(self, checkout_request_id):
         """Query the status of an STK push transaction"""
         try:
-            # Special handling for development mode
-            if settings.DEBUG and checkout_request_id.startswith('ws_'):
-                # In development mode, simulate a successful transaction
-                logging.info(f"Development mode: Simulating transaction status for {checkout_request_id}")
-                return {
-                    'ResponseCode': '0',
-                    'ResponseDescription': 'The service request has been accepted successfully',
-                    'ResultCode': '0',
-                    'ResultDesc': 'The service request is processed successfully',
-                    'MerchantRequestID': f'mock-{checkout_request_id}',
-                    'CheckoutRequestID': checkout_request_id,
-                    'Amount': '1000',
-                    'MpesaReceiptNumber': f'DEV{random.randint(1000000, 9999999)}',
-                    'TransactionDate': datetime.now().strftime('%Y%m%d%H%M%S'),
-                    'PhoneNumber': '254722000000'
-                }
-            
             # Get access token
             access_token = self.get_access_token()
             
@@ -251,26 +219,10 @@ class MpesaService:
                 except Exception:
                     logging.error("Could not log response content")
             
-            # In development mode, don't fail completely
-            if settings.DEBUG:
-                return {
-                    'ResponseCode': '1',
-                    'ResponseDescription': 'Development mode: Error querying transaction',
-                    'ResultCode': '1',
-                    'ResultDesc': f'Development error: {str(e)}'
-                }
             raise Exception(f"Failed to query transaction status: {str(e)}")
             
         except Exception as e:
             logging.error(f"Failed to query transaction status: {str(e)}")
-            # In development mode, don't fail completely
-            if settings.DEBUG:
-                return {
-                    'ResponseCode': '1',
-                    'ResponseDescription': 'Development mode: Error querying transaction',
-                    'ResultCode': '1',
-                    'ResultDesc': f'Development error: {str(e)}'
-                }
             raise Exception(f"Failed to query transaction status: {str(e)}")
     
 

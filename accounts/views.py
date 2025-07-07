@@ -72,8 +72,9 @@ def login_view(request):
                 messages.success(request, f'Welcome back, {user.username}!')
                 return redirect('home')
         else:
-            # The form is not valid (validation errors)
-            messages.error(request, 'Invalid username or password.')
+            # The form is not valid (validation errors) - no need to add a message 
+            # since form.errors will be displayed in the template
+            pass
             
         # Handle AJAX requests for errors
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
@@ -127,14 +128,15 @@ def register(request):
             # Log the user in with the specified backend
             login(request, user)
             print(f"User logged in? {request.user.is_authenticated}")
-            
+            # Send welcome email
+            from core.email_service import send_welcome_email_to_user
+            send_welcome_email_to_user(user)
             # Handle AJAX requests
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                 return JsonResponse({
                     'status': 'success',
                     'redirect_url': '/'
                 })
-            
             messages.success(request, f'Account created successfully! Welcome to ESA-KU, {user.username}.')
             return redirect('home')
         else:
@@ -156,6 +158,8 @@ def register(request):
 @login_required
 def profile(request):
     """Handle user profile view and updates"""
+    from core.models import UserProfile
+    
     user = request.user
     
     try:
@@ -163,7 +167,6 @@ def profile(request):
         user_profile = user.profile
     except User.profile.RelatedObjectDoesNotExist:
         # Create a profile if it doesn't exist (shouldn't happen with signals)
-        from core.models import UserProfile
         user_profile = UserProfile.objects.create(
             user=user,
             student_id=f"STU{user.id:05d}",
@@ -172,42 +175,44 @@ def profile(request):
         )
     
     if request.method == 'POST':
-        if 'update_profile' in request.POST:
-            # Handle profile update form
-            profile_form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
-            if profile_form.is_valid():
-                profile_form.save()
-                messages.success(request, 'Your profile has been updated successfully!')
-                return redirect('profile')
-            else:
-                messages.error(request, 'Please correct the errors below.')
+        # Handle profile update
+        user.first_name = request.POST.get('first_name', user.first_name)
+        user.last_name = request.POST.get('last_name', user.last_name)
+        user.email = request.POST.get('email', user.email)
+        user.save()
         
-        elif 'change_password' in request.POST:
-            # Handle password change form
-            password_form = PasswordChangeForm(user, request.POST)
-            if password_form.is_valid():
-                user = password_form.save()
-                
-                # Keep the user logged in after password change
-                # update_session_auth_hash uses the new password to update the session
-                update_session_auth_hash(request, user)
-                
-                messages.success(request, 'Your password has been updated successfully!')
-                return redirect('profile')
-            else:
-                messages.error(request, 'Please correct the errors below.')
-                return render(request, 'accounts/profile.html', {
-                    'profile_form': UserProfileForm(instance=user_profile),
-                    'password_form': password_form
-                })
+        # Update profile fields
+        user_profile.phone_number = request.POST.get('phone_number', user_profile.phone_number)
+        user_profile.bio = request.POST.get('bio', user_profile.bio)
+        user_profile.student_id = request.POST.get('student_id', user_profile.student_id)
+        user_profile.department = request.POST.get('department', user_profile.department)
+        user_profile.course = request.POST.get('course', user_profile.course)
+        
+        # Handle year of study
+        year_of_study = request.POST.get('year_of_study')
+        if year_of_study:
+            user_profile.year_of_study = int(year_of_study)
+        
+        # Handle user type
+        user_type = request.POST.get('user_type')
+        if user_type:
+            user_profile.user_type = user_type
+        
+        # Handle profile picture upload
+        if 'profile_picture' in request.FILES:
+            user_profile.profile_picture = request.FILES['profile_picture']
+        
+        user_profile.save()
+        messages.success(request, 'Your profile has been updated successfully!')
+        return redirect('profile')
     
-    # Create forms
-    profile_form = UserProfileForm(instance=user_profile)
-    password_form = PasswordChangeForm(user)
+    # Get choices for template
+    year_choices = UserProfile.YEAR_OF_STUDY_CHOICES
+    user_type_choices = UserProfile.USER_TYPE_CHOICES
     
-    return render(request, 'accounts/profile.html', {
-        'profile_form': profile_form,
-        'password_form': password_form
+    return render(request, 'accounts/new_profile.html', {
+        'year_choices': year_choices,
+        'user_type_choices': user_type_choices
     })
 
 def check_auth_status(request):

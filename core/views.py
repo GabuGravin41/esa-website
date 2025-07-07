@@ -115,10 +115,23 @@ def about(request):
     return render(request, 'core/about.html')
 
 def contact(request):
+    from .email_service import EmailService
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
-            form.save()
+            contact = form.save()
+            # Send email to admin
+            EmailService.send_email(
+                subject=f"Contact Form: {contact.subject}",
+                recipient_list=[settings.DEFAULT_FROM_EMAIL],
+                template_name="core/emails/contact_message.html",
+                context={
+                    'name': contact.name,
+                    'email': contact.email,
+                    'subject': contact.subject,
+                    'message': contact.message,
+                },
+            )
             messages.success(request, 'Your message has been sent successfully!')
             return redirect('contact')
     else:
@@ -480,7 +493,7 @@ def mpesa_callback(request):
                     # Send confirmation email
                     try:
                         from core.email_service import send_order_confirmation_email
-                        send_order_confirmation_email(order)
+                        send_order_confirmation_email(order.user, order)
                     except Exception as e:
                         logging.error(f"Failed to send order confirmation email: {str(e)}")
             else:
@@ -2155,7 +2168,7 @@ def constitution(request):
 def esa_journals(request):
     """
     ESA Journals page - similar to blog but with ESA blogs shown first
-    Prioritizes journals/research papers from ESA in the listing
+    Prioritizes journals
     """
     # Get filter parameters from URL
     category = request.GET.get('category', 'journal')  # Default to journal category for ESA journals
@@ -2637,7 +2650,7 @@ def mgm_paypal_cancel(request, payment_id):
 def admin_dashboard(request):
     """Administrative Dashboard for ESA officials and admins"""
     # Check if user has admin permissions
-    if not hasattr(request.user, 'profile') or not request.user.profile.is_esa_admin():
+    if not request.user.profile.can_manage_permissions():
         messages.error(request, "You don't have permission to access the admin dashboard.")
         return redirect('home')
     
@@ -2793,17 +2806,32 @@ def product_create(request):
         return redirect('store')
     
     if request.method == 'POST':
-        form = ProductForm(request.POST, request.FILES)
+        form = ProductForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
             product = form.save(commit=False)
-            product.created_by = request.user
             product.slug = slugify(form.cleaned_data['name'])
+            
+            # Set vendor_user to the current user's profile
+            if hasattr(request.user, 'profile'):
+                product.vendor_user = request.user.profile
+            
+            # Auto-approve for admins, require approval for vendors
+            if request.user.profile.is_esa_admin():
+                product.is_approved = True
+                product.approved_by = request.user.profile
+            else:
+                product.is_approved = False  # Vendors need approval
+            
             product.save()
             
-            messages.success(request, f"Product '{product.name}' created successfully!")
+            if product.is_approved:
+                messages.success(request, f"Product '{product.name}' created successfully!")
+            else:
+                messages.success(request, f"Product '{product.name}' created successfully! It will be visible after admin approval.")
+            
             return redirect('product_detail', slug=product.slug)
     else:
-        form = ProductForm()
+        form = ProductForm(user=request.user)
     
     return render(request, 'core/product_form.html', {
         'form': form,
@@ -3104,12 +3132,12 @@ def cart(request):
             
 #             messages.success(request, 'Your order has been placed successfully!')
 #             return redirect('order_confirmation', order_id=order.id)
-#     else:
-#         form = OrderForm(initial={'shipping_address': request.user.profile.address if hasattr(request.user, 'profile') and hasattr(request.user.profile, 'address') else ''})
-    
+#    else:
+#        form = OrderForm(initial={'shipping_address': request.user.profile.address if hasattr(request.user, 'profile') and hasattr(request.user.profile, 'address') else ''})
+#    
 #     return render(request, 'core/checkout.html', {
 #         'cart_items': cart_items,
-#         'total_amount': total_amount,
+#         'total_amount': total,
 #         'form': form,
 #         'title': 'Checkout'
 #     })
@@ -3166,8 +3194,8 @@ def checkout(request):
             mpesa_phone = request.POST.get('mpesa_phone')
             if not mpesa_phone:
                 messages.error(request, "Please enter your M-Pesa phone number.")
-                return redirect('checkout')
-                
+                return render(request, 'core/donate_mpesa.html', {'payment': payment})
+            
             # Create the order first
             from core.order_service import OrderService
             try:
@@ -3205,37 +3233,13 @@ def checkout(request):
                 try:
                     mpesa_service = MpesaService()
                     
-                    # Special handling for development environment
-                    if settings.DEBUG:
-                        # In development, create a simulated successful response
-                        # This allows testing the flow without a real M-Pesa transaction
-                        logging.info("Development mode: simulating successful M-Pesa STK push")
-                        response = {
-                            'ResponseCode': '0',
-                            'ResponseDescription': 'Success. Request accepted for processing',
-                            'CheckoutRequestID': f"ws_{order.id}_{uuid.uuid4().hex[:8]}",
-                            'CustomerMessage': 'Success. Request accepted for processing'
-                        }
-                        
-                        # For sandbox testing, still try the actual API but don't let it break the flow
-                        try:
-                            actual_response = mpesa_service.initiate_stk_push(
-                                phone_number=mpesa_phone,
-                                amount=total,
-                                reference=f"ESA-Order-{order.id}",
-                                description="Payment for ESA Store Order"
-                            )
-                            logging.info(f"Actual API response: {actual_response}")
-                        except Exception as api_error:
-                            logging.warning(f"Sandbox API error (ignored in dev mode): {str(api_error)}")
-                    else:
-                        # In production, use the actual M-Pesa API
-                        response = mpesa_service.initiate_stk_push(
-                            phone_number=mpesa_phone,
-                            amount=total,
-                            reference=f"ESA-Order-{order.id}",
-                            description="Payment for ESA Store Order"
-                        )
+                    # Use the actual M-Pesa API
+                    response = mpesa_service.initiate_stk_push(
+                        phone_number=mpesa_phone,
+                        amount=total,
+                        reference=f"ESA-Order-{order.id}",
+                        description="Payment for ESA Store Order"
+                    )
                     
                     if response.get('ResponseCode') == '0':
                         # If we have a successful response, update MpesaTransaction
@@ -3244,20 +3248,6 @@ def checkout(request):
                             if 'CheckoutRequestID' in response:
                                 mpesa_tx.checkout_request_id = response['CheckoutRequestID']
                                 mpesa_tx.save(update_fields=['checkout_request_id'])
-                            
-                            # In development mode, ask the user if they want to simulate a successful payment
-                            if settings.DEBUG:
-                                request.session['pending_dev_payment'] = {
-                                    'order_id': order.id,
-                                    'mpesa_tx_id': mpesa_tx.id if hasattr(order.payment, 'mpesa_transaction') else None,
-                                    'checkout_request_id': response.get('CheckoutRequestID')
-                                }
-                                
-                                # Add a message to explain development mode behavior
-                                messages.info(request, 
-                                    "DEVELOPMENT MODE: In a real environment, you would receive an STK push. " 
-                                    "For testing, you can simulate payment completion from the order status page."
-                                )
                         
                         # Clear the cart
                         request.session['cart'] = {}
@@ -3317,41 +3307,6 @@ def order_status(request, order_id):
     """Check order status and display details"""
     order = get_object_or_404(Order, id=order_id, user=request.user.profile)
     
-    # Handle development mode payment simulation
-    if settings.DEBUG and request.method == 'POST' and 'simulate_payment' in request.POST:
-        if order.status == 'pending' and hasattr(order, 'payment') and order.payment.payment_method == 'mpesa':
-            payment = order.payment
-            if hasattr(payment, 'mpesa_transaction'):
-                mpesa_tx = payment.mpesa_transaction
-                
-                # Simulate successful payment
-                mpesa_tx.status = 'completed'
-                mpesa_tx.mpesa_receipt = f"DEV{random.randint(10000, 99999)}"
-                mpesa_tx.result_code = '0'
-                mpesa_tx.result_description = 'Development mode: Simulated successful payment'
-                mpesa_tx.transaction_date = timezone.now()
-                mpesa_tx.save()
-                
-                # Update payment
-                payment.status = 'completed'
-                payment.transaction_id = mpesa_tx.mpesa_receipt
-                payment.save()
-                
-                # Update order
-                order.status = 'processing'
-                order.payment_status = True
-                order.save()
-                
-                # Send confirmation email
-                try:
-                    from core.email_service import send_order_confirmation_email
-                    send_order_confirmation_email(request.user, order)
-                except Exception as e:
-                    logging.error(f"Failed to send order confirmation email: {str(e)}")
-                
-                messages.success(request, "DEVELOPMENT MODE: Payment simulation completed successfully!")
-                return redirect('order_status', order_id=order.id)
-    
     # Check for M-Pesa transaction if payment is pending
     # This logic would be similar to the payment_status view for membership payments
     if order.status == 'pending' and hasattr(order, 'payment') and order.payment.payment_method == 'mpesa':
@@ -3360,7 +3315,7 @@ def order_status(request, order_id):
             mpesa_tx = payment.mpesa_transaction
             
             # Only query status if we have a checkout request ID and status is still pending
-            if mpesa_tx.checkout_request_id and mpesa_tx.status == 'pending':
+            if mpesa_tx.checkout_request_id and mpesa_tx.status == 'pending' and payment.status == 'pending':
                 mpesa_service = MpesaService()
                 response = mpesa_service.query_transaction_status(mpesa_tx.checkout_request_id)
                 
@@ -3374,13 +3329,13 @@ def order_status(request, order_id):
                     mpesa_tx.result_description = response.get('ResultDesc', 'Success')
                     mpesa_tx.save()
                     
-                    # Complete payment using our unified payment.complete_payment method
+                    # Complete payment
                     payment.complete_payment(mpesa_tx.mpesa_receipt)
                     
                     # Send confirmation email
                     try:
                         from core.email_service import send_order_confirmation_email
-                        send_order_confirmation_email(order)
+                        send_order_confirmation_email(order.user, order)
                     except Exception as e:
                         logging.error(f"Failed to send order confirmation email: {str(e)}")
                     
@@ -3393,8 +3348,7 @@ def order_status(request, order_id):
     return render(request, 'core/order_status.html', {
         'order': order,
         'order_items': order_items,
-        'title': f'Order #{order.id}',
-        'DEBUG': settings.DEBUG
+        'title': f'Order #{order.id}'
     })
 
 @login_required
@@ -3451,12 +3405,12 @@ def update_cart(request):
 #    else:
 #        form = OrderForm(initial={'shipping_address': request.user.profile.address if hasattr(request.user, 'profile') and hasattr(request.user.profile, 'address') else ''})
 #    
-#    return render(request, 'core/checkout.html', {
-#        'cart_items': cart_items,
-#        'total_amount': total,
-#        'form': form,
-#        'title': 'Checkout'
-#    })
+#     return render(request, 'core/checkout.html', {
+#         'cart_items': cart_items,
+#         'total_amount': total,
+#         'form': form,
+#         'title': 'Checkout'
+#     })
 
 
 @login_required
@@ -3789,6 +3743,7 @@ def payment_history(request):
         'payments': payments
     })
     
+
 @login_required
 def dashboard(request):
     """
@@ -3796,11 +3751,20 @@ def dashboard(request):
     """
     try:
         # Get the user profile
+        if not hasattr(request.user, 'profile'):
+            messages.error(request, "You don't have a user profile. Please contact support.")
+            return redirect('home')
+            
         user_profile = request.user.profile
         
         # Check membership status
         membership_status = user_profile.membership_status
         membership_expiry = user_profile.membership_expiry
+        
+        # If user is not a member, redirect to membership page with a helpful message
+        if membership_status != 'active':
+            messages.info(request, "You need to be an active ESA member to access the dashboard. Join us today!")
+            return redirect('membership')
         
         # Get recent payments (limit to 3)
         recent_payments = Payment.objects.filter(user=request.user).order_by('-created_at')[:3]
@@ -3832,4 +3796,177 @@ def dashboard(request):
         
     except Exception as e:
         messages.error(request, f"Error loading dashboard: {str(e)}")
-        return redirect('profile')
+        return redirect('membership')  # Redirect to membership page instead of profile
+
+# Vendor Management Views
+
+@login_required
+def vendor_dashboard(request):
+    """Dashboard for vendors to manage their products"""
+    if not hasattr(request.user, 'profile'):
+        messages.error(request, "Profile not found. Please contact support.")
+        return redirect('home')
+    
+    profile = request.user.profile
+    
+    # Check if user is a vendor or has store management permissions
+    if not (profile.role and profile.role.name == 'Vendor') and not profile.can_manage_store():
+        messages.error(request, "You don't have vendor privileges. Contact admin to become a vendor.")
+        return redirect('home')
+    
+    # Get vendor's products
+    if profile.is_esa_admin() or profile.can_manage_store():
+        # Admin can see all products
+        products = Product.objects.all().order_by('-created_at')
+    else:
+        # Vendor can only see their own products
+        products = Product.objects.filter(vendor_user=profile).order_by('-created_at')
+    
+    # Statistics
+    total_products = products.count()
+    active_products = products.filter(is_active=True).count()
+    pending_approval = products.filter(is_approved=False).count()
+    
+    context = {
+        'title': 'Vendor Dashboard',
+        'products': products[:10],  # Show latest 10 products
+        'total_products': total_products,
+        'active_products': active_products,
+        'pending_approval': pending_approval,
+        'is_vendor': True,
+    }
+    
+    return render(request, 'core/vendor_dashboard.html', context)
+
+@login_required
+def vendor_products(request):
+    """List all products for a vendor"""
+    if not hasattr(request.user, 'profile'):
+        messages.error(request, "Profile not found.")
+        return redirect('home')
+    
+    profile = request.user.profile
+    
+    # Check permissions
+    if not (profile.role and profile.role.name == 'Vendor') and not profile.can_manage_store():
+        messages.error(request, "You don't have vendor privileges.")
+        return redirect('home')
+    
+    # Get products based on user role
+    if profile.is_esa_admin() or profile.can_manage_store():
+        products = Product.objects.all()
+    else:
+        products = Product.objects.filter(vendor_user=profile)
+    
+    # Apply filters
+    category = request.GET.get('category', '')
+    status = request.GET.get('status', '')
+    search = request.GET.get('search', '')
+    
+    if category:
+        products = products.filter(category=category)
+    
+    if status == 'active':
+        products = products.filter(is_active=True)
+    elif status == 'inactive':
+        products = products.filter(is_active=False)
+    elif status == 'pending':
+        products = products.filter(is_approved=False)
+    elif status == 'approved':
+        products = products.filter(is_approved=True)
+    
+    if search:
+        products = products.filter(
+            Q(name__icontains=search) | 
+            Q(description__icontains=search)
+        )
+    
+    products = products.order_by('-created_at')
+    
+    # Pagination
+    from django.core.paginator import Paginator
+    paginator = Paginator(products, 12)  # Show 12 products per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    context = {
+        'title': 'My Products' if not profile.is_esa_admin() else 'All Products',
+        'products': page_obj,
+        'categories': Product.CATEGORY_CHOICES,
+        'current_category': category,
+        'current_status': status,
+        'search_query': search,
+        'is_vendor': True,
+    }
+    
+    return render(request, 'core/vendor_products.html', context)
+
+@login_required
+def manage_vendors(request):
+    """Admin view to manage vendors"""
+    if not hasattr(request.user, 'profile') or not request.user.profile.is_esa_admin():
+        messages.error(request, "You don't have permission to manage vendors.")
+        return redirect('home')
+    
+    # Get all users with vendor role or store management permissions
+    vendor_profiles = UserProfile.objects.filter(
+        Q(role__name='Vendor') | 
+        Q(role__name='Store Manager') |
+        Q(role__can_post_store_items=True)
+    ).select_related('user', 'role').order_by('-created_at')
+    
+    # Handle POST requests for vendor management
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        user_id = request.POST.get('user_id')
+        
+        try:
+            target_user = User.objects.get(id=user_id)
+            target_profile = target_user.profile
+            
+            if action == 'make_vendor':
+                vendor_role = UserRole.objects.get(name='Vendor')
+                target_profile.role = vendor_role
+                target_profile.user_type = 'vendor'
+                target_profile.save()
+                messages.success(request, f"{target_user.username} is now a vendor.")
+                
+            elif action == 'remove_vendor':
+                # Remove vendor role but don't delete products
+                target_profile.role = None
+                target_profile.save()
+                messages.success(request, f"Vendor privileges removed from {target_user.username}.")
+                
+        except (User.DoesNotExist, UserRole.DoesNotExist) as e:
+            messages.error(request, f"Error: {str(e)}")
+        
+        return redirect('manage_vendors')
+    
+    # Search functionality
+    search = request.GET.get('search', '')
+    if search:
+        vendor_profiles = vendor_profiles.filter(
+            Q(user__username__icontains=search) |
+            Q(user__first_name__icontains=search) |
+            Q(user__last_name__icontains=search) |
+            Q(user__email__icontains=search)
+        )
+    
+    # Get vendor statistics
+    vendor_stats = {}
+    for profile in vendor_profiles:
+        products = Product.objects.filter(vendor_user=profile)
+        vendor_stats[profile.id] = {
+            'total_products': products.count(),
+            'active_products': products.filter(is_active=True).count(),
+            'pending_products': products.filter(is_approved=False).count(),
+        }
+    
+    context = {
+        'title': 'Manage Vendors',
+        'vendor_profiles': vendor_profiles,
+        'vendor_stats': vendor_stats,
+        'search_query': search,
+    }
+    
+    return render(request, 'core/manage_vendors.html', context)

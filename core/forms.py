@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.db.models import Q
 from .models import (
     UserProfile, MembershipPlan, Membership,
     Event, EventRegistration, Product, Order,
@@ -171,9 +172,41 @@ class EventRegistrationForm(forms.ModelForm):
         fields = []  # No fields needed in the form, we'll set them in the view
 
 class ProductForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        
+        # If user is admin, allow them to assign product to any vendor
+        if user and hasattr(user, 'profile') and user.profile.is_esa_admin():
+            from core.models import UserProfile, UserRole
+            vendor_users = UserProfile.objects.filter(
+                Q(role__name='Vendor') | 
+                Q(role__name='Store Manager') |
+                Q(role__can_post_store_items=True)
+            ).select_related('user')
+            
+            vendor_choices = [(None, '--- Select Vendor ---')] + [
+                (profile.id, f"{profile.user.get_full_name() or profile.user.username}")
+                for profile in vendor_users
+            ]
+            
+            self.fields['vendor_user'] = forms.ChoiceField(
+                choices=vendor_choices,
+                required=False,
+                widget=forms.Select(attrs={
+                    'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
+                })
+            )
+        
+        # Hide vendor field for non-admin users (it will be set automatically)
+        if user and hasattr(user, 'profile') and not user.profile.is_esa_admin():
+            self.fields['vendor'].widget = forms.HiddenInput()
+            if 'vendor_user' in self.fields:
+                self.fields['vendor_user'].widget = forms.HiddenInput()
+    
     class Meta:
         model = Product
-        fields = ['name', 'slug', 'description', 'price', 'stock', 'category', 'vendor', 'image']
+        fields = ['name', 'slug', 'description', 'price', 'stock', 'category', 'vendor', 'vendor_user', 'image', 'featured']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}),
             'slug': forms.TextInput(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}),
@@ -181,8 +214,9 @@ class ProductForm(forms.ModelForm):
             'price': forms.NumberInput(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}),
             'stock': forms.NumberInput(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}),
             'category': forms.Select(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}),
-            'vendor': forms.TextInput(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}),
+            'vendor': forms.TextInput(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500', 'placeholder': 'Legacy vendor name (optional)'}),
             'image': forms.FileInput(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'}),
+            'featured': forms.CheckboxInput(attrs={'class': 'w-5 h-5 text-blue-600 focus:ring-blue-500 rounded'}),
         }
 
 class OrderForm(forms.ModelForm):

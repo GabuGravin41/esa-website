@@ -293,6 +293,7 @@
       padding-bottom: 5px; /* Add padding to keep dropdown open when moving mouse to it */
     }
   </style>
+  {% block styles %}{% endblock%}
 
 </head>
 <body class="min-h-screen flex flex-col bg-gray-50 text-gray-800">
@@ -393,8 +394,7 @@
           </button>
         </form>
         {% if not user.is_authenticated %}
-          <!-- Remove the JOIN ESA-KU button -->
-          <a href="{% url 'register' %}" class="hidden md:inline-block bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded font-bold">
+          <a href="{% url 'membership' %}#pricingSection" class="hidden md:inline-block bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded font-bold">
             JOIN ESA-KU
           </a> 
         {% endif %}
@@ -560,7 +560,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
   <!-- Fixed Messages Container at Bottom -->
-  {% if messages %}
+  {% if messages and request.resolver_match.url_name != 'account_login' %}
   <div id="notification-container" class="fixed bottom-4 right-4 left-4 md:left-auto md:max-w-md z-50">
     {% for message in messages %}
       <div class="notification rounded-md p-4 mb-2 shadow-lg border {% if message.tags == 'success' %}bg-green-100 border-green-500 text-green-800{% elif message.tags == 'error' %}bg-red-100 border-red-500 text-red-800{% else %}bg-blue-100 border-blue-500 text-blue-800{% endif %} flex justify-between items-center">

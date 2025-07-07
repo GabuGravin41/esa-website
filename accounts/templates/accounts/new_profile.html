@@ -1,0 +1,319 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Profile - ESA-KU{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Profile Header -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+            <div class="bg-gradient-to-r from-blue-900 to-blue-700 px-6 py-8">
+                <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6">
+                    <!-- Profile Picture -->
+                    <div class="relative">
+                        {% if user.profile.profile_picture %}
+                            <img class="h-32 w-32 rounded-full border-4 border-white shadow-lg object-cover" 
+                                 src="{{ user.profile.profile_picture.url }}" alt="Profile picture">
+                        {% else %}
+                            <div class="h-32 w-32 rounded-full border-4 border-white shadow-lg bg-gray-300 flex items-center justify-center">
+                                <i class="fas fa-user text-4xl text-gray-600"></i>
+                            </div>
+                        {% endif %}
+                        <div class="absolute bottom-0 right-0 bg-white rounded-full p-2 shadow-md">
+                            <i class="fas fa-camera text-gray-600"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Basic Info -->
+                    <div class="text-center md:text-left">
+                        <h1 class="text-3xl font-bold text-white">
+                            {{ user.get_full_name|default:user.username }}
+                        </h1>
+                        <p class="text-blue-200 text-lg">{{ user.profile.department }}</p>
+                        {% if user.profile.course %}
+                            <p class="text-blue-100">{{ user.profile.course }}</p>
+                        {% endif %}
+                        
+                        <!-- Membership Status Badge -->
+                        <div class="mt-3">
+                            {% if user.profile.membership_status == 'active' %}
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                    <i class="fas fa-check-circle mr-1"></i>
+                                    Active Member
+                                </span>
+                            {% else %}
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                                    <i class="fas fa-exclamation-circle mr-1"></i>
+                                    Not a Member
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Stats -->
+                    <div class="md:ml-auto text-center">
+                        <div class="grid grid-cols-2 gap-4 text-white">
+                            <div>
+                                <div class="text-2xl font-bold">{{ user.profile.year_of_study|default:"N/A" }}</div>
+                                <div class="text-blue-200 text-sm">Year of Study</div>
+                            </div>
+                            <div>
+                                <div class="text-2xl font-bold">{{ user.profile.membership_number|default:"N/A" }}</div>
+                                <div class="text-blue-200 text-sm">Member #</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Left Column - Profile Details -->
+            <div class="lg:col-span-2 space-y-6">
+                
+                <!-- Personal Information Card -->
+                <div class="bg-white rounded-lg shadow-md">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h2 class="text-xl font-semibold text-gray-900 flex items-center">
+                            <i class="fas fa-user mr-2 text-blue-600"></i>
+                            Personal Information
+                        </h2>
+                    </div>
+                    <div class="p-6">
+                        <form method="POST" enctype="multipart/form-data" class="space-y-4">
+                            {% csrf_token %}
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                                    <input type="text" name="first_name" value="{{ user.first_name }}" 
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                                    <input type="text" name="last_name" value="{{ user.last_name }}" 
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                <input type="email" name="email" value="{{ user.email }}" 
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                                <input type="tel" name="phone_number" value="{{ user.profile.phone_number }}" 
+                                       placeholder="254712345678"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Profile Picture</label>
+                                <input type="file" name="profile_picture" accept="image/*" 
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Bio</label>
+                                <textarea name="bio" rows="3" placeholder="Tell us about yourself..." 
+                                          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">{{ user.profile.bio }}</textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Academic Information Card -->
+                <div class="bg-white rounded-lg shadow-md">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h2 class="text-xl font-semibold text-gray-900 flex items-center">
+                            <i class="fas fa-graduation-cap mr-2 text-blue-600"></i>
+                            Academic Information
+                        </h2>
+                    </div>
+                    <div class="p-6">
+                        <form method="POST" class="space-y-4">
+                            {% csrf_token %}
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Student ID / Registration Number</label>
+                                <input type="text" name="student_id" value="{{ user.profile.student_id }}" 
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Department</label>
+                                <input type="text" name="department" value="{{ user.profile.department }}" 
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Course / Program</label>
+                                <input type="text" name="course" value="{{ user.profile.course }}" 
+                                       placeholder="e.g., Bachelor of Engineering in Computer Science"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Year of Study</label>
+                                <select name="year_of_study" 
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="">Select Year</option>
+                                    {% for value, label in year_choices %}
+                                        <option value="{{ value }}" {% if user.profile.year_of_study == value %}selected{% endif %}>
+                                            {{ label }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">User Type</label>
+                                <select name="user_type" 
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    {% for value, label in user_type_choices %}
+                                        <option value="{{ value }}" {% if user.profile.user_type == value %}selected{% endif %}>
+                                            {{ label }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Membership Number</label>
+                                <input type="text" name="membership_number" value="{{ user.profile.membership_number }}" readonly
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-700 cursor-not-allowed">
+                            </div>
+                            
+                            <button type="submit" 
+                                    class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                Update Profile
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Membership & Stats -->
+            <div class="space-y-6">
+                
+                <!-- Membership Card -->
+                <div class="bg-white rounded-lg shadow-md">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h2 class="text-xl font-semibold text-gray-900 flex items-center">
+                            <i class="fas fa-id-card mr-2 text-blue-600"></i>
+                            Membership Status
+                        </h2>
+                    </div>
+                    <div class="p-6">
+                        {% if user.profile.membership_status == 'active' %}
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-check text-2xl text-green-600"></i>
+                                </div>
+                                <h3 class="text-lg font-semibold text-green-600">Active Member</h3>
+                                <p class="text-gray-600 mt-2">Member Number: {{ user.profile.membership_number }}</p>
+                                {% if user.profile.membership_expiry %}
+                                    <p class="text-sm text-gray-500 mt-1">Expires: {{ user.profile.membership_expiry|date:"M d, Y" }}</p>
+                                {% endif %}
+                            </div>
+                        {% else %}
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-exclamation text-2xl text-yellow-600"></i>
+                                </div>
+                                <h3 class="text-lg font-semibold text-yellow-600">Not a Member</h3>
+                                <p class="text-gray-600 mt-2">Join ESA-KU to access exclusive benefits</p>
+                                <a href="{% url 'membership' %}" 
+                                   class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+                                    Join Now
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-lg shadow-md">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h2 class="text-xl font-semibold text-gray-900 flex items-center">
+                            <i class="fas fa-bolt mr-2 text-blue-600"></i>
+                            Quick Actions
+                        </h2>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        {% if user.profile.membership_status == 'active' %}
+                            <a href="{% url 'dashboard' %}" 
+                               class="w-full flex items-center justify-between p-3 bg-blue-50 rounded-md hover:bg-blue-100 transition">
+                                <span class="flex items-center">
+                                    <i class="fas fa-tachometer-alt mr-2 text-blue-600"></i>
+                                    Dashboard
+                                </span>
+                                <i class="fas fa-arrow-right text-blue-600"></i>
+                            </a>
+                        {% endif %}
+                        
+                        <a href="{% url 'store' %}" 
+                           class="w-full flex items-center justify-between p-3 bg-gray-50 rounded-md hover:bg-gray-100 transition">
+                            <span class="flex items-center">
+                                <i class="fas fa-shopping-cart mr-2 text-gray-600"></i>
+                                ESA Store
+                            </span>
+                            <i class="fas fa-arrow-right text-gray-600"></i>
+                        </a>
+                        
+                        <a href="{% url 'events' %}" 
+                           class="w-full flex items-center justify-between p-3 bg-gray-50 rounded-md hover:bg-gray-100 transition">
+                            <span class="flex items-center">
+                                <i class="fas fa-calendar mr-2 text-gray-600"></i>
+                                Events
+                            </span>
+                            <i class="fas fa-arrow-right text-gray-600"></i>
+                        </a>
+                        
+                        <a href="{% url 'communities' %}" 
+                           class="w-full flex items-center justify-between p-3 bg-gray-50 rounded-md hover:bg-gray-100 transition">
+                            <span class="flex items-center">
+                                <i class="fas fa-users mr-2 text-gray-600"></i>
+                                Communities
+                            </span>
+                            <i class="fas fa-arrow-right text-gray-600"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Account Stats -->
+                <div class="bg-white rounded-lg shadow-md">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h2 class="text-xl font-semibold text-gray-900 flex items-center">
+                            <i class="fas fa-chart-bar mr-2 text-blue-600"></i>
+                            Activity
+                        </h2>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Blog Posts</span>
+                                <span class="font-semibold">{{ user.profile.blog_posts_count }}</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Comments</span>
+                                <span class="font-semibold">{{ user.profile.comments_count }}</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Member Since</span>
+                                <span class="font-semibold">{{ user.date_joined|date:"M Y" }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -4,6 +4,7 @@ from django.conf.urls.static import static
 
 from . import views
 from . import api
+from .membership_urls import membership_urlpatterns
 
 urlpatterns = [
     # URLs
@@ -121,6 +122,11 @@ urlpatterns = [
     path('admin/dashboard/', views.admin_dashboard, name='admin_dashboard'),  # New admin dashboard
     path('admin/init-admin-users/', views.init_admin_users, name='init_admin_users'),  # Initialize admin users
 
+    # Vendor URLs
+    path('vendor/dashboard/', views.vendor_dashboard, name='vendor_dashboard'),
+    path('vendor/products/', views.vendor_products, name='vendor_products'),
+    path('admin/vendors/', views.manage_vendors, name='manage_vendors'),
+
     # Search URLs
     path('search/', views.search, name='search'),
     
@@ -130,3 +136,6 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+# Add membership URL patterns
+urlpatterns += membership_urlpatterns

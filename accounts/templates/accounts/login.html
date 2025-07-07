@@ -13,6 +13,15 @@
         <p class="text-sm text-gray-500 mt-1">Kenyatta University Chapter</p>
       </div>
 
+      <!-- Django messages -->
+      {% if messages %}
+      <div class="mb-6 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+        {% for message in messages %}
+          <p class="text-center">{{ message }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
+
       <!-- Form-specific error messages -->
       {% if form.errors %}
       <div class="mb-6 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">

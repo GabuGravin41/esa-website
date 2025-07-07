@@ -88,6 +88,23 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS(f'Created role: {resource_role.name}'))
         else:
             self.stdout.write(f'Role already exists: {resource_role.name}')
+        
+        # Vendor role
+        vendor_role, created = UserRole.objects.get_or_create(
+            name='Vendor',
+            defaults={
+                'description': 'Can add and manage their own products in the store',
+                'can_post_events': False,
+                'can_post_store_items': True,
+                'can_post_resources': False,
+                'is_admin': False,
+                'can_manage_permissions': False
+            }
+        )
+        if created:
+            self.stdout.write(self.style.SUCCESS(f'Created role: {vendor_role.name}'))
+        else:
+            self.stdout.write(f'Role already exists: {vendor_role.name}')
     
     def create_admin_user(self):
         """Create the main admin user with specified credentials"""

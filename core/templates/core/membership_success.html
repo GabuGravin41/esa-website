@@ -1,0 +1,184 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Membership Confirmation - ESA{% endblock %}
+
+{% block content %}
+<!-- Success Banner -->
+<div class="bg-green-600 text-white py-6">
+    <div class="container mx-auto px-4 text-center">
+        <div class="flex items-center justify-center mb-4">
+            <div class="bg-white rounded-full p-2 mr-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+            <h1 class="text-3xl font-bold">Membership Activated!</h1>
+        </div>
+        <p class="text-xl max-w-2xl mx-auto">
+            Your ESA-KU membership has been successfully processed and activated.
+        </p>
+    </div>
+</div>
+
+<!-- Membership Details -->
+<section class="py-12 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="p-6 border-b border-gray-200">
+                <h2 class="text-2xl font-bold text-blue-900">Membership Details</h2>
+            </div>
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-700">Member Information</h3>
+                        <ul class="mt-4 space-y-3">
+                            <li class="flex items-start">
+                                <span class="text-gray-500 w-32">Name:</span>
+                                <span class="font-medium">{{ membership.user.user.get_full_name }}</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-gray-500 w-32">Email:</span>
+                                <span class="font-medium">{{ membership.user.user.email }}</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-gray-500 w-32">Phone:</span>
+                                <span class="font-medium">{{ membership.user.phone|default:"Not provided" }}</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-gray-500 w-32">Member Since:</span>
+                                <span class="font-medium">{{ membership.start_date|date:"F j, Y" }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-700">Membership Details</h3>
+                        <ul class="mt-4 space-y-3">
+                            <li class="flex items-start">
+                                <span class="text-gray-500 w-32">Member Number:</span>
+                                <span class="font-medium text-blue-900">{{ membership.membership_number }}</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-gray-500 w-32">Status:</span>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    Active
+                                </span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-gray-500 w-32">Valid Until:</span>
+                                <span class="font-medium">{{ membership.end_date|date:"F j, Y" }}</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-gray-500 w-32">Amount Paid:</span>
+                                <span class="font-medium">KSh {{ membership.payment.amount }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Payment Receipt -->
+                <div class="mt-8 p-4 border border-gray-200 rounded-md bg-gray-50">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-medium text-gray-700">Payment Receipt</h3>
+                        <a href="{% if membership.payment %}{% url 'generate_receipt' payment_id=membership.payment.id %}{% else %}#{% endif %}" 
+                           class="text-blue-600 hover:text-blue-800 flex items-center{% if not membership.payment %} opacity-50 cursor-not-allowed{% endif %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            Download Receipt
+                        </a>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <p class="text-gray-500">Payment Date:</p>
+                            <p class="font-medium">{{ membership.payment.created_at|date:"F j, Y" }}</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-500">Payment Method:</p>
+                            <p class="font-medium">{{ membership.payment.payment_method|title }}</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-500">Transaction ID:</p>
+                            <p class="font-medium">{{ membership.payment.transaction_id|default:"N/A" }}</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-500">Reference:</p>
+                            <p class="font-medium">{{ membership.payment.reference }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- What's Next -->
+<section class="py-12 bg-white">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center text-blue-900 mb-10">What's Next?</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <div class="bg-blue-50 rounded-lg p-6 border border-blue-100 text-center">
+                <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-blue-900 mb-2">Complete Your Profile</h3>
+                <p class="text-gray-600 mb-4">Update your profile with your details and preferences to get the most out of your membership.</p>
+                <a href="{% url 'profile' %}" class="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center">
+                    Go to Profile
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+            <div class="bg-blue-50 rounded-lg p-6 border border-blue-100 text-center">
+                <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-blue-900 mb-2">Join Communities</h3>
+                <p class="text-gray-600 mb-4">Connect with other members in communities based on your interests and areas of expertise.</p>
+                <a href="{% url 'communities' %}" class="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center">
+                    Browse Communities
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+            <div class="bg-blue-50 rounded-lg p-6 border border-blue-100 text-center">
+                <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-blue-900 mb-2">Explore Events</h3>
+                <p class="text-gray-600 mb-4">Discover and register for upcoming events, workshops, and networking opportunities.</p>
+                <a href="{% url 'events' %}" class="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center">
+                    View Events
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Dashboard CTA -->
+<section class="py-12 bg-blue-900 text-white">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-3xl font-bold mb-4">Manage Your Membership</h2>
+        <p class="max-w-2xl mx-auto mb-8 text-lg">
+            Visit your dashboard to access exclusive resources, track your activities, and manage your membership.
+        </p>
+        <a href="{% url 'dashboard' %}" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-blue-900 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            Go to Dashboard
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+        </a>
+    </div>
+</section>
+{% endblock %}

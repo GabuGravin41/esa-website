@@ -102,7 +102,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Program 1 -->
             <div class="bg-gray-50 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all h-full flex flex-col">
-                <div class="h-48 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1581094794329-c8112a989a91?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')">
+                <div class="h-48 bg-cover bg-center relative" style="background-image: url({% static 'images/technical_workshops.png' %});">
                     <div class="absolute bottom-0 left-0 bg-blue-900 text-white py-1 px-3 text-sm font-bold">
                         Skill Development
                     </div>
@@ -145,7 +145,7 @@
             
             <!-- Program 2 -->
             <div class="bg-gray-50 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all h-full flex flex-col">
-                <div class="h-48 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1507537297725-24a1c029d37d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')">
+                <div class="h-48 bg-cover bg-center relative" style="background-image: url({% static 'images/industry_connections.png' %});">
                     <div class="absolute bottom-0 left-0 bg-blue-900 text-white py-1 px-3 text-sm font-bold">
                         Career Growth
                     </div>
@@ -430,7 +430,7 @@
             <p class="text-lg mb-10 text-gray-700">Become a part of ESA and connect with like-minded engineering students, access exclusive resources, and enhance your professional development.</p>
             
             <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 mb-12">
-                <a href="{% url 'membership' %}" class="inline-flex items-center justify-center px-8 py-3 bg-blue-900 text-white font-semibold rounded-lg hover:bg-blue-800 transition duration-300 shadow-md">
+                <a href="{% url 'membership' %}#pricingSection " class="inline-flex items-center justify-center px-8 py-3 bg-blue-900 text-white font-semibold rounded-lg hover:bg-blue-800 transition duration-300 shadow-md">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
                     </svg>

@@ -33,10 +33,9 @@ const auth = {
             
             // First check if the response is OK
             if (!response.ok) {
-                console.error('Server error:', response.status, response.statusText);
                 return { 
                     status: 'error', 
-                    message: `Server error: ${response.status} ${response.statusText}` 
+                    message: 'Invalid username or password.' 
                 };
             }
             
@@ -44,8 +43,7 @@ const auth = {
             const data = await response.json();
             return data;
         } catch (error) {
-            console.error('Login error:', error);
-            return { status: 'error', message: 'Failed to login. Check your network connection.' };
+            return { status: 'error', message: 'An error occurred while trying to log in. Please try again.' };
         }
     },
 
@@ -152,23 +150,28 @@ const forms = {
         const form = e.target;
         const formData = new FormData(form);
         
-        // Add debug info to help troubleshoot
-        console.log('Submitting login form to:', form.action);
-        console.log('Form data username:', formData.get('username'));
-        console.log('Remember me set:', formData.get('remember_me') ? true : false);
+        // Clear any existing error messages
+        const existingErrorDiv = document.querySelector('.mb-6.p-3.bg-red-50');
+        if (existingErrorDiv) {
+            existingErrorDiv.remove();
+        }
         
         const result = await auth.login(
             formData.get('username'),
             formData.get('password'),
             formData.get('remember_me') === 'on'
         );
-
-        console.log('Login result:', result);
         
         if (result.status === 'success') {
             window.location.href = result.redirect_url || '/';
         } else {
-            ui.showError(result.message || 'Login failed. Please try again.');
+            ui.showError(result.message || 'Invalid username or password.');
+            
+            // Add aria attributes for accessibility
+            const firstInput = form.querySelector('input[name="username"]');
+            if (firstInput) {
+                firstInput.focus();
+            }
         }
     },
 
@@ -207,22 +210,33 @@ const forms = {
 const ui = {
     // Show error message
     showError(message) {
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'rounded-md bg-red-50 p-4 mb-4';
-        errorDiv.innerHTML = `
-            <div class="flex">
-                <div class="flex-shrink-0">
-                    <ion-icon name="alert-circle" class="h-5 w-5 text-red-400"></ion-icon>
-                </div>
-                <div class="ml-3">
-                    <h3 class="text-sm font-medium text-red-800">Error</h3>
-                    <div class="mt-2 text-sm text-red-700">
-                        <p>${message}</p>
+        const formElement = document.querySelector('form[action*="account_login"]');
+        
+        // If this is a login form, use the same styling as the Django form errors
+        if (formElement) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'mb-6 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm';
+            errorDiv.innerHTML = `<p class="text-center">${message}</p>`;
+            this.insertMessage(errorDiv);
+        } else {
+            // Otherwise use the default error styling
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'rounded-md bg-red-50 p-4 mb-4';
+            errorDiv.innerHTML = `
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <ion-icon name="alert-circle" class="h-5 w-5 text-red-400"></ion-icon>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-medium text-red-800">Error</h3>
+                        <div class="mt-2 text-sm text-red-700">
+                            <p>${message}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        `;
-        this.insertMessage(errorDiv);
+            `;
+            this.insertMessage(errorDiv);
+        }
     },
 
     // Show success message
@@ -273,11 +287,27 @@ const ui = {
 
     // Insert message into the page
     insertMessage(messageDiv) {
-        const container = document.querySelector('.container.mx-auto.px-4.py-4');
-        if (container) {
-            container.insertBefore(messageDiv, container.firstChild);
+        // For login page, insert into login container
+        const loginContainer = document.querySelector('.w-full.max-w-md.px-4.py-8');
+        const formElement = document.querySelector('form[action*="account_login"]');
+        
+        if (loginContainer && formElement) {
+            // For login form, insert the message at the beginning of the login container
+            // or before the form if it exists
+            const existingErrorDiv = loginContainer.querySelector('.bg-red-50, .mb-6.p-3.bg-red-50');
+            if (existingErrorDiv) {
+                existingErrorDiv.replaceWith(messageDiv);
+            } else {
+                loginContainer.insertBefore(messageDiv, formElement);
+            }
         } else {
-            document.body.insertBefore(messageDiv, document.body.firstChild);
+            // For other pages, use the container or body
+            const container = document.querySelector('.container.mx-auto.px-4.py-4');
+            if (container) {
+                container.insertBefore(messageDiv, container.firstChild);
+            } else {
+                document.body.insertBefore(messageDiv, document.body.firstChild);
+            }
         }
     }
 };

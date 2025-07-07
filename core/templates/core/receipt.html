@@ -155,7 +155,7 @@
     
     <div class="bg-white rounded-xl shadow-lg overflow-hidden receipt-container">
         <div class="receipt-header">
-            <img src="{% static 'images/logo.png' %}" alt="ESA-KU Logo" class="receipt-logo mx-auto">
+            <img src="{% static 'images/esa-logo.png' %}" alt="ESA-KU Logo" class="receipt-logo mx-auto">
             <h2 class="receipt-title">Engineering Students Association</h2>
             <p class="text-gray-600">Kenyatta University</p>
             <div class="receipt-number">Receipt #{{ payment.id }}-{{ payment.created_at|date:"Ymd" }}</div>
@@ -196,16 +196,32 @@
                     <span class="receipt-label">Email:</span>
                     <span class="receipt-value">{{ payment.user.email }}</span>
                 </div>
+                {% if payment.user.profile.student_id %}
+                <div class="receipt-row">
+                    <span class="receipt-label">Student ID:</span>
+                    <span class="receipt-value">{{ payment.user.profile.student_id }}</span>
+                </div>
+                {% endif %}
                 {% if payment.user.profile.membership_number %}
                 <div class="receipt-row">
                     <span class="receipt-label">Membership Number:</span>
                     <span class="receipt-value">{{ payment.user.profile.membership_number }}</span>
                 </div>
                 {% endif %}
-                {% if payment.user.profile.student_id %}
+                {% if payment.user.profile.course %}
                 <div class="receipt-row">
-                    <span class="receipt-label">Student ID:</span>
-                    <span class="receipt-value">{{ payment.user.profile.student_id }}</span>
+                    <span class="receipt-label">Course:</span>
+                    <span class="receipt-value">{{ payment.user.profile.course }}</span>
+                </div>
+                {% endif %}
+                {% if payment.user.profile.year_of_study %}
+                <div class="receipt-row">
+                    <span class="receipt-label">Year of Study:</span>
+                    <span class="receipt-value">
+                        {% for value, label in payment.user.profile.YEAR_OF_STUDY_CHOICES %}
+                            {% if value == payment.user.profile.year_of_study %}{{ label }}{% endif %}
+                        {% endfor %}
+                    </span>
                 </div>
                 {% endif %}
             </div>
@@ -266,6 +282,7 @@
             
             <div class="receipt-message">
                 <p>Thank you for your payment. This is your official receipt.</p>
+                <p>If you need a PDF copy, click <b>Print Receipt</b> and choose <b>Save as PDF</b> in your browser's print dialog.</p>
                 <p>If you have any questions, please contact us at <a href="mailto:info@esa-ku.org" class="text-blue-700">info@esa-ku.org</a></p>
             </div>
             

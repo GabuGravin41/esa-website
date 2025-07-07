@@ -77,7 +77,7 @@ class OrderService:
         # Send order confirmation email
         try:
             from core.email_service import send_order_confirmation_email
-            email_sent = send_order_confirmation_email(user.user, order)
+            email_sent = send_order_confirmation_email(user, order)
             if not email_sent:
                 logging.warning(f"Order confirmation email could not be sent for order {order.id}")
         except Exception as e:
@@ -120,7 +120,7 @@ class OrderService:
         try:
             if status == 'completed':
                 from core.email_service import send_order_confirmation_email
-                send_order_confirmation_email(order.user.user, order)
+                send_order_confirmation_email(order.user, order)
             elif status == 'cancelled':
                 # Could implement a cancellation email here
                 pass

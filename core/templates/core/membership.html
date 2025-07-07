@@ -123,7 +123,7 @@
 </section>
 
 <!-- Member Resources & Opportunities Section -->
-<section class="py-12 bg-white">
+<section class="py-12 bg-white" id="membershipOpportunities" >
   <div class="container mx-auto px-4">
     <h2 class="text-3xl font-bold text-blue-900 text-center mb-10">Membership Opportunities</h2>
     
@@ -185,7 +185,7 @@
           <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
             <i class="fas fa-book-open text-2xl text-blue-900"></i>
           </div>
-          <h3 class="text-xl font-bold text-blue-900">ESA Journals for Members</h3>
+          <h3 class="text-xl font-bold text-blue-900 mb-3">ESA Journals for Members</h3>
     </div>
         <p class="text-gray-700 mb-4">
           More than 400 engineering students at Kenyatta University make ESA an integral part of their lives. Explore their innovations and experiences in our journals.
@@ -232,7 +232,7 @@
                     <!-- First Year Tier -->
                     <div class="bg-white rounded-lg shadow-lg p-6 border-2 border-blue-900">
                         <h3 class="text-xl font-bold text-blue-900 mb-4">First Year Student</h3>
-                        <p class="text-3xl font-bold mb-4">KSh 250</p>
+                        <p class="text-3xl font-bold mb-4">KSh 2</p>
                         <ul class="space-y-2 mb-6">
                             <li class="flex items-center">
                                 <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -253,7 +253,7 @@
                                 Networking opportunities
                             </li>
                         </ul>
-                        <button onclick="selectTier('first_year', 250)" class="w-full bg-blue-900 text-white py-2 rounded-lg hover:bg-blue-800 transition-colors">
+                        <button onclick="selectTier('first_year', 2)" class="w-full bg-blue-900 text-white py-2 rounded-lg hover:bg-blue-800 transition-colors">
                             Select Plan
                         </button>
                     </div>
@@ -261,7 +261,7 @@
                     <!-- Other Students Tier -->
                     <div class="bg-white rounded-lg shadow-lg p-6 border-2 border-blue-900">
                         <h3 class="text-xl font-bold text-blue-900 mb-4">Other Students</h3>
-                        <p class="text-3xl font-bold mb-4">KSh 300</p>
+                        <p class="text-3xl font-bold mb-4">KSh 2</p>
                         <ul class="space-y-2 mb-6">
                             <li class="flex items-center">
                                 <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -282,7 +282,7 @@
                                 Access to workshops
                             </li>
                         </ul>
-                        <button onclick="selectTier('other_students', 300)" class="w-full bg-blue-900 text-white py-2 rounded-lg hover:bg-blue-800 transition-colors">
+                        <button onclick="selectTier('other_students', 2)" class="w-full bg-blue-900 text-white py-2 rounded-lg hover:bg-blue-800 transition-colors">
                             Select Plan
                         </button>
                     </div>
@@ -293,7 +293,7 @@
                     <!-- Graduate Tier -->
                     <div class="bg-white rounded-lg shadow-lg p-6 border-2 border-blue-900">
                         <h3 class="text-xl font-bold text-blue-900 mb-4">Graduate/Professional</h3>
-                        <p class="text-3xl font-bold mb-4">KSh 1000</p>
+                        <p class="text-3xl font-bold mb-4">KSh 2</p>
                         <ul class="space-y-2 mb-6">
                             <li class="flex items-center">
                                 <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -314,7 +314,7 @@
                                 Career development resources
                             </li>
                         </ul>
-                        <button onclick="selectTier('graduate', 1000)" class="w-full bg-blue-900 text-white py-2 rounded-lg hover:bg-blue-800 transition-colors">
+                        <button onclick="selectTier('graduate', 2)" class="w-full bg-blue-900 text-white py-2 rounded-lg hover:bg-blue-800 transition-colors">
                             Select Plan
                         </button>
                     </div>
@@ -500,79 +500,153 @@
         </div>
   </div>
 </section>
-
 <!-- Payment Form -->
-<div id="paymentForm" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
-    <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
-        <h2 class="text-2xl font-bold text-blue-900 mb-6">Complete Your Membership</h2>
-        <form id="membershipForm" method="POST" class="space-y-4">
+<div id="paymentForm" class="fixed inset-y-0 left-0 bg-white hidden w-96 shadow-2xl z-50 overflow-y-auto transform transition-transform duration-300 ease-in-out">
+    <div class="p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-blue-900">Complete Membership</h2>
+            <button onclick="document.getElementById('paymentForm').classList.add('hidden')" class="text-gray-400 hover:text-gray-600">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+
+        <form id="membershipForm" method="POST" action="" class="space-y-4">
             {% csrf_token %}
             <input type="hidden" id="planType" name="plan_type">
             <input type="hidden" id="amount" name="amount">
             <input type="hidden" id="paymentMethod" name="payment_method">
 
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">First Name</label>
-                    <input type="text" name="first_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            <!-- Personal Details Section -->
+            <div class="space-y-3">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-sm font-medium text-gray-700">First Name</label>
+                        <input type="text" name="first_name" required 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-700">Last Name</label>
+                        <input type="text" name="last_name" required 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Last Name</label>
-                    <input type="text" name="last_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    <label class="text-sm font-medium text-gray-700">Email</label>
+                    <input type="email" name="email" required 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Email</label>
-                    <input type="email" name="email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Phone Number</label>
-                    <input type="tel" name="phone_number" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    <label class="text-sm font-medium text-gray-700">Phone Number</label>
+                    <input type="tel" name="phone_number" required placeholder="+254 7XX XXX XXX"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
             </div>
 
+            <!-- Payment Method Section -->
             <div class="border-t border-gray-200 pt-4">
-                <h3 class="text-lg font-medium text-gray-900 mb-4">Payment Method</h3>
-                <div class="flex space-x-4 mb-4">
-                    <button type="button" id="mpesaTab" onclick="togglePaymentMethod('mpesa')" class="flex-1 py-2 px-4 border border-blue-900 rounded-md text-blue-900 hover:bg-blue-50">
-                        M-Pesa
+                <h3 class="text-lg font-medium text-gray-900 mb-3">Payment Method</h3>
+                <div class="flex gap-2 mb-4">
+                    <button type="button" id="mpesaTab" onclick="togglePaymentMethod('mpesa')" 
+                            class="flex-1 flex items-center justify-center p-2 border border-gray-200 rounded-md hover:border-blue-500 transition-all">
+                        <img src="{% static 'images/mpesa_logo.png' %}" alt="M-Pesa" class="h-11">
                     </button>
-                    <button type="button" id="paypalTab" onclick="togglePaymentMethod('paypal')" class="flex-1 py-2 px-4 border border-blue-900 rounded-md text-blue-900 hover:bg-blue-50">
-                        PayPal
+                    <button type="button" id="paypalTab" onclick="togglePaymentMethod('paypal')" 
+                            class="flex-1 flex items-center justify-center p-2 border border-gray-200 rounded-md hover:border-blue-500 transition-all">
+                        <img src="{% static 'images/paypal_logo.png' %}" alt="PayPal" class="h-11">
+                    </button>
+                    <button type="button" id="cardTab" onclick="togglePaymentMethod('card')" 
+                            class="flex-1 flex items-center justify-center p-2 border border-gray-200 rounded-md hover:border-blue-500 transition-all">
+                        <i class="fas fa-credit-card text-xl"></i>
                     </button>
                 </div>
 
                 <!-- M-Pesa Fields -->
-                <div id="mpesaFields">
-                    <div class="bg-blue-50 p-4 rounded-md mb-4">
-                        <p class="text-sm text-blue-900">Total Amount: <span id="totalAmount" class="font-bold">KSh 0</span></p>
-                        <p class="text-sm text-blue-900 mt-2">Please follow these steps:</p>
-                        <ol class="list-decimal list-inside text-sm text-blue-900 mt-2">
-                            <li>Go to your M-Pesa menu</li>
-                            <li>Select "Pay Bill"</li>
-                            <li>Enter Business Number: <span class="font-bold">247247</span></li>
-                            <li>Enter Account Number: <span class="font-bold">ESA-KU</span></li>
-                            <li>Enter Amount: <span id="mpesaAmount" class="font-bold">KSh 0</span></li>
-                            <li>Enter your M-Pesa PIN</li>
-                            <li>Confirm the transaction</li>
-                        </ol>
+                <div id="mpesaFields" class="transition-all duration-300">
+                    <div class="bg-blue-50 p-4 rounded-md border border-blue-100">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="font-medium text-blue-900">Total Amount:</span>
+                            <span id="totalAmount" class="text-lg font-bold text-blue-900">KSh 0</span>
+                        </div>
+                        <p class="text-sm text-blue-800 mb-4">
+                            Click "Pay Now" to receive an M-Pesa payment request on your phone.
+                        </p>
+                    </div>
+
+                    <!-- Payment Confirmation Dialog -->
+                    <div id="paymentConfirmation" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                        <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+                            <h3 class="text-xl font-bold text-blue-900 mb-4">Payment Status</h3>
+                            
+                            <!-- Initial STK Message -->
+                            <div id="stkMessage" class="mb-4">
+                                <p class="text-gray-700">Please check your phone for the M-Pesa payment request.</p>
+                                <p class="text-sm text-gray-500 mt-2">Enter your M-Pesa PIN to complete the payment.</p>
+                            </div>
+
+                            <!-- Alternative Payment Section -->
+                            <div id="alternativePayment" class="border-t pt-4 mt-4">
+                                <p class="text-sm text-gray-600 mb-3">If you didn't receive the payment request:</p>
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                                        M-Pesa Transaction Code
+                                    </label>
+                                    <input type="text" id="mpesaCode" 
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md"
+                                           placeholder="e.g., QWE1234567">
+                                </div>
+                            </div>
+
+                            <div class="flex justify-end space-x-3">
+                                <button onclick="confirmPayment()" 
+                                        class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                                    Confirm Payment
+                                </button>
+                                <button onclick="closePaymentDialog()" 
+                                        class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- PayPal Fields -->
                 <div id="paypalFields" class="hidden">
-                    <div class="bg-blue-50 p-4 rounded-md mb-4">
-                        <p class="text-sm text-blue-900">Total Amount: <span id="paypalAmount" class="font-bold">KSh 0</span></p>
-                        <p class="text-sm text-blue-900 mt-2">You will be redirected to PayPal to complete your payment.</p>
+                    <div class="bg-yellow-50 p-4 rounded-md border border-yellow-100">
+                        <div class="flex items-center mb-2 text-yellow-800">
+                            <i class="fas fa-info-circle mr-2"></i>
+                            <span class="font-medium">Coming Soon</span>
+                        </div>
+                        <p class="text-sm text-yellow-700">
+                            PayPal integration in progress. Please use M-Pesa.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card Payment Fields -->
+                <div id="cardFields" class="hidden">
+                    <div class="bg-yellow-50 p-4 rounded-md border border-yellow-100">
+                        <div class="flex items-center mb-2 text-yellow-800">
+                            <i class="fas fa-info-circle mr-2"></i>
+                            <span class="font-medium">Coming Soon</span>
+                        </div>
+                        <p class="text-sm text-yellow-700">
+                            Card payments coming soon. Please use M-Pesa.
+                        </p>
                     </div>
                 </div>
             </div>
 
-            <div class="flex justify-end space-x-4 mt-6">
-                <button type="button" onclick="document.getElementById('paymentForm').classList.add('hidden')" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+            <!-- Form Actions -->
+            <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+                <button type="button" onclick="document.getElementById('paymentForm').classList.add('hidden')" 
+                        class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
                     Cancel
                 </button>
-                <button type="submit" class="px-4 py-2 bg-blue-900 text-white rounded-md hover:bg-blue-800">
-                    Proceed to Payment
+                <button type="submit" 
+                        class="px-4 py-2 bg-blue-900 text-white rounded-md hover:bg-blue-800 flex items-center">
+                    <span>Pay Now</span>
+                    <i class="fas fa-arrow-right ml-2"></i>
                 </button>
             </div>
         </form>
@@ -595,10 +669,28 @@
     }
 
     function selectTier(tier, amount) {
-        document.getElementById('selectedTier').value = tier;
-        document.getElementById('selectedAmount').value = amount;
-        document.getElementById('displayAmount').textContent = `KSh ${amount}`;
-        document.getElementById('paymentForm').classList.remove('hidden');
+        const paymentForm = document.getElementById('paymentForm');
+        const totalAmount = document.getElementById('totalAmount');
+        const planTypeInput = document.getElementById('planType');
+        const amountInput = document.getElementById('amount');
+
+        // Set form values
+        planTypeInput.value = tier;
+        amountInput.value = amount;
+        totalAmount.textContent = `KSh ${amount}`;
+
+        // Show payment form
+        paymentForm.classList.remove('hidden');
+        
+        // Add slide-in animation class if needed
+        paymentForm.classList.add('transform', 'translate-x-0');
+        
+        // Default to M-Pesa payment method
+        document.getElementById('paymentMethod').value = 'mpesa';
+        togglePaymentMethod('mpesa');
+
+        // Scroll to top of payment form
+        paymentForm.scrollTop = 0;
     }
 
     // Toggle between student and graduate tiers
@@ -643,94 +735,241 @@
         }
     }
 
-    function selectTier(planType, amount) {
-        const paymentForm = document.getElementById('paymentForm');
-        const totalAmount = document.getElementById('totalAmount');
-        const planTypeInput = document.getElementById('planType');
-        const amountInput = document.getElementById('amount');
-
-        planTypeInput.value = planType;
-        amountInput.value = amount;
-        totalAmount.textContent = `KSh ${amount}`;
-        paymentForm.classList.remove('hidden');
-    }
-
     function togglePaymentMethod(method) {
         const mpesaFields = document.getElementById('mpesaFields');
         const paypalFields = document.getElementById('paypalFields');
+        const cardFields = document.getElementById('cardFields');
         const mpesaTab = document.getElementById('mpesaTab');
         const paypalTab = document.getElementById('paypalTab');
+        const cardTab = document.getElementById('cardTab');
         const paymentMethodInput = document.getElementById('paymentMethod');
 
         paymentMethodInput.value = method;
 
+        // Hide all fields first
+        mpesaFields.classList.add('hidden');
+        paypalFields.classList.add('hidden');
+        cardFields.classList.add('hidden');
+        
+        // Reset all tabs
+        mpesaTab.classList.remove('bg-blue-900', 'text-white', 'border-blue-500');
+        paypalTab.classList.remove('bg-blue-900', 'text-white', 'border-blue-500');
+        cardTab.classList.remove('bg-blue-900', 'text-white', 'border-blue-500');
+        
+        // Show the selected fields and activate the tab
         if (method === 'mpesa') {
             mpesaFields.classList.remove('hidden');
-            paypalFields.classList.add('hidden');
-            mpesaTab.classList.add('bg-blue-900', 'text-white');
-            mpesaTab.classList.remove('text-blue-900', 'bg-white');
-            paypalTab.classList.remove('bg-blue-900', 'text-white');
-            paypalTab.classList.add('text-blue-900', 'bg-white');
-        } else {
-            mpesaFields.classList.add('hidden');
+            mpesaTab.classList.add('border-blue-500');
+        } else if (method === 'paypal') {
             paypalFields.classList.remove('hidden');
-            paypalTab.classList.add('bg-blue-900', 'text-white');
-            paypalTab.classList.remove('text-blue-900', 'bg-white');
-            mpesaTab.classList.remove('bg-blue-900', 'text-white');
-            mpesaTab.classList.add('text-blue-900', 'bg-white');
+            paypalTab.classList.add('border-blue-500');
+        } else if (method === 'card') {
+            cardFields.classList.remove('hidden');
+            cardTab.classList.add('border-blue-500');
         }
     }
 
-    // Form submission handling
-    document.getElementById('membershipForm').addEventListener('submit', function(e) {
-        e.preventDefault();
+    // Initialize the payment method (default to M-Pesa)
+    document.addEventListener('DOMContentLoaded', function() {
+        togglePaymentMethod('mpesa');
         
-        const formData = new FormData(this);
-        const paymentMethod = formData.get('payment_method');
-        
-        if (paymentMethod === 'mpesa') {
-            // Handle M-Pesa payment
-            fetch('/membership/process-mpesa/', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    window.location.href = data.redirect_url;
-                } else {
-                    alert(data.error || 'Payment processing failed. Please try again.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred. Please try again.');
-            });
-        } else {
-            // Handle PayPal payment
-            fetch('/membership/process-paypal/', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    window.location.href = data.redirect_url;
-                } else {
-                    alert(data.error || 'Payment processing failed. Please try again.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred. Please try again.');
-            });
-        }
+        // Form submission handling
+        document.getElementById('membershipForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const paymentMethod = formData.get('payment_method');
+            
+            if (paymentMethod === 'mpesa') {
+                // Show loading indicator
+                document.getElementById('paymentForm').classList.add('opacity-50');
+                const submitButton = this.querySelector('button[type="submit"]');
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+                
+                // Handle M-Pesa payment
+                fetch('/membership/process-mpesa/', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Reset button state
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = '<span>Pay Now</span><i class="fas fa-arrow-right ml-2"></i>';
+                    document.getElementById('paymentForm').classList.remove('opacity-50');
+                    
+                    if (data.success) {
+                        // Show payment confirmation dialog
+                        document.getElementById('paymentConfirmation').classList.remove('hidden');
+                        
+                        // Start checking payment status
+                        if (data.checkout_request_id) {
+                            checkPaymentStatus(data.checkout_request_id, data.payment_id);
+                        } else {
+                            // No checkout request ID (possible in development mode)
+                            console.warn('No checkout request ID provided');
+                        }
+                    } else {
+                        alert(data.error || 'Payment processing failed. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                    
+                    // Reset button state
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = '<span>Pay Now</span><i class="fas fa-arrow-right ml-2"></i>';
+                    document.getElementById('paymentForm').classList.remove('opacity-50');
+                });
+            } else {
+                // Handle PayPal payment
+                fetch('/membership/process-paypal/', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = data.redirect_url;
+                    } else {
+                        alert(data.error || 'Payment processing failed. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                });
+            }
+        });
     });
+
+    // Function to close payment dialog
+    function closePaymentDialog() {
+        document.getElementById('paymentConfirmation').classList.add('hidden');
+    }
+    
+    // Function to confirm manual payment
+    function confirmPayment() {
+        const mpesaCode = document.getElementById('mpesaCode').value.trim();
+        
+        if (!mpesaCode) {
+            alert('Please enter a valid M-Pesa transaction code');
+            return;
+        }
+        
+        // Show loading state
+        const confirmButton = document.querySelector('#paymentConfirmation button:first-of-type');
+        confirmButton.disabled = true;
+        confirmButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Confirming...';
+        
+        // Send to server for verification
+        fetch('/membership/verify-mpesa-payment/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify({
+                mpesa_code: mpesaCode,
+                plan_type: document.getElementById('planType').value,
+                amount: document.getElementById('amount').value
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Redirect to success page with member number
+                window.location.href = data.redirect_url;
+            } else {
+                alert(data.error || 'Payment verification failed. Please check the code and try again.');
+                confirmButton.disabled = false;
+                confirmButton.innerHTML = 'Confirm Payment';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+            confirmButton.disabled = false;
+            confirmButton.innerHTML = 'Confirm Payment';
+        });
+    }
+    
+    // Function to check payment status
+    function checkPaymentStatus(checkoutRequestId, paymentId) {
+        let attempts = 0;
+        const maxAttempts = 10;
+        const statusInterval = setInterval(() => {
+            if (attempts >= maxAttempts) {
+                clearInterval(statusInterval);
+                document.getElementById('stkMessage').innerHTML = `
+                    <div class="bg-yellow-50 p-3 rounded border border-yellow-200">
+                        <p class="text-yellow-800">Payment status check timed out. If you completed the payment, please enter the M-Pesa code below.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            attempts++;
+            
+            fetch('/membership/check-payment-status/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: JSON.stringify({
+                    checkout_request_id: checkoutRequestId,
+                    payment_id: paymentId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    clearInterval(statusInterval);
+                    
+                    // Payment was successful
+                    if (data.status === 'completed') {
+                        document.getElementById('stkMessage').innerHTML = `
+                            <div class="bg-green-50 p-3 rounded border border-green-200">
+                                <p class="text-green-800"><i class="fas fa-check-circle mr-2"></i> Payment successful!</p>
+                                <p class="text-sm text-green-700 mt-2">Your ESA membership is now active.</p>
+                                <p class="text-sm font-bold mt-2">Your Member Number: ${data.member_number || 'Generated'}</p>
+                            </div>
+                        `;
+                        
+                        // Redirect after 3 seconds
+                        setTimeout(() => {
+                            window.location.href = data.redirect_url;
+                        }, 3000);
+                    } else {
+                        document.getElementById('stkMessage').innerHTML = `
+                            <div class="bg-yellow-50 p-3 rounded border border-yellow-200">
+                                <p class="text-yellow-800">Payment is still processing. Please wait...</p>
+                            </div>
+                        `;
+                    }
+                } else if (data.status === 'failed') {
+                    clearInterval(statusInterval);
+                    document.getElementById('stkMessage').innerHTML = `
+                        <div class="bg-red-50 p-3 rounded border border-red-200">
+                            <p class="text-red-800"><i class="fas fa-times-circle mr-2"></i> Payment failed</p>
+                            <p class="text-sm text-red-700 mt-2">${data.message || 'Please try again or use another payment method.'}</p>
+                        </div>
+                    `;
+                }
+            })
+            .catch(error => {
+                console.error('Error checking status:', error);
+            });
+        }, 5000); // Check every 5 seconds
+    }
 </script>
 {% endblock %}
