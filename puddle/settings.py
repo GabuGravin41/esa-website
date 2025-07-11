@@ -28,9 +28,6 @@ CSRF_TRUSTED_ORIGINS = config(
     cast=lambda v: [s.strip() for s in v.split(',')]
 )
 
-# ======================
-# APPLICATION DEFINITION
-# ======================
 INSTALLED_APPS = [
     # Django core apps
     'django.contrib.admin',
@@ -76,9 +73,6 @@ if DEBUG:
 
 ROOT_URLCONF = 'puddle.urls'
 
-# ======================
-# TEMPLATES
-# ======================
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -112,9 +106,7 @@ DATABASES = {
     )
 }
 
-# ======================
-# AUTHENTICATION
-# ======================
+
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -137,17 +129,13 @@ ACCOUNT_EMAIL_VERIFICATION = 'optional' if DEBUG else 'mandatory'
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_LOGOUT_ON_GET = True
 
-# ======================
-# INTERNATIONALIZATION
-# ======================
+
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# ======================
-# STATIC & MEDIA FILES
-# ======================
+
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
@@ -234,8 +222,8 @@ if DEFAULT_FROM_EMAIL and '@' in DEFAULT_FROM_EMAIL and not DEFAULT_FROM_EMAIL.s
 SITE_URL = config('SITE_URL', default='http://localhost:8000' if DEBUG else 'https://esa-ku.com')
 
 # Error Handling
-ADMINS = [('Admin', config('ADMIN_EMAIL', default='admin@esa-ku.com'))]
-SERVER_EMAIL = config('SERVER_EMAIL', default='server@esa-ku.com')
+ADMINS = [('Admin', config('ADMIN_EMAIL', default='esa.kenyattauniv@gmail.com'))]
+SERVER_EMAIL = config('SERVER_EMAIL', default='esa.kenyattauniv@gmail.com')
 
 # Logging Configuration
 LOGGING = {

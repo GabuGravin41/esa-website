@@ -120,10 +120,10 @@ def contact(request):
         form = ContactForm(request.POST)
         if form.is_valid():
             contact = form.save()
-            # Send email to admin
+            # Send email to admin (ensure correct recipient)
             EmailService.send_email(
                 subject=f"Contact Form: {contact.subject}",
-                recipient_list=[settings.DEFAULT_FROM_EMAIL],
+                recipient_list=[settings.ADMIN_EMAIL if hasattr(settings, 'ADMIN_EMAIL') else 'esa.kenyattauniv@gmail.com'],
                 template_name="core/emails/contact_message.html",
                 context={
                     'name': contact.name,
@@ -433,7 +433,6 @@ def payment_status(request, payment_id):
         'DEBUG': settings.DEBUG
     })
 
-@csrf_exempt
 @require_POST
 @csrf_exempt
 def mpesa_callback(request):
@@ -3050,99 +3049,6 @@ def cart(request):
 
 
 
-
-
-# def checkout(request):
-#     """Process checkout for products in cart"""
-#     # Check if cart is empty
-#     if 'cart' not in request.session or not request.session['cart']:
-#         messages.info(request, 'Your cart is empty. Please add items before checkout.')
-#         return redirect('store')
-    
-#     # Get cart items and validate
-#     cart = request.session['cart']
-#     cart_items = []
-#     total_amount = 0
-#     invalid_items = False
-    
-#     for product_id_str, quantity in cart.items():
-#         try:
-#             product_id = int(product_id_str)
-#             product = Product.objects.get(id=product_id)
-            
-#             # Check if product is still available and in stock
-#             if not product.is_active:
-#                 messages.warning(request, f"'{product.name}' is no longer available and has been removed from your cart.")
-#                 invalid_items = True
-#                 continue
-                
-#             if product.stock < quantity:
-#                 messages.warning(request, f"Only {product.stock} of '{product.name}' are available. Your cart has been updated.")
-#                 cart[product_id_str] = product.stock
-#                 quantity = product.stock
-#                 request.session.modified = True
-#                 invalid_items = True
-            
-#             item_total = product.price * quantity
-#             total_amount += item_total
-            
-#             cart_items.append({
-#                 'product': product,
-#                 'quantity': quantity,
-#                 'item_total': item_total
-#             })
-#         except (ValueError, Product.DoesNotExist):
-#             # Remove invalid product IDs from cart
-#             cart.pop(product_id_str, None)
-#             request.session.modified = True
-#             invalid_items = True
-    
-#     # Redirect back to cart if there were any invalid items
-#     if invalid_items:
-#         return redirect('cart')
-    
-#     if request.method == 'POST':
-#         form = OrderForm(request.POST)
-#         if form.is_valid():
-#             # Create the order
-#             order = form.save(commit=False)
-#             order.user = request.user.profile
-#             order.total_amount = total_amount
-#             order.save()
-            
-#             # Create order items
-#             for item in cart_items:
-#                 product = item['product']
-#                 quantity = item['quantity']
-                
-#                 OrderItem.objects.create(
-#                     order=order,
-#                     product=product,
-#                     quantity=quantity,
-#                     price=product.price
-#                 )
-                
-#                 # Update product stock
-#                 product.stock -= quantity
-#                 product.save()
-            
-#             # Clear the cart
-#             request.session['cart'] = {}
-#             request.session.modified = True
-            
-#             messages.success(request, 'Your order has been placed successfully!')
-#             return redirect('order_confirmation', order_id=order.id)
-#    else:
-#        form = OrderForm(initial={'shipping_address': request.user.profile.address if hasattr(request.user, 'profile') and hasattr(request.user.profile, 'address') else ''})
-#    
-#     return render(request, 'core/checkout.html', {
-#         'cart_items': cart_items,
-#         'total_amount': total,
-#         'form': form,
-#         'title': 'Checkout'
-#     })
-    
-
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .services import MpesaService
@@ -3375,42 +3281,6 @@ def update_cart(request):
         return JsonResponse({'status': 'success'})
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)})
-
-#@login_required
-#def checkout(request):
-#    cart, created = Cart.objects.get_or_create(user=request.user)
-#    cart_items = cart.items.all()
-#    total = sum(item.product.price * item.quantity for item in cart_items)
-#    
-#    if request.method == 'POST':
-#        # Process payment here
-#        # For now, just create an order
-#        order = Order.objects.create(
-#            user=request.user,
-#            total_amount=total,
-#            status='pending'
-#        )
-#        
-#        for cart_item in cart_items:
-#            OrderItem.objects.create(
-#                order=order,
-#                product=cart_item.product,
-#                quantity=cart_item.quantity,
-#                price=cart_item.product.price
-#            )
-#        
-#        cart.items.all().delete()
-#        messages.success(request, 'Order placed successfully!')
-#        return redirect('order_confirmation', order_id=order.id)
-#    else:
-#        form = OrderForm(initial={'shipping_address': request.user.profile.address if hasattr(request.user, 'profile') and hasattr(request.user.profile, 'address') else ''})
-#    
-#     return render(request, 'core/checkout.html', {
-#         'cart_items': cart_items,
-#         'total_amount': total,
-#         'form': form,
-#         'title': 'Checkout'
-#     })
 
 
 @login_required
@@ -3647,12 +3517,6 @@ def admin_add_site(request):
     # This should not normally be reached directly
     return redirect('manage_sites')
 
-#@login_required
-#def site_form(request):
-#    """Display form for suggesting a professional site or connection"""
-#    return render(request, 'core/site_form.html', {
-#        'title': 'Suggest Engineering Connection'
-#    })
 
 
 def site_form(request):
