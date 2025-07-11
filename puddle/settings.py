@@ -9,11 +9,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-unsafe-default-key-change-me')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
+# Security headers and hosts
 ALLOWED_HOSTS = config(
     'ALLOWED_HOSTS', 
-    default='localhost,127.0.0.1',
+    default='localhost,127.0.0.1,.onrender.com',
     cast=lambda v: [s.strip() for s in v.split(',')]
 )
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.onrender.com',
+    'https://esa-ku.com',
+    *config(
+        'CSRF_TRUSTED_ORIGINS',
+        default='http://localhost,http://127.0.0.1',
+        cast=lambda v: [s.strip() for s in v.split(',')]
+    )
+]
 
 # Security headers
 if not DEBUG:
@@ -21,12 +32,6 @@ if not DEBUG:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-CSRF_TRUSTED_ORIGINS = config(
-    'CSRF_TRUSTED_ORIGINS',
-    default='http://localhost,http://127.0.0.1',
-    cast=lambda v: [s.strip() for s in v.split(',')]
-)
 
 INSTALLED_APPS = [
     # Django core apps
@@ -125,10 +130,11 @@ LOGOUT_REDIRECT_URL = '/'
 
 # Allauth settings
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = 'optional' if DEBUG else 'mandatory'
+ACCOUNT_EMAIL_VERIFICATION = 'none'  # or 'mandatory' for production
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_LOGOUT_ON_GET = True
-
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
@@ -148,6 +154,8 @@ MEDIA_URL = "/media/"
 
 # Whitenoise configuration
 WHITENOISE_MANIFEST_STRICT = False
+WHITENOISE_USE_FINDERS = True
+WHITENOISE_AUTOREFRESH = True
 
 # Storage configuration
 STORAGES = {
@@ -159,19 +167,12 @@ STORAGES = {
         },
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage" if not DEBUG else "django.contrib.staticfiles.storage.StaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
 CRISPY_TEMPLATE_PACK = "tailwind"
-
-AUTHENTICATION_BACKENDS = (
-    "django.contrib.auth.backends.ModelBackend",
-    # Removed allauth backend since we're not using it, 
-    #but for nostalgia purposes, we have it commented below
-    # "allauth.account.auth_backends.AuthenticationBackend",
-)
 
 # django-allauth registration settings
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
