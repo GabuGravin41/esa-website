@@ -46,8 +46,8 @@
 ## Default Admin Access
 
 - **Username**: `admin`
-- **Password**: `admin123`
-- **Email**: `admin@example.com`
+- **Password**: `Nairobi100!`
+- **Email**: `esa.kenyattauniv@gmail.com`
 
 **⚠️ Change this password immediately after deployment!**
 

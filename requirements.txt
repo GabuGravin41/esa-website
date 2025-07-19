@@ -15,8 +15,8 @@ PyJWT==2.8.0
 dj-database-url==2.3.0
 psycopg2-binary==2.9.10
 
-# Image Processing
-Pillow==10.2.0
+# Image Processing - Updated for Python 3.13 compatibility
+Pillow==10.4.0
 
 # Date Utilities
 python-dateutil==2.9.0.post0
