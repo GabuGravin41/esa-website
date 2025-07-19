@@ -156,6 +156,12 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'core/static'),
 ]
 
+# Ignore duplicate static files warnings (compressed versions)
+STATICFILES_IGNORE_PATTERNS = [
+    '*.gz',
+    '*.br',
+]
+
 # Media files (Uploaded files)
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"

@@ -39,3 +39,6 @@ cryptography==41.0.7
 
 # Development
 django-browser-reload==1.12.1
+
+# Markdown Processing
+markdown==3.5.2
