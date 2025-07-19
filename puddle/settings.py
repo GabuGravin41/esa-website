@@ -56,7 +56,11 @@ INSTALLED_APPS = [
 
 # Development-only apps
 if DEBUG:
-    INSTALLED_APPS += ['django_browser_reload']
+    try:
+        import django_browser_reload
+        INSTALLED_APPS += ['django_browser_reload']
+    except ImportError:
+        pass
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -74,7 +78,11 @@ MIDDLEWARE = [
 
 # Add browser reload middleware only in development
 if DEBUG:
-    MIDDLEWARE.append('django_browser_reload.middleware.BrowserReloadMiddleware')
+    try:
+        import django_browser_reload
+        MIDDLEWARE.append('django_browser_reload.middleware.BrowserReloadMiddleware')
+    except ImportError:
+        pass
 
 ROOT_URLCONF = 'puddle.urls'
 

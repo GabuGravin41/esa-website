@@ -36,3 +36,6 @@ whitenoise==6.9.0
 # Security
 certifi==2023.11.17
 cryptography==41.0.7
+
+# Development
+django-browser-reload==1.12.1

@@ -12,7 +12,11 @@ urlpatterns = [
 
 # Add browser reload for development
 if settings.DEBUG:
-    urlpatterns.append(path("__reload__/", include("django_browser_reload.urls")))
+    try:
+        import django_browser_reload
+        urlpatterns.append(path("__reload__/", include("django_browser_reload.urls")))
+    except ImportError:
+        pass
 
 # Add media and static URL configuration for both development and production
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
