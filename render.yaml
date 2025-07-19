@@ -3,7 +3,7 @@ services:
     name: esa-website
     runtime: python
     buildCommand: ./build.sh
-    startCommand: cd puddle && gunicorn puddle.wsgi:application
+    startCommand: cd puddle && gunicorn puddle.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
       - key: SECRET_KEY
         generateValue: true
@@ -15,8 +15,23 @@ services:
         fromDatabase:
           name: esa-db
           property: connectionString
+      - key: CSRF_TRUSTED_ORIGINS
+        value: "https://*.onrender.com"
+      - key: SECURE_SSL_REDIRECT
+        value: True
+      - key: SESSION_COOKIE_SECURE
+        value: True
+      - key: CSRF_COOKIE_SECURE
+        value: True
+      - key: EMAIL_BACKEND
+        value: django.core.mail.backends.console.EmailBackend
+      - key: MPESA_ENVIRONMENT
+        value: sandbox
+      - key: PAYPAL_MODE
+        value: sandbox
 
 databases:
   - name: esa-db
     databaseName: esa
     user: esa
+    plan: free
