@@ -1,14 +1,18 @@
 {% extends 'core/base.html' %}
+{% load static %}
 
 {% block content %}
 <!-- Hero Section -->
-<section class="relative bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
-  <div class="bg-black bg-opacity-50">
-    <div class="container mx-auto px-4 py-24 text-center text-white">
-      <h1 class="text-4xl md:text-5xl font-bold mb-4">About ESA-KU</h1>
-      <p class="max-w-2xl mx-auto mb-6 text-lg">
-        Empowering engineering students through innovation, community, and excellence
-      </p>
+<section class="relative">
+  <div class="h-[350px] md:h-[450px] overflow-hidden">
+    <img src="{% static 'images/esa_team_2025.jpg' %}" alt="ESA Team" class="w-full max-h-[800px]  object-cover object-center md:object-position-y-center object-position-y-top">
+    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center">
+      <div class="container mx-auto px-4 text-center text-white">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">About ESA-KU</h1>
+        <p class="max-w-2xl mx-auto mb-6 text-lg">
+          Empowering engineering students through innovation, community, and excellence
+        </p>
+      </div>
     </div>
   </div>
 </section>
@@ -113,93 +117,186 @@
 <section class="max-w-6xl mx-auto px-6 py-16">
   <h2 class="text-3xl font-bold text-blue-900 text-center mb-12">Meet Our Leadership Team</h2>
   
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-    <!-- Team Member 1 -->
-    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-      <div class="h-64 bg-gray-200">
-        <!-- Replace with actual image -->
-        <div class="w-full h-full flex items-center justify-center bg-blue-100">
-          <i class="fas fa-user-circle text-blue-900 text-6xl"></i>
+  <div class="relative overflow-hidden">
+    <!-- Horizontal Slider Container -->
+    <div class="flex overflow-x-auto pb-6 snap-x snap-mandatory scrollbar-hide">
+      <!-- Team Member 1 -->
+      <div class="min-w-[300px] flex-shrink-0 mx-4 snap-center bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="h-64 bg-gray-200">
+          <!-- Replace with actual image -->
+          <div class="w-full h-full flex items-center justify-center bg-blue-100">
+            <i class="fas fa-user-circle text-blue-900 text-6xl"></i>
+          </div>
+        </div>
+        <div class="p-6 text-center">
+          <h3 class="text-xl font-bold text-blue-900">James Karanja</h3>
+          <p class="text-green-700 font-medium mb-3">Chairperson</p>
+          <p class="text-gray-600 mb-4">Civil Engineering, 5th Year</p>
+          <div class="flex justify-center space-x-3">
+            <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fab fa-linkedin text-lg"></i></a>
+            <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fab fa-twitter text-lg"></i></a>
+            <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fas fa-envelope text-lg"></i></a>
+          </div>
         </div>
       </div>
-      <div class="p-6 text-center">
-        <h3 class="text-xl font-bold text-blue-900">James Karanja</h3>
-        <p class="text-green-700 font-medium mb-3">Chairperson</p>
-        <p class="text-gray-600 mb-4">Civil Engineering, 5th Year</p>
-        <div class="flex justify-center space-x-3">
-          <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fab fa-linkedin text-lg"></i></a>
-          <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fab fa-twitter text-lg"></i></a>
-          <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fas fa-envelope text-lg"></i></a>
+      
+      <!-- Team Member 2 -->
+      <div class="min-w-[300px] flex-shrink-0 mx-4 snap-center bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="h-64 bg-gray-200">
+          <!-- Replace with actual image -->
+          <div class="w-full h-full flex items-center justify-center bg-blue-100">
+            <i class="fas fa-user-circle text-blue-900 text-6xl"></i>
+          </div>
+        </div>
+        <div class="p-6 text-center">
+          <h3 class="text-xl font-bold text-blue-900">Aisha Mwachidzo</h3>
+          <p class="text-green-700 font-medium mb-3">Vice Chair</p>
+          <p class="text-gray-600 mb-4">Aerospace Engineering, 4th Year</p>
+          <div class="flex justify-center space-x-3">
+            <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fab fa-linkedin text-lg"></i></a>
+            <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fab fa-twitter text-lg"></i></a>
+            <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fas fa-envelope text-lg"></i></a>
+          </div>
         </div>
       </div>
-    </div>
-    
-    <!-- Team Member 2 -->
-    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-      <div class="h-64 bg-gray-200">
-        <!-- Replace with actual image -->
-        <div class="w-full h-full flex items-center justify-center bg-blue-100">
-          <i class="fas fa-user-circle text-blue-900 text-6xl"></i>
+      
+      <!-- Team Member 3 -->
+      <div class="min-w-[300px] flex-shrink-0 mx-4 snap-center bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="h-64 bg-gray-200">
+          <!-- Replace with actual image -->
+          <div class="w-full h-full flex items-center justify-center bg-blue-100">
+            <i class="fas fa-user-circle text-blue-900 text-6xl"></i>
+          </div>
+        </div>
+        <div class="p-6 text-center">
+          <h3 class="text-xl font-bold text-blue-900">Elijah Kiprop</h3>
+          <p class="text-green-700 font-medium mb-3">Secretary General</p>
+          <p class="text-gray-600 mb-4">Aerospace Engineering, 4th Year</p>
+          <div class="flex justify-center space-x-3">
+            <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fab fa-linkedin text-lg"></i></a>
+            <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fab fa-twitter text-lg"></i></a>
+            <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fas fa-envelope text-lg"></i></a>
+          </div>
         </div>
       </div>
-      <div class="p-6 text-center">
-        <h3 class="text-xl font-bold text-blue-900">Aisha Mwachidzo</h3>
-        <p class="text-green-700 font-medium mb-3">Vice Chair</p>
-        <p class="text-gray-600 mb-4">Aerospace Engineering, 4th Year</p>
-        <div class="flex justify-center space-x-3">
-          <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fab fa-linkedin text-lg"></i></a>
-          <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fab fa-twitter text-lg"></i></a>
-          <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fas fa-envelope text-lg"></i></a>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Team Member 3 -->
-    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-      <div class="h-64 bg-gray-200">
-        <!-- Replace with actual image -->
-        <div class="w-full h-full flex items-center justify-center bg-blue-100">
-          <i class="fas fa-user-circle text-blue-900 text-6xl"></i>
-        </div>
-      </div>
-      <div class="p-6 text-center">
-        <h3 class="text-xl font-bold text-blue-900">Elijah Kiprop</h3>
-        <p class="text-green-700 font-medium mb-3">Secretary General</p>
-        <p class="text-gray-600 mb-4">Aerospace Engineering, 4th Year</p>
-        <div class="flex justify-center space-x-3">
-          <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fab fa-linkedin text-lg"></i></a>
-          <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fab fa-twitter text-lg"></i></a>
-          <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fas fa-envelope text-lg"></i></a>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Team Member 4 -->
-    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-      <div class="h-64 bg-gray-200">
-        <!-- Replace with actual image -->
-        <div class="w-full h-full flex items-center justify-center bg-blue-100">
-          <i class="fas fa-user-circle text-blue-900 text-6xl"></i>
+      <!-- Team Member 4 -->
+      <div class="min-w-[300px] flex-shrink-0 mx-4 snap-center bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="h-64 bg-gray-200">
+          <!-- Replace with actual image -->
+          <div class="w-full h-full flex items-center justify-center bg-blue-100">
+            <i class="fas fa-user-circle text-blue-900 text-6xl"></i>
+          </div>
+        </div>
+        <div class="p-6 text-center">
+          <h3 class="text-xl font-bold text-blue-900">Dalton Omondi</h3>
+          <p class="text-green-700 font-medium mb-3">Academic Secretary</p>
+          <p class="text-gray-600 mb-4">Electrical and Electronics Engineering, 3rd Year</p>
+          <div class="flex justify-center space-x-3">
+            <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fab fa-linkedin text-lg"></i></a>
+            <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fab fa-twitter text-lg"></i></a>
+            <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fas fa-envelope text-lg"></i></a>
+          </div>
         </div>
       </div>
-      <div class="p-6 text-center">
-        <h3 class="text-xl font-bold text-blue-900">Dalton Omondi</h3>
-        <p class="text-green-700 font-medium mb-3">Academic Secretary</p>
-        <p class="text-gray-600 mb-4">Electrical and Electronics Engineering, 3rd Year</p>
-        <div class="flex justify-center space-x-3">
-          <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fab fa-linkedin text-lg"></i></a>
-          <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fab fa-twitter text-lg"></i></a>
-          <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fas fa-envelope text-lg"></i></a>
+      
+      <!-- Team Member 5 -->
+      <div class="min-w-[300px] flex-shrink-0 mx-4 snap-center bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="h-64 bg-gray-200">
+          <!-- Replace with actual image -->
+          <div class="w-full h-full flex items-center justify-center bg-blue-100">
+            <i class="fas fa-user-circle text-blue-900 text-6xl"></i>
+          </div>
+        </div>
+        <div class="p-6 text-center">
+          <h3 class="text-xl font-bold text-blue-900">Christopher Kilonzi</h3>
+          <p class="text-green-700 font-medium mb-3">Finance Secretary</p>
+          <p class="text-gray-600 mb-4">Aerospace Engineering, 3rd Year</p>
+          <div class="flex justify-center space-x-3">
+            <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fab fa-linkedin text-lg"></i></a>
+            <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fab fa-twitter text-lg"></i></a>
+            <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fas fa-envelope text-lg"></i></a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Team Member 6 -->
+      <div class="min-w-[300px] flex-shrink-0 mx-4 snap-center bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="h-64 bg-gray-200">
+          <!-- Replace with actual image -->
+          <div class="w-full h-full flex items-center justify-center bg-blue-100">
+            <i class="fas fa-user-circle text-blue-900 text-6xl"></i>
+          </div>
+        </div>
+        <div class="p-6 text-center">
+          <h3 class="text-xl font-bold text-blue-900">Rakel Makarious</h3>
+          <p class="text-green-700 font-medium mb-3">Deputy Secretary General</p>
+          <p class="text-gray-600 mb-4">Biomedical Engineering, 3rd Year</p>
+          <div class="flex justify-center space-x-3">
+            <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fab fa-linkedin text-lg"></i></a>
+            <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fab fa-twitter text-lg"></i></a>
+            <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fas fa-envelope text-lg"></i></a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Team Member 7 -->
+      <div class="min-w-[300px] flex-shrink-0 mx-4 snap-center bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="h-64 bg-gray-200">
+          <!-- Replace with actual image -->
+          <div class="w-full h-full flex items-center justify-center bg-blue-100">
+            <i class="fas fa-user-circle text-blue-900 text-6xl"></i>
+          </div>
+        </div>
+        <div class="p-6 text-center">
+          <h3 class="text-xl font-bold text-blue-900">Charles Kamau</h3>
+          <p class="text-green-700 font-medium mb-3">Deputy Finance Secretary</p>
+          <p class="text-gray-600 mb-4">Aerospace Engineering, 2nd Year</p>
+          <div class="flex justify-center space-x-3">
+            <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fab fa-linkedin text-lg"></i></a>
+            <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fab fa-twitter text-lg"></i></a>
+            <a href="#" class="text-blue-900 hover:text-blue-700"><i class="fas fa-envelope text-lg"></i></a>
+          </div>
         </div>
       </div>
     </div>
+    
+    <!-- Navigation Arrows -->
+    <button id="team-prev" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-lg text-blue-900 hover:bg-blue-100 focus:outline-none hidden md:block" onclick="scrollTeam('left')">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <button id="team-next" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-lg text-blue-900 hover:bg-blue-100 focus:outline-none hidden md:block" onclick="scrollTeam('right')">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+    
+    <script>
+      function scrollTeam(direction) {
+        const container = document.querySelector('.flex.overflow-x-auto.snap-x');
+        const scrollAmount = 320; // Approximate width of a card + margin
+        
+        if (direction === 'left') {
+          container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        } else {
+          container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+      }
+    </script>
+  </div>
   
+  <!-- Scroll Indicator -->
+  <div class="flex justify-center mt-6 space-x-2">
+    <div class="w-2 h-2 rounded-full bg-blue-900"></div>
+    <div class="w-2 h-2 rounded-full bg-blue-300"></div>
+    <div class="w-2 h-2 rounded-full bg-blue-300"></div>
+    <div class="w-2 h-2 rounded-full bg-blue-300"></div>
+  </div>
+  
+  <!--
   <div class="text-center mt-8">
     <a href="#" class="inline-block bg-blue-900 text-white px-6 py-3 rounded font-semibold hover:bg-blue-800">
       View All Team Members
     </a>
-  </div>
+  </div> -->
 </section>
 
 <!-- History Section -->

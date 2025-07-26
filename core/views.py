@@ -224,19 +224,26 @@ def mpesa_payment(request, payment_id):
             
             # Create reference for the transaction
             reference = f"ESA-{payment.id}"
-            description = f"ESA-KU Membership Payment: {payment.membership.plan.name}"
             
-            # Update payment with phone number
-            payment.phone_number = phone_number
-            payment.save(update_fields=['phone_number'])
+            # Get plan name from membership if available
+            try:
+                membership = payment.membership
+                if hasattr(membership, 'plan') and membership.plan:
+                    plan_name = membership.plan.name
+                elif hasattr(membership, 'plan_type'):
+                    plan_name = membership.get_plan_type_display()
+                else:
+                    plan_name = "Membership"
+            except:
+                plan_name = "Membership"
+            
+            description = f"ESA-KU Membership Payment: {plan_name}"
             
             # Create M-Pesa transaction record
             mpesa_tx = MpesaTransaction.objects.create(
                 payment=payment,
                 phone_number=phone_number,
                 amount=amount,
-                reference=reference,
-                description=description,
                 status='pending'
             )
             
@@ -264,7 +271,7 @@ def mpesa_payment(request, payment_id):
     
     return render(request, 'core/mpesa_payment.html', {
         'payment': payment,
-        'membership': payment.membership,
+        'membership': getattr(payment, 'membership', None),
         'form': form
     })
 
@@ -369,26 +376,26 @@ def paypal_cancel(request, payment_id):
 @login_required
 def payment_status(request, payment_id):
     """Check payment status"""
-    payment = get_object_or_404(Payment, id=payment_id, user=request.user)
+    # For member-get-member payments, the payment user might be different from request user
+    # So we need to check if the current user is either the payment user or the referrer
+    payment = get_object_or_404(Payment, id=payment_id)
     
-    # Handle development mode payment simulation
-    if settings.DEBUG and request.method == 'POST' and 'simulate_payment' in request.POST:
-        if payment.status == 'pending' and payment.payment_method == 'mpesa' and hasattr(payment, 'mpesa_transaction'):
-            mpesa_tx = payment.mpesa_transaction
-            
-            # Simulate successful payment
-            mpesa_tx.status = 'completed'
-            mpesa_tx.mpesa_receipt = f"DEV{random.randint(10000, 99999)}"
-            mpesa_tx.result_code = '0'
-            mpesa_tx.result_description = 'Development mode: Simulated successful payment'
-            mpesa_tx.transaction_date = timezone.now()
-            mpesa_tx.save()
-            
-            # Complete payment
-            payment.complete_payment(mpesa_tx.mpesa_receipt)
-            
-            messages.success(request, "DEVELOPMENT MODE: Payment simulation completed successfully!")
-            return redirect('payment_status', payment_id=payment.id)
+    # Check if user has permission to view this payment
+    has_permission = False
+    if payment.user == request.user:
+        has_permission = True
+    else:
+        # Check if this is a member-get-member payment and current user is the referrer
+        try:
+            membership = Membership.objects.get(payment=payment)
+            if membership.referred_by == request.user:
+                has_permission = True
+        except Membership.DoesNotExist:
+            pass
+    
+    if not has_permission:
+        messages.error(request, 'You do not have permission to view this payment.')
+        return redirect('dashboard')
     
     # Check for M-Pesa transaction
     if payment.payment_method == 'mpesa' and hasattr(payment, 'mpesa_transaction'):
@@ -2377,9 +2384,7 @@ def donate_mpesa(request, payment_id):
                     payment=payment,
                     phone_number=phone_number,
                     amount=payment.amount,
-                    checkout_request_id=response.get('CheckoutRequestID'),
-                    merchant_request_id=response.get('MerchantRequestID'),
-                    status='processing'
+                    status='pending'
                 )
                 
                 messages.success(request, "M-Pesa payment initiated. Please check your phone to complete the transaction.")
@@ -2434,7 +2439,7 @@ def donation_success(request):
 def member_get_member(request):
     """
     Member-Get-Member referral program view
-    Allows members to refer others to join ESA
+    Allows members to pay for someone else's membership
     """
     try:
         profile = request.user.profile
@@ -2442,11 +2447,13 @@ def member_get_member(request):
         messages.error(request, 'Please complete your profile first.')
         return redirect('profile')
         
-           
     # Check if user is an active member
     if not profile.is_membership_active():
         messages.info(request, 'You need to be an active member to participate in the referral program.')
         return redirect('membership')
+    
+    # Get membership plans for the form
+    plans = MembershipPlan.objects.filter(is_active=True)
     
     # Get referrals by this user
     referrals = Membership.objects.filter(referred_by=request.user)
@@ -2454,60 +2461,174 @@ def member_get_member(request):
     if request.method == 'POST':
         form = MemberGetMemberForm(request.POST)
         if form.is_valid():
-            name = form.cleaned_data.get('name')
-            email = form.cleaned_data.get('email')
-            phone = form.cleaned_data.get('phone')
+            referred_email = form.cleaned_data.get('referred_email')
+            student_id = form.cleaned_data.get('student_id')
+            plan_type = form.cleaned_data.get('plan_type')
+            payment_method = form.cleaned_data.get('payment_method')
+            phone_number = form.cleaned_data.get('phone_number')
             
-            # Generate a unique referral code
-            referral_code = f"ESA-{request.user.username}-{uuid.uuid4().hex[:6]}"
+            # Debug logging
+            logger.info(f"Processing member-get-member request: email={referred_email}, plan={plan_type}, payment={payment_method}")
             
-            # TODO: Send email to the referral with link to join
             try:
-                subject = "Join ESA Engineering Students Association"
-                message = f"""
-                Hello {name},
+                # Get the referred user
+                logger.info(f"Looking up user with email: {referred_email}")
+                referred_user = User.objects.get(email=referred_email)
+                logger.info(f"Found user: {referred_user.username}")
                 
-                {request.user.get_full_name() or request.user.username} has invited you to join the Engineering Students Association at Kenyatta University.
+                # Validate student_id matches the user's profile
+                logger.info(f"Validating student_id: {student_id}")
+                try:
+                    user_profile = referred_user.profile
+                    if user_profile.student_id != student_id:
+                        logger.error(f"Student ID mismatch: provided={student_id}, actual={user_profile.student_id}")
+                        messages.error(request, f'Student ID "{student_id}" does not match the user with email "{referred_email}". Please verify both email and student ID.')
+                        return render(request, 'core/member_get_member.html', {
+                            'form': form,
+                            'plans': plans
+                        })
+                    logger.info(f"Student ID validation passed: {student_id}")
+                except UserProfile.DoesNotExist:
+                    logger.error(f"User {referred_user.username} does not have a profile")
+                    messages.error(request, f'User with email "{referred_email}" does not have a complete profile. They need to complete their profile first.')
+                    return render(request, 'core/member_get_member.html', {
+                        'form': form,
+                        'plans': plans
+                    })
                 
-                Benefits of joining ESA:
-                - Access to exclusive engineering resources
-                - Networking opportunities with industry professionals
-                - Invitations to workshops, seminars and conferences
-                - Career development and mentorship programs
+                # Get the membership plan that matches the selected plan_type
+                logger.info(f"Looking up membership plan: {plan_type}")
+                try:
+                    plan = MembershipPlan.objects.get(plan_type=plan_type, is_active=True)
+                    logger.info(f"Found plan: {plan.name} - KSh {plan.price}")
+                except MembershipPlan.DoesNotExist:
+                    logger.error(f"No active membership plan found for {plan_type}")
+                    messages.error(request, f'No active membership plan found for {plan_type}. Please contact support.')
+                    return redirect('member_get_member')
                 
-                Click the link below to sign up:
-                {request.build_absolute_uri(reverse('membership'))}?ref={referral_code}
+                # Check if the referred user already has an active membership
+                logger.info(f"Checking for existing active membership for user: {referred_user.username}")
+                existing_membership = Membership.objects.filter(
+                    user=referred_user, 
+                    is_active=True
+                ).first()
                 
-                Best regards,
-                ESA Team
-                """
-                send_mail(
-                    subject,
-                    message,
-                    settings.DEFAULT_FROM_EMAIL,
-                    [email],
-                    fail_silently=True,
+                if existing_membership:
+                    logger.warning(f"User {referred_user.username} already has active membership")
+                    messages.warning(request, f'{referred_user.get_full_name()} already has an active membership.')
+                    return redirect('member_get_member')
+                
+                # Create a payment record for the referred user
+                logger.info(f"Creating payment record for user: {referred_user.username}")
+                payment = Payment.objects.create(
+                    user=referred_user,
+                    amount=plan.price,
+                    payment_method=payment_method,
+                    status='pending',
+                    notes=f"ESA-KU Membership Payment for {plan.get_plan_type_display()} - Paid by {request.user.get_full_name()}"
                 )
-                messages.success(request, f"Invitation sent to {name} successfully!")
+                logger.info(f"Created payment: {payment.id}")
+                
+                # Calculate end date
+                start_date = timezone.now().date()
+                try:
+                    end_date = start_date + relativedelta(months=plan.duration)
+                    logger.info(f"Calculated end date: {end_date}")
+                except Exception as e:
+                    logger.error(f"Error calculating end date: {str(e)}")
+                    # Fallback to 1 year
+                    end_date = start_date + timezone.timedelta(days=365)
+                    logger.info(f"Using fallback end date: {end_date}")
+                
+                # Create a membership record (inactive until payment is completed)
+                logger.info(f"Creating membership record for user: {referred_user.username}")
+                membership = Membership.objects.create(
+                    user=referred_user,
+                    plan_type=plan_type,
+                    amount=plan.price,
+                    payment_method=payment_method,
+                    payment=payment,
+                    referred_by=request.user,
+                    is_active=False,
+                    start_date=start_date,
+                    end_date=end_date
+                )
+                logger.info(f"Created membership: {membership.id}")
+                
+                # Send email notification to the referred user
+                try:
+                    logger.info(f"Sending email notification to: {referred_email}")
+                    subject = "ESA-KU Membership Gift"
+                    message = f"""
+                    Hello {referred_user.get_full_name()},
+                    
+                    Great news! {request.user.get_full_name()} has gifted you an ESA-KU membership!
+                    
+                    Membership Details:
+                    - Plan: {plan.get_plan_type_display()}
+                    - Duration: {plan.duration} months
+                    - Amount: KSh {plan.price}
+                    
+                    Your membership will be activated once the payment is completed.
+                    You will receive another email once the payment is confirmed.
+                    
+                    Thank you for being part of our engineering community!
+                    
+                    Best regards,
+                    ESA-KU Team
+                    """
+                    send_mail(
+                        subject,
+                        message,
+                        settings.DEFAULT_FROM_EMAIL,
+                        [referred_email],
+                        fail_silently=True,
+                    )
+                    logger.info("Email sent successfully")
+                except Exception as e:
+                    logger.error(f"Error sending membership gift email: {str(e)}")
+                
+                # Redirect to payment based on payment method
+                logger.info(f"Redirecting to payment method: {payment_method}")
+                if payment_method == 'mpesa':
+                    return redirect('mgm_mpesa_payment', payment_id=payment.id)
+                elif payment_method == 'paypal':
+                    return redirect('mgm_paypal_payment', payment_id=payment.id)
+                else:
+                    logger.error(f"Invalid payment method: {payment_method}")
+                    messages.error(request, 'Invalid payment method selected.')
+                    return redirect('member_get_member')
+                    
+            except User.DoesNotExist:
+                logger.error(f"User not found with email: {referred_email}")
+                messages.error(request, 'The email address you entered is not registered. The user must create an account first.')
             except Exception as e:
-                logger.error(f"Error sending referral email: {str(e)}")
-                messages.error(request, "Failed to send invitation. Please try again later.")
-            
-            # Clear form after submission
-            form = MemberGetMemberForm()
+                logger.error(f"Error processing member-get-member payment: {str(e)}", exc_info=True)
+                messages.error(request, f'An error occurred while processing your request: {str(e)}. Please try again.')
     else:
         form = MemberGetMemberForm()
     
     return render(request, 'core/member_get_member.html', {
         'form': form,
         'referrals': referrals,
-        'title': 'Member Referral Program'
+        'plans': plans,
+        'title': 'Pay for a Friend\'s Membership'
     })
 
 @login_required
 def mgm_mpesa_payment(request, payment_id):
     """Handle M-Pesa payment for Member-Get-Member referrals"""
-    payment = get_object_or_404(Payment, id=payment_id, user=request.user, status='pending')
+    payment = get_object_or_404(Payment, id=payment_id, status='pending')
+    
+    # Check if this payment is for a member-get-member scenario
+    try:
+        membership = Membership.objects.get(payment=payment)
+        if not membership.referred_by:
+            messages.error(request, 'Invalid payment')
+            return redirect('member_get_member')
+    except Membership.DoesNotExist:
+        messages.error(request, 'Invalid payment')
+        return redirect('member_get_member')
     
     if payment.payment_method != 'mpesa':
         messages.error(request, 'Invalid payment method')
@@ -2521,55 +2642,69 @@ def mgm_mpesa_payment(request, payment_id):
             
             # Create reference for the transaction
             reference = f"ESA-MGM-{payment.id}"
-            description = f"ESA-KU Member-Get-Member Payment: {payment.membership.plan.name}"
-            
-            # Update payment with phone number
-            payment.phone_number = phone_number
-            payment.save(update_fields=['phone_number'])
+            description = f"ESA-KU Member-Get-Member Payment: {membership.get_plan_type_display()}"
             
             # Create M-Pesa transaction record
             mpesa_tx = MpesaTransaction.objects.create(
                 payment=payment,
                 phone_number=phone_number,
                 amount=amount,
-                reference=reference,
-                description=description,
                 status='pending'
             )
             
             # Initiate M-Pesa STK push
             mpesa_service = MpesaService()
-            response = mpesa_service.initiate_stk_push(
-                phone_number=phone_number,
-                amount=int(amount),
-                reference=reference,
-                description=description
-            )
-            
-            # Handle the response
-            if 'CheckoutRequestID' in response:
-                # Store checkout request ID for later verification
-                mpesa_tx.checkout_request_id = response['CheckoutRequestID']
-                mpesa_tx.save(update_fields=['checkout_request_id'])
+            try:
+                response = mpesa_service.initiate_stk_push(
+                    phone_number=phone_number,
+                    amount=int(amount),
+                    reference=reference,
+                    description=description
+                )
                 
-                messages.success(request, 'Payment initiated. Please check your phone to complete the transaction.')
-                return redirect('payment_status', payment_id=payment.id)
-            else:
-                messages.error(request, f"Failed to initiate payment: {json.dumps(response)}")
+                if 'CheckoutRequestID' in response:
+                    # Update M-Pesa transaction with checkout request ID
+                    mpesa_tx.checkout_request_id = response['CheckoutRequestID']
+                    mpesa_tx.save(update_fields=['checkout_request_id'])
+                    
+                    messages.success(request, 'M-Pesa payment request sent to your phone. Please check your phone and enter your PIN to complete the payment.')
+                    return redirect('payment_status', payment_id=payment.id)
+                else:
+                    messages.error(request, f'M-Pesa payment failed: {response.get("errorMessage", "Unknown error")}')
+                    
+            except Exception as e:
+                logger.error(f"M-Pesa payment error: {str(e)}")
+                messages.error(request, 'Failed to initiate M-Pesa payment. Please try again.')
     else:
-        form = MpesaPaymentForm(initial={'amount': payment.amount})
+        # Initialize form without phone number since Payment model doesn't have it
+        form = MpesaPaymentForm()
     
-    return render(request, 'core/mgm_mpesa_payment.html', {
-        'payment': payment,
-        'membership': payment.membership,
-        'form': form,
-        'is_mgm': True
-    })
+    try:
+        return render(request, 'core/mpesa_payment.html', {
+            'payment': payment,
+            'form': form,
+            'membership': membership,
+            'is_mgm': True
+        })
+    except Exception as e:
+        logger.error(f"Error rendering M-Pesa payment template: {str(e)}", exc_info=True)
+        messages.error(request, f'Error loading payment page: {str(e)}')
+        return redirect('member_get_member')
 
 @login_required
 def mgm_paypal_payment(request, payment_id):
     """Handle PayPal payment for Member-Get-Member referrals"""
-    payment = get_object_or_404(Payment, id=payment_id, user=request.user, status='pending')
+    payment = get_object_or_404(Payment, id=payment_id, status='pending')
+    
+    # Check if this payment is for a member-get-member scenario
+    try:
+        membership = Membership.objects.get(payment=payment)
+        if not membership.referred_by:
+            messages.error(request, 'Invalid payment')
+            return redirect('member_get_member')
+    except Membership.DoesNotExist:
+        messages.error(request, 'Invalid payment')
+        return redirect('member_get_member')
     
     if payment.payment_method != 'paypal':
         messages.error(request, 'Invalid payment method')
@@ -2608,7 +2743,17 @@ def mgm_paypal_payment(request, payment_id):
 @login_required
 def mgm_paypal_success(request, payment_id):
     """Handle successful PayPal payment for MGM referrals"""
-    payment = get_object_or_404(Payment, id=payment_id, user=request.user)
+    payment = get_object_or_404(Payment, id=payment_id, status='pending')
+    
+    # Check if this payment is for a member-get-member scenario
+    try:
+        membership = Membership.objects.get(payment=payment)
+        if not membership.referred_by:
+            messages.error(request, 'Invalid payment')
+            return redirect('member_get_member')
+    except Membership.DoesNotExist:
+        messages.error(request, 'Invalid payment')
+        return redirect('member_get_member')
     
     # Get the order ID from the URL
     order_id = request.GET.get('token')
@@ -2627,8 +2772,8 @@ def mgm_paypal_success(request, payment_id):
             # Activate membership
             payment.complete_payment(order_id)
             
-            messages.success(request, 'Payment completed successfully! Your membership is now active.')
-            return redirect('dashboard')
+            messages.success(request, f'Payment completed successfully! {membership.user.get_full_name()}\'s membership is now active.')
+            return redirect('member_get_member')
     
     messages.error(request, 'Failed to complete payment. Please try again or contact support.')
     return redirect('member_get_member')
@@ -2636,13 +2781,28 @@ def mgm_paypal_success(request, payment_id):
 @login_required
 def mgm_paypal_cancel(request, payment_id):
     """Handle cancelled PayPal payment for MGM referrals"""
-    payment = get_object_or_404(Payment, id=payment_id, user=request.user)
+    payment = get_object_or_404(Payment, id=payment_id, status='pending')
+    
+    # Check if this payment is for a member-get-member scenario
+    try:
+        membership = Membership.objects.get(payment=payment)
+        if not membership.referred_by:
+            messages.error(request, 'Invalid payment')
+            return redirect('member_get_member')
+    except Membership.DoesNotExist:
+        messages.error(request, 'Invalid payment')
+        return redirect('member_get_member')
     
     # Update payment status
     payment.status = 'cancelled'
     payment.save(update_fields=['status'])
     
-    messages.info(request, 'Payment was cancelled. Your referral has not been processed.')
+    # Update membership status
+    membership.status = 'cancelled'
+    membership.is_active = False
+    membership.save()
+    
+    messages.info(request, 'Payment was cancelled. The membership gift has not been processed.')
     return redirect('member_get_member')
 
 @login_required
@@ -3632,6 +3792,16 @@ def dashboard(request):
         
         # Get recent payments (limit to 3)
         recent_payments = Payment.objects.filter(user=request.user).order_by('-created_at')[:3]
+        
+        # Get member-get-member payments where current user is the referrer
+        mgm_payments = Payment.objects.filter(
+            membership__referred_by=request.user
+        ).order_by('-created_at')[:3]
+        
+        # Combine and sort all payments
+        all_payments = list(recent_payments) + list(mgm_payments)
+        all_payments.sort(key=lambda x: x.created_at, reverse=True)
+        recent_payments = all_payments[:3]
         
         # Get user's event registrations (upcoming events)
         upcoming_events = EventRegistration.objects.filter(

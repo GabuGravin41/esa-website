@@ -301,49 +301,89 @@
   <header>
     <!-- Top Bar -->
     <div class="bg-blue-900 text-white text-sm">
-      <div class="container mx-auto px-4 py-2 flex justify-between items-center  ">
-        <div class="space-x-2">
-          <a href="{% url 'constitution' %}" class="hover:underline">ESA Constitution</a>
-          <span>|</span>
-          <a href="{% url 'blog' %}?category=research" class="hover:underline">ESA Publications</a>
-          <span>|</span>
-          <a href="{% url 'about' %}#leadership-team" class="hover:underline">ESA Excom</a>
-          <span>|</span>
-          <a href="{% url 'more_sites' %}" class="hover:underline">More Sites</a>
-        </div>
-        <div class="space-x-2">
-          <a href="{% url 'donate' %}" class="hover:underline">Donate</a>
-          <span>|</span>
-          <a href="{% url 'cart' %}" class="hover:underline">
-            Cart {% if request.session.cart %}({{ request.session.cart|length }}){% else %}(0){% endif %}
-          </a>
-          
-
-          {% if user.is_authenticated %}
-            <div class="relative group">
-              <button type="button" class="hover:underline flex items-center inline-block">
-                {{ user.username }}
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden group-hover:block">
-                <a href="{% url 'dashboard' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
-                <a href="{% url 'profile' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
-                <div class="border-t border-gray-100 my-1"></div>
-                <a href="{% url 'account_logout' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" id="logout-link">Logout</a>
+      <div class="container mx-auto px-4 py-2">
+        <!-- Desktop View -->
+        <div class="hidden md:flex justify-between items-center">
+          <div class="space-x-2">
+            <a href="{% url 'constitution' %}" class="hover:underline">ESA Constitution</a>
+            <span>|</span>
+            <a href="{% url 'blog' %}?category=research" class="hover:underline">ESA Publications</a>
+            <span>|</span>
+            <a href="{% url 'about' %}#leadership-team" class="hover:underline">ESA Excom</a>
+            <span>|</span>
+            <a href="{% url 'more_sites' %}" class="hover:underline">More Sites</a>
+          </div>
+          <div class="space-x-2">
+            <a href="{% url 'donate' %}" class="hover:underline">Donate</a>
+            <span>|</span>
+            <a href="{% url 'cart' %}" class="hover:underline">
+              Cart {% if request.session.cart %}({{ request.session.cart|length }}){% else %}(0){% endif %}
+            </a>
+            
+            {% if user.is_authenticated %}
+              <div class="relative group">
+                <button type="button" class="hover:underline flex items-center inline-block">
+                  {{ user.username }}
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden group-hover:block">
+                  <a href="{% url 'dashboard' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
+                  <a href="{% url 'profile' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                  <div class="border-t border-gray-100 my-1"></div>
+                  <a href="{% url 'account_logout' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" id="logout-link">Logout</a>
+                </div>
               </div>
-            </div>
-            {% if request.is_esa_admin %}
-              <a href="{% url 'admin_dashboard' %}" class="hover:underline text-red-300">Admin Panel</a>
+              {% if request.is_esa_admin %}
+                <a href="{% url 'admin_dashboard' %}" class="hover:underline text-red-300">Admin Panel</a>
+              {% endif %}
+            {% else %}
+              <span>|</span>
+              <a href="{% url 'account_login' %}" class="hover:underline">Sign In</a>
+              <span>|</span>
+              <a href="{% url 'register' %}" class="hover:underline">Create Account</a>
             {% endif %}
-          {% else %}
-            <span>|</span>
-            <a href="{% url 'account_login' %}" class="hover:underline">Sign In</a>
-            <span>|</span>
-            <a href="{% url 'register' %}" class="hover:underline">Create Account</a>
-          {% endif %}
-
+          </div>
+        </div>
+        
+        <!-- Mobile View -->
+        <div class="md:hidden flex flex-col space-y-2">
+          <div class="flex justify-between items-center">
+            <a href="{% url 'constitution' %}" class="hover:underline text-xs">Constitution</a>
+            <a href="{% url 'blog' %}?category=research" class="hover:underline text-xs">Publications</a>
+            <a href="{% url 'about' %}#leadership-team" class="hover:underline text-xs">Excom</a>
+            <a href="{% url 'more_sites' %}" class="hover:underline text-xs">More Sites</a>
+          </div>
+          <div class="flex justify-between items-center">
+            <a href="{% url 'donate' %}" class="hover:underline text-xs">Donate</a>
+            <a href="{% url 'cart' %}" class="hover:underline text-xs">
+              Cart {% if request.session.cart %}({{ request.session.cart|length }}){% else %}(0){% endif %}
+            </a>
+            
+            {% if user.is_authenticated %}
+              <div class="relative group">
+                <button type="button" class="hover:underline flex items-center text-xs">
+                  {{ user.username }}
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden group-hover:block">
+                  <a href="{% url 'dashboard' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
+                  <a href="{% url 'profile' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                  <div class="border-t border-gray-100 my-1"></div>
+                  <a href="{% url 'account_logout' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" id="logout-link">Logout</a>
+                </div>
+              </div>
+              {% if request.is_esa_admin %}
+                <a href="{% url 'admin_dashboard' %}" class="hover:underline text-red-300 text-xs">Admin</a>
+              {% endif %}
+            {% else %}
+              <a href="{% url 'account_login' %}" class="hover:underline text-xs">Sign In</a>
+              <a href="{% url 'register' %}" class="hover:underline text-xs">Register</a>
+            {% endif %}
+          </div>
         </div>
       </div>
     </div>
@@ -353,6 +393,7 @@
         <a href="{% url 'home' %}" class="flex items-center">
           <img src="{% static 'images/esa-logo.png' %}" alt="ESA Logo" class="custom-logo " />
         </a>
+        <!-- Desktop Navigation Menu -->
         <ul class="hidden md:flex space-x-6">
           <li><a href="{% url 'home' %}" class="text-blue-900 hover:text-green-700 font-semibold">Home</a></li>
           <li><a href="{% url 'about' %}" class="text-blue-900 hover:text-green-700 font-semibold">About</a></li>
@@ -399,11 +440,57 @@
           </a> 
         {% endif %}
         <!-- Mobile Menu Button -->
-        <button class="md:hidden text-blue-900 focus:outline-none">
+        <button id="mobile-menu-button" class="md:hidden text-blue-900 focus:outline-none">
           <ion-icon name="menu" size="large"></ion-icon>
         </button>
       </div>
+      
+      <!-- Mobile Navigation Menu -->
+      <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-200">
+        <ul class="py-2 px-4 space-y-3">
+          <li><a href="{% url 'home' %}" class="block text-blue-900 hover:text-green-700 font-semibold py-2">Home</a></li>
+          <li><a href="{% url 'about' %}" class="block text-blue-900 hover:text-green-700 font-semibold py-2">About</a></li>
+          <li><a href="{% url 'membership' %}" class="block text-blue-900 hover:text-green-700 font-semibold py-2">Membership</a></li>
+          <li><a href="{% url 'communities' %}" class="block text-blue-900 hover:text-green-700 font-semibold py-2">Communities</a></li>
+          <li><a href="{% url 'events' %}" class="block text-blue-900 hover:text-green-700 font-semibold py-2">Events</a></li>
+          <li><a href="{% url 'store' %}" class="block text-blue-900 hover:text-green-700 font-semibold py-2">Store</a></li>
+          <li><a href="{% url 'blog' %}" class="block text-blue-900 hover:text-green-700 font-semibold py-2">Blog</a></li>
+          <li><a href="{% url 'resources' %}" class="block text-blue-900 hover:text-green-700 font-semibold py-2">Resources</a></li>
+          {% if request.is_esa_admin %}
+          <li><a href="{% url 'admin_dashboard' %}" class="block text-red-600 hover:text-red-700 font-semibold py-2">Admin Dashboard</a></li>
+          {% endif %}
+          {% if not user.is_authenticated %}
+          <li><a href="{% url 'membership' %}#pricingSection" class="block bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded font-bold mt-2">JOIN ESA-KU</a></li>
+          {% endif %}
+        </ul>
+        <form action="{% url 'search' %}" method="get" class="p-4 border-t border-gray-200">
+          <div class="flex items-center">
+            <input type="text" name="q" placeholder="Search..." class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            <button type="submit" class="ml-2 text-blue-900 hover:text-green-700">
+              <ion-icon name="search" size="large"></ion-icon>
+            </button>
+          </div>
+        </form>
+      </div>
     </nav>
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', function() {
+          mobileMenu.classList.toggle('hidden');
+          // Change icon between menu and close
+          const icon = mobileMenuButton.querySelector('ion-icon');
+          if (icon.name === 'menu') {
+            icon.name = 'close';
+          } else {
+            icon.name = 'menu';
+          }
+        });
+      });
+    </script>
   </header>
 
   <!-- Main Content -->

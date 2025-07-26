@@ -191,19 +191,6 @@
                                         <i class="fas fa-redo mr-2"></i>Try Again
                                     </a>
                                 </div>
-                                
-                                {% if DEBUG and payment.status == 'pending' %}
-                                <div class="mt-4 p-4 border border-yellow-300 bg-yellow-50 rounded-lg">
-                                    <p class="text-yellow-800 font-bold mb-2">DEVELOPMENT MODE ONLY</p>
-                                    <form method="post" action="{% url 'payment_status' payment.id %}">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="simulate_payment" value="1">
-                                        <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded-lg font-bold transition inline-flex items-center">
-                                            <i class="fas fa-magic mr-2"></i>Simulate Successful Payment
-                                        </button>
-                                    </form>
-                                </div>
-                                {% endif %}
                             {% endif %}
                         {% elif payment.status == 'failed' %}
                             <a href="{% url 'join_membership' membership.plan.id %}" class="bg-blue-900 hover:bg-blue-800 text-white px-6 py-2 rounded-lg font-bold transition inline-flex items-center">

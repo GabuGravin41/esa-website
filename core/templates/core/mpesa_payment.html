@@ -11,11 +11,19 @@
                 <ol class="flex text-sm">
                     <li><a href="{% url 'home' %}" class="text-blue-900 hover:text-green-700">Home</a></li>
                     <li><span class="mx-2">/</span></li>
-                    <li><a href="{% url 'membership' %}" class="text-blue-900 hover:text-green-700">Membership</a></li>
-                    <li><span class="mx-2">/</span></li>
-                    <li><a href="{% url 'join_membership' membership.plan.id %}" class="text-blue-900 hover:text-green-700">Join {{ membership.plan.name }}</a></li>
-                    <li><span class="mx-2">/</span></li>
-                    <li class="text-gray-500">M-Pesa Payment</li>
+                    {% if is_mgm %}
+                        <li><a href="{% url 'membership' %}" class="text-blue-900 hover:text-green-700">Membership</a></li>
+                        <li><span class="mx-2">/</span></li>
+                        <li><a href="{% url 'member_get_member' %}" class="text-blue-900 hover:text-green-700">Pay for a Friend</a></li>
+                        <li><span class="mx-2">/</span></li>
+                        <li class="text-gray-500">M-Pesa Payment</li>
+                    {% else %}
+                        <li><a href="{% url 'membership' %}" class="text-blue-900 hover:text-green-700">Membership</a></li>
+                        <li><span class="mx-2">/</span></li>
+                        <li><a href="{% url 'join_membership' membership.plan.id %}" class="text-blue-900 hover:text-green-700">Join {{ membership.plan.name }}</a></li>
+                        <li><span class="mx-2">/</span></li>
+                        <li class="text-gray-500">M-Pesa Payment</li>
+                    {% endif %}
                 </ol>
             </nav>
             
@@ -29,10 +37,19 @@
                 <div class="p-6">
                     <div class="mb-8">
                         <div class="flex justify-between items-center">
-                            <h5 class="text-xl font-semibold">{{ membership.plan.name }} Membership</h5>
+                            {% if is_mgm %}
+                                <h5 class="text-xl font-semibold">Gift Membership Payment</h5>
+                            {% else %}
+                                <h5 class="text-xl font-semibold">{{ membership.plan.name }} Membership</h5>
+                            {% endif %}
                             <span class="bg-green-700 text-white px-3 py-1 rounded-full text-lg">{{ payment.amount }} KSh</span>
                         </div>
-                        <p class="text-gray-600 mt-2">{{ membership.plan.description }}</p>
+                        {% if is_mgm %}
+                            <p class="text-gray-600 mt-2">Paying for {{ payment.user.get_full_name }}'s membership</p>
+                            <p class="text-gray-600 mt-1">Plan: {{ membership.get_plan_type_display }}</p>
+                        {% else %}
+                            <p class="text-gray-600 mt-2">{{ membership.plan.description }}</p>
+                        {% endif %}
                     </div>
                     
                     <hr class="my-6">
@@ -89,9 +106,15 @@
                             <button type="submit" id="payWithMpesaBtn" class="w-full bg-green-700 hover:bg-green-800 text-white py-3 rounded-lg font-bold transition">
                                 Pay with M-Pesa
                             </button>
-                            <a href="{% url 'join_membership' membership.plan.id %}" class="block w-full text-center border border-gray-300 hover:bg-gray-100 text-gray-700 py-3 rounded-lg font-medium transition">
-                                Cancel
-                            </a>
+                            {% if is_mgm %}
+                                <a href="{% url 'member_get_member' %}" class="block w-full text-center border border-gray-300 hover:bg-gray-100 text-gray-700 py-3 rounded-lg font-medium transition">
+                                    Cancel
+                                </a>
+                            {% else %}
+                                <a href="{% url 'join_membership' membership.plan.id %}" class="block w-full text-center border border-gray-300 hover:bg-gray-100 text-gray-700 py-3 rounded-lg font-medium transition">
+                                    Cancel
+                                </a>
+                            {% endif %}
                         </div>
                     </form>
                     

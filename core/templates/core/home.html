@@ -7,9 +7,8 @@
 
 
 <body class="bg-white text-[#333] font-sans">
-
 <!-- Hero Section -->
-<section class="relative bg-cover bg-center h-[90vh]" style="background-image: url('https://images.unsplash.com/photo-1501526029524-a8ea952b15be?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
+<section class="relative bg-cover bg-center min-h-[90vh]" style="background-image: url({% static 'images/esa_hero.jpg' %});">
     <!-- 
     How to load background image from static directory instead:
     1. Replace the URL above with: 
@@ -21,48 +20,48 @@
     -->
     
     <div class="bg-black bg-opacity-60">
-        <div class="container mx-auto px-4 py-24 text-center text-white h-[90vh] flex flex-col items-center justify-center">
+        <div class="container mx-auto px-4 py-12 md:py-24 text-center text-white min-h-[90vh] flex flex-col items-center justify-center">
             <!-- Animated Badge -->
-            <div class="inline-block mb-6 animate-bounce">
-                <span class="bg-yellow-500 text-white text-xs font-bold px-4 py-2 rounded-full uppercase tracking-wider">Empowering Engineers</span>
+            <div class="inline-block mb-4 md:mb-6 animate-bounce">
+                <span class="bg-yellow-500 text-white text-xs font-bold px-3 py-1 md:px-4 md:py-2 rounded-full uppercase tracking-wider">Empowering Engineers</span>
             </div>
             
             <!-- Main Heading with Glow Effect -->
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">
+            <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 md:mb-6 leading-tight drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">
                 Engineering Students Association<br><span class="text-blue-500">Kenyatta University</span>
             </h1>
          
             
-            <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto text-gray-100">
+            <p class="text-lg sm:text-xl md:text-2xl mb-6 md:mb-10 max-w-3xl mx-auto text-gray-100 px-2">
                 Empowering Future Engineers Through Innovation, Collaboration, and Excellence
             </p>
             
-            <!-- Animated Buttons -->
-            <div class="flex flex-wrap justify-center gap-6 mb-12">
-                <a href="{% url 'membership' %}" class="bg-blue-900 hover:bg-blue-800 text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors duration-300">
+            <!-- Buttons - Stack on mobile, side by side on larger screens -->
+            <div class="flex flex-col sm:flex-row justify-center gap-4 md:gap-6 mb-8 md:mb-12 w-full px-4 sm:px-0">
+                <a href="{% url 'membership' %}" class="bg-blue-900 hover:bg-blue-800 text-white px-6 py-3 md:px-8 md:py-4 rounded-lg font-bold text-base md:text-lg transition-colors duration-300 w-full sm:w-auto">
                     <span>Join ESA</span>
                 </a>
-                <a href="#programs" class="bg-transparent border-2 border-green-700 hover:bg-green-700 hover:text-white text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors duration-300">
+                <a href="#programs" class="bg-transparent border-2 border-green-700 hover:bg-green-700 hover:text-white text-white px-6 py-3 md:px-8 md:py-4 rounded-lg font-bold text-base md:text-lg transition-colors duration-300 w-full sm:w-auto">
                     <span>Explore Programs</span>
                 </a>
             </div>
             
-            <!-- Stats with Reveal Animation - Moved up to avoid cutoff -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                <div class="flex flex-col items-center p-5 backdrop-blur-sm bg-white/10 rounded-lg transform transition-all hover:scale-105">
-                    <div class="text-5xl font-bold text-blue-400 mb-2">300+</div>
-                    <div class="text-gray-200 uppercase tracking-wider text-sm">Active Members</div>
+            <!-- Stats - Single column on mobile, 3 columns on larger screens -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 max-w-4xl mx-auto w-full px-4 sm:px-0">
+                <div class="flex flex-col items-center p-4 md:p-5 backdrop-blur-sm bg-white/10 rounded-lg transform transition-all hover:scale-105">
+                    <div class="text-3xl md:text-4xl lg:text-5xl font-bold text-blue-400 mb-1 md:mb-2">300+</div>
+                    <div class="text-gray-200 uppercase tracking-wider text-xs md:text-sm">Active Members</div>
                 </div>
-                <div class="flex flex-col items-center p-5 backdrop-blur-sm bg-white/10 rounded-lg transform transition-all hover:scale-105">
-                    <div class="text-5xl font-bold text-blue-400 mb-2">20+</div>
-                    <div class="text-gray-200 uppercase tracking-wider text-sm">Annual Events</div>
+                <div class="flex flex-col items-center p-4 md:p-5 backdrop-blur-sm bg-white/10 rounded-lg transform transition-all hover:scale-105">
+                    <div class="text-3xl md:text-4xl lg:text-5xl font-bold text-blue-400 mb-1 md:mb-2">20+</div>
+                    <div class="text-gray-200 uppercase tracking-wider text-xs md:text-sm">Annual Events</div>
                 </div>
-                <div class="flex flex-col items-center p-5 backdrop-blur-sm bg-white/10 rounded-lg transform transition-all hover:scale-105">
-                    <div class="text-5xl font-bold text-blue-400 mb-2">13+</div>
-                    <div class="text-gray-200 uppercase tracking-wider text-sm">Industry Partners</div>
+                <div class="flex flex-col items-center p-4 md:p-5 backdrop-blur-sm bg-white/10 rounded-lg transform transition-all hover:scale-105">
+                    <div class="text-3xl md:text-4xl lg:text-5xl font-bold text-blue-400 mb-1 md:mb-2">13+</div>
+                    <div class="text-gray-200 uppercase tracking-wider text-xs md:text-sm">Industry Partners</div>
                 </div>
             </div>
-    </div>
+        </div>
     </div>
 </section>
 

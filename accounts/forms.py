@@ -84,7 +84,18 @@ class UserRegistrationForm(UserCreationForm):
     
     class Meta:
         model = User
-        fields = ('username', 'email', 'student_id', 'password1', 'password2')
+        fields = ('username', 'email', 'password1', 'password2')
+    
+    # Add student_id as a non-model field
+    student_id = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm',
+                'placeholder': 'Student Registration Number',
+            }
+        )
+    )
     
     def clean_email(self):
         """Ensure email is unique"""

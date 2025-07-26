@@ -14,8 +14,14 @@ pip install --upgrade pip
 # Install dependencies
 pip install -r requirements.txt
 
-# Collect static files
+# Collect static files locally to test
+echo "📦 Collecting static files..."
 python manage.py collectstatic --no-input
+
+# Check for migrations
+echo "🔍 Checking for pending migrations..."
+python manage.py makemigrations --check --dry-run
+
 
 # Apply database migrations
 python manage.py migrate

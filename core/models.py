@@ -1038,7 +1038,25 @@ class Payment(models.Model):
             membership.status = 'completed'
             membership.is_active = True
             membership.start_date = timezone.now()
-            membership.end_date = membership.start_date + timezone.timedelta(days=365)  # 1 year membership
+            
+            # Calculate end date based on plan duration
+            # Try to get the plan object first, fallback to plan_type
+            if hasattr(membership, 'plan') and membership.plan:
+                # Use plan duration if available
+                from dateutil.relativedelta import relativedelta
+                membership.end_date = membership.start_date + relativedelta(months=membership.plan.duration)
+            elif hasattr(membership, 'plan_type'):
+                # Use plan_type to get duration from MembershipPlan
+                try:
+                    plan = MembershipPlan.objects.get(plan_type=membership.plan_type, is_active=True)
+                    from dateutil.relativedelta import relativedelta
+                    membership.end_date = membership.start_date + relativedelta(months=plan.duration)
+                except MembershipPlan.DoesNotExist:
+                    # Fallback to 1 year
+                    membership.end_date = membership.start_date + timezone.timedelta(days=365)
+            else:
+                # Fallback to 1 year
+                membership.end_date = membership.start_date + timezone.timedelta(days=365)
             
             # Generate membership number if not already set
             if not membership.membership_number:
@@ -1051,13 +1069,105 @@ class Payment(models.Model):
             
             # Update user profile
             try:
-                profile = self.user.userprofile
+                profile = self.user.profile
                 profile.membership_status = 'active'
-                profile.membership_expiry = membership.end_date
+                profile.membership_expiry = membership.end_date.date()
+                profile.membership_number = membership.membership_number
                 profile.save()
             except:
                 # Handle case where user profile doesn't exist
                 pass
+            
+            # Send confirmation email to the member
+            try:
+                from django.core.mail import send_mail
+                from django.conf import settings
+                
+                # Get plan display name
+                if hasattr(membership, 'plan') and membership.plan:
+                    plan_display = membership.plan.get_plan_type_display()
+                elif hasattr(membership, 'plan_type'):
+                    plan_display = membership.get_plan_type_display()
+                else:
+                    plan_display = 'Standard'
+                
+                subject = "ESA-KU Membership Activated!"
+                message = f"""
+                Hello {self.user.get_full_name()},
+                
+                Your ESA-KU membership has been successfully activated!
+                
+                Membership Details:
+                - Member Number: {membership.membership_number}
+                - Plan: {plan_display}
+                - Start Date: {membership.start_date.strftime('%B %d, %Y')}
+                - End Date: {membership.end_date.strftime('%B %d, %Y')}
+                - Amount Paid: KSh {self.amount}
+                
+                You now have access to all ESA-KU member benefits including:
+                - Exclusive resources and materials
+                - Priority event registration
+                - Networking opportunities
+                - Professional development programs
+                
+                Welcome to the ESA-KU community!
+                
+                Best regards,
+                ESA-KU Team
+                """
+                send_mail(
+                    subject,
+                    message,
+                    settings.DEFAULT_FROM_EMAIL,
+                    [self.user.email],
+                    fail_silently=True,
+                )
+            except Exception as e:
+                # Log error but don't fail the payment completion
+                import logging
+                logger = logging.getLogger(__name__)
+                logger.error(f"Failed to send membership confirmation email: {str(e)}")
+            
+            # If this is a member-get-member payment, send notification to the referrer
+            if membership.referred_by and membership.referred_by != self.user:
+                try:
+                    # Get plan display name for referrer email
+                    if hasattr(membership, 'plan') and membership.plan:
+                        plan_display = membership.plan.get_plan_type_display()
+                    elif hasattr(membership, 'plan_type'):
+                        plan_display = membership.get_plan_type_display()
+                    else:
+                        plan_display = 'Standard'
+                    
+                    subject = "ESA-KU Membership Gift Completed!"
+                    message = f"""
+                    Hello {membership.referred_by.get_full_name()},
+                    
+                    Great news! The membership you gifted to {self.user.get_full_name()} has been successfully activated.
+                    
+                    Gift Details:
+                    - Recipient: {self.user.get_full_name()} ({self.user.email})
+                    - Member Number: {membership.membership_number}
+                    - Plan: {plan_display}
+                    - Amount: KSh {self.amount}
+                    
+                    Thank you for helping grow our engineering community!
+                    
+                    Best regards,
+                    ESA-KU Team
+                    """
+                    send_mail(
+                        subject,
+                        message,
+                        settings.DEFAULT_FROM_EMAIL,
+                        [membership.referred_by.email],
+                        fail_silently=True,
+                    )
+                except Exception as e:
+                    # Log error but don't fail the payment completion
+                    import logging
+                    logger = logging.getLogger(__name__)
+                    logger.error(f"Failed to send referrer notification email: {str(e)}")
             
         if hasattr(self, 'order'):
             # Update order status

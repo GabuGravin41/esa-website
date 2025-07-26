@@ -19,14 +19,6 @@ fi
 # Make build script executable
 chmod +x build.sh
 
-# Collect static files locally to test
-echo "📦 Collecting static files..."
-python manage.py collectstatic --no-input
-
-# Check for migrations
-echo "🔍 Checking for pending migrations..."
-python manage.py makemigrations --check --dry-run
-
 # Test the build script
 echo "🧪 Testing build script..."
 if ./build.sh; then
