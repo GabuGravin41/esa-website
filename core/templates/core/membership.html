@@ -232,7 +232,7 @@
                     <!-- First Year Tier -->
                     <div class="bg-white rounded-lg shadow-lg p-6 border-2 border-blue-900">
                         <h3 class="text-xl font-bold text-blue-900 mb-4">First Year Student</h3>
-                        <p class="text-3xl font-bold mb-4">KSh 2</p>
+                        <p class="text-3xl font-bold mb-4">KSh 250</p>
                         <ul class="space-y-2 mb-6">
                             <li class="flex items-center">
                                 <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -253,7 +253,7 @@
                                 Networking opportunities
                             </li>
                         </ul>
-                        <button onclick="selectTier('first_year', 2)" class="w-full bg-blue-900 text-white py-2 rounded-lg hover:bg-blue-800 transition-colors">
+                        <button onclick="selectTier('first_year', 250)" class="w-full bg-blue-900 text-white py-2 rounded-lg hover:bg-blue-800 transition-colors">
                             Select Plan
                         </button>
                     </div>
@@ -261,7 +261,7 @@
                     <!-- Other Students Tier -->
                     <div class="bg-white rounded-lg shadow-lg p-6 border-2 border-blue-900">
                         <h3 class="text-xl font-bold text-blue-900 mb-4">Other Students</h3>
-                        <p class="text-3xl font-bold mb-4">KSh 2</p>
+                        <p class="text-3xl font-bold mb-4">KSh 300</p>
                         <ul class="space-y-2 mb-6">
                             <li class="flex items-center">
                                 <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -282,7 +282,7 @@
                                 Access to workshops
                             </li>
                         </ul>
-                        <button onclick="selectTier('other_students', 2)" class="w-full bg-blue-900 text-white py-2 rounded-lg hover:bg-blue-800 transition-colors">
+                        <button onclick="selectTier('other_students', 300)" class="w-full bg-blue-900 text-white py-2 rounded-lg hover:bg-blue-800 transition-colors">
                             Select Plan
                         </button>
                     </div>
@@ -293,7 +293,7 @@
                     <!-- Graduate Tier -->
                     <div class="bg-white rounded-lg shadow-lg p-6 border-2 border-blue-900">
                         <h3 class="text-xl font-bold text-blue-900 mb-4">Graduate/Professional</h3>
-                        <p class="text-3xl font-bold mb-4">KSh 2</p>
+                        <p class="text-3xl font-bold mb-4">KSh 1,000</p>
                         <ul class="space-y-2 mb-6">
                             <li class="flex items-center">
                                 <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -314,7 +314,7 @@
                                 Career development resources
                             </li>
                         </ul>
-                        <button onclick="selectTier('graduate', 2)" class="w-full bg-blue-900 text-white py-2 rounded-lg hover:bg-blue-800 transition-colors">
+                        <button onclick="selectTier('graduate', 1000)" class="w-full bg-blue-900 text-white py-2 rounded-lg hover:bg-blue-800 transition-colors">
                             Select Plan
                         </button>
                     </div>
@@ -669,28 +669,34 @@
     }
 
     function selectTier(tier, amount) {
-        const paymentForm = document.getElementById('paymentForm');
-        const totalAmount = document.getElementById('totalAmount');
-        const planTypeInput = document.getElementById('planType');
-        const amountInput = document.getElementById('amount');
-
-        // Set form values
-        planTypeInput.value = tier;
-        amountInput.value = amount;
-        totalAmount.textContent = `KSh ${amount}`;
-
-        // Show payment form
-        paymentForm.classList.remove('hidden');
+        // TEMPORARY: Show coming soon message instead of payment popup
+        // TODO: When M-Pesa credentials are configured, uncomment the original code below and comment out this alert
+        alert('Payment functionality is coming soon! We\'re currently configuring our payment system. Please check back later.');
+        return;
         
-        // Add slide-in animation class if needed
-        paymentForm.classList.add('transform', 'translate-x-0');
-        
-        // Default to M-Pesa payment method
-        document.getElementById('paymentMethod').value = 'mpesa';
-        togglePaymentMethod('mpesa');
-
-        // Scroll to top of payment form
-        paymentForm.scrollTop = 0;
+        // ORIGINAL PAYMENT POPUP CODE - UNCOMMENT WHEN PAYMENT IS READY:
+        // const paymentForm = document.getElementById('paymentForm');
+        // const totalAmount = document.getElementById('totalAmount');
+        // const planTypeInput = document.getElementById('planType');
+        // const amountInput = document.getElementById('amount');
+        // 
+        // // Set form values
+        // planTypeInput.value = tier;
+        // amountInput.value = amount;
+        // totalAmount.textContent = `KSh ${amount}`;
+        // 
+        // // Show payment form
+        // paymentForm.classList.remove('hidden');
+        // 
+        // // Add slide-in animation class if needed
+        // paymentForm.classList.add('transform', 'translate-x-0');
+        // 
+        // // Default to M-Pesa payment method
+        // document.getElementById('paymentMethod').value = 'mpesa';
+        // togglePaymentMethod('mpesa');
+        // 
+        // // Scroll to top of payment form
+        // paymentForm.scrollTop = 0;
     }
 
     // Toggle between student and graduate tiers
@@ -781,7 +787,7 @@
         if (showPayment === 'true' && fromRegistration === 'true') {
             // Auto-select first year student plan and show payment popup
             setTimeout(() => {
-                selectTier('first_year', 2);
+                selectTier('first_year', 250);
             }, 500);
         }
         

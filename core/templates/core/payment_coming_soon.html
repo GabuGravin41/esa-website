@@ -1,0 +1,93 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Payment Coming Soon - ESA{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50">
+    <div class="w-full max-w-2xl px-4 py-8">
+        <div class="bg-white rounded-xl shadow-lg p-8 text-center">
+            <!-- ESA Logo -->
+            <div class="flex justify-center mb-8">
+                <img src="{% static 'images/esa-logo.png' %}" alt="ESA Logo" class="h-20 w-auto" />
+            </div>
+            
+            <!-- Coming Soon Icon -->
+            <div class="flex justify-center mb-6">
+                <div class="w-24 h-24 bg-yellow-100 rounded-full flex items-center justify-center">
+                    <i class="fas fa-clock text-4xl text-yellow-600"></i>
+                </div>
+            </div>
+            
+            <!-- Main Message -->
+            <h1 class="text-3xl font-bold text-gray-800 mb-4">Payment System Coming Soon</h1>
+            <p class="text-lg text-gray-600 mb-6">
+                We're currently configuring our payment system to provide you with the best experience.
+            </p>
+            
+            <!-- Details -->
+            <div class="bg-blue-50 border-l-4 border-blue-500 text-blue-700 p-6 mb-8 text-left">
+                <h3 class="font-semibold mb-3">What's happening?</h3>
+                <ul class="space-y-2 text-sm">
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                        <span>We're setting up secure M-Pesa payment integration</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                        <span>Configuring payment credentials and security protocols</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                        <span>Testing the payment system to ensure reliability</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- What you can do -->
+            <div class="bg-green-50 border-l-4 border-green-500 text-green-700 p-6 mb-8 text-left">
+                <h3 class="font-semibold mb-3">What you can do now:</h3>
+                <ul class="space-y-2 text-sm">
+                    <li class="flex items-start">
+                        <i class="fas fa-arrow-right text-green-500 mt-1 mr-2"></i>
+                        <span>Explore all ESA-KU features and resources</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-arrow-right text-green-500 mt-1 mr-2"></i>
+                        <span>Join communities and participate in discussions</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-arrow-right text-green-500 mt-1 mr-2"></i>
+                        <span>Register for upcoming events</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-arrow-right text-green-500 mt-1 mr-2"></i>
+                        <span>Access educational resources and materials</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="{% url 'home' %}" class="bg-blue-900 hover:bg-blue-800 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                    <i class="fas fa-home mr-2"></i>Go to Home
+                </a>
+                <a href="{% url 'events' %}" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                    <i class="fas fa-calendar mr-2"></i>Browse Events
+                </a>
+                <a href="{% url 'resources' %}" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                    <i class="fas fa-book mr-2"></i>View Resources
+                </a>
+            </div>
+            
+            <!-- Contact Info -->
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <p class="text-sm text-gray-500">
+                    Need help? Contact us at 
+                    <a href="mailto:contact@esa.com" class="text-blue-600 hover:text-blue-800">contact@esa.com</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

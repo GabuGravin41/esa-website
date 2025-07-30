@@ -180,9 +180,15 @@ def register_with_payment(request):
             from core.email_service import send_welcome_email_to_user
             send_welcome_email_to_user(user)
             
-            # Redirect to membership page with payment popup parameters
-            messages.success(request, f'Account created successfully! Welcome to ESA-KU, {user.username}. Please complete your membership payment.')
-            return redirect('membership?show_payment=true&from_registration=true')
+            # TEMPORARY: Redirect to payment coming soon page instead of payment
+            # TODO: When M-Pesa credentials are configured, uncomment the original code below and comment out this redirect
+            messages.success(request, f'Account created successfully! Welcome to ESA-KU, {user.username}.')
+            messages.info(request, 'Payment functionality is coming soon. You can explore the site while we configure the payment system.')
+            return redirect('payment_coming_soon')
+            
+            # ORIGINAL PAYMENT REDIRECT CODE - UNCOMMENT WHEN PAYMENT IS READY:
+            # messages.success(request, f'Account created successfully! Welcome to ESA-KU, {user.username}. Please complete your membership payment.')
+            # return redirect('membership?show_payment=true&from_registration=true')
         else:
             for field, errors in form.errors.items():
                 for error in errors:
