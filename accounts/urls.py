@@ -12,6 +12,7 @@ urlpatterns = [
     path('account_login/', views.login_view, name='account_login'),
     path('account_logout/', views.logout_view, name='account_logout'),
     path('register/', views.register, name='register'),
+    path('register-with-payment/', views.register_with_payment, name='register_with_payment'),
     path('profile/', views.profile, name='profile'),
     
     # API endpoints

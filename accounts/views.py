@@ -155,6 +155,43 @@ def register(request):
     
     return render(request, 'accounts/register.html', {'form': form})
 
+@ensure_csrf_cookie
+def register_with_payment(request):
+    """Handle user registration with automatic redirect to payment"""
+    if request.user.is_authenticated:
+        return redirect('membership')
+    
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            # Save student_id to thread for the signal to use
+            thread = current_thread()
+            thread.student_id = form.cleaned_data.get('student_id')
+            
+            # Create the user - UserProfile will be created automatically via signals
+            user = form.save(commit=True)
+            
+            # Log the user in
+            backend = get_backends()[0]
+            user.backend = f"{backend.__module__}.{backend.__class__.__name__}"
+            login(request, user)
+            
+            # Send welcome email
+            from core.email_service import send_welcome_email_to_user
+            send_welcome_email_to_user(user)
+            
+            # Redirect to membership page with payment popup parameters
+            messages.success(request, f'Account created successfully! Welcome to ESA-KU, {user.username}. Please complete your membership payment.')
+            return redirect('membership?show_payment=true&from_registration=true')
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
+    else:
+        form = UserRegistrationForm()
+    
+    return render(request, 'accounts/register_with_payment.html', {'form': form})
+
 @login_required
 def profile(request):
     """Handle user profile view and updates"""

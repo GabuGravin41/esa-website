@@ -78,7 +78,12 @@
           </a>
         </div>
 
-         <!-- Enhanced Glossy Submit Button -->
+        <!-- Authentication Error Alert -->
+        <div id="auth-error" class="hidden p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm text-center">
+          <p>Invalid username or password. Please try again.</p>
+        </div>
+
+        <!-- Enhanced Glossy Submit Button -->
         <button type="submit" 
           class="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-medium hover:from-blue-700 hover:to-blue-800 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 relative overflow-hidden group">
           <span class="relative z-10">Sign In</span>
@@ -127,4 +132,22 @@
     opacity: 0.7;
   }
 </style>
+
+<script>
+  // Show authentication error if form has errors
+  document.addEventListener('DOMContentLoaded', function() {
+    {% if form.errors %}
+      document.getElementById('auth-error').classList.remove('hidden');
+    {% endif %}
+    
+    // Add event listener to form submission
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function() {
+      // Show loading state or disable button to prevent multiple submissions
+      const submitButton = form.querySelector('button[type="submit"]');
+      submitButton.disabled = true;
+      submitButton.innerHTML = '<span class="relative z-10">Signing in...</span>';
+    });
+  });
+</script>
 {% endblock %}

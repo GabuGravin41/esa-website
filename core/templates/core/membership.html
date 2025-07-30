@@ -489,8 +489,8 @@
             {% if is_member %}
                 <button class="bg-white text-blue-900 cursor-not-allowed opacity-75 px-8 py-3 rounded-lg font-bold" disabled>Already a Member</button>
             {% elif not user.is_authenticated %}
-                <a href="{% url 'account_login' %}?next={% url 'membership' %}" class="bg-white text-blue-900 hover:bg-gray-100 px-8 py-3 rounded-lg font-bold transition">
-                    Sign In to Join
+                <a href="{% url 'register_with_payment' %}" class="bg-white text-blue-900 hover:bg-gray-100 px-8 py-3 rounded-lg font-bold transition">
+                    Join Now
                 </a>
             {% else %}
                 <a href="#pricingSection" class="bg-white text-blue-900 hover:bg-gray-100 px-8 py-3 rounded-lg font-bold transition">
@@ -772,6 +772,18 @@
     // Initialize the payment method (default to M-Pesa)
     document.addEventListener('DOMContentLoaded', function() {
         togglePaymentMethod('mpesa');
+        
+        // Check if user should see payment popup (from registration workflow)
+        const urlParams = new URLSearchParams(window.location.search);
+        const showPayment = urlParams.get('show_payment');
+        const fromRegistration = urlParams.get('from_registration');
+        
+        if (showPayment === 'true' && fromRegistration === 'true') {
+            // Auto-select first year student plan and show payment popup
+            setTimeout(() => {
+                selectTier('first_year', 2);
+            }, 500);
+        }
         
         // Form submission handling
         document.getElementById('membershipForm').addEventListener('submit', function(e) {

@@ -205,11 +205,8 @@
                     <div>
                         <h3 class="text-xl font-bold text-[#003366] mb-4">Share This Event</h3>
                         <div class="flex gap-3">
-                            <a href="#" onclick="shareOnFacebook()" class="bg-blue-600 text-white p-3 rounded-full hover:bg-blue-700 transition-colors">
-                                <i class="fab fa-facebook-f"></i>
-                            </a>
-                            <a href="#" onclick="shareOnTwitter()" class="bg-blue-400 text-white p-3 rounded-full hover:bg-blue-500 transition-colors">
-                                <i class="fab fa-twitter"></i>
+                            <a href="#" onclick="shareOnX()" class="bg-blue-600 text-white p-3 rounded-full hover:bg-blue-700 transition-colors">
+                                <i class="fab fa-x-twitter"></i>
                             </a>
                             <a href="#" onclick="shareOnLinkedIn()" class="bg-blue-700 text-white p-3 rounded-full hover:bg-blue-800 transition-colors">
                                 <i class="fab fa-linkedin-in"></i>
@@ -388,15 +385,10 @@
         window.open(googleUrl, '_blank');
     }
     
-    function shareOnFacebook() {
-        const url = encodeURIComponent(window.location.href);
-        window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
-    }
-    
-    function shareOnTwitter() {
+    function shareOnX() {
         const url = encodeURIComponent(window.location.href);
         const text = encodeURIComponent("Check out this event: {{ event.title }}");
-        window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
+        window.open(`https://x.com/intent/tweet?url=${url}&text=${text}`, '_blank');
     }
     
     function shareOnLinkedIn() {

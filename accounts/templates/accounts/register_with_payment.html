@@ -13,14 +13,16 @@
         <p class="text-sm text-gray-500 mt-1">Engineering Students Association</p>
       </div>
 
-      <!-- Django messages -->
-      {% if messages %}
-      <div class="mb-6 p-3 bg-amber-50 border border-amber-200 rounded-lg text-amber-700 text-sm">
-        {% for message in messages %}
-          <p class="text-center">{{ message }}</p>
-        {% endfor %}
+      <!-- Payment Workflow Notice -->
+      <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+        <div class="flex items-center mb-2">
+          <i class="fas fa-info-circle text-blue-600 mr-2"></i>
+          <span class="text-sm font-medium text-blue-900">Complete Registration & Payment</span>
+        </div>
+        <p class="text-xs text-blue-700">
+          After creating your account, you'll be redirected to complete your membership payment.
+        </p>
       </div>
-      {% endif %}
 
       <!-- Form-specific error messages -->
       {% if form.errors %}
@@ -36,7 +38,7 @@
       {% endif %}
 
       <!-- Signup Form -->
-      <form class="space-y-4" action="{% url 'register' %}" method="POST">
+      <form class="space-y-4" action="{% url 'register_with_payment' %}" method="POST">
         {% csrf_token %}
         
         <!-- Username Field -->
@@ -49,7 +51,7 @@
             </div>
           </div>
           {% if form.username.errors %}
-          <p class="text-red-500 text-xs mt-1">{{ form.username.errors|striptags }}</p>
+          <p class="text-red-500 text-xs mt-1">{{ form.username.errors }}</p>
           {% endif %}
         </div>
 
@@ -63,7 +65,7 @@
             </div>
           </div>
           {% if form.email.errors %}
-          <p class="text-red-500 text-xs mt-1">{{ form.email.errors|striptags }}</p>
+          <p class="text-red-500 text-xs mt-1">{{ form.email.errors }}</p>
           {% endif %}
         </div>
 
@@ -77,7 +79,7 @@
             </div>
           </div>
           {% if form.student_id.errors %}
-          <p class="text-red-500 text-xs mt-1">{{ form.student_id.errors|striptags }}</p>
+          <p class="text-red-500 text-xs mt-1">{{ form.student_id.errors }}</p>
           {% endif %}
         </div>
 
@@ -91,9 +93,8 @@
             </div>
           </div>
           {% if form.password1.errors %}
-          <p class="text-red-500 text-xs mt-1">{{ form.password1.errors|striptags }}</p>
+          <p class="text-red-500 text-xs mt-1">{{ form.password1.errors }}</p>
           {% endif %}
-          <div class="text-xs text-gray-500 mt-1">{{ form.password1.help_text|safe }}</div>
         </div>
 
         <!-- Password Confirmation Field -->
@@ -106,97 +107,43 @@
             </div>
           </div>
           {% if form.password2.errors %}
-          <p class="text-red-500 text-xs mt-1">{{ form.password2.errors|striptags }}</p>
+          <p class="text-red-500 text-xs mt-1">{{ form.password2.errors }}</p>
           {% endif %}
         </div>
 
-        <!-- Password Requirements -->
-        <div class="p-4 bg-gray-50 rounded-lg">
-          <p class="text-xs font-medium text-gray-700 mb-2">Password Requirements:</p>
-          <ul class="text-xs text-gray-600 space-y-1">
-            <li class="flex items-center">
-              <ion-icon name="checkmark-circle" class="text-green-500 mr-2"></ion-icon>
-              Minimum 8 characters
-            </li>
-            <li class="flex items-center">
-              <ion-icon name="checkmark-circle" class="text-green-500 mr-2"></ion-icon>
-              At least one letter and number
-            </li>
-            <li class="flex items-center">
-              <ion-icon name="checkmark-circle" class="text-green-500 mr-2"></ion-icon>
-              Not too common
-            </li>
-          </ul>
-        </div>
-
-        <!-- Submit Button -->
+        <!-- Enhanced Glossy Submit Button -->
         <button type="submit" 
-          class="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-medium hover:from-blue-700 hover:to-blue-800 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 animated-button">
-          Create Account
+          class="w-full py-3 px-4 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg font-medium hover:from-green-700 hover:to-green-800 transition-all focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 relative overflow-hidden group">
+          <span class="relative z-10">Create Account & Continue to Payment</span>
+          <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute -inset-8 bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-300 animate-shine"></div>
+          </div>
         </button>
 
-        <!-- Existing User Prompt -->
-        <p class="text-center text-sm text-gray-600">
-          Already have an account?
+        <!-- Login Prompt -->
+        <p class="mt-8 text-center text-sm text-gray-600">
+          Already have an account? 
           <a href="{% url 'account_login' %}" class="font-medium text-blue-600 hover:text-blue-800 transition-colors">
-            Sign In
+            Sign in
           </a>
         </p>
-
-        <!-- Legal Text -->
-        <div class="mt-4 text-center">
-          <p class="text-xs text-gray-500">
-            By registering, you agree to our 
-            <a href="#" class="font-medium text-blue-600 hover:text-blue-800">Terms</a> and 
-            <a href="#" class="font-medium text-blue-600 hover:text-blue-800">Privacy Policy</a>
-          </p>
-        </div>
       </form>
     </div>
   </div>
 </div>
 
 <style>
-  /* Consistent input styling */
-  input {
-    @apply w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all;
+  @keyframes shine {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(100%);
+    }
   }
-
-  /* Password requirement animations */
-  ion-icon[name="checkmark-circle"] {
-    transition: transform 0.2s ease;
-  }
-  input:valid ~ ion-icon[name="checkmark-circle"] {
-    transform: scale(1.1);
-  }
-
-  /* Error field highlighting */
-  input.error {
-    @apply border-red-300 bg-red-50;
-  }
-
-  /* Success notification */
-  #successNotification {
-    transition: opacity 0.5s ease-out;
-  }
-  #successNotification.opacity-0 {
-    opacity: 0;
+  
+  .animate-shine {
+    animation: shine 2s infinite;
   }
 </style>
-
-<script>
-  // Add error class to fields with errors
-  document.addEventListener('DOMContentLoaded', function() {
-    const errorFields = document.querySelectorAll('p.text-red-500');
-    errorFields.forEach(function(field) {
-      const inputField = field.parentElement.querySelector('input');
-      if (inputField) {
-        inputField.classList.add('error');
-        inputField.addEventListener('focus', function() {
-          this.classList.remove('error');
-        });
-      }
-    });
-  });
-</script>
-{% endblock %}
+{% endblock %} 
