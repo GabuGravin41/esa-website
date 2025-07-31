@@ -171,7 +171,7 @@ class UserActivityMiddleware:
                 # Check hardcoded admin users
                 is_hardcoded_admin = profile.email in [
                     'admin@example.com',
-                    'admin@esa.com',
+                    'esa.kenyattauniv@gmail.com',
                     'esaadmin@kenyatta.ac.ke'
                 ]
                 

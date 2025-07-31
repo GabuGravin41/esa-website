@@ -218,4 +218,4 @@ Once your sandbox testing is complete and your "Go Live" request is approved:
 - [ ] Perform final testing with real transactions
 - [ ] Document the payment flow for future maintenance
 
-For any internal questions about this implementation, please contact the ESA-KU technical team at tech@esa-ku.org.
+For any internal questions about this implementation, please contact the ESA-KU technical team at esa.kenyattauniv@gmail.com.
