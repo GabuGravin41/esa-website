@@ -8,7 +8,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.contrib.auth.models import User
 from django.db import IntegrityError, models
-from django.db.models import Count, Q
+from django.db.models import Count, Q, Prefetch, F
+from django.core.cache import cache
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_headers
 import datetime
 import json
 import uuid
@@ -60,44 +63,69 @@ def home(request):
         else:
             messages.error(request, 'Please provide a valid email address.')
 
-    # Get featured or upcoming events (limited to 3)
-    current_date = timezone.now().date()
-    featured_events = Event.objects.filter(
-        is_active=True, 
-        featured=True, 
-        end_date__gte=current_date
-    ).order_by('start_date')[:3]
+    # Cache key for home page data
+    cache_key = 'home_page_data'
+    cached_data = cache.get(cache_key)
     
-    # If we don't have enough featured events, get regular upcoming events
-    if featured_events.count() < 3:
-        regular_events = Event.objects.filter(
-            is_active=True,
-            end_date__gte=current_date,
-        ).exclude(id__in=featured_events.values_list('id', flat=True)).order_by('start_date')
-        events = list(featured_events) + list(regular_events)
-        events = events[:3]  # Limit to 3 events
-    else:
-        events = featured_events
-    
-    # Get blog posts (news items)
-    blog_posts = BlogPost.objects.filter(is_published=True).order_by('-created_at')[:2]
-    
-    # Fetch active announcements that are not expired
-    announcements = Announcement.objects.filter(is_active=True).exclude(expiry_date__lt=timezone.now())[:5]
-    
-    # Get the next major event for the countdown timer
-    next_major_event = Event.objects.filter(
-        is_active=True, 
-        featured=True,
-        end_date__gte=current_date
-    ).order_by('start_date').first()
-    
-    # If no featured event found, get the nearest upcoming event
-    if not next_major_event:
-        next_major_event = Event.objects.filter(
-            is_active=True,
+    if cached_data is None:
+        # Get featured or upcoming events (limited to 3) with optimized queries
+        current_date = timezone.now().date()
+        
+        # Optimized query with select_related for foreign keys
+        featured_events = Event.objects.select_related('created_by', 'community').filter(
+            is_active=True, 
+            featured=True, 
+            end_date__gte=current_date
+        ).order_by('start_date')[:3]
+        
+        # If we don't have enough featured events, get regular upcoming events
+        if featured_events.count() < 3:
+            regular_events = Event.objects.select_related('created_by', 'community').filter(
+                is_active=True,
+                end_date__gte=current_date,
+            ).exclude(id__in=featured_events.values_list('id', flat=True)).order_by('start_date')[:3]
+            events = list(featured_events) + list(regular_events)[:3-len(featured_events)]
+        else:
+            events = list(featured_events)
+        
+        # Get blog posts with author info (optimized)
+        blog_posts = BlogPost.objects.select_related('author__user').filter(
+            is_published=True
+        ).order_by('-created_at')[:2]
+        
+        # Fetch active announcements that are not expired
+        announcements = Announcement.objects.filter(
+            is_active=True
+        ).exclude(expiry_date__lt=timezone.now())[:5]
+        
+        # Get the next major event for the countdown timer
+        next_major_event = Event.objects.select_related('created_by').filter(
+            is_active=True, 
+            featured=True,
             end_date__gte=current_date
         ).order_by('start_date').first()
+        
+        # If no featured event found, get the nearest upcoming event
+        if not next_major_event:
+            next_major_event = Event.objects.select_related('created_by').filter(
+                is_active=True,
+                end_date__gte=current_date
+            ).order_by('start_date').first()
+        
+        # Cache the data for 5 minutes
+        cached_data = {
+            'events': events,
+            'blog_posts': blog_posts,
+            'announcements': announcements,
+            'next_major_event': next_major_event,
+        }
+        cache.set(cache_key, cached_data, 300)  # 5 minutes
+    
+    # Extract cached data
+    events = cached_data['events']
+    blog_posts = cached_data['blog_posts']
+    announcements = cached_data['announcements']
+    next_major_event = cached_data['next_major_event']
     
     # Fetch active partners
     partners = Partner.objects.filter(is_active=True)

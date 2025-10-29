@@ -13,6 +13,8 @@ from decimal import Decimal
 class MpesaService:
     def __init__(self):
         self.business_shortcode = settings.MPESA_SHORTCODE
+        self.paybill = getattr(settings, 'MPESA_PAYBILL', settings.MPESA_SHORTCODE)
+        self.account_number = getattr(settings, 'MPESA_ACCOUNT_NUMBER', '')
         self.passkey = settings.MPESA_PASSKEY
         self.consumer_key = settings.MPESA_CONSUMER_KEY
         self.consumer_secret = settings.MPESA_CONSUMER_SECRET
@@ -89,8 +91,9 @@ class MpesaService:
             
             # Generate timestamp and password
             timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+            # For paybill, use paybill number instead of shortcode
             password = base64.b64encode(
-                f"{self.business_shortcode}{self.passkey}{timestamp}".encode()
+                f"{self.paybill}{self.passkey}{timestamp}".encode()
             ).decode()
             
             # Set headers
@@ -99,18 +102,18 @@ class MpesaService:
                 'Content-Type': 'application/json'
             }
             
-            # Prepare payload
+            # Prepare payload - Use paybill configuration
             payload = {
-                "BusinessShortCode": self.business_shortcode,
+                "BusinessShortCode": self.paybill,  # Use paybill number
                 "Password": password,
                 "Timestamp": timestamp,
-                "TransactionType": "CustomerPayBillOnline",
+                "TransactionType": "CustomerPayBillOnline",  # Correct for paybill
                 "Amount": int(amount),
                 "PartyA": phone_number,
-                "PartyB": self.business_shortcode,
+                "PartyB": self.paybill,  # Use paybill as PartyB
                 "PhoneNumber": phone_number,
                 "CallBackURL": self.callback_url,
-                "AccountReference": self.reference,
+                "AccountReference": self.account_number if self.account_number else reference,  # Use account number
                 "TransactionDesc": description
             }
             
@@ -170,8 +173,9 @@ class MpesaService:
             
             # Generate timestamp and password
             timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+            # For paybill, use paybill number instead of shortcode
             password = base64.b64encode(
-                f"{self.business_shortcode}{self.passkey}{timestamp}".encode()
+                f"{self.paybill}{self.passkey}{timestamp}".encode()
             ).decode()
             
             # Set headers

@@ -61,6 +61,12 @@ if DEBUG:
         INSTALLED_APPS += ['django_browser_reload']
     except ImportError:
         pass
+    
+    try:
+        import debug_toolbar
+        INSTALLED_APPS += ['debug_toolbar']
+    except ImportError:
+        pass
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -71,16 +77,28 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'core.middleware.PerformanceMonitoringMiddleware',  # Performance monitoring
     'core.middleware.LoginRedirectMiddleware',  # Handle login redirects gracefully
     'core.middleware.ErrorHandlingMiddleware',  # Custom error handling
     'allauth.account.middleware.AccountMiddleware',
 ]
 
-# Add browser reload middleware only in development
+# Add development-only middleware
 if DEBUG:
     try:
         import django_browser_reload
         MIDDLEWARE.append('django_browser_reload.middleware.BrowserReloadMiddleware')
+    except ImportError:
+        pass
+    
+    try:
+        import debug_toolbar
+        MIDDLEWARE.insert(1, 'debug_toolbar.middleware.DebugToolbarMiddleware')
+        # Debug toolbar configuration
+        INTERNAL_IPS = ['127.0.0.1', 'localhost']
+        DEBUG_TOOLBAR_CONFIG = {
+            'SHOW_TOOLBAR_CALLBACK': lambda request: DEBUG,
+        }
     except ImportError:
         pass
 
@@ -201,10 +219,12 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 # Payment API Settings
-MPESA_CONSUMER_KEY = config('MPESA_CONSUMER_KEY', default='')
-MPESA_CONSUMER_SECRET = config('MPESA_CONSUMER_SECRET', default='')
-MPESA_SHORTCODE = config('MPESA_SHORTCODE', default='')
-MPESA_PASSKEY = config('MPESA_PASSKEY', default='')
+MPESA_CONSUMER_KEY = config('MPESA_CONSUMER_KEY', default='WUlUUqZJGYLieyOmmyMPOfiTCAe0u5KVt2Nn2WCR4yjxWgW4')
+MPESA_CONSUMER_SECRET = config('MPESA_CONSUMER_SECRET', default='FZhSjLFfNYrfxQxoWsENHJ2uINTbrm9DALotpDfeWFvS7jRC44LIuY833CahHyvH')
+MPESA_PAYBILL = config('MPESA_PAYBILL', default='625625')  # Your paybill number
+MPESA_ACCOUNT_NUMBER = config('MPESA_ACCOUNT_NUMBER', default='01521260661100')  # Your account number
+MPESA_SHORTCODE = config('MPESA_SHORTCODE', default='625625')  # Use paybill as shortcode for API
+MPESA_PASSKEY = config('MPESA_PASSKEY', default='')  # Not needed for paybill
 MPESA_CALLBACK_URL = config('MPESA_CALLBACK_URL', default='')
 
 # PayPal Settings
@@ -295,14 +315,16 @@ DEFAULT_USER_ID = 1
 # MPESA_CALLBACK_URL = 'https://esa-website-2.onrender.com/'
 
 # M-Pesa Daraja API Settings
-MPESA_ENVIRONMENT = config('MPESA_ENVIRONMENT', default='sandbox')
-MPESA_CONSUMER_KEY = config('MPESA_CONSUMER_KEY')
-MPESA_CONSUMER_SECRET = config('MPESA_CONSUMER_SECRET')
-MPESA_SHORTCODE = config('MPESA_SHORTCODE')
-MPESA_PASSKEY = config('MPESA_PASSKEY')
-MPESA_CALLBACK_URL = config('MPESA_CALLBACK_URL')
+MPESA_ENVIRONMENT = config('MPESA_ENVIRONMENT', default='production')  # Changed to production
+MPESA_CONSUMER_KEY = config('MPESA_CONSUMER_KEY', default='WUlUUqZJGYLieyOmmyMPOfiTCAe0u5KVt2Nn2WCR4yjxWgW4')
+MPESA_CONSUMER_SECRET = config('MPESA_CONSUMER_SECRET', default='FZhSjLFfNYrfxQxoWsENHJ2uINTbrm9DALotpDfeWFvS7jRC44LIuY833CahHyvH')
+MPESA_PAYBILL = config('MPESA_PAYBILL', default='625625')
+MPESA_ACCOUNT_NUMBER = config('MPESA_ACCOUNT_NUMBER', default='01521260661100')
+MPESA_SHORTCODE = config('MPESA_SHORTCODE', default='625625')  # Use paybill as shortcode
+MPESA_PASSKEY = config('MPESA_PASSKEY', default='bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919')  # Default passkey for paybill
+MPESA_CALLBACK_URL = config('MPESA_CALLBACK_URL', default='https://esa-ku.com/membership/payment/mpesa/callback/')
 MPESA_REFERENCE = config('MPESA_REFERENCE', default='ESA-KU')
-MPESA_SIMULATE_IN_DEV = config('MPESA_SIMULATE_IN_DEV', default=True, cast=bool)
+MPESA_SIMULATE_IN_DEV = config('MPESA_SIMULATE_IN_DEV', default=False, cast=bool)  # Disable simulation for production
 
 # PayPal Settings
 PAYPAL_ENVIRONMENT = 'sandbox'  # Change to 'production' for live environment

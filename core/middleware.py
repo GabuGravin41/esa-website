@@ -10,6 +10,9 @@ from .models import UserProfile
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.urls import resolve, reverse
+import time
+from django.utils.deprecation import MiddlewareMixin
+from django.contrib.auth.models import AnonymousUser
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +36,42 @@ class LoginRedirectMiddleware:
             
         return response
 
-class ErrorHandlingMiddleware:
+class PerformanceMonitoringMiddleware(MiddlewareMixin):
+    """Monitor performance and log slow requests"""
+    
+    def process_request(self, request):
+        """Start timing the request"""
+        request._start_time = time.time()
+        request._queries_start = len(connection.queries)
+        
+    def process_response(self, request, response):
+        """Log performance metrics"""
+        if hasattr(request, '_start_time'):
+            duration = time.time() - request._start_time
+            queries_count = len(connection.queries) - request._queries_start
+            
+            # Log slow requests (> 2 seconds)
+            if duration > 2.0:
+                logger = logging.getLogger('performance')
+                logger.warning(
+                    f"Slow request: {request.path} took {duration:.2f}s with {queries_count} queries",
+                    extra={
+                        'duration': duration,
+                        'queries_count': queries_count,
+                        'path': request.path,
+                        'method': request.method,
+                        'user': getattr(request, 'user', None),
+                    }
+                )
+            
+            # Add performance headers in debug mode
+            if settings.DEBUG:
+                response['X-Response-Time'] = f"{duration:.3f}s"
+                response['X-DB-Queries'] = str(queries_count)
+        
+        return response
+
+class ErrorHandlingMiddleware(MiddlewareMixin):
     def __init__(self, get_response):
         self.get_response = get_response
 

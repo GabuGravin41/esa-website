@@ -42,3 +42,11 @@ django-browser-reload==1.12.1
 
 # Markdown Processing
 markdown==3.5.2
+
+# Performance and Caching
+redis==5.0.1
+django-redis==5.4.0
+hiredis==2.2.3
+
+# Performance Monitoring
+django-debug-toolbar==4.2.0
