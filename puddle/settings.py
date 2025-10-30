@@ -58,7 +58,8 @@ INSTALLED_APPS = [
 if DEBUG:
     try:
         import django_browser_reload
-        INSTALLED_APPS += ['django_browser_reload',]
+        if 'django_browser_reload' not in INSTALLED_APPS:
+            INSTALLED_APPS += ['django_browser_reload']
     except ImportError:
         pass
 
@@ -95,10 +96,8 @@ if DEBUG:
     
     try:
         import django_browser_reload
-        INSTALLED_APPS += ['django_browser_reload']
-        MIDDLEWARE.append('django_browser_reload.middleware.BrowserReloadMiddleware')
-    except ImportError:
-        pass
+        if 'django_browser_reload.middleware.BrowserReloadMiddleware' not in MIDDLEWARE:
+            MIDDLEWARE.append('django_browser_reload.middleware.BrowserReloadMiddleware')
     except ImportError:
         pass
     
