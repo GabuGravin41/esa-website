@@ -73,9 +73,12 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'core.middleware.PerformanceMonitoringMiddleware',
+    'core.middleware.LoginRedirectMiddleware',  # Handle login redirects gracefully
+    'core.middleware.ErrorHandlingMiddleware',  # Custom error handling
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
-# Add debug toolbar in development only
+# Development-only middleware and apps
 if DEBUG:
     try:
         import debug_toolbar
@@ -89,18 +92,13 @@ if DEBUG:
         }
     except ImportError:
         pass
-
-# Middleware is now defined above
-    'core.middleware.LoginRedirectMiddleware',  # Handle login redirects gracefully
-    'core.middleware.ErrorHandlingMiddleware',  # Custom error handling
-    'allauth.account.middleware.AccountMiddleware',
-]
-
-# Add development-only middleware
-if DEBUG:
+    
     try:
         import django_browser_reload
+        INSTALLED_APPS += ['django_browser_reload']
         MIDDLEWARE.append('django_browser_reload.middleware.BrowserReloadMiddleware')
+    except ImportError:
+        pass
     except ImportError:
         pass
     
