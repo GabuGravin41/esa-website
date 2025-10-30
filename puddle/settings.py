@@ -58,13 +58,21 @@ INSTALLED_APPS = [
 if DEBUG:
     try:
         import django_browser_reload
-        INSTALLED_APPS += ['django_browser_reload']
+        INSTALLED_APPS += ['django_browser_reload',]
     except ImportError:
         pass
     
     try:
         import debug_toolbar
-        INSTALLED_APPS += ['debug_toolbar']
+        INSTALLED_APPS += ['debug_toolbar',]
+        MIDDLEWARE = [
+            'debug_toolbar.middleware.DebugToolbarMiddleware',
+            # ... other middleware
+        ]
+
+        INTERNAL_IPS = [
+            '127.0.0.1',
+        ]
     except ImportError:
         pass
 
@@ -254,7 +262,7 @@ if DEFAULT_FROM_EMAIL and '@' in DEFAULT_FROM_EMAIL and not DEFAULT_FROM_EMAIL.s
     DEFAULT_FROM_EMAIL = f'ESA-KU <{DEFAULT_FROM_EMAIL}>'
 
 # Define the site URL for use in emails (used for links in emails)
-SITE_URL = config('SITE_URL', default='http://localhost:8000' if DEBUG else 'https://esa-ku.com')
+SITE_URL = config('SITE_URL', default='http://localhost:8000' if DEBUG else 'https://esa-website-3.onrender.com')
 
 # Error Handling
 ADMINS = [('Admin', config('ADMIN_EMAIL', default='esa.kenyattauniv@gmail.com'))]
