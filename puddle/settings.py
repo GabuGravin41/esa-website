@@ -61,33 +61,8 @@ if DEBUG:
         INSTALLED_APPS += ['django_browser_reload',]
     except ImportError:
         pass
-    
-    # Only enable debug toolbar in development
-    if DEBUG:
-        try:
-            import debug_toolbar
-            INSTALLED_APPS += ['debug_toolbar']
-            
-            # Make sure debug toolbar middleware is at the start of MIDDLEWARE
-            if 'debug_toolbar.middleware.DebugToolbarMiddleware' not in MIDDLEWARE:
-                MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + list(MIDDLEWARE)
-            
-            # Debug toolbar configuration
-            INTERNAL_IPS = ['127.0.0.1']
-            DEBUG_TOOLBAR_CONFIG = {
-                'SHOW_TOOLBAR_CALLBACK': lambda request: DEBUG,
-            }
-            
-            # Add debug toolbar URLs
-            import os
-            if os.environ.get('RUN_MAIN') or os.environ.get('WERKZEUG_RUN_MAIN'):
-                import debug_toolbar
-                urlpatterns = [
-                    path('__debug__/', include(debug_toolbar.urls)),
-                ] + urlpatterns
-        except ImportError:
-            pass
 
+# Define MIDDLEWARE before using it
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -97,7 +72,25 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'core.middleware.PerformanceMonitoringMiddleware',  # Performance monitoring
+    'core.middleware.PerformanceMonitoringMiddleware',
+]
+
+# Add debug toolbar in development only
+if DEBUG:
+    try:
+        import debug_toolbar
+        INSTALLED_APPS += ['debug_toolbar']
+        MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
+        
+        # Debug toolbar configuration
+        INTERNAL_IPS = ['127.0.0.1']
+        DEBUG_TOOLBAR_CONFIG = {
+            'SHOW_TOOLBAR_CALLBACK': lambda request: True,
+        }
+    except ImportError:
+        pass
+
+# Middleware is now defined above
     'core.middleware.LoginRedirectMiddleware',  # Handle login redirects gracefully
     'core.middleware.ErrorHandlingMiddleware',  # Custom error handling
     'allauth.account.middleware.AccountMiddleware',
