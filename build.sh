@@ -21,8 +21,7 @@ mkdir -p logs
 mkdir -p staticfiles
 mkdir -p media
 
-# Move to Django project directory
-cd puddle
+# Django project directory is the current directory
 
 # Performance optimizations
 echo "⚡ Setting up performance optimizations..."
