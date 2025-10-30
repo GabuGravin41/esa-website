@@ -394,15 +394,15 @@
           <img src="{% static 'images/esa-logo.png' %}" alt="ESA Logo" class="custom-logo " />
         </a>
         <!-- Desktop Navigation Menu -->
-        <ul class="hidden md:flex space-x-6">
-          <li><a href="{% url 'home' %}" class="text-blue-900 hover:text-green-700 font-semibold">Home</a></li>
-          <li><a href="{% url 'about' %}" class="text-blue-900 hover:text-green-700 font-semibold">About</a></li>
-          <li><a href="{% url 'membership' %}" class="text-blue-900 hover:text-green-700 font-semibold">Membership</a></li>
-          <li><a href="{% url 'communities' %}" class="text-blue-900 hover:text-green-700 font-semibold">Communities</a></li>
-          <li><a href="{% url 'events' %}" class="text-blue-900 hover:text-green-700 font-semibold">Events</a></li>
-          <li><a href="{% url 'store' %}" class="text-blue-900 hover:text-green-700 font-semibold">Store</a></li>
-          <li><a href="{% url 'blog' %}" class="text-blue-900 hover:text-green-700 font-semibold">Blog</a></li>
-          <li><a href="{% url 'resources' %}" class="text-blue-900 hover:text-green-700 font-semibold">Resources</a></li>
+        <ul class="hidden md:flex space-x-3 text-sm">
+          <li class="whitespace-nowrap"><a href="{% url 'home' %}" class="text-blue-900 hover:text-green-700 font-medium">Home</a></li>
+          <li class="whitespace-nowrap"><a href="{% url 'about' %}" class="text-blue-900 hover:text-green-700 font-medium">About</a></li>
+          <li class="whitespace-nowrap"><a href="{% url 'membership' %}" class="text-blue-900 hover:text-green-700 font-medium">Membership</a></li>
+          <li class="whitespace-nowrap"><a href="{% url 'communities' %}" class="text-blue-900 hover:text-green-700 font-medium">Communities</a></li>
+          <li class="whitespace-nowrap"><a href="{% url 'events' %}" class="text-blue-900 hover:text-green-700 font-medium">Events</a></li>
+          <li class="whitespace-nowrap"><a href="{% url 'store' %}" class="text-blue-900 hover:text-green-700 font-medium">Store</a></li>
+          <li class="whitespace-nowrap"><a href="{% url 'blog' %}" class="text-blue-900 hover:text-green-700 font-medium">Blog</a></li>
+          <li class="whitespace-nowrap"><a href="{% url 'resources' %}" class="text-blue-900 hover:text-green-700 font-medium">Resources</a></li>
           {% if request.is_esa_admin %}
           <li class="relative group">
             <a href="{% url 'admin_dashboard' %}"  class="text-red-600 hover:text-red-700 font-semibold flex items-center">

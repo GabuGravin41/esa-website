@@ -62,19 +62,31 @@ if DEBUG:
     except ImportError:
         pass
     
-    try:
-        import debug_toolbar
-        INSTALLED_APPS += ['debug_toolbar',]
-        MIDDLEWARE = [
-            'debug_toolbar.middleware.DebugToolbarMiddleware',
-            # ... other middleware
-        ]
-
-        INTERNAL_IPS = [
-            '127.0.0.1',
-        ]
-    except ImportError:
-        pass
+    # Only enable debug toolbar in development
+    if DEBUG:
+        try:
+            import debug_toolbar
+            INSTALLED_APPS += ['debug_toolbar']
+            
+            # Make sure debug toolbar middleware is at the start of MIDDLEWARE
+            if 'debug_toolbar.middleware.DebugToolbarMiddleware' not in MIDDLEWARE:
+                MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + list(MIDDLEWARE)
+            
+            # Debug toolbar configuration
+            INTERNAL_IPS = ['127.0.0.1']
+            DEBUG_TOOLBAR_CONFIG = {
+                'SHOW_TOOLBAR_CALLBACK': lambda request: DEBUG,
+            }
+            
+            # Add debug toolbar URLs
+            import os
+            if os.environ.get('RUN_MAIN') or os.environ.get('WERKZEUG_RUN_MAIN'):
+                import debug_toolbar
+                urlpatterns = [
+                    path('__debug__/', include(debug_toolbar.urls)),
+                ] + urlpatterns
+        except ImportError:
+            pass
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -99,16 +111,7 @@ if DEBUG:
     except ImportError:
         pass
     
-    try:
-        import debug_toolbar
-        MIDDLEWARE.insert(1, 'debug_toolbar.middleware.DebugToolbarMiddleware')
-        # Debug toolbar configuration
-        INTERNAL_IPS = ['127.0.0.1', 'localhost']
-        DEBUG_TOOLBAR_CONFIG = {
-            'SHOW_TOOLBAR_CALLBACK': lambda request: DEBUG,
-        }
-    except ImportError:
-        pass
+    # Debug toolbar is already configured above
 
 ROOT_URLCONF = 'puddle.urls'
 

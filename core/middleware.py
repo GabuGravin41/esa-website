@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.conf import settings
 from django.core.exceptions import PermissionDenied, ValidationError
-from django.db import IntegrityError
+from django.db import connection, IntegrityError
 import json
 from django.utils import timezone
 from .models import UserProfile
@@ -42,7 +42,10 @@ class PerformanceMonitoringMiddleware(MiddlewareMixin):
     def process_request(self, request):
         """Start timing the request"""
         request._start_time = time.time()
-        request._queries_start = len(connection.queries)
+        try:
+            request._queries_start = len(connection.queries) if connection.connection is not None else 0
+        except Exception:
+            request._queries_start = 0
         
     def process_response(self, request, response):
         """Log performance metrics"""
