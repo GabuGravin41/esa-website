@@ -13,12 +13,14 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = config(
     'ALLOWED_HOSTS', 
     default='localhost,127.0.0.1,.onrender.com',
+    'healthcheck.railway.app',
     cast=lambda v: [s.strip() for s in v.split(',')]
 )
 
 CSRF_TRUSTED_ORIGINS = [
     'https://*.onrender.com',
     'https://esa-ku.com',
+    'healthcheck.railway.app',
     *config(
         'CSRF_TRUSTED_ORIGINS',
         default='http://localhost,http://127.0.0.1',
