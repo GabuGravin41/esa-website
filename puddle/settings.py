@@ -16,15 +16,14 @@ ENABLE_DEBUG_TOOLBAR = config('ENABLE_DEBUG_TOOLBAR', default=False, cast=bool)
 # Security headers and hosts
 ALLOWED_HOSTS = config(
     'ALLOWED_HOSTS', 
-    default='localhost,127.0.0.1,.onrender.com',
-    'healthcheck.railway.app',
+    default='localhost,127.0.0.1,.onrender.com,healthcheck.railway.app',
     cast=lambda v: [s.strip() for s in v.split(',')]
 )
 
 CSRF_TRUSTED_ORIGINS = [
     'https://*.onrender.com',
     'https://esa-ku.com',
-    'healthcheck.railway.app',
+    'https://healthcheck.railway.app',
     *config(
         'CSRF_TRUSTED_ORIGINS',
         default='http://localhost,http://127.0.0.1',
@@ -301,7 +300,7 @@ LOGGING = {
 SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=False, cast=bool)
 SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=False, cast=bool)
 CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=False, cast=bool)
-CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com']
+CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com', 'https://healthcheck.railway.app']
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
