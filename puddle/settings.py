@@ -17,17 +17,20 @@ ENABLE_DEBUG_TOOLBAR = config('ENABLE_DEBUG_TOOLBAR', default=False, cast=bool)
 ALLOWED_HOSTS = config(
     'ALLOWED_HOSTS', 
     default='localhost,127.0.0.1,.onrender.com',
-    cast=comma_split_cast
+    'healthcheck.railway.app',
+    cast=lambda v: [s.strip() for s in v.split(',')]
 )
 
 CSRF_TRUSTED_ORIGINS = [
     'https://*.onrender.com',
     'https://esa-ku.com',
-] + config(
-    'CSRF_TRUSTED_ORIGINS',
-    default='http://localhost,http://127.0.0.1',
-    cast=comma_split_cast
-)
+    'healthcheck.railway.app',
+    *config(
+        'CSRF_TRUSTED_ORIGINS',
+        default='http://localhost,http://127.0.0.1',
+        cast=lambda v: [s.strip() for s in v.split(',')]
+    )
+]
 
 # Security headers
 if not DEBUG:
