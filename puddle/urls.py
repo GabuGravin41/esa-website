@@ -10,21 +10,18 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
-# Development-only URLs
-if settings.DEBUG:
-    # Debug toolbar
-    try:
-        import debug_toolbar
-        urlpatterns = [
-            path('__debug__/', include(debug_toolbar.urls)),
-        ] + urlpatterns
-    except ImportError:
-        pass
-    
-    # Browser reload
+# Add browser reload for development
+if getattr(settings, 'ENABLE_DEBUG_TOOLBAR', False):
     try:
         import django_browser_reload
         urlpatterns.append(path("__reload__/", include("django_browser_reload.urls")))
+    except ImportError:
+        pass
+
+    # Register Django Debug Toolbar URLs when available
+    try:
+        import debug_toolbar
+        urlpatterns.append(path("__debug__/", include("debug_toolbar.urls")))
     except ImportError:
         pass
 

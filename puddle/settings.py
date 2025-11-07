@@ -3,28 +3,31 @@ from pathlib import Path
 from decouple import config
 import dj_database_url
 
+def comma_split_cast(v):
+    return [s.strip() for s in v.split(',')]
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-unsafe-default-key-change-me')
 DEBUG = config('DEBUG', default=False, cast=bool)
+ENABLE_DEBUG_TOOLBAR = config('ENABLE_DEBUG_TOOLBAR', default=False, cast=bool)
 
 # Security headers and hosts
 ALLOWED_HOSTS = config(
     'ALLOWED_HOSTS', 
     default='localhost,127.0.0.1,.onrender.com',
-    cast=lambda v: [s.strip() for s in v.split(',')]
+    cast=comma_split_cast
 )
 
 CSRF_TRUSTED_ORIGINS = [
     'https://*.onrender.com',
     'https://esa-ku.com',
-    *config(
-        'CSRF_TRUSTED_ORIGINS',
-        default='http://localhost,http://127.0.0.1',
-        cast=lambda v: [s.strip() for s in v.split(',')]
-    )
-]
+] + config(
+    'CSRF_TRUSTED_ORIGINS',
+    default='http://localhost,http://127.0.0.1',
+    cast=comma_split_cast
+)
 
 # Security headers
 if not DEBUG:
@@ -54,16 +57,27 @@ INSTALLED_APPS = [
     'widget_tweaks',
 ]
 
-# Development-only apps
-if DEBUG:
+# Development-only apps (guarded by explicit flag)
+if ENABLE_DEBUG_TOOLBAR:
     try:
         import django_browser_reload
-        if 'django_browser_reload' not in INSTALLED_APPS:
-            INSTALLED_APPS += ['django_browser_reload']
+        INSTALLED_APPS += ['django_browser_reload',]
+    except ImportError:
+        pass
+    
+    try:
+        import debug_toolbar
+        INSTALLED_APPS += ['debug_toolbar',]
+        MIDDLEWARE = [
+            'debug_toolbar.middleware.DebugToolbarMiddleware',
+        ]
+
+        INTERNAL_IPS = [
+            '127.0.0.1',
+        ]
     except ImportError:
         pass
 
-# Define MIDDLEWARE before using it
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -73,35 +87,37 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'core.middleware.PerformanceMonitoringMiddleware',
+    'core.middleware.PerformanceMonitoringMiddleware',  # Performance monitoring
     'core.middleware.LoginRedirectMiddleware',  # Handle login redirects gracefully
     'core.middleware.ErrorHandlingMiddleware',  # Custom error handling
     'allauth.account.middleware.AccountMiddleware',
 ]
 
-# Development-only middleware and apps
-if DEBUG:
+# Safety: ensure Debug Toolbar middleware is not active unless explicitly enabled
+if not ENABLE_DEBUG_TOOLBAR:
+    try:
+        MIDDLEWARE.remove('debug_toolbar.middleware.DebugToolbarMiddleware')
+    except ValueError:
+        pass
+
+# Add development-only middleware (guarded by explicit flag)
+if ENABLE_DEBUG_TOOLBAR:
+    try:
+        import django_browser_reload
+        MIDDLEWARE.append('django_browser_reload.middleware.BrowserReloadMiddleware')
+    except ImportError:
+        pass
+    
     try:
         import debug_toolbar
-        INSTALLED_APPS += ['debug_toolbar']
-        MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
-        
+        MIDDLEWARE.insert(1, 'debug_toolbar.middleware.DebugToolbarMiddleware')
         # Debug toolbar configuration
-        INTERNAL_IPS = ['127.0.0.1']
+        INTERNAL_IPS = ['127.0.0.1', 'localhost']
         DEBUG_TOOLBAR_CONFIG = {
-            'SHOW_TOOLBAR_CALLBACK': lambda request: True,
+            'SHOW_TOOLBAR_CALLBACK': lambda request: ENABLE_DEBUG_TOOLBAR,
         }
     except ImportError:
         pass
-    
-    try:
-        import django_browser_reload
-        if 'django_browser_reload.middleware.BrowserReloadMiddleware' not in MIDDLEWARE:
-            MIDDLEWARE.append('django_browser_reload.middleware.BrowserReloadMiddleware')
-    except ImportError:
-        pass
-    
-    # Debug toolbar is already configured above
 
 ROOT_URLCONF = 'puddle.urls'
 
