@@ -269,7 +269,7 @@ class UserProfile(models.Model):
         return self.role and self.role.can_manage_permissions
     
     def generate_membership_number(self):
-        """Generate a unique membership number"""
+        """Generate a unique membership number - now auto-generated for all users"""
         if not self.membership_number:
             random_digits = ''.join(random.choices(string.digits, k=5))
             membership_number = f"ESA-KU{random_digits}"
@@ -283,6 +283,10 @@ class UserProfile(models.Model):
             self.save(update_fields=['membership_number'])
         
         return self.membership_number
+    
+    def ensure_membership_number(self):
+        """Ensure user has a membership number regardless of payment status"""
+        return self.generate_membership_number()
 
     class Meta:
         ordering = ['-created_at']
@@ -316,6 +320,7 @@ class Membership(models.Model):
     PAYMENT_METHODS = [
         ('mpesa', 'M-Pesa'),
         ('paypal', 'PayPal'),
+        ('manual', 'Manual Verification'),
     ]
     
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -332,6 +337,13 @@ class Membership(models.Model):
                                    related_name='referrals')
     membership_number = models.CharField(max_length=20, unique=True, null=True, blank=True)
     payment = models.OneToOneField('Payment', on_delete=models.SET_NULL, null=True, blank=True, related_name='membership')
+    
+    # Manual payment verification fields
+    transaction_code = models.CharField(max_length=50, blank=True, null=True, help_text="M-Pesa transaction code submitted by user")
+    payment_verified = models.BooleanField(default=False, help_text="Admin verified the payment")
+    verified_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='verified_memberships')
+    verification_date = models.DateTimeField(null=True, blank=True)
+    verification_notes = models.TextField(blank=True, help_text="Admin notes about payment verification")
 
     def __str__(self):
         return f"{self.user.username} - {self.get_plan_type_display()}"

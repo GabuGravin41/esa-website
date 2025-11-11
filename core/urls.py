@@ -31,7 +31,6 @@ urlpatterns = [
     path('donate/<int:payment_id>/mpesa/', views.donate_mpesa, name='donate_mpesa'),
     path('donate/<int:payment_id>/pending/', views.donation_pending, name='donation_pending'),
     path('donate/success/', views.donation_success, name='donation_success'),
-    path('payment-coming-soon/', views.payment_coming_soon, name='payment_coming_soon'),
     
     # Protected URLs (require login)
     path('membership/', views.membership, name='membership'),

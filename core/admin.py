@@ -134,19 +134,24 @@ class MembershipPlanAdmin(admin.ModelAdmin):
 @admin.register(Membership)
 class MembershipAdmin(admin.ModelAdmin):
     list_display = ('user_full_name', 'membership_number', 'plan_type', 'amount', 'payment_method', 
-                   'status', 'is_active', 'start_date', 'end_date', 'created_at')
-    list_filter = ('status', 'is_active', 'plan_type', 'payment_method', 'created_at')
+                   'status', 'payment_verified', 'is_active', 'transaction_code', 'created_at')
+    list_filter = ('status', 'is_active', 'payment_verified', 'plan_type', 'payment_method', 'created_at')
     search_fields = ('user__username', 'user__email', 'user__first_name', 'user__last_name', 
-                    'membership_number')
+                    'membership_number', 'transaction_code')
     list_per_page = 25
     date_hierarchy = 'created_at'
+    list_editable = ('payment_verified',)
     
     fieldsets = (
         ('Member Information', {
             'fields': ('user', 'membership_number', 'plan_type')
         }),
         ('Payment Details', {
-            'fields': ('amount', 'payment_method', 'payment', 'status')
+            'fields': ('amount', 'payment_method', 'payment', 'status', 'transaction_code')
+        }),
+        ('Payment Verification', {
+            'fields': ('payment_verified', 'verified_by', 'verification_date', 'verification_notes'),
+            'classes': ('collapse',)
         }),
         ('Membership Period', {
             'fields': ('is_active', 'start_date', 'end_date')
@@ -168,7 +173,7 @@ class MembershipAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         return super().get_queryset(request).select_related('user', 'payment')
     
-    actions = ['activate_memberships', 'deactivate_memberships', 'export_memberships']
+    actions = ['activate_memberships', 'deactivate_memberships', 'verify_payments', 'export_memberships']
     
     def activate_memberships(self, request, queryset):
         from django.utils import timezone
@@ -201,6 +206,37 @@ class MembershipAdmin(admin.ModelAdmin):
         
         self.message_user(request, f"Successfully deactivated {queryset.count()} memberships.")
     deactivate_memberships.short_description = "Deactivate selected memberships"
+    
+    def verify_payments(self, request, queryset):
+        """Verify payments and activate memberships"""
+        from django.utils import timezone
+        
+        verified_count = 0
+        for membership in queryset:
+            if not membership.payment_verified:
+                membership.payment_verified = True
+                membership.verified_by = request.user
+                membership.verification_date = timezone.now()
+                membership.save()
+                
+                # Activate the membership
+                membership.activate()
+                
+                # Update user profile
+                try:
+                    profile = membership.user.profile
+                    profile.membership_status = 'active'
+                    profile.membership_expiry = membership.end_date.date() if membership.end_date else None
+                    if not profile.membership_number:
+                        profile.membership_number = membership.membership_number
+                    profile.save()
+                except:
+                    pass
+                
+                verified_count += 1
+        
+        self.message_user(request, f"Successfully verified and activated {verified_count} memberships.")
+    verify_payments.short_description = "Verify payments and activate memberships"
     
     def export_memberships(self, request, queryset):
         import csv

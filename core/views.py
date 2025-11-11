@@ -2334,61 +2334,53 @@ def add_resource_link(request):
     # For GET requests, direct user to the appropriate form based on request
     return redirect('site_form')
 
+@login_required
 def donate(request):
-    """Render the donation page for ESA with various donation options"""
-    # TEMPORARY: Redirect to payment coming soon instead of processing donations
-    # TODO: When M-Pesa credentials are configured, uncomment the original code below and comment out this redirect
+    """Handle donations with M-Pesa payment integration"""
     if request.method == 'POST':
-        messages.info(request, 'Payment functionality is coming soon. We\'re currently configuring our payment system.')
-        return redirect('payment_coming_soon')
-    
-    # ORIGINAL DONATION CODE - UNCOMMENT WHEN PAYMENT IS READY:
-    # if request.method == 'POST':
-    #     payment_method = request.POST.get('payment_method')
-    #     
-    #     if payment_method == 'card':
-    #         messages.info(request, "Credit/Debit Card payments will be available soon. Currently only M-PESA is supported.")
-    #         return render(request, 'core/donate.html')
-    #     
-    #     elif payment_method == 'bank':
-    #         messages.info(request, "Bank Transfer payments will be available soon. Currently only M-PESA is supported.")
-    #         return render(request, 'core/donate.html')
-    #         
-    #     elif payment_method != 'mpesa':
-    #         messages.info(request, f"{payment_method.title()} payments will be available soon. Currently only M-PESA is supported.")
-    #         return render(request, 'core/donate.html')
-    #     
-    #     # Process M-Pesa payment
-    #     phone_number = request.POST.get('phone')
-    #     amount = request.POST.get('amount')
-    #     name = request.POST.get('name')
-    #     email = request.POST.get('email')
-    #     donation_purpose = request.POST.get('donation_purpose', 'general')
-    #     message = request.POST.get('message', '')
-    #     anonymous = request.POST.get('anonymous', False)
-    #     
-    #     if not phone_number or not amount:
-    #         messages.error(request, "Please provide both phone number and amount for M-PESA payment.")
-    #         return render(request, 'core/donate.html')
-    #         
-    #     try:
-    #         # Create a payment record
-    #         payment = Payment.objects.create(
-    #             user=request.user if request.user.is_authenticated else None,
-    #             amount=amount,
-    #             currency='KES',
-    #             payment_method='mpesa',
-    #             status='pending',
-    #             notes=f"Donation: {donation_purpose} - {message} - {'Anonymous' if anonymous else name}"
-    #         )
-    #         
-    #         # Redirect to M-Pesa payment page
-    #         return redirect('donate_mpesa', payment_id=payment.id)
-    #     except Exception as e:
-    #         messages.error(request, f"An error occurred: {str(e)}")
-    #         return render(request, 'core/donate.html')
-    
-    return render(request, 'core/donate.html')
+        payment_method = request.POST.get('payment_method')
+        
+        if payment_method == 'card':
+            messages.info(request, "Credit/Debit Card payments will be available soon. Currently only M-PESA is supported.")
+            return render(request, 'core/donate.html')
+        
+        elif payment_method == 'bank':
+            messages.info(request, "Bank Transfer payments will be available soon. Currently only M-PESA is supported.")
+            return render(request, 'core/donate.html')
+            
+        elif payment_method != 'mpesa':
+            messages.info(request, f"{payment_method.title()} payments will be available soon. Currently only M-PESA is supported.")
+            return render(request, 'core/donate.html')
+        
+        # Process M-Pesa payment
+        phone_number = request.POST.get('phone')
+        amount = request.POST.get('amount')
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        donation_purpose = request.POST.get('donation_purpose', 'general')
+        message = request.POST.get('message', '')
+        anonymous = request.POST.get('anonymous', False)
+        
+        if not phone_number or not amount:
+            messages.error(request, "Please provide both phone number and amount for M-PESA payment.")
+            return render(request, 'core/donate.html')
+            
+        try:
+            # Create a payment record
+            payment = Payment.objects.create(
+                user=request.user if request.user.is_authenticated else None,
+                amount=amount,
+                currency='KES',
+                payment_method='mpesa',
+                status='pending',
+                notes=f"Donation: {donation_purpose} - {message} - {'Anonymous' if anonymous else name}"
+            )
+            
+            # Redirect to M-Pesa payment page
+            return redirect('donate_mpesa', payment_id=payment.id)
+        except Exception as e:
+            messages.error(request, f"An error occurred: {str(e)}")
+            return render(request, 'core/donate.html')
 
 def donate_mpesa(request, payment_id):
     """Handle M-Pesa payment for donations"""
@@ -2473,171 +2465,165 @@ def donation_success(request):
 @login_required
 def member_get_member(request):
     """
-    Member-Get-Member referral program view
+    Member-Get-a-Member referral program view
     Allows members to pay for someone else's membership
     """
-    # TEMPORARY: Redirect to payment coming soon instead of processing member-get-member
-    # TODO: When M-Pesa credentials are configured, uncomment the original code below and comment out this redirect
-    messages.info(request, 'Payment functionality is coming soon. We\'re currently configuring our payment system.')
-    return redirect('payment_coming_soon')
+    try:
+        profile = request.user.profile
+    except UserProfile.DoesNotExist:
+        messages.error(request, 'Please complete your profile first.')
+        return redirect('profile')
+        
+    # Check if user is an active member
+    if not profile.is_membership_active():
+        messages.info(request, 'You need to be an active member to participate in the referral program.')
+        return redirect('membership')
     
-    # ORIGINAL MEMBER-GET-MEMBER CODE - UNCOMMENT WHEN PAYMENT IS READY:
-    # try:
-    #     profile = request.user.profile
-    # except UserProfile.DoesNotExist:
-    #     messages.error(request, 'Please complete your profile first.')
-    #     return redirect('profile')
-    #     
-    # # Check if user is an active member
-    # if not profile.is_membership_active():
-    #     messages.info(request, 'You need to be an active member to participate in the referral program.')
-    #     return redirect('membership')
-    # 
-    # # Get membership plans for the form
-    # plans = MembershipPlan.objects.filter(is_active=True)
-    # 
-    # # Get referrals by this user
-    # referrals = Membership.objects.filter(referred_by=request.user)
-    # 
-    # if request.method == 'POST':
-    #     form = MemberGetMemberForm(request.POST)
-    #     if form.is_valid():
-    #         referred_email = form.cleaned_data.get('referred_email')
-    #         student_id = form.cleaned_data.get('student_id')
-    #         plan_type = form.cleaned_data.get('plan_type')
-    #         payment_method = form.cleaned_data.get('payment_method')
-    #         phone_number = form.cleaned_data.get('phone_number')
-    #         
-    #         # Debug logging
-    #         logger.info(f"Processing member-get-member request: email={referred_email}, plan={plan_type}, payment={payment_method}")
-    #         
-    #         try:
-    #             # Get the referred user
-    #             logger.info(f"Looking up user with email: {referred_email}")
-    #             referred_user = User.objects.get(email=referred_email)
-    #             logger.info(f"Found user: {referred_user.username}")
-    #             
-    #             # Validate student_id matches the user's profile
-    #             logger.info(f"Validating student_id: {student_id}")
-    #             try:
-    #                 user_profile = referred_user.profile
-    #                 if user_profile.student_id != student_id:
-    #                     logger.error(f"Student ID mismatch: provided={student_id}, actual={user_profile.student_id}")
-    #                     messages.error(request, f'Student ID "{student_id}" does not match the user with email "{referred_email}". Please verify both email and student ID.')
-    #                     return render(request, 'core/member_get_member.html', {
-    #                         'form': form,
-    #                         'plans': plans
-    #                     })
-    #                     logger.info(f"Student ID validation passed: {student_id}")
-    #                 except UserProfile.DoesNotExist:
-    #                     logger.error(f"User {referred_user.username} does not have a profile")
-    #                     messages.error(request, f'User with email "{referred_email}" does not have a complete profile. They need to complete their profile first.')
-    #                     return render(request, 'core/member_get_member.html', {
-    #                         'form': form,
-    #                         'plans': plans
-    #                     })
-    #                 
-    #                 # Get the membership plan that matches the selected plan_type
-    #                 logger.info(f"Looking up membership plan: {plan_type}")
-    #                 try:
-    #                     plan = MembershipPlan.objects.get(plan_type=plan_type, is_active=True)
-    #                     logger.info(f"Found plan: {plan.name} - KSh {plan.price}")
-    #                 except MembershipPlan.DoesNotExist:
-    #                     logger.error(f"No active membership plan found for {plan_type}")
-    #                     messages.error(request, f'No active membership plan found for {plan_type}. Please contact support.')
-    #                     return redirect('member_get_member')
-    #                 
-    #                 # Check if the referred user already has an active membership
-    #                 logger.info(f"Checking for existing active membership for user: {referred_user.username}")
-    #                 existing_membership = Membership.objects.filter(
-    #                     user=referred_user, 
-    #                     is_active=True
-    #                 ).first()
-    #                 
-    #                 if existing_membership:
-    #                     logger.warning(f"User {referred_user.username} already has active membership")
-    #                     messages.warning(request, f'{referred_user.get_full_name()} already has an active membership.')
-    #                     return redirect('member_get_member')
-    #                 
-    #                 # Create a payment record for the referred user
-    #                 logger.info(f"Creating payment record for user: {referred_user.username}")
-    #                 payment = Payment.objects.create(
-    #                     user=referred_user,
-    #                     amount=plan.price,
-    #                     payment_method=payment_method,
-    #                     status='pending',
-    #                     notes=f"ESA-KU Membership Payment for {plan.get_plan_type_display()} - Paid by {request.user.get_full_name()}"
-    #                 )
-    #                 logger.info(f"Created payment: {payment.id}")
-    #                 
-    #                 # Calculate end date
-    #                 start_date = timezone.now().date()
-    #                 try:
-    #                     end_date = start_date + relativedelta(months=plan.duration)
-    #                     logger.info(f"Calculated end date: {end_date}")
-    #                 except Exception as e:
-    #                     logger.error(f"Error calculating end date: {str(e)}")
-    #                     messages.error(request, 'An error occurred while processing your request. Please try again.')
-    #                     return redirect('member_get_member')
-    #                 
-    #                 # Create membership record
-    #                 logger.info(f"Creating membership record for user: {referred_user.username}")
-    #                 membership = Membership.objects.create(
-    #                     user=referred_user,
-    #                     plan=plan,
-    #                     start_date=start_date,
-    #                     end_date=end_date,
-    #                     status='pending',
-    #                     payment=payment,
-    #                     referred_by=request.user
-    #                 )
-    #                 logger.info(f"Created membership: {membership.id}")
-    #                 
-    #                 # Send initial notification email
-    #                 logger.info(f"Sending notification email to: {referred_user.email}")
-    #                 try:
-    #                     from core.email_service import send_gift_membership_notification
-    #                     send_gift_membership_notification(referred_user, request.user)
-    #                     logger.info("Notification email sent successfully")
-    #                 except Exception as e:
-    #                     logger.error(f"Error sending notification email: {str(e)}")
-    #                     # Don't fail the whole process if email fails
-    #                 
-    #                 messages.success(request, f'Gift membership initiated for {referred_user.get_full_name()}. Please complete the payment to activate their membership.')
-    #                 
-    #                 # Redirect to appropriate payment method
-    #                 if payment_method == 'mpesa':
-    #                     return redirect('mgm_mpesa_payment', payment_id=payment.id)
-    #                 elif payment_method == 'paypal':
-    #                     return redirect('mgm_paypal_payment', payment_id=payment.id)
-    #                 else:
-    #                     messages.error(request, 'Invalid payment method selected.')
-    #                     return redirect('member_get_member')
-    #                     
-    #             except User.DoesNotExist:
-    #                 logger.error(f"No user found with email: {referred_email}")
-    #                 messages.error(request, f'No user found with email "{referred_email}". Please ask them to register first.')
-    #                 return render(request, 'core/member_get_member.html', {
-    #                     'form': form,
-    #                     'plans': plans
-    #                 })
-    #             except Exception as e:
-    #                 logger.error(f"Error processing member-get-member request: {str(e)}")
-    #                 messages.error(request, 'An error occurred while processing your request. Please try again.')
-    #                 return redirect('member_get_member')
-    #         else:
-    #             logger.error(f"Form validation failed: {form.errors}")
-    #             for field, errors in form.errors.items():
-    #                 for error in errors:
-    #                     messages.error(request, f"{field}: {error}")
-    #     else:
-    #         form = MemberGetMemberForm()
-    #     
-    #     return render(request, 'core/member_get_member.html', {
-    #         'form': form,
-    #         'plans': plans,
-    #         'referrals': referrals
-    #     })
+    # Get membership plans for the form
+    plans = MembershipPlan.objects.filter(is_active=True)
+    
+    # Get referrals by this user
+    referrals = Membership.objects.filter(referred_by=request.user)
+    
+    if request.method == 'POST':
+        form = MemberGetMemberForm(request.POST)
+        if form.is_valid():
+            referred_email = form.cleaned_data.get('referred_email')
+            student_id = form.cleaned_data.get('student_id')
+            plan_type = form.cleaned_data.get('plan_type')
+            payment_method = form.cleaned_data.get('payment_method')
+            phone_number = form.cleaned_data.get('phone_number')
+            
+            # Debug logging
+            logger.info(f"Processing member-get-member request: email={referred_email}, plan={plan_type}, payment={payment_method}")
+            
+            try:
+                # Get the referred user
+                logger.info(f"Looking up user with email: {referred_email}")
+                referred_user = User.objects.get(email=referred_email)
+                logger.info(f"Found user: {referred_user.username}")
+                
+                # Validate student_id matches the user's profile
+                logger.info(f"Validating student_id: {student_id}")
+                try:
+                    user_profile = referred_user.profile
+                    if user_profile.student_id != student_id:
+                        logger.error(f"Student ID mismatch: provided={student_id}, actual={user_profile.student_id}")
+                        messages.error(request, f'Student ID "{student_id}" does not match the user with email "{referred_email}". Please verify both email and student ID.')
+                        return render(request, 'core/member_get_member.html', {
+                            'form': form,
+                            'plans': plans
+                        })
+                        logger.info(f"Student ID validation passed: {student_id}")
+                except UserProfile.DoesNotExist:
+                    logger.error(f"User {referred_user.username} does not have a profile")
+                    messages.error(request, f'User with email "{referred_email}" does not have a complete profile. They need to complete their profile first.')
+                    return render(request, 'core/member_get_member.html', {
+                        'form': form,
+                        'plans': plans
+                    })
+                    
+                # Get the membership plan that matches the selected plan_type
+                logger.info(f"Looking up membership plan: {plan_type}")
+                try:
+                    plan = MembershipPlan.objects.get(plan_type=plan_type, is_active=True)
+                    logger.info(f"Found plan: {plan.name} - KSh {plan.price}")
+                except MembershipPlan.DoesNotExist:
+                    logger.error(f"No active membership plan found for {plan_type}")
+                    messages.error(request, f'No active membership plan found for {plan_type}. Please contact support.')
+                    return redirect('member_get_member')
+                    
+                # Check if the referred user already has an active membership
+                logger.info(f"Checking for existing active membership for user: {referred_user.username}")
+                existing_membership = Membership.objects.filter(
+                    user=referred_user, 
+                    is_active=True
+                ).first()
+                
+                if existing_membership:
+                    logger.warning(f"User {referred_user.username} already has active membership")
+                    messages.warning(request, f'{referred_user.get_full_name()} already has an active membership.')
+                    return redirect('member_get_member')
+                    
+                # Create a payment record for the referred user
+                logger.info(f"Creating payment record for user: {referred_user.username}")
+                payment = Payment.objects.create(
+                    user=referred_user,
+                    amount=plan.price,
+                    payment_method=payment_method,
+                    status='pending',
+                    notes=f"ESA-KU Membership Payment for {plan.get_plan_type_display()} - Paid by {request.user.get_full_name()}"
+                )
+                logger.info(f"Created payment: {payment.id}")
+                
+                # Calculate end date
+                start_date = timezone.now().date()
+                try:
+                    end_date = start_date + relativedelta(months=plan.duration)
+                    logger.info(f"Calculated end date: {end_date}")
+                except Exception as e:
+                    logger.error(f"Error calculating end date: {str(e)}")
+                    messages.error(request, 'An error occurred while processing your request. Please try again.')
+                    return redirect('member_get_member')
+                    
+                # Create membership record
+                logger.info(f"Creating membership record for user: {referred_user.username}")
+                membership = Membership.objects.create(
+                    user=referred_user,
+                    plan=plan,
+                    start_date=start_date,
+                    end_date=end_date,
+                    status='pending',
+                    payment=payment,
+                    referred_by=request.user
+                )
+                logger.info(f"Created membership: {membership.id}")
+                
+                # Send initial notification email
+                logger.info(f"Sending notification email to: {referred_user.email}")
+                try:
+                    from core.email_service import send_gift_membership_notification
+                    send_gift_membership_notification(referred_user, request.user)
+                    logger.info("Notification email sent successfully")
+                except Exception as e:
+                    logger.error(f"Error sending notification email: {str(e)}")
+                    # Don't fail the whole process if email fails
+                    
+                messages.success(request, f'Gift membership initiated for {referred_user.get_full_name()}. Please complete the payment to activate their membership.')
+                
+                # Redirect to appropriate payment method
+                if payment_method == 'mpesa':
+                    return redirect('mgm_mpesa_payment', payment_id=payment.id)
+                elif payment_method == 'paypal':
+                    return redirect('mgm_paypal_payment', payment_id=payment.id)
+                else:
+                    messages.error(request, 'Invalid payment method selected.')
+                    return redirect('member_get_member')
+                    
+            except User.DoesNotExist:
+                logger.error(f"No user found with email: {referred_email}")
+                messages.error(request, f'No user found with email "{referred_email}". Please ask them to register first.')
+                return render(request, 'core/member_get_member.html', {
+                    'form': form,
+                    'plans': plans
+                })
+            except Exception as e:
+                logger.error(f"Error processing member-get-member request: {str(e)}")
+                messages.error(request, 'An error occurred while processing your request. Please try again.')
+                return redirect('member_get_member')
+        else:
+            logger.error(f"Form validation failed: {form.errors}")
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
+    else:
+        form = MemberGetMemberForm()
+        
+    return render(request, 'core/member_get_member.html', {
+        'form': form,
+        'plans': plans,
+        'referrals': referrals
+    })
 
 @login_required
 def mgm_mpesa_payment(request, payment_id):
@@ -3268,108 +3254,106 @@ def checkout(request):
                 request.session.modified = True
 
     if request.method == 'POST':
-        # TEMPORARY: Redirect to payment coming soon instead of processing payment
-        # TODO: When M-Pesa credentials are configured, uncomment the original payment processing code below and comment out this redirect
-        messages.info(request, 'Payment functionality is coming soon. We\'re currently configuring our payment system.')
-        return redirect('payment_coming_soon')
+        payment_method = request.POST.get('payment_method')
         
-        # ORIGINAL PAYMENT PROCESSING CODE - UNCOMMENT WHEN PAYMENT IS READY:
-        # payment_method = request.POST.get('payment_method')
-        # 
-        # # Collect shipping information
-        # shipping_info = {
-        #     'name': f"{request.POST.get('first_name', '')} {request.POST.get('last_name', '')}".strip(),
-        #     'email': request.POST.get('email', request.user.email),
-        #     'phone': request.POST.get('phone', ''),
-        #     'address': request.POST.get('address', ''),
-        #     'delivery_method': request.POST.get('delivery_method', 'pickup'),
-        #     'student_id': request.POST.get('student_id', '')
-        # }
-        # 
-        # if payment_method == 'mpesa':
-        #     mpesa_phone = request.POST.get('mpesa_phone')
-        #     if not mpesa_phone:
-        #         messages.error(request, "Please enter your M-Pesa phone number.")
-        #         return render(request, 'core/donate_mpesa.html', {'payment': payment})
-        #     
-        #     # Create the order first
-        #     from core.order_service import OrderService
-        #     try:
-        #         # Create order with pending status
-        #         order = OrderService.create_order(
-        #             user=request.user.profile,
-        #             cart_items=cart_items,
-        #             total_amount=total,
-        #             shipping_info=shipping_info
-        #         )
-        #         
-        #         # Store order ID in session for payment completion
-        #         request.session['pending_order_id'] = order.id
-        #         
-        #         # Check if MPESA settings are properly configured
-        #         mpesa_settings_ok = all([
-        #             getattr(settings, 'MPESA_CONSUMER_KEY', ''),
-        #             getattr(settings, 'MPESA_CONSUMER_SECRET', ''),
-        #             getattr(settings, 'MPESA_SHORTCODE', ''),
-        #             getattr(settings, 'MPESA_PASSKEY', ''),
-        #             getattr(settings, 'MPESA_CALLBACK_URL', '')
-        #         ])
-        #         
-        #         if not mpesa_settings_ok:
-        #             logging.error("M-Pesa settings are incomplete. Please check your environment variables.")
-        #             messages.error(request, "Payment system is not properly configured. Your order has been saved, but payment cannot be processed at this time.")
-        #             return redirect('order_status', order_id=order.id)
-        #         
-        #         # Validate the phone number
-        #         if not mpesa_phone or len(mpesa_phone.strip()) < 9:
-        #             messages.error(request, "Please enter a valid M-Pesa phone number.")
-        #             return redirect('checkout')
-        #         
-        #         # Initiate M-Pesa STK Push
-        #         try:
-        #             mpesa_service = MpesaService()
-        #             
-        #             # Use the actual M-Pesa API
-        #             response = mpesa_service.initiate_stk_push(
-        #                 phone_number=mpesa_phone,
-        #                 amount=total,
-        #                 reference=f"ESA-Order-{order.id}",
-        #                 description="Payment for ESA Store Order"
-        #             )
-        #             
-        #             if response.get('ResponseCode') == '0':
-        #                 # If we have a successful response, update MpesaTransaction
-        #                 if hasattr(order, 'payment') and hasattr(order.payment, 'mpesa_transaction'):
-        #                     mpesa_tx = order.payment.mpesa_transaction
-        #                     if 'CheckoutRequestID' in response:
-        #                         mpesa_tx.checkout_request_id = response['CheckoutRequestID']
-        #                         mpesa_tx.save()
-        #                 
-        #                 messages.success(request, f"M-Pesa payment request sent to {mpesa_phone}. Please check your phone and enter your PIN to complete the payment.")
-        #                 return redirect('order_status', order_id=order.id)
-        #             else:
-        #                 error_message = response.get('errorMessage', 'Payment request failed. Please try again.')
-        #                 messages.error(request, error_message)
-        #                 return redirect('checkout')
-        #                 
-        #         except Exception as e:
-        #             logging.error(f"Error initiating M-Pesa payment: {str(e)}")
-        #             messages.error(request, "An error occurred while processing your payment. Please try again.")
-        #             return redirect('checkout')
-        #             
-        #     except Exception as e:
-        #         logging.error(f"Error creating order: {str(e)}")
-        #         messages.error(request, "An error occurred while creating your order. Please try again.")
-        #         return redirect('checkout')
-        # else:
-        #     messages.error(request, "Please select a valid payment method.")
-        #     return redirect('checkout')
+        # Collect shipping information
+        shipping_info = {
+            'name': f"{request.POST.get('first_name', '')} {request.POST.get('last_name', '')}".strip(),
+            'email': request.POST.get('email', request.user.email),
+            'phone': request.POST.get('phone', ''),
+            'address': request.POST.get('address', ''),
+            'delivery_method': request.POST.get('delivery_method', 'pickup'),
+            'student_id': request.POST.get('student_id', '')
+        }
+        
+        if payment_method == 'mpesa':
+            mpesa_phone = request.POST.get('mpesa_phone')
+            if not mpesa_phone:
+                messages.error(request, "Please enter your M-Pesa phone number.")
+                return render(request, 'core/checkout.html', {
+                    'cart_items': cart_items,
+                    'total': total,
+                    'item_count': item_count,
+                })
+            
+            # Create the order first
+            from core.order_service import OrderService
+            try:
+                # Create order with pending status
+                order = OrderService.create_order(
+                    user=request.user.profile,
+                    cart_items=cart_items,
+                    total_amount=total,
+                    shipping_info=shipping_info
+                )
+                
+                # Store order ID in session for payment completion
+                request.session['pending_order_id'] = order.id
+                
+                # Check if MPESA settings are properly configured
+                mpesa_settings_ok = all([
+                    getattr(settings, 'MPESA_CONSUMER_KEY', ''),
+                    getattr(settings, 'MPESA_CONSUMER_SECRET', ''),
+                    getattr(settings, 'MPESA_SHORTCODE', ''),
+                    getattr(settings, 'MPESA_PASSKEY', ''),
+                    getattr(settings, 'MPESA_CALLBACK_URL', '')
+                ])
+                
+                if not mpesa_settings_ok:
+                    logging.error("M-Pesa settings are incomplete. Please check your environment variables.")
+                    messages.error(request, "Payment system is not properly configured. Your order has been saved, but payment cannot be processed at this time.")
+                    return redirect('order_status', order_id=order.id)
+                
+                # Validate the phone number
+                if not mpesa_phone or len(mpesa_phone.strip()) < 9:
+                    messages.error(request, "Please enter a valid M-Pesa phone number.")
+                    return redirect('checkout')
+                
+                # Initiate M-Pesa STK Push
+                try:
+                    mpesa_service = MpesaService()
+                    
+                    # Use the actual M-Pesa API
+                    response = mpesa_service.initiate_stk_push(
+                        phone_number=mpesa_phone,
+                        amount=total,
+                        reference=f"ESA-Order-{order.id}",
+                        description="Payment for ESA Store Order"
+                    )
+                    
+                    if response.get('ResponseCode') == '0':
+                        # If we have a successful response, update MpesaTransaction
+                        if hasattr(order, 'payment') and hasattr(order.payment, 'mpesa_transaction'):
+                            mpesa_tx = order.payment.mpesa_transaction
+                            if 'CheckoutRequestID' in response:
+                                mpesa_tx.checkout_request_id = response['CheckoutRequestID']
+                                mpesa_tx.save()
+                        
+                        messages.success(request, f"M-Pesa payment request sent to {mpesa_phone}. Please check your phone and enter your PIN to complete the payment.")
+                        return redirect('order_status', order_id=order.id)
+                    else:
+                        error_message = response.get('errorMessage', 'Payment request failed. Please try again.')
+                        messages.error(request, error_message)
+                        return redirect('checkout')
+                        
+                except Exception as e:
+                    logging.error(f"Error initiating M-Pesa payment: {str(e)}")
+                    messages.error(request, "An error occurred while processing your payment. Please try again.")
+                    return redirect('checkout')
+                    
+            except Exception as e:
+                logging.error(f"Error creating order: {str(e)}")
+                messages.error(request, "An error occurred while creating your order. Please try again.")
+                return redirect('checkout')
+        else:
+            messages.error(request, "Please select a valid payment method.")
+            return redirect('checkout')
 
     return render(request, 'core/checkout.html', {
         'cart_items': cart_items,
         'total': total,
         'item_count': item_count,
-        #'title': 'Checkout' #uncomment this when payment is ready
+        'title': 'Checkout'
     })
 
 @login_required
@@ -4010,9 +3994,3 @@ def manage_vendors(request):
     return render(request, 'core/manage_vendors.html', context)
 
 # Add this at the end of the file, after the manage_vendors function
-
-def payment_coming_soon(request):
-    """Temporary page showing that payment functionality is coming soon"""
-    return render(request, 'core/payment_coming_soon.html', {
-        'title': 'Payment Coming Soon'
-    })
