@@ -541,15 +541,16 @@
                         <i class="fas fa-building text-green-600 mt-1 mr-3"></i>
                         <div>
                             <p class="font-medium text-gray-800">Business Number (Paybill)</p>
-                            <p class="text-2xl font-bold text-blue-900">522533</p>
-                            <p class="text-xs text-gray-500">ESA-KU Official Paybill</p>
+                            <p class="text-2xl font-bold text-blue-900">{{ manual_paybill_number }}</p>
+                            <p class="text-xs text-gray-500">{{ manual_paybill_account_name }}</p>
                         </div>
                     </div>
                     <div class="flex items-start">
                         <i class="fas fa-hashtag text-green-600 mt-1 mr-3"></i>
                         <div>
                             <p class="font-medium text-gray-800">Account Number</p>
-                            <p class="text-lg font-bold text-blue-900">MEMBERSHIP</p>
+                            <p class="text-lg font-bold text-blue-900">{{ manual_paybill_account }}</p>
+                            <p class="text-xs text-gray-500">Account Name: {{ manual_paybill_account_name }}</p>
                         </div>
                     </div>
                     <div class="flex items-start">

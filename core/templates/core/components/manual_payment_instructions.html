@@ -19,9 +19,10 @@ Include this with: {% include 'core/components/manual_payment_instructions.html'
     <li>Go to M-Pesa on your phone</li>
     <li>Select "Lipa na M-Pesa"</li>
     <li>Select "Pay Bill"</li>
-    <li>Enter Business Number: <span class="font-semibold">{{ business_number|default:"174379" }}</span></li>
-    <li>Enter Account Number: <span class="font-semibold">{{ account_number|default:"ESA-KU" }}</span></li>
-    <li>Enter Amount: <span class="font-semibold">{{ payment.amount }} KSh</span></li>
+    <li>Enter Business Number: <span class="font-semibold">{{ business_number|default:"625625" }}</span></li>
+    <li>Enter Account Number: <span class="font-semibold">{{ account_number|default:"01521260661100" }}</span></li>
+    <li>Account Name: <span class="font-semibold">{{ account_name|default:"Engineering Students Association" }}</span></li>
+    <li>Enter Amount: <span class="font-semibold">{{ amount|default:payment.amount }} KSh</span></li>
     <li>Enter your M-Pesa PIN</li>
     <li>Confirm and send</li>
   </ol>

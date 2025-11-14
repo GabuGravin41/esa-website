@@ -246,6 +246,11 @@ MPESA_SHORTCODE = config('MPESA_SHORTCODE', default='625625')  # Use paybill as 
 MPESA_PASSKEY = config('MPESA_PASSKEY', default='')  # Not needed for paybill
 MPESA_CALLBACK_URL = config('MPESA_CALLBACK_URL', default='')
 
+# Manual paybill defaults for UI flows
+MANUAL_PAYBILL_NUMBER = config('MANUAL_PAYBILL_NUMBER', default='625625')
+MANUAL_PAYBILL_ACCOUNT = config('MANUAL_PAYBILL_ACCOUNT', default='01521260661100')
+MANUAL_PAYBILL_ACCOUNT_NAME = config('MANUAL_PAYBILL_ACCOUNT_NAME', default='Engineering Students Association')
+
 # PayPal Settings
 PAYPAL_CLIENT_ID = config('PAYPAL_CLIENT_ID', default='')
 PAYPAL_SECRET = config('PAYPAL_SECRET', default='')
@@ -342,7 +347,7 @@ MPESA_ACCOUNT_NUMBER = config('MPESA_ACCOUNT_NUMBER', default='01521260661100')
 MPESA_SHORTCODE = config('MPESA_SHORTCODE', default='625625')  # Use paybill as shortcode
 MPESA_PASSKEY = config('MPESA_PASSKEY', default='bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919')  # Default passkey for paybill
 MPESA_CALLBACK_URL = config('MPESA_CALLBACK_URL', default='https://esa-ku.com/membership/payment/mpesa/callback/')
-MPESA_REFERENCE = config('MPESA_REFERENCE', default='ESA-KU')
+MPESA_REFERENCE = config('MPESA_REFERENCE', default='Engineering Students Association')
 MPESA_SIMULATE_IN_DEV = config('MPESA_SIMULATE_IN_DEV', default=False, cast=bool)  # Disable simulation for production
 
 # PayPal Settings

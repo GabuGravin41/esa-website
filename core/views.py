@@ -170,11 +170,17 @@ def membership(request):
     is_member = False
     if request.user.is_authenticated:
         is_member = Membership.objects.filter(user=request.user, is_active=True).exists()
+    manual_paybill_number = getattr(settings, 'MANUAL_PAYBILL_NUMBER', '625625')
+    manual_paybill_account = getattr(settings, 'MANUAL_PAYBILL_ACCOUNT', '01521260661100')
+    manual_paybill_account_name = getattr(settings, 'MANUAL_PAYBILL_ACCOUNT_NAME', 'Engineering Students Association')
     
     plans = MembershipPlan.objects.all()
     return render(request, 'core/membership.html', {
         'is_member': is_member,
-        'plans': plans
+        'plans': plans,
+        'manual_paybill_number': manual_paybill_number,
+        'manual_paybill_account': manual_paybill_account,
+        'manual_paybill_account_name': manual_paybill_account_name
     })
 
 @login_required
@@ -230,9 +236,16 @@ def join_membership(request, plan_id):
     else:
         form = MembershipPaymentForm()
     
+    manual_paybill_number = getattr(settings, 'MANUAL_PAYBILL_NUMBER', '625625')
+    manual_paybill_account = getattr(settings, 'MANUAL_PAYBILL_ACCOUNT', '01521260661100')
+    manual_paybill_account_name = getattr(settings, 'MANUAL_PAYBILL_ACCOUNT_NAME', 'Engineering Students Association')
+
     return render(request, 'core/join_membership.html', {
         'plan': plan,
-        'form': form
+        'form': form,
+        'manual_paybill_number': manual_paybill_number,
+        'manual_paybill_account': manual_paybill_account,
+        'manual_paybill_account_name': manual_paybill_account_name
     })
 
 @login_required
@@ -297,10 +310,17 @@ def mpesa_payment(request, payment_id):
     else:
         form = MpesaPaymentForm(initial={'amount': payment.amount})
     
+    manual_paybill_number = getattr(settings, 'MANUAL_PAYBILL_NUMBER', '625625')
+    manual_paybill_account = getattr(settings, 'MANUAL_PAYBILL_ACCOUNT', '01521260661100')
+    manual_paybill_account_name = getattr(settings, 'MANUAL_PAYBILL_ACCOUNT_NAME', 'Engineering Students Association')
+
     return render(request, 'core/mpesa_payment.html', {
         'payment': payment,
         'membership': getattr(payment, 'membership', None),
-        'form': form
+        'form': form,
+        'manual_paybill_number': manual_paybill_number,
+        'manual_paybill_account': manual_paybill_account,
+        'manual_paybill_account_name': manual_paybill_account_name
     })
 
 @login_required
@@ -3218,8 +3238,6 @@ def cart(request):
     print(request.session.get('cart', {}))
 
 
-
-from django.shortcuts import render, redirect
 from django.contrib import messages
 from .services import MpesaService
 
@@ -3253,107 +3271,97 @@ def checkout(request):
                 cart.pop(product_id_str, None)
                 request.session.modified = True
 
+    paybill_number = getattr(settings, 'MANUAL_PAYBILL_NUMBER', '174379')
+    paybill_account = getattr(settings, 'MANUAL_PAYBILL_ACCOUNT', 'ESA-KU')
+
     if request.method == 'POST':
-        payment_method = request.POST.get('payment_method')
-        
+        if not cart_items:
+            messages.error(request, "Your cart is empty. Please add items before checking out.")
+            return redirect('cart')
+
+        mpesa_code = request.POST.get('mpesa_code', '').strip().upper()
+        mpesa_phone = request.POST.get('mpesa_phone', '').strip()
+
         # Collect shipping information
         shipping_info = {
             'name': f"{request.POST.get('first_name', '')} {request.POST.get('last_name', '')}".strip(),
             'email': request.POST.get('email', request.user.email),
-            'phone': request.POST.get('phone', ''),
+            'phone': request.POST.get('phone', mpesa_phone),
             'address': request.POST.get('address', ''),
             'delivery_method': request.POST.get('delivery_method', 'pickup'),
             'student_id': request.POST.get('student_id', '')
         }
-        
-        if payment_method == 'mpesa':
-            mpesa_phone = request.POST.get('mpesa_phone')
-            if not mpesa_phone:
-                messages.error(request, "Please enter your M-Pesa phone number.")
-                return render(request, 'core/checkout.html', {
-                    'cart_items': cart_items,
-                    'total': total,
-                    'item_count': item_count,
-                })
-            
-            # Create the order first
-            from core.order_service import OrderService
+
+        if not mpesa_phone:
+            messages.error(request, "Please enter the M-Pesa phone number you used to pay.")
+        if not mpesa_code:
+            messages.error(request, "Please enter your M-Pesa confirmation code.")
+
+        if not mpesa_phone or not mpesa_code:
+            return render(request, 'core/checkout.html', {
+                'cart_items': cart_items,
+                'total': total,
+                'item_count': item_count,
+                'title': 'Checkout',
+                'paybill_number': paybill_number,
+                'paybill_account': paybill_account
+            })
+
+        from core.order_service import OrderService
+        try:
+            order = OrderService.create_order(
+                user=request.user.profile,
+                cart_items=cart_items,
+                total_amount=total,
+                shipping_info=shipping_info
+            )
+
+            payment = order.payment
+            payment.transaction_id = mpesa_code
+            payment.status = 'completed'
+            notes_lines = [
+                'Manual M-Pesa confirmation submitted via checkout.',
+                f'Phone: {mpesa_phone}'
+            ]
+            payment.notes = '\n'.join(notes_lines)
+            payment.save()
+
+            if hasattr(payment, 'mpesa_transaction'):
+                mpesa_tx = payment.mpesa_transaction
+                mpesa_tx.status = 'completed'
+                mpesa_tx.mpesa_receipt = mpesa_code
+                mpesa_tx.phone_number = mpesa_phone
+                mpesa_tx.result_description = 'Manual confirmation provided by customer'
+                mpesa_tx.save()
+
+            order.status = 'processing'
+            order.payment_status = True
+            order.save()
+
             try:
-                # Create order with pending status
-                order = OrderService.create_order(
-                    user=request.user.profile,
-                    cart_items=cart_items,
-                    total_amount=total,
-                    shipping_info=shipping_info
-                )
-                
-                # Store order ID in session for payment completion
-                request.session['pending_order_id'] = order.id
-                
-                # Check if MPESA settings are properly configured
-                mpesa_settings_ok = all([
-                    getattr(settings, 'MPESA_CONSUMER_KEY', ''),
-                    getattr(settings, 'MPESA_CONSUMER_SECRET', ''),
-                    getattr(settings, 'MPESA_SHORTCODE', ''),
-                    getattr(settings, 'MPESA_PASSKEY', ''),
-                    getattr(settings, 'MPESA_CALLBACK_URL', '')
-                ])
-                
-                if not mpesa_settings_ok:
-                    logging.error("M-Pesa settings are incomplete. Please check your environment variables.")
-                    messages.error(request, "Payment system is not properly configured. Your order has been saved, but payment cannot be processed at this time.")
-                    return redirect('order_status', order_id=order.id)
-                
-                # Validate the phone number
-                if not mpesa_phone or len(mpesa_phone.strip()) < 9:
-                    messages.error(request, "Please enter a valid M-Pesa phone number.")
-                    return redirect('checkout')
-                
-                # Initiate M-Pesa STK Push
-                try:
-                    mpesa_service = MpesaService()
-                    
-                    # Use the actual M-Pesa API
-                    response = mpesa_service.initiate_stk_push(
-                        phone_number=mpesa_phone,
-                        amount=total,
-                        reference=f"ESA-Order-{order.id}",
-                        description="Payment for ESA Store Order"
-                    )
-                    
-                    if response.get('ResponseCode') == '0':
-                        # If we have a successful response, update MpesaTransaction
-                        if hasattr(order, 'payment') and hasattr(order.payment, 'mpesa_transaction'):
-                            mpesa_tx = order.payment.mpesa_transaction
-                            if 'CheckoutRequestID' in response:
-                                mpesa_tx.checkout_request_id = response['CheckoutRequestID']
-                                mpesa_tx.save()
-                        
-                        messages.success(request, f"M-Pesa payment request sent to {mpesa_phone}. Please check your phone and enter your PIN to complete the payment.")
-                        return redirect('order_status', order_id=order.id)
-                    else:
-                        error_message = response.get('errorMessage', 'Payment request failed. Please try again.')
-                        messages.error(request, error_message)
-                        return redirect('checkout')
-                        
-                except Exception as e:
-                    logging.error(f"Error initiating M-Pesa payment: {str(e)}")
-                    messages.error(request, "An error occurred while processing your payment. Please try again.")
-                    return redirect('checkout')
-                    
+                from core.email_service import send_order_confirmation_email
+                send_order_confirmation_email(order.user, order)
             except Exception as e:
-                logging.error(f"Error creating order: {str(e)}")
-                messages.error(request, "An error occurred while creating your order. Please try again.")
-                return redirect('checkout')
-        else:
-            messages.error(request, "Please select a valid payment method.")
-            return redirect('checkout')
+                logging.error(f"Failed to send order confirmation email: {str(e)}")
+
+            # Clear the session cart after successful checkout
+            request.session.pop('cart', None)
+            request.session.modified = True
+
+            messages.success(request, 'Payment confirmed! Your order is now being processed.')
+            return redirect('order_status', order_id=order.id)
+
+        except Exception as e:
+            logging.error(f"Error creating manual payment order: {str(e)}")
+            messages.error(request, 'We were unable to complete your order. Please try again or contact support.')
 
     return render(request, 'core/checkout.html', {
         'cart_items': cart_items,
         'total': total,
         'item_count': item_count,
-        'title': 'Checkout'
+        'title': 'Checkout',
+        'paybill_number': paybill_number,
+        'paybill_account': paybill_account
     })
 
 @login_required
