@@ -25,7 +25,7 @@ import logging
 from django.utils.text import slugify
 from django.core.paginator import Paginator
 from django.core.mail import send_mail
-from .email_service import send_payment_confirmation_email
+from .email_service import EmailService, send_payment_confirmation_email
 from dateutil.relativedelta import relativedelta
 
 from .models import (
@@ -54,7 +54,18 @@ def home(request):
         email = request.POST.get('email')
         if email:
             try:
-                NewsletterSubscriber.objects.create(email=email)
+                subscriber = NewsletterSubscriber.objects.create(email=email)
+                admin_email = getattr(settings, 'ADMIN_EMAIL', 'esa.kenyattauniv@gmail.com')
+                EmailService.send_email(
+                    subject="New ESA Newsletter Subscriber",
+                    recipient_list=[admin_email],
+                    template_name="core/emails/newsletter_subscription.html",
+                    context={
+                        'subscriber_email': subscriber.email,
+                        'subscribed_at': subscriber.subscribed_at,
+                        'site_name': 'ESA-KU',
+                    }
+                )
                 messages.success(request, 'Thank you for subscribing to our newsletter!')
             except IntegrityError:
                 messages.info(request, 'You are already subscribed to our newsletter.')

@@ -61,14 +61,6 @@
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="border border-gray-200 rounded-lg overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1581092921461-39b9884e1d83?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Solar Car Project" class="w-full h-48 object-cover">
-            <div class="p-4">
-              <h3 class="font-bold text-lg mb-2">Solar-Powered Vehicle Project</h3>
-              <p class="text-gray-600 text-sm">A team of mechanical and electrical engineering students built a solar-powered vehicle for the African Solar Challenge.</p>
-            </div>
-          </div>
-          
-          <div class="border border-gray-200 rounded-lg overflow-hidden">
             <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Robotics Workshop" class="w-full h-48 object-cover">
             <div class="p-4">
               <h3 class="font-bold text-lg mb-2">Robotics Laboratory Equipment</h3>
@@ -169,11 +161,9 @@
         </div>
 
         <div class="mt-6">
-          {% include 'core/components/manual_payment_instructions.html' with 
-              business_number=manual_paybill_number 
-              account_number=manual_paybill_account 
-              account_name=manual_paybill_account_name 
-              amount=manual_payment_amount %}
+          {% with business_number=manual_paybill_number account_number=manual_paybill_account account_name=manual_paybill_account_name amount=manual_payment_amount %}
+            {% include 'core/components/manual_payment_instructions.html' %}
+          {% endwith %}
         </div>
       </div>
     </div>
