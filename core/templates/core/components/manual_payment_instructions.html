@@ -22,14 +22,14 @@ Include this with: {% include 'core/components/manual_payment_instructions.html'
     <li>Enter Business Number: <span class="font-semibold">{{ business_number|default:"625625" }}</span></li>
     <li>Enter Account Number: <span class="font-semibold">{{ account_number|default:"01521260661100" }}</span></li>
     <li>Account Name: <span class="font-semibold">{{ account_name|default:"Engineering Students Association" }}</span></li>
-    <li>Enter Amount: <span class="font-semibold">{{ amount|default:payment.amount }} KSh</span></li>
+    <li>Enter Amount: <span class="font-semibold">{% if amount %}{{ amount }}{% elif payment.amount %}{{ payment.amount }}{% else %}Your chosen amount{% endif %} {% if amount or payment.amount %}KSh{% endif %}</span></li>
     <li>Enter your M-Pesa PIN</li>
     <li>Confirm and send</li>
   </ol>
   
   <div class="mt-4 bg-blue-50 border-l-4 border-blue-500 p-3 text-xs text-blue-700">
-    <p class="font-semibold mb-1">After making the payment:</p>
-    <p>Please send your M-Pesa transaction code to our support team at <a href="mailto:esa.kenyattauniv@gmail.com" class="text-blue-700 underline">esa.kenyattauniv@gmail.com</a> or via WhatsApp at <a href="tel:+254XXXXXXXXX" class="text-blue-700 underline">+254 XXXXXXXXX</a> for manual verification.</p>
+    <p class="font-semibold mb-1">Thank you for your support!</p>
+    <p>Your donation helps fund student engineering projects, events, and initiatives. We'll send you a confirmation once your donation is processed.</p>
   </div>
   
   <div class="mt-4 flex justify-end">

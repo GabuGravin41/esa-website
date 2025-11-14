@@ -148,11 +148,6 @@
             <label for="anonymous" class="ml-2 block text-sm text-gray-700">Make my donation anonymous</label>
           </div>
           
-          <div>
-            <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-              Proceed to Payment
-            </button>
-          </div>
         </form>
         
         <div class="mt-6 text-sm text-gray-500 space-y-2">
@@ -161,9 +156,9 @@
         </div>
 
         <div class="mt-6">
-          {% with business_number=manual_paybill_number account_number=manual_paybill_account account_name=manual_paybill_account_name amount=manual_payment_amount %}
-            {% include 'core/components/manual_payment_instructions.html' %}
-          {% endwith %}
+            {% with business_number=manual_paybill_number account_number=manual_paybill_account account_name=manual_paybill_account_name amount=manual_payment_amount payment=None %}
+              {% include 'core/components/manual_payment_instructions.html' %}
+            {% endwith %}
         </div>
       </div>
     </div>
@@ -187,7 +182,7 @@
       notice.classList.add('hidden');
       submitButton.disabled = false;
       submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
-      submitButton.innerText = 'Proceed to Payment';
+      submitButton.innerText = 'Continue with Donation';
     }
   }
   

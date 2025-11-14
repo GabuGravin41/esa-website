@@ -228,8 +228,9 @@
                 </div>
 
                 <!-- Student Tiers -->
-                <div id="studentTiers" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- First Year Tier -->
+                <div id="studentTiers" class="grid grid-cols-1 md:grid-cols-1 gap-6">
+                    <!-- First Year Tier - Commented out as promotion ended -->
+                    <!--
                     <div class="bg-white rounded-lg shadow-lg p-6 border-2 border-blue-900">
                         <h3 class="text-xl font-bold text-blue-900 mb-4">First Year Student</h3>
                         <p class="text-3xl font-bold mb-4">KSh 250</p>
@@ -257,17 +258,24 @@
                             Select Plan
                         </button>
                     </div>
+                    -->
 
-                    <!-- Other Students Tier -->
-                    <div class="bg-white rounded-lg shadow-lg p-6 border-2 border-blue-900">
-                        <h3 class="text-xl font-bold text-blue-900 mb-4">Other Students</h3>
+                    <!-- Student Tier (All Students) -->
+                    <div class="bg-white rounded-lg shadow-lg p-6 border-2 border-blue-900 mx-auto max-w-md">
+                        <h3 class="text-xl font-bold text-blue-900 mb-4">Student Membership</h3>
                         <p class="text-3xl font-bold mb-4">KSh 300</p>
                         <ul class="space-y-2 mb-6">
                             <li class="flex items-center">
                                 <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                All First Year benefits
+                                Access to all ESA-KU events
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Engineering resources & materials
                             </li>
                             <li class="flex items-center">
                                 <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -279,7 +287,7 @@
                                 <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                Access to workshops
+                                Access to workshops & networking
                             </li>
                         </ul>
                         <button onclick="selectTier('other_students', 300)" class="w-full bg-blue-900 text-white py-2 rounded-lg hover:bg-blue-800 transition-colors">
@@ -753,8 +761,8 @@
         
         // Set plan name
         const planNames = {
-            'first_year': 'First Year Student',
-            'other_students': 'Other Students',
+            // 'first_year': 'First Year Student', // Commented out as promotion ended
+            'other_students': 'Student Membership',
             'graduate': 'Graduate/Professional'
         };
         planName.textContent = planNames[tier] || '';

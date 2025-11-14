@@ -130,11 +130,11 @@ class ErrorHandlingMiddleware(MiddlewareMixin):
             template = 'core/errors/500.html'
             status_code = 500
 
+        # Render the template as a proper HTML response
+        from django.http import HttpResponse
+        from django.template.loader import render_to_string
         html = render_to_string(template, context)
-        return JsonResponse({
-            'html': html,
-            'status': 'error'
-        }, status=status_code)
+        return HttpResponse(html, status=status_code, content_type='text/html')
 
 class LoadingStateMiddleware:
     def __init__(self, get_response):

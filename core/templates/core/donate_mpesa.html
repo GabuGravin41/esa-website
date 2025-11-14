@@ -85,7 +85,7 @@
                         
                         <div class="mt-8 space-y-3">
                             <button type="submit" id="payWithMpesaBtn" class="w-full bg-green-700 hover:bg-green-800 text-white py-3 rounded-lg font-bold transition">
-                                Pay with M-Pesa
+                                Donate with M-Pesa
                             </button>
                             <a href="{% url 'donate' %}" class="block w-full text-center border border-gray-300 hover:bg-gray-100 text-gray-700 py-3 rounded-lg font-medium transition">
                                 Cancel
@@ -113,11 +113,11 @@
                                     <li>Enter Account Number: <span class="font-mono font-bold">ESAKU{{ payment.id }}</span></li>
                                     <li>Enter Amount: <span class="font-mono font-bold">{{ payment.amount }}</span></li>
                                     <li>Enter your M-Pesa PIN and confirm</li>
-                                    <li>After payment, click "I've Made the Payment" below</li>
+                                    <li>After completing your donation, click the button below</li>
                                 </ol>
                                 <div class="mt-4">
-                                    <button type="button" id="manualPaymentCompleteBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-medium transition">
-                                        I've Made the Payment
+                                    <button type="button" id="manualPaymentCompleteBtn" class="w-full bg-green-700 hover:bg-green-800 text-white py-3 rounded-lg font-bold transition">
+                                        I've Completed My Donation
                                     </button>
                                 </div>
                             </div>

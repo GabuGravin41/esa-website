@@ -2495,19 +2495,16 @@ def donation_success(request):
     try:
         if payment_id:
             payment = Payment.objects.get(id=payment_id)
+            return render(request, 'core/donation_success.html', {'payment': payment})
         else:
             messages.error(request, "Payment information not found.")
             return redirect('donate')
-            
-        return render(request, 'core/donation_success.html', {'payment': payment})
     except Payment.DoesNotExist:
         messages.error(request, "Payment not found.")
         return redirect('donate')
-            
     except Exception as e:
         messages.error(request, f"Failed to process donation: {str(e)}")
-        
-    return render(request, 'core/donate.html')
+        return redirect('donate')
 
 @login_required
 def member_get_member(request):
