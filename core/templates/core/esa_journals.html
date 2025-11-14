@@ -242,29 +242,15 @@
         </div>
       </div>
       
-      <!-- Journal Archives -->
+      <!-- Journal Archives (future) -->
       <div class="bg-white rounded-lg shadow-md p-6">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">Journal Archives</h3>
-        <div class="space-y-3">
-          <a href="{% url 'esa_journals' %}?year=2023" class="flex justify-between items-center px-4 py-2 hover:bg-gray-50 rounded">
-            <span class="font-medium">2023 Edition</span>
-            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Latest</span>
-          </a>
-          <a href="{% url 'esa_journals' %}?year=2022" class="flex justify-between items-center px-4 py-2 hover:bg-gray-50 rounded">
-            <span class="font-medium">2022 Edition</span>
-            <span class="text-xs text-gray-500">12 papers</span>
-          </a>
-          <a href="{% url 'esa_journals' %}?year=2021" class="flex justify-between items-center px-4 py-2 hover:bg-gray-50 rounded">
-            <span class="font-medium">2021 Edition</span>
-            <span class="text-xs text-gray-500">10 papers</span>
-          </a>
-          <a href="{% url 'esa_journals' %}?year=2020" class="flex justify-between items-center px-4 py-2 hover:bg-gray-50 rounded">
-            <span class="font-medium">2020 Edition</span>
-            <span class="text-xs text-gray-500">8 papers</span>
-          </a>
-        </div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">Journal Archives</h3>
+        <p class="text-sm text-gray-600">
+          We’re curating previous ESA Journal editions and will publish them here soon.
+          Stay tuned for the official archive release.
+        </p>
       </div>
     </div>
   </div>
 </div>
-{% endblock %} 
+{% endblock %}

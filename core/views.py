@@ -2354,23 +2354,34 @@ def add_resource_link(request):
     # For GET requests, direct user to the appropriate form based on request
     return redirect('site_form')
 
-@login_required
 def donate(request):
     """Handle donations with M-Pesa payment integration"""
+    manual_paybill_number = getattr(settings, 'MANUAL_PAYBILL_NUMBER', '625625')
+    manual_paybill_account = getattr(settings, 'MANUAL_PAYBILL_ACCOUNT', '01521260661100')
+    manual_paybill_account_name = getattr(settings, 'MANUAL_PAYBILL_ACCOUNT_NAME', 'Engineering Students Association')
+
+    context = {
+        'manual_paybill_number': manual_paybill_number,
+        'manual_paybill_account': manual_paybill_account,
+        'manual_paybill_account_name': manual_paybill_account_name,
+        'form_data': request.POST if request.method == 'POST' else {},
+        'manual_payment_amount': request.POST.get('amount') if request.method == 'POST' else None,
+    }
+
     if request.method == 'POST':
         payment_method = request.POST.get('payment_method')
         
         if payment_method == 'card':
             messages.info(request, "Credit/Debit Card payments will be available soon. Currently only M-PESA is supported.")
-            return render(request, 'core/donate.html')
+            return render(request, 'core/donate.html', context)
         
         elif payment_method == 'bank':
             messages.info(request, "Bank Transfer payments will be available soon. Currently only M-PESA is supported.")
-            return render(request, 'core/donate.html')
+            return render(request, 'core/donate.html', context)
             
         elif payment_method != 'mpesa':
             messages.info(request, f"{payment_method.title()} payments will be available soon. Currently only M-PESA is supported.")
-            return render(request, 'core/donate.html')
+            return render(request, 'core/donate.html', context)
         
         # Process M-Pesa payment
         phone_number = request.POST.get('phone')
@@ -2383,7 +2394,8 @@ def donate(request):
         
         if not phone_number or not amount:
             messages.error(request, "Please provide both phone number and amount for M-PESA payment.")
-            return render(request, 'core/donate.html')
+            context['manual_payment_amount'] = amount
+            return render(request, 'core/donate.html', context)
             
         try:
             # Create a payment record
@@ -2400,7 +2412,11 @@ def donate(request):
             return redirect('donate_mpesa', payment_id=payment.id)
         except Exception as e:
             messages.error(request, f"An error occurred: {str(e)}")
-            return render(request, 'core/donate.html')
+            context['manual_payment_amount'] = amount
+            return render(request, 'core/donate.html', context)
+
+    # GET request or unsupported method
+    return render(request, 'core/donate.html', context)
 
 def donate_mpesa(request, payment_id):
     """Handle M-Pesa payment for donations"""

@@ -323,7 +323,7 @@ class Membership(models.Model):
         ('manual', 'Manual Verification'),
     ]
     
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     plan_type = models.CharField(max_length=20, choices=MembershipPlan.PLAN_TYPES, default='other_students')
     amount = models.DecimalField(max_digits=10, decimal_places=2, default=2)  # Test amount for sandbox
     payment_method = models.CharField(max_length=10, choices=PAYMENT_METHODS, default='mpesa')

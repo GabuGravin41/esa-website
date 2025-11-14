@@ -100,7 +100,7 @@
       <div class="bg-white rounded-lg shadow-lg p-6 sticky top-6">
         <h2 class="text-2xl font-bold text-blue-900 mb-4">Make a Donation</h2>
         
-        <form action="#" method="POST" class="space-y-4">
+        <form action="{% url 'donate' %}" method="POST" class="space-y-4">
           {% csrf_token %}
           
           <div>
@@ -166,6 +166,14 @@
         <div class="mt-6 text-sm text-gray-500 space-y-2">
           <p><i class="fas fa-lock mr-1"></i> All transactions are secure and encrypted.</p>
           <p><i class="fas fa-info-circle mr-1"></i> For large donations or corporate giving, please contact us directly at esa.kenyattauniv@gmail.com.</p>
+        </div>
+
+        <div class="mt-6">
+          {% include 'core/components/manual_payment_instructions.html' with 
+              business_number=manual_paybill_number 
+              account_number=manual_paybill_account 
+              account_name=manual_paybill_account_name 
+              amount=manual_payment_amount %}
         </div>
       </div>
     </div>
