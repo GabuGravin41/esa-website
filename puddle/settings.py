@@ -218,7 +218,9 @@ STORAGES = {
         },
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        # Use simple storage for development, compressed manifest for production
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage" if DEBUG 
+                   else "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 
