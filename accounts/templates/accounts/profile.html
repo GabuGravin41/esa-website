@@ -1,300 +1,419 @@
 {% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Profile - ESA-KU{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-3xl mx-auto">
-    <!-- Messages -->
-    {% if messages %}
-    <div class="mb-6 space-y-2">
-      {% for message in messages %}
-      <div class="rounded-md p-4 {% if message.tags == 'error' %}bg-red-50 text-red-800 border border-red-200{% elif message.tags == 'success' %}bg-green-50 text-green-800 border border-green-200{% elif message.tags == 'warning' %}bg-yellow-50 text-yellow-800 border border-yellow-200{% else %}bg-blue-50 text-blue-800 border border-blue-200{% endif %}">
-        <div class="flex">
-          <div class="flex-shrink-0">
-            {% if message.tags == 'error' %}
-            <ion-icon name="alert-circle" class="text-xl"></ion-icon>
-            {% elif message.tags == 'success' %}
-            <ion-icon name="checkmark-circle" class="text-xl"></ion-icon>
-            {% elif message.tags == 'warning' %}
-            <ion-icon name="warning" class="text-xl"></ion-icon>
-            {% else %}
-            <ion-icon name="information-circle" class="text-xl"></ion-icon>
-            {% endif %}
-          </div>
-          <div class="ml-3">
-            <p class="text-sm font-medium">{{ message }}</p>
-          </div>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-    {% endif %}
-    
-    <div class="bg-white shadow rounded-lg">
-      <!-- Profile Header -->
-      <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
-        <h3 class="text-lg leading-6 font-medium text-gray-900">
-          Profile Information
-        </h3>
-        <p class="mt-1 max-w-2xl text-sm text-gray-500">
-          Update your personal information and account settings.
-        </p>
-      </div>
-
-      <!-- Profile Form -->
-      <div class="px-4 py-5 sm:p-6">
-        <form action="{% url 'profile' %}" method="POST" enctype="multipart/form-data" class="space-y-6">
-          {% csrf_token %}
-          
-          <!-- Profile Picture -->
-          <div class="flex items-center space-x-4">
-            <div class="flex-shrink-0">
-              {% if user.profile.profile_picture %}
-                <img class="h-16 w-16 rounded-full" src="{{ user.profile.profile_picture.url }}" alt="Profile picture">
-              {% else %}
-                <div class="h-16 w-16 rounded-full bg-gray-200 flex items-center justify-center">
-                  <ion-icon name="person" class="h-8 w-8 text-gray-400"></ion-icon>
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Messages -->
+        {% if messages %}
+        <div class="mb-6 space-y-2">
+            {% for message in messages %}
+            <div class="rounded-md p-4 {% if message.tags == 'error' %}bg-red-50 text-red-800 border border-red-200{% elif message.tags == 'success' %}bg-green-50 text-green-800 border border-green-200{% elif message.tags == 'warning' %}bg-yellow-50 text-yellow-800 border border-yellow-200{% else %}bg-blue-50 text-blue-800 border border-blue-200{% endif %}">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        {% if message.tags == 'error' %}
+                        <i class="fas fa-exclamation-circle text-xl"></i>
+                        {% elif message.tags == 'success' %}
+                        <i class="fas fa-check-circle text-xl"></i>
+                        {% elif message.tags == 'warning' %}
+                        <i class="fas fa-exclamation-triangle text-xl"></i>
+                        {% else %}
+                        <i class="fas fa-info-circle text-xl"></i>
+                        {% endif %}
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm font-medium">{{ message }}</p>
+                    </div>
                 </div>
-              {% endif %}
             </div>
-            <div>
-              <label for="profile_picture" class="block text-sm font-medium text-gray-700">
-                Profile Picture
-              </label>
-              <input type="file" name="profile_picture" id="profile_picture" accept="image/*"
-                     class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <!-- Profile Header -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+            <div class="bg-gradient-to-r from-blue-900 to-blue-700 px-6 py-8">
+                <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6">
+                    <!-- Profile Picture -->
+                    <div class="relative">
+                        {% if user.profile.profile_picture %}
+                            <img class="h-32 w-32 rounded-full border-4 border-white shadow-lg object-cover" 
+                                 src="{{ user.profile.profile_picture.url }}" alt="Profile picture">
+                        {% else %}
+                            <div class="h-32 w-32 rounded-full border-4 border-white shadow-lg bg-gray-300 flex items-center justify-center">
+                                <i class="fas fa-user text-4xl text-gray-600"></i>
+                            </div>
+                        {% endif %}
+                        <div class="absolute bottom-0 right-0 bg-white rounded-full p-2 shadow-md">
+                            <i class="fas fa-camera text-gray-600"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Basic Info -->
+                    <div class="text-center md:text-left">
+                        <h1 class="text-3xl font-bold text-white">
+                            {{ user.get_full_name|default:user.username }}
+                        </h1>
+                        <p class="text-blue-200 text-lg">{{ user.profile.department }}</p>
+                        {% if user.profile.course %}
+                            <p class="text-blue-100">{{ user.profile.course }}</p>
+                        {% endif %}
+                        
+                        <!-- Membership Status Badge -->
+                        <div class="mt-3">
+                            {% if user.profile.membership_status == 'active' %}
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                    <i class="fas fa-check-circle mr-1"></i>
+                                    Active Member
+                                </span>
+                            {% else %}
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                                    <i class="fas fa-exclamation-circle mr-1"></i>
+                                    Not a Member
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Stats -->
+                    <div class="md:ml-auto text-center">
+                        <div class="grid grid-cols-2 gap-4 text-white">
+                            <div>
+                                <div class="text-2xl font-bold">{{ user.profile.year_of_study|default:"N/A" }}</div>
+                                <div class="text-blue-200 text-sm">Year of Study</div>
+                            </div>
+                            <div>
+                                <div class="text-2xl font-bold">{{ user.profile.membership_number|default:"N/A" }}</div>
+                                <div class="text-blue-200 text-sm">Member #</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
+        </div>
 
-          <!-- Personal Information -->
-          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <div>
-              <label for="first_name" class="block text-sm font-medium text-gray-700">First Name</label>
-              <input type="text" name="first_name" id="first_name" value="{{ user.first_name }}"
-                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Left Column - Profile Details -->
+            <div class="lg:col-span-2 space-y-6">
+                
+                <!-- Personal Information Card -->
+                <div class="bg-white rounded-lg shadow-md">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h2 class="text-xl font-semibold text-gray-900 flex items-center">
+                            <i class="fas fa-user mr-2 text-blue-600"></i>
+                            Personal Information
+                        </h2>
+                    </div>
+                    <div class="p-6">
+                        <form method="POST" enctype="multipart/form-data" class="space-y-4">
+                            {% csrf_token %}
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                                    <input type="text" name="first_name" value="{{ user.first_name }}" 
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                                    <input type="text" name="last_name" value="{{ user.last_name }}" 
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                <input type="email" name="email" value="{{ user.email }}" 
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                                <input type="tel" name="phone_number" value="{{ user.profile.phone_number }}" 
+                                       placeholder="254712345678"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Profile Picture</label>
+                                <input type="file" name="profile_picture" accept="image/*" 
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Bio</label>
+                                <textarea name="bio" rows="3" placeholder="Tell us about yourself..." 
+                                          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">{{ user.profile.bio }}</textarea>
+                            </div>
+                            
+                            <button type="submit" 
+                                    class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                Update Personal Info
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Academic Information Card -->
+                <div class="bg-white rounded-lg shadow-md">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h2 class="text-xl font-semibold text-gray-900 flex items-center">
+                            <i class="fas fa-graduation-cap mr-2 text-blue-600"></i>
+                            Academic Information
+                        </h2>
+                    </div>
+                    <div class="p-6">
+                        <form method="POST" class="space-y-4">
+                            {% csrf_token %}
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Student ID / Registration Number</label>
+                                <input type="text" name="student_id" value="{{ user.profile.student_id }}" 
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Department</label>
+                                <input type="text" name="department" value="{{ user.profile.department }}" 
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Course / Program</label>
+                                <input type="text" name="course" value="{{ user.profile.course }}" 
+                                       placeholder="e.g., Bachelor of Engineering in Computer Science"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Year of Study</label>
+                                <select name="year_of_study" 
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="">Select Year</option>
+                                    {% for value, label in year_choices %}
+                                        <option value="{{ value }}" {% if user.profile.year_of_study == value %}selected{% endif %}>
+                                            {{ label }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">User Type</label>
+                                <select name="user_type" 
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    {% for value, label in user_type_choices %}
+                                        {% if value != 'vendor' and value != 'administrator' and value != 'admin' and label != 'Administrator' %}
+                                            <option value="{{ value }}" {% if user.profile.user_type == value %}selected{% endif %}>
+                                                {{ label }}
+                                            </option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            
+                            <button type="submit" 
+                                    class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                Update Academic Info
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div>
-              <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
-              <input type="text" name="last_name" id="last_name" value="{{ user.last_name }}"
-                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+
+            <!-- Right Column - Membership & Stats -->
+            <div class="space-y-6">
+                
+                <!-- Membership Card -->
+                <div class="bg-white rounded-lg shadow-md">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h2 class="text-xl font-semibold text-gray-900 flex items-center">
+                            <i class="fas fa-id-card mr-2 text-blue-600"></i>
+                            Membership Status
+                        </h2>
+                    </div>
+                    <div class="p-6">
+                        {% if user.profile.membership_status == 'active' %}
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-check text-2xl text-green-600"></i>
+                                </div>
+                                <h3 class="text-lg font-semibold text-green-600">Active Member</h3>
+                                <p class="text-gray-600 mt-2">Member Number: {{ user.profile.membership_number }}</p>
+                                {% if user.profile.membership_expiry %}
+                                    <p class="text-sm text-gray-500 mt-1">Expires: {{ user.profile.membership_expiry|date:"M d, Y" }}</p>
+                                {% endif %}
+                            </div>
+                        {% else %}
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-exclamation text-2xl text-yellow-600"></i>
+                                </div>
+                                <h3 class="text-lg font-semibold text-yellow-600">Not a Member</h3>
+                                <p class="text-gray-600 mt-2">Join ESA-KU to access exclusive benefits</p>
+                                <a href="{% url 'membership' %}" 
+                                   class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+                                    Join Now
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Change Password Card -->
+                <div class="bg-white rounded-lg shadow-md">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h2 class="text-xl font-semibold text-gray-900 flex items-center">
+                            <i class="fas fa-lock mr-2 text-blue-600"></i>
+                            Change Password
+                        </h2>
+                    </div>
+                    <div class="p-6">
+                        <form method="POST" class="space-y-4">
+                            {% csrf_token %}
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
+                                <input type="password" name="current_password" id="current_password"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                       placeholder="Enter current password">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+                                <input type="password" name="new_password" id="new_password"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                       placeholder="Minimum 8 characters">
+                                <p class="text-xs text-gray-500 mt-1">At least 8 characters</p>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                                <input type="password" name="confirm_password" id="confirm_password"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                       placeholder="Re-enter new password">
+                            </div>
+                            
+                            <button type="submit" 
+                                    class="w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">
+                                <i class="fas fa-key mr-2"></i>
+                                Change Password
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-lg shadow-md">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h2 class="text-xl font-semibold text-gray-900 flex items-center">
+                            <i class="fas fa-bolt mr-2 text-blue-600"></i>
+                            Quick Actions
+                        </h2>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        {% if user.profile.membership_status == 'active' %}
+                            <a href="{% url 'dashboard' %}" 
+                               class="w-full flex items-center justify-between p-3 bg-blue-50 rounded-md hover:bg-blue-100 transition">
+                                <span class="flex items-center">
+                                    <i class="fas fa-tachometer-alt mr-2 text-blue-600"></i>
+                                    Dashboard
+                                </span>
+                                <i class="fas fa-arrow-right text-blue-600"></i>
+                            </a>
+                        {% endif %}
+                        
+                        <a href="{% url 'store' %}" 
+                           class="w-full flex items-center justify-between p-3 bg-gray-50 rounded-md hover:bg-gray-100 transition">
+                            <span class="flex items-center">
+                                <i class="fas fa-shopping-cart mr-2 text-gray-600"></i>
+                                ESA Store
+                            </span>
+                            <i class="fas fa-arrow-right text-gray-600"></i>
+                        </a>
+                        
+                        <a href="{% url 'events' %}" 
+                           class="w-full flex items-center justify-between p-3 bg-gray-50 rounded-md hover:bg-gray-100 transition">
+                            <span class="flex items-center">
+                                <i class="fas fa-calendar mr-2 text-gray-600"></i>
+                                Events
+                            </span>
+                            <i class="fas fa-arrow-right text-gray-600"></i>
+                        </a>
+                        
+                        <a href="{% url 'communities' %}" 
+                           class="w-full flex items-center justify-between p-3 bg-gray-50 rounded-md hover:bg-gray-100 transition">
+                            <span class="flex items-center">
+                                <i class="fas fa-users mr-2 text-gray-600"></i>
+                                Communities
+                            </span>
+                            <i class="fas fa-arrow-right text-gray-600"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Account Stats -->
+                <div class="bg-white rounded-lg shadow-md">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h2 class="text-xl font-semibold text-gray-900 flex items-center">
+                            <i class="fas fa-chart-bar mr-2 text-blue-600"></i>
+                            Activity
+                        </h2>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Blog Posts</span>
+                                <span class="font-semibold">{{ user.profile.blog_posts_count }}</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Comments</span>
+                                <span class="font-semibold">{{ user.profile.comments_count }}</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Member Since</span>
+                                <span class="font-semibold">{{ user.date_joined|date:"M Y" }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-
-          <div>
-            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-            <input type="email" name="email" id="email" value="{{ user.email }}"
-                   class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
-          </div>
-
-          <div>
-            <label for="student_id" class="block text-sm font-medium text-gray-700">Student ID</label>
-            <input type="text" name="student_id" id="student_id" value="{{ user.profile.student_id }}"
-                   class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
-          </div>
-
-          <div>
-            <label for="course" class="block text-sm font-medium text-gray-700">Course</label>
-            <input type="text" name="course" id="course" value="{{ user.profile.course }}"
-                   class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
-          </div>
-
-          <div>
-            <label for="year_of_study" class="block text-sm font-medium text-gray-700">Year of Study</label>
-            <select name="year_of_study" id="year_of_study"
-                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
-              {% for year in "1234"|make_list %}
-                <option value="{{ year }}" {% if user.profile.year_of_study == year %}selected{% endif %}>
-                  Year {{ year }}
-                </option>
-              {% endfor %}
-            </select>
-          </div>
-
-          <!-- Membership Information -->
-          <div class="border-t border-gray-200 pt-6">
-            <h4 class="text-lg font-medium text-gray-900 mb-4">Membership Status</h4>
-            <div class="bg-gray-50 rounded-lg p-4 space-y-3">
-              <div class="flex justify-between items-center">
-                <span class="text-sm font-medium text-gray-700">Status:</span>
-                {% if user.profile.membership_status == 'active' %}
-                  <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                    <ion-icon name="checkmark-circle" class="mr-1"></ion-icon>
-                    Active
-                  </span>
-                {% elif user.profile.membership_status == 'expired' %}
-                  <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                    <ion-icon name="alert-circle" class="mr-1"></ion-icon>
-                    Expired
-                  </span>
-                {% else %}
-                  <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                    Inactive
-                  </span>
-                {% endif %}
-              </div>
-              
-              {% if user.profile.membership_number %}
-              <div class="flex justify-between items-center">
-                <span class="text-sm font-medium text-gray-700">Member Number:</span>
-                <span class="text-sm font-semibold text-gray-900">{{ user.profile.membership_number }}</span>
-              </div>
-              {% endif %}
-              
-              {% if user.profile.membership_expiry %}
-              <div class="flex justify-between items-center">
-                <span class="text-sm font-medium text-gray-700">Expires:</span>
-                <span class="text-sm text-gray-900">{{ user.profile.membership_expiry|date:"F d, Y" }}</span>
-              </div>
-              {% endif %}
-              
-              {% if user.profile.membership_status != 'active' %}
-              <div class="mt-4">
-                <a href="{% url 'membership' %}" 
-                   class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                  <ion-icon name="card" class="mr-2"></ion-icon>
-                  Activate Membership
-                </a>
-              </div>
-              {% endif %}
-            </div>
-          </div>
-
-          <!-- Password Change Section -->
-          <div class="border-t border-gray-200 pt-6">
-            <h4 class="text-lg font-medium text-gray-900 mb-4">Change Password</h4>
-            <p class="text-sm text-gray-600 mb-4">Leave blank if you don't want to change your password.</p>
-            <div class="space-y-4">
-              <div>
-                <label for="current_password" class="block text-sm font-medium text-gray-700">Current Password</label>
-                <input type="password" name="current_password" id="current_password" autocomplete="current-password"
-                       class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                       placeholder="Enter your current password">
-              </div>
-              <div>
-                <label for="new_password" class="block text-sm font-medium text-gray-700">New Password</label>
-                <input type="password" name="new_password" id="new_password" autocomplete="new-password"
-                       class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                       placeholder="Minimum 8 characters">
-                <p class="mt-1 text-xs text-gray-500">Must be at least 8 characters long</p>
-              </div>
-              <div>
-                <label for="confirm_password" class="block text-sm font-medium text-gray-700">Confirm New Password</label>
-                <input type="password" name="confirm_password" id="confirm_password" autocomplete="new-password"
-                       class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                       placeholder="Re-enter your new password">
-              </div>
-            </div>
-          </div>
-
-          <!-- Submit Button -->
-          <div class="flex justify-end">
-            <button type="submit"
-                    class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-              Save Changes
-            </button>
-          </div>
-        </form>
-      </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <script>
-// Password change validation
+// Password validation
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.querySelector('form');
-    const currentPassword = document.getElementById('current_password');
     const newPassword = document.getElementById('new_password');
     const confirmPassword = document.getElementById('confirm_password');
     
-    // Real-time password validation
     if (newPassword) {
         newPassword.addEventListener('input', function() {
-            const value = this.value;
-            const helpText = this.nextElementSibling;
-            
-            if (value.length > 0 && value.length < 8) {
+            if (this.value.length > 0 && this.value.length < 8) {
                 this.classList.add('border-red-500');
-                this.classList.remove('border-green-500');
-            } else if (value.length >= 8) {
-                this.classList.add('border-green-500');
+            } else if (this.value.length >= 8) {
                 this.classList.remove('border-red-500');
-            } else {
-                this.classList.remove('border-red-500', 'border-green-500');
+                this.classList.add('border-green-500');
             }
         });
     }
     
-    // Confirm password matching
     if (confirmPassword) {
         confirmPassword.addEventListener('input', function() {
             if (this.value !== newPassword.value && this.value.length > 0) {
                 this.classList.add('border-red-500');
-                this.classList.remove('border-green-500');
             } else if (this.value === newPassword.value && this.value.length > 0) {
-                this.classList.add('border-green-500');
                 this.classList.remove('border-red-500');
-            } else {
-                this.classList.remove('border-red-500', 'border-green-500');
-            }
-        });
-    }
-    
-    // Form validation on submit
-    form.addEventListener('submit', function(e) {
-        const currentPwd = currentPassword.value.trim();
-        const newPwd = newPassword.value.trim();
-        const confirmPwd = confirmPassword.value.trim();
-        
-        // If any password field is filled, validate all
-        if (currentPwd || newPwd || confirmPwd) {
-            let errors = [];
-            
-            if (!currentPwd) {
-                errors.push('Please enter your current password');
-                currentPassword.classList.add('border-red-500');
-            }
-            
-            if (!newPwd) {
-                errors.push('Please enter a new password');
-                newPassword.classList.add('border-red-500');
-            } else if (newPwd.length < 8) {
-                errors.push('New password must be at least 8 characters');
-                newPassword.classList.add('border-red-500');
-            }
-            
-            if (!confirmPwd) {
-                errors.push('Please confirm your new password');
-                confirmPassword.classList.add('border-red-500');
-            } else if (newPwd !== confirmPwd) {
-                errors.push('Passwords do not match');
-                confirmPassword.classList.add('border-red-500');
-            }
-            
-            if (errors.length > 0) {
-                e.preventDefault();
-                alert(errors.join('\n'));
-                return false;
-            }
-        }
-    });
-    
-    // Image preview for profile picture
-    const profilePicInput = document.getElementById('profile_picture');
-    if (profilePicInput) {
-        profilePicInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const img = document.querySelector('img[alt="Profile picture"]');
-                    if (img) {
-                        img.src = event.target.result;
-                    }
-                };
-                reader.readAsDataURL(file);
+                this.classList.add('border-green-500');
             }
         });
     }
 });
 </script>
-{% endblock %} 
+{% endblock %}
