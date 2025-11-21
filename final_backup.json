@@ -1,0 +1,1401 @@
+[
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$720000$ZO3nPCYEMVGNoEKFw0V6LM$bM0GMAyZEiCSrz0nULdtIPnTQ5dI2pvjel6bbnTHi2U=",
+    "last_login": "2025-10-29T03:13:36.061Z",
+    "is_superuser": false,
+    "username": "tester_1",
+    "first_name": "",
+    "last_name": "",
+    "email": "daltonomondi5@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-15T18:13:58.881Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$720000$iCczOCsqLHzbTlTwgOV4aP$XQhjH8OQUS/Dk3e0kfbGpVv+n+1BgSth41+FF+oYzTI=",
+    "last_login": "2025-07-06T18:16:41.967Z",
+    "is_superuser": false,
+    "username": "tester_2",
+    "first_name": "",
+    "last_name": "",
+    "email": "6153.2023@students.ku.ac.ke",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-16T18:38:36.827Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$720000$00p2YJKrb36ftYCP9hPj4t$o25PQgwq8p0MEuTHQHPceFs8zrd+XhuYRk9IcxhbNUw=",
+    "last_login": "2025-11-21T08:34:59.015Z",
+    "is_superuser": true,
+    "username": "dalton",
+    "first_name": "Dalton",
+    "last_name": "Omondi",
+    "email": "daltonomondi588@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-05-17T07:10:57.943Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$720000$fc2ev76kxEjTQJbt6tcEqN$U5VDzPrtcRQAsC3mVf5uoAxtxko80exWxS2DlIFTA8g=",
+    "last_login": "2025-10-29T03:33:49.049Z",
+    "is_superuser": false,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "esa.kenyattauniva@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-17T07:45:40.405Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 5,
+  "fields": {
+    "password": "pbkdf2_sha256$720000$xghrAmazaQtu0hzVlvUShb$oCTM6h5W7HGOGv6Y9/wcuQ5cm4rh+4omEtDmIxZAxII=",
+    "last_login": "2025-07-07T20:08:33.502Z",
+    "is_superuser": false,
+    "username": "moderator",
+    "first_name": "Content",
+    "last_name": "Moderator",
+    "email": "moderator@example.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-05-17T12:50:19.538Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 6,
+  "fields": {
+    "password": "pbkdf2_sha256$720000$FmmIFwu4q2j0ObXt09EpRR$UTnnPWOMZlUt3jKo4AAzx416qB7V7fqV9lgi8LKvlLU=",
+    "last_login": "2025-07-06T18:14:58.091Z",
+    "is_superuser": false,
+    "username": "tester_3",
+    "first_name": "tester_3",
+    "last_name": "",
+    "email": "tester3@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-07-05T07:18:11Z",
+    "groups": [],
+    "user_permissions": [
+      [
+        "add_contenttype",
+        "contenttypes",
+        "contenttype"
+      ],
+      [
+        "add_cartitem",
+        "core",
+        "cartitem"
+      ],
+      [
+        "delete_cartitem",
+        "core",
+        "cartitem"
+      ],
+      [
+        "add_community",
+        "core",
+        "community"
+      ],
+      [
+        "view_community",
+        "core",
+        "community"
+      ],
+      [
+        "add_communitymember",
+        "core",
+        "communitymember"
+      ],
+      [
+        "delete_communitymember",
+        "core",
+        "communitymember"
+      ],
+      [
+        "view_communitymember",
+        "core",
+        "communitymember"
+      ],
+      [
+        "add_event",
+        "core",
+        "event"
+      ],
+      [
+        "change_event",
+        "core",
+        "event"
+      ],
+      [
+        "delete_event",
+        "core",
+        "event"
+      ]
+    ]
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 7,
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "default_commenter",
+    "first_name": "",
+    "last_name": "",
+    "email": "commenter@example.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-07-14T11:42:46.485Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 8,
+  "fields": {
+    "password": "pbkdf2_sha256$720000$3kObSvBMtxH5NXhSiAetCH$AqCjiwdNIZ43FlpbtfnmCHcrUs5CR4/1rHS6aCWl8Vw=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "esa-admin",
+    "first_name": "ESA-KU",
+    "last_name": "admin",
+    "email": "esa.kenyattauniv@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-11-14T22:06:08Z",
+    "groups": [],
+    "user_permissions": [
+      [
+        "add_emailaddress",
+        "account",
+        "emailaddress"
+      ],
+      [
+        "change_emailaddress",
+        "account",
+        "emailaddress"
+      ],
+      [
+        "delete_emailaddress",
+        "account",
+        "emailaddress"
+      ],
+      [
+        "view_emailaddress",
+        "account",
+        "emailaddress"
+      ],
+      [
+        "add_emailconfirmation",
+        "account",
+        "emailconfirmation"
+      ],
+      [
+        "change_emailconfirmation",
+        "account",
+        "emailconfirmation"
+      ],
+      [
+        "delete_emailconfirmation",
+        "account",
+        "emailconfirmation"
+      ],
+      [
+        "view_emailconfirmation",
+        "account",
+        "emailconfirmation"
+      ],
+      [
+        "add_logentry",
+        "admin",
+        "logentry"
+      ],
+      [
+        "change_logentry",
+        "admin",
+        "logentry"
+      ],
+      [
+        "delete_logentry",
+        "admin",
+        "logentry"
+      ],
+      [
+        "view_logentry",
+        "admin",
+        "logentry"
+      ],
+      [
+        "add_group",
+        "auth",
+        "group"
+      ],
+      [
+        "change_group",
+        "auth",
+        "group"
+      ],
+      [
+        "delete_group",
+        "auth",
+        "group"
+      ],
+      [
+        "view_group",
+        "auth",
+        "group"
+      ],
+      [
+        "add_permission",
+        "auth",
+        "permission"
+      ],
+      [
+        "change_permission",
+        "auth",
+        "permission"
+      ],
+      [
+        "delete_permission",
+        "auth",
+        "permission"
+      ],
+      [
+        "view_permission",
+        "auth",
+        "permission"
+      ],
+      [
+        "add_user",
+        "auth",
+        "user"
+      ],
+      [
+        "change_user",
+        "auth",
+        "user"
+      ],
+      [
+        "delete_user",
+        "auth",
+        "user"
+      ],
+      [
+        "view_user",
+        "auth",
+        "user"
+      ],
+      [
+        "add_contenttype",
+        "contenttypes",
+        "contenttype"
+      ],
+      [
+        "change_contenttype",
+        "contenttypes",
+        "contenttype"
+      ],
+      [
+        "delete_contenttype",
+        "contenttypes",
+        "contenttype"
+      ],
+      [
+        "view_contenttype",
+        "contenttypes",
+        "contenttype"
+      ],
+      [
+        "add_announcement",
+        "core",
+        "announcement"
+      ],
+      [
+        "change_announcement",
+        "core",
+        "announcement"
+      ],
+      [
+        "delete_announcement",
+        "core",
+        "announcement"
+      ],
+      [
+        "view_announcement",
+        "core",
+        "announcement"
+      ],
+      [
+        "add_blogpost",
+        "core",
+        "blogpost"
+      ],
+      [
+        "change_blogpost",
+        "core",
+        "blogpost"
+      ],
+      [
+        "delete_blogpost",
+        "core",
+        "blogpost"
+      ],
+      [
+        "view_blogpost",
+        "core",
+        "blogpost"
+      ],
+      [
+        "add_cart",
+        "core",
+        "cart"
+      ],
+      [
+        "change_cart",
+        "core",
+        "cart"
+      ],
+      [
+        "delete_cart",
+        "core",
+        "cart"
+      ],
+      [
+        "view_cart",
+        "core",
+        "cart"
+      ],
+      [
+        "add_cartitem",
+        "core",
+        "cartitem"
+      ],
+      [
+        "change_cartitem",
+        "core",
+        "cartitem"
+      ],
+      [
+        "delete_cartitem",
+        "core",
+        "cartitem"
+      ],
+      [
+        "view_cartitem",
+        "core",
+        "cartitem"
+      ],
+      [
+        "add_comment",
+        "core",
+        "comment"
+      ],
+      [
+        "change_comment",
+        "core",
+        "comment"
+      ],
+      [
+        "delete_comment",
+        "core",
+        "comment"
+      ],
+      [
+        "view_comment",
+        "core",
+        "comment"
+      ],
+      [
+        "add_community",
+        "core",
+        "community"
+      ],
+      [
+        "change_community",
+        "core",
+        "community"
+      ],
+      [
+        "delete_community",
+        "core",
+        "community"
+      ],
+      [
+        "view_community",
+        "core",
+        "community"
+      ],
+      [
+        "add_communitymember",
+        "core",
+        "communitymember"
+      ],
+      [
+        "change_communitymember",
+        "core",
+        "communitymember"
+      ],
+      [
+        "delete_communitymember",
+        "core",
+        "communitymember"
+      ],
+      [
+        "view_communitymember",
+        "core",
+        "communitymember"
+      ],
+      [
+        "add_contact",
+        "core",
+        "contact"
+      ],
+      [
+        "change_contact",
+        "core",
+        "contact"
+      ],
+      [
+        "delete_contact",
+        "core",
+        "contact"
+      ],
+      [
+        "view_contact",
+        "core",
+        "contact"
+      ],
+      [
+        "add_discussion",
+        "core",
+        "discussion"
+      ],
+      [
+        "change_discussion",
+        "core",
+        "discussion"
+      ],
+      [
+        "delete_discussion",
+        "core",
+        "discussion"
+      ],
+      [
+        "view_discussion",
+        "core",
+        "discussion"
+      ],
+      [
+        "add_event",
+        "core",
+        "event"
+      ],
+      [
+        "change_event",
+        "core",
+        "event"
+      ],
+      [
+        "delete_event",
+        "core",
+        "event"
+      ],
+      [
+        "view_event",
+        "core",
+        "event"
+      ],
+      [
+        "add_eventattendee",
+        "core",
+        "eventattendee"
+      ],
+      [
+        "change_eventattendee",
+        "core",
+        "eventattendee"
+      ],
+      [
+        "delete_eventattendee",
+        "core",
+        "eventattendee"
+      ],
+      [
+        "view_eventattendee",
+        "core",
+        "eventattendee"
+      ],
+      [
+        "add_eventregistration",
+        "core",
+        "eventregistration"
+      ],
+      [
+        "change_eventregistration",
+        "core",
+        "eventregistration"
+      ],
+      [
+        "delete_eventregistration",
+        "core",
+        "eventregistration"
+      ],
+      [
+        "view_eventregistration",
+        "core",
+        "eventregistration"
+      ],
+      [
+        "add_externalsite",
+        "core",
+        "externalsite"
+      ],
+      [
+        "change_externalsite",
+        "core",
+        "externalsite"
+      ],
+      [
+        "delete_externalsite",
+        "core",
+        "externalsite"
+      ],
+      [
+        "view_externalsite",
+        "core",
+        "externalsite"
+      ],
+      [
+        "add_membership",
+        "core",
+        "membership"
+      ],
+      [
+        "change_membership",
+        "core",
+        "membership"
+      ],
+      [
+        "delete_membership",
+        "core",
+        "membership"
+      ],
+      [
+        "view_membership",
+        "core",
+        "membership"
+      ],
+      [
+        "add_membershipplan",
+        "core",
+        "membershipplan"
+      ],
+      [
+        "change_membershipplan",
+        "core",
+        "membershipplan"
+      ],
+      [
+        "delete_membershipplan",
+        "core",
+        "membershipplan"
+      ],
+      [
+        "view_membershipplan",
+        "core",
+        "membershipplan"
+      ],
+      [
+        "add_mpesatransaction",
+        "core",
+        "mpesatransaction"
+      ],
+      [
+        "change_mpesatransaction",
+        "core",
+        "mpesatransaction"
+      ],
+      [
+        "delete_mpesatransaction",
+        "core",
+        "mpesatransaction"
+      ],
+      [
+        "view_mpesatransaction",
+        "core",
+        "mpesatransaction"
+      ],
+      [
+        "add_newslettersubscriber",
+        "core",
+        "newslettersubscriber"
+      ],
+      [
+        "change_newslettersubscriber",
+        "core",
+        "newslettersubscriber"
+      ],
+      [
+        "delete_newslettersubscriber",
+        "core",
+        "newslettersubscriber"
+      ],
+      [
+        "view_newslettersubscriber",
+        "core",
+        "newslettersubscriber"
+      ],
+      [
+        "add_order",
+        "core",
+        "order"
+      ],
+      [
+        "change_order",
+        "core",
+        "order"
+      ],
+      [
+        "delete_order",
+        "core",
+        "order"
+      ],
+      [
+        "view_order",
+        "core",
+        "order"
+      ],
+      [
+        "add_orderitem",
+        "core",
+        "orderitem"
+      ],
+      [
+        "change_orderitem",
+        "core",
+        "orderitem"
+      ],
+      [
+        "delete_orderitem",
+        "core",
+        "orderitem"
+      ],
+      [
+        "view_orderitem",
+        "core",
+        "orderitem"
+      ],
+      [
+        "add_partner",
+        "core",
+        "partner"
+      ],
+      [
+        "change_partner",
+        "core",
+        "partner"
+      ],
+      [
+        "delete_partner",
+        "core",
+        "partner"
+      ],
+      [
+        "view_partner",
+        "core",
+        "partner"
+      ],
+      [
+        "add_payment",
+        "core",
+        "payment"
+      ],
+      [
+        "change_payment",
+        "core",
+        "payment"
+      ],
+      [
+        "delete_payment",
+        "core",
+        "payment"
+      ],
+      [
+        "view_payment",
+        "core",
+        "payment"
+      ],
+      [
+        "add_product",
+        "core",
+        "product"
+      ],
+      [
+        "change_product",
+        "core",
+        "product"
+      ],
+      [
+        "delete_product",
+        "core",
+        "product"
+      ],
+      [
+        "view_product",
+        "core",
+        "product"
+      ],
+      [
+        "add_resource",
+        "core",
+        "resource"
+      ],
+      [
+        "change_resource",
+        "core",
+        "resource"
+      ],
+      [
+        "delete_resource",
+        "core",
+        "resource"
+      ],
+      [
+        "view_resource",
+        "core",
+        "resource"
+      ],
+      [
+        "add_resourcetag",
+        "core",
+        "resourcetag"
+      ],
+      [
+        "change_resourcetag",
+        "core",
+        "resourcetag"
+      ],
+      [
+        "delete_resourcetag",
+        "core",
+        "resourcetag"
+      ],
+      [
+        "view_resourcetag",
+        "core",
+        "resourcetag"
+      ],
+      [
+        "add_review",
+        "core",
+        "review"
+      ],
+      [
+        "change_review",
+        "core",
+        "review"
+      ],
+      [
+        "delete_review",
+        "core",
+        "review"
+      ],
+      [
+        "view_review",
+        "core",
+        "review"
+      ],
+      [
+        "add_userprofile",
+        "core",
+        "userprofile"
+      ],
+      [
+        "change_userprofile",
+        "core",
+        "userprofile"
+      ],
+      [
+        "delete_userprofile",
+        "core",
+        "userprofile"
+      ],
+      [
+        "view_userprofile",
+        "core",
+        "userprofile"
+      ],
+      [
+        "add_userrole",
+        "core",
+        "userrole"
+      ],
+      [
+        "change_userrole",
+        "core",
+        "userrole"
+      ],
+      [
+        "delete_userrole",
+        "core",
+        "userrole"
+      ],
+      [
+        "view_userrole",
+        "core",
+        "userrole"
+      ],
+      [
+        "add_session",
+        "sessions",
+        "session"
+      ],
+      [
+        "change_session",
+        "sessions",
+        "session"
+      ],
+      [
+        "delete_session",
+        "sessions",
+        "session"
+      ],
+      [
+        "view_session",
+        "sessions",
+        "session"
+      ],
+      [
+        "add_socialaccount",
+        "socialaccount",
+        "socialaccount"
+      ],
+      [
+        "change_socialaccount",
+        "socialaccount",
+        "socialaccount"
+      ],
+      [
+        "delete_socialaccount",
+        "socialaccount",
+        "socialaccount"
+      ],
+      [
+        "view_socialaccount",
+        "socialaccount",
+        "socialaccount"
+      ],
+      [
+        "add_socialapp",
+        "socialaccount",
+        "socialapp"
+      ],
+      [
+        "change_socialapp",
+        "socialaccount",
+        "socialapp"
+      ],
+      [
+        "delete_socialapp",
+        "socialaccount",
+        "socialapp"
+      ],
+      [
+        "view_socialapp",
+        "socialaccount",
+        "socialapp"
+      ],
+      [
+        "add_socialtoken",
+        "socialaccount",
+        "socialtoken"
+      ],
+      [
+        "change_socialtoken",
+        "socialaccount",
+        "socialtoken"
+      ],
+      [
+        "delete_socialtoken",
+        "socialaccount",
+        "socialtoken"
+      ],
+      [
+        "view_socialtoken",
+        "socialaccount",
+        "socialtoken"
+      ]
+    ]
+  }
+},
+{
+  "model": "core.userprofile",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "tester_1"
+    ],
+    "student_id": "",
+    "department": "Mechanical Engineering",
+    "course": "",
+    "year_of_study": 2,
+    "phone_number": "",
+    "profile_picture": "",
+    "bio": "",
+    "membership_number": "ESA-2025-QZKRH2",
+    "membership_status": "active",
+    "membership_expiry": "2026-07-05",
+    "user_type": "student",
+    "role": null,
+    "custom_permissions": false,
+    "can_post_events": false,
+    "can_post_store_items": false,
+    "can_post_resources": false,
+    "blog_posts_count": 0,
+    "comments_count": 0,
+    "created_at": "2025-05-15T18:13:59.080Z",
+    "updated_at": "2025-10-29T03:13:36.064Z"
+  }
+},
+{
+  "model": "core.userprofile",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "tester_2"
+    ],
+    "student_id": "J174/6153/2023",
+    "department": "EEE",
+    "course": "",
+    "year_of_study": 4,
+    "phone_number": "",
+    "profile_picture": "",
+    "bio": "",
+    "membership_number": "ESA-2025-1WH5UB",
+    "membership_status": "active",
+    "membership_expiry": "2026-07-06",
+    "user_type": "student",
+    "role": null,
+    "custom_permissions": false,
+    "can_post_events": false,
+    "can_post_store_items": false,
+    "can_post_resources": false,
+    "blog_posts_count": 0,
+    "comments_count": 0,
+    "created_at": "2025-05-16T18:38:37.021Z",
+    "updated_at": "2025-07-06T18:36:42.473Z"
+  }
+},
+{
+  "model": "core.userprofile",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "dalton"
+    ],
+    "student_id": "ADMIN003",
+    "department": "Administration",
+    "course": "",
+    "year_of_study": 0,
+    "phone_number": "0793632858",
+    "profile_picture": "",
+    "bio": "",
+    "membership_number": "ESA-2025-EQGB5B",
+    "membership_status": "active",
+    "membership_expiry": "2026-07-26",
+    "user_type": "student",
+    "role": null,
+    "custom_permissions": false,
+    "can_post_events": false,
+    "can_post_store_items": false,
+    "can_post_resources": false,
+    "blog_posts_count": 0,
+    "comments_count": 0,
+    "created_at": "2025-05-17T07:10:58.119Z",
+    "updated_at": "2025-11-21T08:36:11.499Z"
+  }
+},
+{
+  "model": "core.userprofile",
+  "pk": 4,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "student_id": "ADMIN004",
+    "department": "Administration",
+    "course": "",
+    "year_of_study": 0,
+    "phone_number": "",
+    "profile_picture": "",
+    "bio": "",
+    "membership_number": null,
+    "membership_status": "active",
+    "membership_expiry": "2035-05-17",
+    "user_type": "staff",
+    "role": 1,
+    "custom_permissions": true,
+    "can_post_events": false,
+    "can_post_store_items": false,
+    "can_post_resources": false,
+    "blog_posts_count": 0,
+    "comments_count": 0,
+    "created_at": "2025-05-17T07:45:40.598Z",
+    "updated_at": "2025-10-29T03:33:49.064Z"
+  }
+},
+{
+  "model": "core.userprofile",
+  "pk": 5,
+  "fields": {
+    "user": [
+      "moderator"
+    ],
+    "student_id": "ADMIN005",
+    "department": "Administration",
+    "course": "",
+    "year_of_study": 0,
+    "phone_number": "",
+    "profile_picture": "",
+    "bio": "",
+    "membership_number": null,
+    "membership_status": "active",
+    "membership_expiry": "2035-05-17",
+    "user_type": "staff",
+    "role": 2,
+    "custom_permissions": true,
+    "can_post_events": false,
+    "can_post_store_items": false,
+    "can_post_resources": false,
+    "blog_posts_count": 0,
+    "comments_count": 0,
+    "created_at": "2025-05-17T12:50:19.541Z",
+    "updated_at": "2025-07-07T20:08:33.507Z"
+  }
+},
+{
+  "model": "core.userprofile",
+  "pk": 6,
+  "fields": {
+    "user": [
+      "default_commenter"
+    ],
+    "student_id": "COMMENT001",
+    "department": "Comment Department",
+    "course": "",
+    "year_of_study": 1,
+    "phone_number": "",
+    "profile_picture": "",
+    "bio": "Default commenter profile",
+    "membership_number": null,
+    "membership_status": "inactive",
+    "membership_expiry": null,
+    "user_type": "student",
+    "role": null,
+    "custom_permissions": false,
+    "can_post_events": false,
+    "can_post_store_items": false,
+    "can_post_resources": false,
+    "blog_posts_count": 0,
+    "comments_count": 0,
+    "created_at": "2025-07-14T11:42:47.562Z",
+    "updated_at": "2025-07-14T11:42:47.562Z"
+  }
+},
+{
+  "model": "core.membership",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "tester_1"
+    ],
+    "plan_type": "first_year",
+    "amount": "2.00",
+    "payment_method": "mpesa",
+    "status": "completed",
+    "is_active": true,
+    "start_date": "2025-07-04T12:21:08Z",
+    "end_date": "2026-07-04T12:21:08Z",
+    "created_at": "2025-07-04T12:21:08.895Z",
+    "updated_at": "2025-11-14T22:14:45.978Z",
+    "referred_by": null,
+    "membership_number": "ESA-2025-7YSRK4",
+    "payment": null,
+    "transaction_code": null,
+    "payment_verified": false,
+    "verified_by": null,
+    "verification_date": null,
+    "verification_notes": ""
+  }
+},
+{
+  "model": "core.membership",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "tester_1"
+    ],
+    "plan_type": "first_year",
+    "amount": "2.00",
+    "payment_method": "mpesa",
+    "status": "completed",
+    "is_active": true,
+    "start_date": "2025-07-05T07:29:34.101Z",
+    "end_date": "2026-07-05T07:29:34.101Z",
+    "created_at": "2025-07-04T12:22:31.800Z",
+    "updated_at": "2025-07-05T07:29:34.101Z",
+    "referred_by": null,
+    "membership_number": "ESA-2025-QZKRH2",
+    "payment": null,
+    "transaction_code": null,
+    "payment_verified": false,
+    "verified_by": null,
+    "verification_date": null,
+    "verification_notes": ""
+  }
+},
+{
+  "model": "core.membership",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "tester_1"
+    ],
+    "plan_type": "first_year",
+    "amount": "2.00",
+    "payment_method": "mpesa",
+    "status": "completed",
+    "is_active": true,
+    "start_date": "2025-07-04T12:23:14.524Z",
+    "end_date": "2026-07-04T12:23:14.524Z",
+    "created_at": "2025-07-04T12:23:14.526Z",
+    "updated_at": "2025-07-04T12:23:14.526Z",
+    "referred_by": null,
+    "membership_number": "ESA-2025-BJZE9A",
+    "payment": null,
+    "transaction_code": null,
+    "payment_verified": false,
+    "verified_by": null,
+    "verification_date": null,
+    "verification_notes": ""
+  }
+},
+{
+  "model": "core.membership",
+  "pk": 4,
+  "fields": {
+    "user": [
+      "tester_3"
+    ],
+    "plan_type": "other_students",
+    "amount": "2.00",
+    "payment_method": "mpesa",
+    "status": "completed",
+    "is_active": true,
+    "start_date": "2025-07-05T07:28:19Z",
+    "end_date": "2026-07-05T07:28:33Z",
+    "created_at": "2025-07-05T07:28:37.399Z",
+    "updated_at": "2025-07-05T07:28:37.399Z",
+    "referred_by": null,
+    "membership_number": "ESA12345",
+    "payment": null,
+    "transaction_code": null,
+    "payment_verified": false,
+    "verified_by": null,
+    "verification_date": null,
+    "verification_notes": ""
+  }
+},
+{
+  "model": "core.membership",
+  "pk": 5,
+  "fields": {
+    "user": [
+      "tester_2"
+    ],
+    "plan_type": "first_year",
+    "amount": "2.00",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "is_active": false,
+    "start_date": "2025-07-06T18:17:29.681Z",
+    "end_date": "2026-07-06T18:17:29.681Z",
+    "created_at": "2025-07-06T18:17:29.683Z",
+    "updated_at": "2025-07-06T18:17:29.683Z",
+    "referred_by": null,
+    "membership_number": "ESA-2025-9OMD4J",
+    "payment": 49,
+    "transaction_code": null,
+    "payment_verified": false,
+    "verified_by": null,
+    "verification_date": null,
+    "verification_notes": ""
+  }
+},
+{
+  "model": "core.membership",
+  "pk": 6,
+  "fields": {
+    "user": [
+      "tester_2"
+    ],
+    "plan_type": "first_year",
+    "amount": "2.00",
+    "payment_method": "mpesa",
+    "status": "completed",
+    "is_active": true,
+    "start_date": "2025-07-06T18:18:23.699Z",
+    "end_date": "2026-07-06T18:18:23.699Z",
+    "created_at": "2025-07-06T18:18:23.701Z",
+    "updated_at": "2025-07-06T18:18:23.701Z",
+    "referred_by": null,
+    "membership_number": "ESA-2025-1WH5UB",
+    "payment": 50,
+    "transaction_code": null,
+    "payment_verified": false,
+    "verified_by": null,
+    "verification_date": null,
+    "verification_notes": ""
+  }
+},
+{
+  "model": "core.membership",
+  "pk": 7,
+  "fields": {
+    "user": [
+      "dalton"
+    ],
+    "plan_type": "first_year",
+    "amount": "2.00",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "is_active": false,
+    "start_date": "2025-07-26T00:00:00Z",
+    "end_date": "2026-07-26T00:00:00Z",
+    "created_at": "2025-07-26T21:19:25.003Z",
+    "updated_at": "2025-07-26T21:19:25.003Z",
+    "referred_by": [
+      "tester_1"
+    ],
+    "membership_number": null,
+    "payment": 51,
+    "transaction_code": null,
+    "payment_verified": false,
+    "verified_by": null,
+    "verification_date": null,
+    "verification_notes": ""
+  }
+},
+{
+  "model": "core.membership",
+  "pk": 8,
+  "fields": {
+    "user": [
+      "dalton"
+    ],
+    "plan_type": "first_year",
+    "amount": "2.00",
+    "payment_method": "mpesa",
+    "status": "completed",
+    "is_active": true,
+    "start_date": "2025-07-26T21:47:07.696Z",
+    "end_date": "2026-07-26T21:47:07.696Z",
+    "created_at": "2025-07-26T21:40:55.934Z",
+    "updated_at": "2025-07-26T21:47:07.700Z",
+    "referred_by": [
+      "tester_1"
+    ],
+    "membership_number": "ESA-2025-EQGB5B",
+    "payment": 52,
+    "transaction_code": null,
+    "payment_verified": false,
+    "verified_by": null,
+    "verification_date": null,
+    "verification_notes": ""
+  }
+},
+{
+  "model": "core.membership",
+  "pk": 9,
+  "fields": {
+    "user": [
+      "tester_1"
+    ],
+    "plan_type": "first_year",
+    "amount": "2.00",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "is_active": false,
+    "start_date": "2025-07-30T17:13:29.165Z",
+    "end_date": "2026-07-30T17:13:29.165Z",
+    "created_at": "2025-07-30T17:13:29.166Z",
+    "updated_at": "2025-07-30T17:13:29.166Z",
+    "referred_by": null,
+    "membership_number": "ESA-2025-6ZJKT7",
+    "payment": 53,
+    "transaction_code": null,
+    "payment_verified": false,
+    "verified_by": null,
+    "verification_date": null,
+    "verification_notes": ""
+  }
+},
+{
+  "model": "core.membership",
+  "pk": 10,
+  "fields": {
+    "user": [
+      "tester_1"
+    ],
+    "plan_type": "first_year",
+    "amount": "2.00",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "is_active": false,
+    "start_date": "2025-07-30T17:13:33.522Z",
+    "end_date": "2026-07-30T17:13:33.522Z",
+    "created_at": "2025-07-30T17:13:33.523Z",
+    "updated_at": "2025-07-30T17:13:33.523Z",
+    "referred_by": null,
+    "membership_number": "ESA-2025-V9SLCA",
+    "payment": 54,
+    "transaction_code": null,
+    "payment_verified": false,
+    "verified_by": null,
+    "verification_date": null,
+    "verification_notes": ""
+  }
+}
+]
