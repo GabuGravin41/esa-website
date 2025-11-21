@@ -96,7 +96,8 @@ class Command(BaseCommand):
                 'status': 'active',
                 'expiry': '2026-07-26',
                 'phone': '0793632858',
-                'is_staff': True
+                'is_staff': True,
+                'is_superuser': True
             },
             {
                 'username': 'esa-admin',
@@ -109,7 +110,8 @@ class Command(BaseCommand):
                 'year': 1,
                 'status': 'active',
                 'expiry': '2026-11-16',
-                'is_staff': True
+                'is_staff': True,
+                'is_superuser': True
             },
         ]
         
@@ -133,6 +135,7 @@ class Command(BaseCommand):
                 first_name=user_data.get('first_name', ''),
                 last_name=user_data.get('last_name', ''),
                 is_staff=user_data.get('is_staff', False),
+                is_superuser=user_data.get('is_superuser', False),
                 password='ChangeMe123!'  # They'll need to reset password
             )
             
@@ -175,4 +178,3 @@ class Command(BaseCommand):
         self.stdout.write('\n⚠️  DEFAULT PASSWORD: ChangeMe123!')
         self.stdout.write('Users will need to reset their passwords.')
         self.stdout.write('='*70)
-
