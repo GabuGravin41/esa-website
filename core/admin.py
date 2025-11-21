@@ -30,7 +30,7 @@ class UserRoleAdmin(admin.ModelAdmin):
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = ('user_full_name', 'student_id', 'membership_number', 'department', 'year_of_study', 
-                   'membership_status', 'membership_expiry', 'phone_number', 'created_at')
+                   'membership_status', 'membership_expiry', 'has_membership_record', 'phone_number', 'created_at')
     search_fields = ('user__username', 'user__email', 'user__first_name', 'user__last_name', 
                     'student_id', 'membership_number', 'department', 'phone_number')
     list_filter = ('department', 'year_of_study', 'membership_status', 'user_type', 'created_at')
@@ -65,26 +65,132 @@ class UserProfileAdmin(admin.ModelAdmin):
     user_full_name.short_description = "Full Name"
     user_full_name.admin_order_field = 'user__first_name'
     
+    def has_membership_record(self, obj):
+        """Check if user has a Membership record"""
+        from .models import Membership
+        has_record = Membership.objects.filter(user=obj.user).exists()
+        if has_record:
+            return '✓ Yes'
+        else:
+            return '❌ Missing'
+    has_membership_record.short_description = "Has Membership?"
+    
     def get_queryset(self, request):
         return super().get_queryset(request).select_related('user', 'role')
     
     actions = ['activate_membership', 'deactivate_membership', 'export_members']
     
+    def save_model(self, request, obj, form, change):
+        """
+        Override save_model to sync with Membership model
+        """
+        super().save_model(request, obj, form, change)
+        
+        # If membership status was changed
+        if 'membership_status' in form.changed_data:
+            if obj.membership_status == 'active':
+                # Find or create a membership for this user
+                from .models import Membership
+                from django.utils import timezone
+                from datetime import timedelta
+                
+                # First try to find any existing membership (not just completed ones)
+                membership = Membership.objects.filter(
+                    user=obj.user
+                ).order_by('-created_at').first()
+                
+                if membership:
+                    # Activate existing membership
+                    membership.activate()
+                else:
+                    # Create a new membership if none exists
+                    membership = Membership.objects.create(
+                        user=obj.user,
+                        plan_type='other_students',
+                        amount=300,
+                        payment_method='manual',
+                        status='completed',
+                        is_active=True,
+                        start_date=timezone.now(),
+                        end_date=timezone.now() + timedelta(days=365)
+                    )
+                    # Generate membership number
+                    if not membership.membership_number:
+                        membership.membership_number = membership.generate_membership_number()
+                        membership.save()
+                    
+                    # Sync profile with new membership
+                    obj.membership_number = membership.membership_number
+                    obj.membership_expiry = membership.end_date.date()
+                    obj.save(update_fields=['membership_number', 'membership_expiry'])
+            else:
+                # Deactivate all active memberships for this user
+                from .models import Membership
+                Membership.objects.filter(
+                    user=obj.user, 
+                    is_active=True
+                ).update(is_active=False, status='expired')
+    
     def activate_membership(self, request, queryset):
         from django.utils import timezone
         from datetime import timedelta
+        from .models import Membership
         
+        activated_count = 0
         for profile in queryset:
             profile.membership_status = 'active'
             if not profile.membership_expiry:
                 profile.membership_expiry = timezone.now().date() + timedelta(days=365)
             profile.save()
+            
+            # Find or create membership
+            membership = Membership.objects.filter(
+                user=profile.user
+            ).order_by('-created_at').first()
+            
+            if membership:
+                # Activate existing membership
+                if not membership.is_active:
+                    membership.activate()
+                    activated_count += 1
+            else:
+                # Create new membership if none exists
+                membership = Membership.objects.create(
+                    user=profile.user,
+                    plan_type='other_students',
+                    amount=300,
+                    payment_method='manual',
+                    status='completed',
+                    is_active=True,
+                    start_date=timezone.now(),
+                    end_date=timezone.now() + timedelta(days=365)
+                )
+                if not membership.membership_number:
+                    membership.membership_number = membership.generate_membership_number()
+                    membership.save()
+                
+                # Sync profile with new membership
+                profile.membership_number = membership.membership_number
+                profile.membership_expiry = membership.end_date.date()
+                profile.save(update_fields=['membership_number', 'membership_expiry'])
+                activated_count += 1
         
-        self.message_user(request, f"Successfully activated membership for {queryset.count()} users.")
+        self.message_user(request, f"Successfully activated membership for {activated_count} users.")
     activate_membership.short_description = "Activate membership for selected users"
     
     def deactivate_membership(self, request, queryset):
-        queryset.update(membership_status='inactive')
+        from .models import Membership
+        
+        for profile in queryset:
+            profile.membership_status = 'inactive'
+            profile.save()
+            
+            # Deactivate all memberships for this user
+            Membership.objects.filter(
+                user=profile.user,
+                is_active=True
+            ).update(is_active=False, status='expired')
+            
         self.message_user(request, f"Successfully deactivated membership for {queryset.count()} users.")
     deactivate_membership.short_description = "Deactivate membership for selected users"
     
