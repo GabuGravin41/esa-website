@@ -1,0 +1,7264 @@
+[
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "admin",
+    "model": "logentry"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "auth",
+    "model": "permission"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "auth",
+    "model": "group"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "auth",
+    "model": "user"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "contenttypes",
+    "model": "contenttype"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "sessions",
+    "model": "session"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "core",
+    "model": "blogpost"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "core",
+    "model": "contact"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "core",
+    "model": "membershipplan"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "core",
+    "model": "order"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "core",
+    "model": "product"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "core",
+    "model": "resourcetag"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "core",
+    "model": "userrole"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "core",
+    "model": "cart"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "core",
+    "model": "community"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "core",
+    "model": "discussion"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "core",
+    "model": "comment"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "core",
+    "model": "event"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "core",
+    "model": "membership"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "core",
+    "model": "payment"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "core",
+    "model": "mpesatransaction"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "core",
+    "model": "orderitem"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "core",
+    "model": "cartitem"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "core",
+    "model": "userprofile"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "core",
+    "model": "resource"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "core",
+    "model": "communitymember"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "core",
+    "model": "eventattendee"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "core",
+    "model": "eventregistration"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "core",
+    "model": "announcement"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "core",
+    "model": "newslettersubscriber"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "core",
+    "model": "partner"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "core",
+    "model": "externalsite"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "account",
+    "model": "emailaddress"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "account",
+    "model": "emailconfirmation"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "socialaccount",
+    "model": "socialaccount"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "socialaccount",
+    "model": "socialapp"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "socialaccount",
+    "model": "socialtoken"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "core",
+    "model": "review"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "0amsjwd3jdnm0932gszj0cibqpajejqu",
+  "fields": {
+    "session_data": ".eJxVjs0OwiAQhN-FsyH9obL06N1nIMvCWtRAU9pEY3x3W9ODXuf7ZjIvYXGZB7uUMNnoRS-UOPxmDukW0gb8FdMlS8ppnqKTmyJ3WuQ5-3A_7e7fwIBlWNtONdSZwLo2GiqvqFVN0yEjH1ulAahyDHq1WmCuAVg7Ax0TUgA25vuqhFJiTjY8xjg9RV-9P4keP0M:1uODLE:Rsupj0pISjfzN9HkXnfJLBuIRzWjm72h8181rI8GTx4",
+    "expire_date": "2025-06-15T10:33:28.479Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "5084y3tewbt1fjgkgkiq29zk7oaj8sjp",
+  "fields": {
+    "session_data": ".eJxVjs0OwiAQhN-FsyH9obL06N1nIMvCWtRAU9pEY3x3W9ODXuf7ZjIvYXGZB7uUMNnoRS-UOPxmDukW0gb8FdMlS8ppnqKTmyJ3WuQ5-3A_7e7fwIBlWNtONdSZwLo2GiqvqFVN0yEjH1ulAahyDHq1WmCuAVg7Ax0TUgA25vuqhFJiTjY8xjg9RV-9P4keP0M:1uJw1p:uft0-U6Sd-po-QpPZ55Oz-zRz381maEFBpYYz1cyOr8",
+    "expire_date": "2025-06-03T15:15:45.871Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "52hfw0mrbineg40349zaegvd7bjs5rat",
+  "fields": {
+    "session_data": ".eJxVjEEOwiAQRe_C2pApUKEu3XsGAjODRQ2Y0iYa4921SRe6_e_99xI-LPPol8aTzyQOwojd7xYDXrmsgC6hnKvEWuYpR7kqcqNNnirx7bi5f4ExtPH7ViGaANZ0ySpCrZEMACBxHJLCTuvBkganzR6Bh5Rc3_UW2RnrGMCqNdq4tVyL58c9T09xgPcHgMI-pw:1vDwwX:mB2SNHTgrPxXqCq4ia6-evvQX7mCF5apO-RYUieHnmw",
+    "expire_date": "2025-11-05T03:33:49.082Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "71m2ll15zgp2pkf9qbt9itxqppc1rovv",
+  "fields": {
+    "session_data": ".eJxVjskOgjAURf-la9IwFPvK0r3f0HR4T6qGkhZUYvx3wbDQ7b3nDi-mzTz1es6YdPCsY4IVv5o17orDZviLGc6RuzhMKVi-IXx3Mz9Fj7fjzv4V9Cb3a9qK2rUKSVZKQumFa0Rdt4YMHRohAVxpCeRKNUBUAZC0ClpyxiGQUt9XGXMOcdD4HENaWFcW7B7wgV6PKfrZTbpalxbM7P0BKB5H9g:1uOvie:whOJQ4vKz5MLz2JzjckdhmE4RRpEnwwmgtd4lkD2UZA",
+    "expire_date": "2025-06-17T09:56:36.431Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "7hz3orvzjoajyb246ccqpxlsnyyom0vr",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAUBf-FtSFcHoV26d5vIDwuFjXQlDbRGP_dNulCt2fmzJtYty6jXRvONkcyEE5Ov5t34Y5lB_HmyrXSUMsyZ093hR600UuN-Dgf7l9gdG3c3tCZKDUDoyXveKc8gpECjEs9gNIJfRJBM7VJAhiHIJLuRa9RBSmFgT3asLVci8XnlOcXGdjnCylNPWs:1uPRj9:TXlHPtKoOPBwsKtLbCB0JiwM_rzG9yyAqY3rAOhAegk",
+    "expire_date": "2025-06-18T20:07:15.932Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "7iudr3pctl4kzxt9gu3lkfjj9zd76po2",
+  "fields": {
+    "session_data": ".eJxlj91uwyAMRt_F11GUHzIgl7vvMyAwdkM7QQTJ1qrquzedoqrTbn3OZ3--gbHrMpm1UDbBwwgCqveZs3im-AT-ZOMx1ZjikoOrn0q901Ifkqevz939s2CyZdrSTnQ4aGLZaqkaL7AXXTdYtvzRC6kUNo6V3KxeMbdKsXRaDYwWSbHWv60KlRJSNHSZQ77C2FTwHeiHvJlz8isupt0uXanAP9C9ANq8wHi7VzBvXUM8mpT9_rxo7w9lMVuR:1uREcr:zuq11tOqRRkWpQ5AxjrbQSfoya4yjtmoexOqbAAo8vE",
+    "expire_date": "2025-06-23T18:32:09.055Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "7mnrnpeqnxngb1qm7qh9f8twijwxpnya",
+  "fields": {
+    "session_data": ".eJxVjMEOwiAQBf-FsyHQUuj26N1vIMsCFjVgoE00xn_XJj3o9c28eTGL6zLbtYVqk2cTk-zwuzmka8gb8BfM58Kp5KUmxzeF77TxU_Hhdtzdv8CMbf6--x5GaQyiElpG0g6Fiio6BbHTA0rovTegNKEAoigEAZBxzumBTNeNW7SF1lLJNjzuqT7ZJN4ff14_FA:1uSfSF:BpotrWmEcTZBFcFV4NQiIqYqGOARRcaSn1XtwV6zxvQ",
+    "expire_date": "2025-06-27T17:23:07.523Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "b1c9bprn3wkvy0hzl7uj6qtf0ugztihh",
+  "fields": {
+    "session_data": ".eJxVjssOgjAQRf-la9JAKXbq0r3f0PQxI1VDTQsqMf67YFjo9t5zHy9m7DT2ZiqYTQxszySrfjVn_QWH1QhnO5wS92kYc3R8RfjmFn5MAa-Hjf0r6G3pl7STwncaSTVaQR2kb6UQnSVLu1YqAF87ArVQLRA1AKScho689Qik9fdVwVJiGgw-bzHPbF9X7B7xgcFkLGnKHo1YpmYs7P0BcZlIXg:1uYyLP:QwIZzRwbUppilWy3Ut3bSN6XYkAyoa4G7Z61r12ucCs",
+    "expire_date": "2025-07-15T02:46:07.548Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "c702r2q6essatn2wz54obi71orgm1ya0",
+  "fields": {
+    "session_data": ".eJxVjs0OwiAQhN-FsyH9obL06N1nIMvCWtRAU9pEY3x3W9ODXuf7ZjIvYXGZB7uUMNnoRS-UOPxmDukW0gb8FdMlS8ppnqKTmyJ3WuQ5-3A_7e7fwIBlWNtONdSZwLo2GiqvqFVN0yEjH1ulAahyDHq1WmCuAVg7Ax0TUgA25vuqhFJiTjY8xjg9RV-9P4keP0M:1uRcwA:GcsKpo5m6sYTmqNmYu8hT4vXvFK0gCRLgRjwPmgeCrw",
+    "expire_date": "2025-06-24T20:29:42.937Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "dsnaaqad1xvov21knhm9ascwqf32ngso",
+  "fields": {
+    "session_data": ".eJxVjsEOwiAQRP-FsyGFLhR69O43kGVZLWqoKW2iMf671vSg13lvJvMUAZd5CEvlKeQkegFi95tFpAuXFaQzltMoaSzzlKNcFbnRKg9j4ut-c_8GBqzDp-0SA4FV1oNtjHKaQLEiG8Foy56wwwjQsWlbkzzT0aE3ugVC7R3576vKteaxBL7f8vQQffN6A2eTPpU:1uaEXs:UqHqPO0HN2hHPg19xYZUhLUXmjElVL0N8N1grd95E8I",
+    "expire_date": "2025-07-18T14:16:12.753Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "epj22ykan2f38m02zgyjh65jh3vtjxjt",
+  "fields": {
+    "session_data": ".eJxVjMsOgjAQRf-la9P0wWBh6d5vaMrMVKqmJRQSjfHflYSFbu8597yED-sy-rXy7BOJXlhx-N2GgDfOG6BryJciseRlToPcFLnTKs-F-H7a3b_AGOr4fZu2wQYaFzptFVuF2HIkxw4Ao2ZHZKyJR83RgNURCAxoVKHDDhgxbtHKtaaSPT-mND9Fr94fjRM_dQ:1vK3qV:gqUYUWxg5vyOG9Evn7zT6tRKuRKxH2NcsCpnwF9fBAg",
+    "expire_date": "2025-11-22T00:08:51.086Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "hjehv337r4m45yucao5ehqh7v6uybi3f",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSGUxwAu3fsNZIBBqgaS0q6M_65NutDtPefcFwu4rTVsg5YwZ3Zmip1-t4jpQW0H-Y7t1nnqbV3myHeFH3Twa8_0vBzu30HFUb-1IZOEsso6CejBxJQluByzl5CgUNGgsRiS6CZLiFQUeCl9KlpMEQR7fwDmZTgR:1vK1ky:wRq-0cwPxvakQTwNsEHRZyrA3dVXFU6In47h-4FgX9g",
+    "expire_date": "2025-11-21T21:55:00.356Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "i4gt9cb5pgce8iovfvl9h23u36957v1d",
+  "fields": {
+    "session_data": ".eJxVjMsOgjAQRf-la9P0wWBh6d5vaMrMVKqmJRQSjfHflYSFbu8597yED-sy-rXy7BOJXlhx-N2GgDfOG6BryJciseRlToPcFLnTKs-F-H7a3b_AGOr4fZu2wQYaFzptFVuF2HIkxw4Ao2ZHZKyJR83RgNURCAxoVKHDDhgxbtHKtaaSPT-mND9Fr94fjRM_dQ:1vMMcq:XLK79ormvw8_-GWec-TowAOtMbSUi_FcLVVNZxFmh74",
+    "expire_date": "2025-11-28T08:36:16.617Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "jjbcjt09pebsxtq169sahzfa0cm0sqpu",
+  "fields": {
+    "session_data": ".eJxVjE0OwiAYRO_C2hAKtAWX7j0D-X6oRQ2Y0iYa491tky50N5l5894iwDKPYalxConFUVhx-O0Q6BbzNvAV8qVIKnmeEsoNkfta5blwvJ929k8wQh3XN7SGDKJ3XlsPDXS2ZwM4aOWaNWnoYwuuI-OGplUKCHlAikzoNPfWb9Iaa00lh_h8pOkljurzBZ_fP8g:1vDwwR:BXZAaWFIQUumeBQqpdiL-xljBItey8G70W6V5NIYseY",
+    "expire_date": "2025-11-05T03:33:43.300Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "jwcskaw9vu5unu0nocyemgg2bj53eje2",
+  "fields": {
+    "session_data": ".eJxVjEEOwiAQRe_C2hCgRZwu3XsGMmUGQQ2Y0iYa4921SRe6_e_99xIelzn5pfHkM4lBaLH73UYMVy4roAuWc5WhlnnKo1wVudEmT5X4dtzcv0DClr5vYNtZ7aIOnQVU0MMISNEoAjR70xGQBhcxsma05gDY2-iYVVA9oIY12ri1XIvnxz1PTzGo9weD5T8h:1ubHgJ:r0Tom4fYLez4bJrU-2uBNo4rN-TrZ9v-DrbTpDRvzXI",
+    "expire_date": "2025-07-21T11:49:15.476Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "kn9286zudq6svbjip640zipr2sf6zdq7",
+  "fields": {
+    "session_data": ".eJxVjcsOgjAURP-la0J6-6DFpXu_oSntRaqGml5QifHfhYSFbuecmXkz5-dpcDNhcSmyAxOs-s06H644biBe_HjOdcjjVFJXb0q9U6pPOeLtuLt_A4OnYW1DY6MyHKxRohGN7hCskmB93wJo02PXy2C4XiUJXECQvWlla1AHpaSFbZSQKOXR4eueysIOvGKPhE-MriDluQR0sF4tSOzzBeHARoU:1uHisV:ZVraCcrQ5zNZnl2qiAJV46iyjDwZKpOqvXphjpwFsUs",
+    "expire_date": "2025-05-28T12:48:59.608Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "mh2h5p7qyncwp6rw8aajpbam4t3velti",
+  "fields": {
+    "session_data": ".eJxVjEEKwyAQAP_iuYiJhrg59t43iOuujW3REhNIKf17EXJorzPDvIXz2zq7rfLiEolJGHH6ZejDnXMTdPP5WmQoeV0SypbIw1Z5KcSP89H-DWZf57bt2KIlQiAdg1Jaj6ofiBQgGOr7AYO1FAcCsN5G9sp3YwQzGiQImtu0cq2pZMf7My0vManPF6clP7U:1vDwwW:E1Xgirc0rERHryPkez1I_UOIQRuVKlRbTAxjLlDgdlA",
+    "expire_date": "2025-11-05T03:33:48.448Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "ndw75c03bkpp4atliwhubpiaed5xacs6",
+  "fields": {
+    "session_data": ".eJxVj8EOwiAQRP-Fs2lKsRR69O43kF12tagpDbRqY_x3aeJBrzNvZjIv4WCZB7dkTi6Q6IUUu18NwV953Ay6wHiOlY_jnAJWG1J93VwdI_Ht8GX_CgbIQ0lbac0e6xNpyUYZbbXvGkDkTlmqLVKDHXvSCnRjFICRLWCN6tRCA97iVpo55xBHx88ppFX09U7cAz-Y3JQiLX52siytnAvsIc2if5U7vXy_P5f4TH0:1uhBbu:1IUH3RtoaBlvLUk4W2mi6O_cDRXWskVs9iq8ub_JVLI",
+    "expire_date": "2025-08-06T18:33:06.648Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "o60392hlw5uoeq1cr0ohe0e0v7w9wwio",
+  "fields": {
+    "session_data": ".eJxVjMEOwiAQBf-FsyHQUuj26N1vIMsCFjVgoE00xn_XJj3o9c28eTGL6zLbtYVqk2cTk-zwuzmka8gb8BfM58Kp5KUmxzeF77TxU_Hhdtzdv8CMbf6--x5GaQyiElpG0g6Fiio6BbHTA0rovTegNKEAoigEAZBxzumBTNeNW7SF1lLJNjzuqT7ZJN4ff14_FA:1uYVL2:YT-cMCjAbPVP_i376eUjlmNF_NoEiuS8Q8payDSEgCc",
+    "expire_date": "2025-07-13T19:47:48.960Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "p3hhtxczb62p8pr53cvjgc4vf3xfhnzi",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAUBf-FtSFcHoV26d5vIDwuFjXQlDbRGP_dNulCt2fmzJtYty6jXRvONkcyEE5Ov5t34Y5lB_HmyrXSUMsyZ093hR600UuN-Dgf7l9gdG3c3tCZKDUDoyXveKc8gpECjEs9gNIJfRJBM7VJAhiHIJLuRa9RBSmFgT3asLVci8XnlOcXGdjnCylNPWs:1uPItB:oum0BQrjSfdo9wA2-ss060ePIgJehgqzSVegMeR69zo",
+    "expire_date": "2025-06-18T10:41:01.193Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "v6q6z58w2yx0n395nb1g0z2v2c8bvg6j",
+  "fields": {
+    "session_data": ".eJxVjEEOwiAQRe_C2hCgRZwu3XsGMmUGQQ2Y0iYa4921SRe6_e_99xIelzn5pfHkM4lBaLH73UYMVy4roAuWc5WhlnnKo1wVudEmT5X4dtzcv0DClr5vYNtZ7aIOnQVU0MMISNEoAjR70xGQBhcxsma05gDY2-iYVVA9oIY12ri1XIvnxz1PTzGo9weD5T8h:1udQ9U:RajFNgU9NCGntIldzXU96J6o62MMAPpUUDoHTuP9c1I",
+    "expire_date": "2025-07-27T09:16:12.272Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "xh0uv0xwgyqqremnsst6egzogovd94hx",
+  "fields": {
+    "session_data": ".eJxVjMEOwiAQBf-FsyHQUuj26N1vIMsCFjVgoE00xn_XJj3o9c28eTGL6zLbtYVqk2cTk-zwuzmka8gb8BfM58Kp5KUmxzeF77TxU_Hhdtzdv8CMbf6--x5GaQyiElpG0g6Fiio6BbHTA0rovTegNKEAoigEAZBxzumBTNeNW7SF1lLJNjzuqT7ZJN4ff14_FA:1uXg1l:q443Jc4_OVQR6IlVXAQc26ZUQ5ou2TxB9ZmkywNgHx8",
+    "expire_date": "2025-07-11T13:00:29.792Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "xwj4ng3ol9q1pjaje2jnk4na46pzzdnl",
+  "fields": {
+    "session_data": ".eJxVjs0KwjAQhN8lZwn9Sc3Go_c-Q9hsdm1VGkhaRcR3t4Ue9DrfN8O8lcdlHvxSOPsxqpMy6vCbBaQbTxuIV5wuSVOa5jwGvSl6p0X3KfL9vLt_AwOWYW0H01DnWGztLFTRUGuapkNBObbGAlAVBOxqtSBSA4gNDjohJAZxbnv1GPnJ0WcuacnEvl5nX1zU5wsKkEEg:1uGHGA:2-7D58k6o_yANKw20wxQymP5xqYDkUniwgI04qGe_9o",
+    "expire_date": "2025-05-24T13:07:26.164Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "z889tper8jlxqextap2kx961wfvrvdj7",
+  "fields": {
+    "session_data": ".eJxVjs0OwiAQhN-FsyH9obL06N1nIMvCWtRAU9pEY3x3W9ODXuf7ZjIvYXGZB7uUMNnoRS-UOPxmDukW0gb8FdMlS8ppnqKTmyJ3WuQ5-3A_7e7fwIBlWNtONdSZwLo2GiqvqFVN0yEjH1ulAahyDHq1WmCuAVg7Ax0TUgA25vuqhFJiTjY8xjg9RV-9P4keP0M:1uOIlf:xMj2bX3E7rHaJ53J5svmN-ZM1GpeQ7J72GiyeyUuidY",
+    "expire_date": "2025-06-15T16:21:07.556Z"
+  }
+},
+{
+  "model": "core.userrole",
+  "pk": 1,
+  "fields": {
+    "name": "System Admin",
+    "description": "Full system administrator with all permissions",
+    "can_post_events": true,
+    "can_post_store_items": true,
+    "can_post_resources": true,
+    "is_admin": true,
+    "can_manage_permissions": true,
+    "created_at": "2025-05-15T18:13:59.085Z",
+    "updated_at": "2025-11-14T22:12:38.846Z"
+  }
+},
+{
+  "model": "core.userrole",
+  "pk": 2,
+  "fields": {
+    "name": "Moderator",
+    "description": "can add and moderate site  content",
+    "can_post_events": true,
+    "can_post_store_items": true,
+    "can_post_resources": true,
+    "is_admin": false,
+    "can_manage_permissions": false,
+    "created_at": "2025-05-15T18:13:59.088Z",
+    "updated_at": "2025-11-14T22:12:48.712Z"
+  }
+},
+{
+  "model": "core.userrole",
+  "pk": 3,
+  "fields": {
+    "name": "Vendor",
+    "description": "Can add and manage their own products in the store",
+    "can_post_events": false,
+    "can_post_store_items": true,
+    "can_post_resources": false,
+    "is_admin": false,
+    "can_manage_permissions": false,
+    "created_at": "2025-07-04T13:02:00.998Z",
+    "updated_at": "2025-11-14T22:13:00.144Z"
+  }
+},
+{
+  "model": "core.userrole",
+  "pk": 4,
+  "fields": {
+    "name": "esa-excom",
+    "description": "administrative priviledges",
+    "can_post_events": true,
+    "can_post_store_items": true,
+    "can_post_resources": true,
+    "is_admin": false,
+    "can_manage_permissions": true,
+    "created_at": "2025-11-14T22:13:29.629Z",
+    "updated_at": "2025-11-14T22:13:29.629Z"
+  }
+},
+{
+  "model": "core.membershipplan",
+  "pk": 1,
+  "fields": {
+    "name": "First Year Student Plan",
+    "plan_type": "first_year",
+    "price": "2.00",
+    "duration": 12,
+    "is_active": true,
+    "created_at": "2025-07-26T21:11:16.134Z",
+    "updated_at": "2025-07-26T21:11:16.134Z"
+  }
+},
+{
+  "model": "core.membershipplan",
+  "pk": 2,
+  "fields": {
+    "name": "Other Students Plan",
+    "plan_type": "other_students",
+    "price": "2.00",
+    "duration": 12,
+    "is_active": true,
+    "created_at": "2025-07-26T21:11:16.139Z",
+    "updated_at": "2025-07-26T21:11:16.139Z"
+  }
+},
+{
+  "model": "core.membershipplan",
+  "pk": 3,
+  "fields": {
+    "name": "Graduate/Professional Plan",
+    "plan_type": "graduate",
+    "price": "2.00",
+    "duration": 12,
+    "is_active": true,
+    "created_at": "2025-07-26T21:11:16.142Z",
+    "updated_at": "2025-07-26T21:11:16.142Z"
+  }
+},
+{
+  "model": "core.eventregistration",
+  "pk": 1,
+  "fields": {
+    "event": 1,
+    "user": 1,
+    "registration_date": "2025-06-10T19:28:45.660Z",
+    "status": "registered",
+    "payment_status": false,
+    "created_at": "2025-06-10T19:28:45.660Z",
+    "updated_at": "2025-06-10T19:28:45.660Z"
+  }
+},
+{
+  "model": "core.eventregistration",
+  "pk": 3,
+  "fields": {
+    "event": 1,
+    "user": 2,
+    "registration_date": "2025-06-11T08:54:46.446Z",
+    "status": "registered",
+    "payment_status": false,
+    "created_at": "2025-06-11T08:54:46.446Z",
+    "updated_at": "2025-06-11T08:54:46.446Z"
+  }
+},
+{
+  "model": "core.eventregistration",
+  "pk": 4,
+  "fields": {
+    "event": 1,
+    "user": 4,
+    "registration_date": "2025-06-17T19:16:02.271Z",
+    "status": "registered",
+    "payment_status": false,
+    "created_at": "2025-06-17T19:16:02.271Z",
+    "updated_at": "2025-06-17T19:16:02.271Z"
+  }
+},
+{
+  "model": "core.product",
+  "pk": 1,
+  "fields": {
+    "name": "shorts",
+    "slug": "shorts",
+    "description": "shorts in plenty",
+    "price": "1.00",
+    "stock": 64,
+    "image": "product_images/Screenshot_from_2025-06-08_23-33-17.png",
+    "category": "general",
+    "is_active": true,
+    "featured": false,
+    "vendor": null,
+    "vendor_user": null,
+    "approved_by": null,
+    "is_approved": true,
+    "view_count": 14,
+    "created_at": "2025-06-08T20:33:38.249Z",
+    "updated_at": "2025-07-04T11:49:29.746Z"
+  }
+},
+{
+  "model": "core.product",
+  "pk": 2,
+  "fields": {
+    "name": "pen",
+    "slug": "pen",
+    "description": "the pen that redifines tomorrow",
+    "price": "3.00",
+    "stock": 34,
+    "image": "product_images/Screenshot_from_2025-06-16_19-42-42.png",
+    "category": "general",
+    "is_active": true,
+    "featured": false,
+    "vendor": "Wizero-enterprises",
+    "vendor_user": null,
+    "approved_by": null,
+    "is_approved": true,
+    "view_count": 2,
+    "created_at": "2025-06-16T16:48:15.603Z",
+    "updated_at": "2025-06-16T17:36:51.362Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 1,
+  "fields": {
+    "user": 4,
+    "payment": null,
+    "order_date": "2025-06-16T16:49:07.854Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T16:49:07.854Z",
+    "updated_at": "2025-06-16T16:49:07.854Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 2,
+  "fields": {
+    "user": 4,
+    "payment": null,
+    "order_date": "2025-06-16T16:49:27.214Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T16:49:27.214Z",
+    "updated_at": "2025-06-16T16:49:27.214Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 3,
+  "fields": {
+    "user": 4,
+    "payment": null,
+    "order_date": "2025-06-16T16:51:31.096Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T16:51:31.096Z",
+    "updated_at": "2025-06-16T16:51:31.096Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 4,
+  "fields": {
+    "user": 4,
+    "payment": null,
+    "order_date": "2025-06-16T16:53:24.578Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T16:53:24.578Z",
+    "updated_at": "2025-06-16T16:53:24.578Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 5,
+  "fields": {
+    "user": 4,
+    "payment": null,
+    "order_date": "2025-06-16T16:53:34.761Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T16:53:34.761Z",
+    "updated_at": "2025-06-16T16:53:34.761Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 6,
+  "fields": {
+    "user": 4,
+    "payment": null,
+    "order_date": "2025-06-16T16:53:41.776Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T16:53:41.776Z",
+    "updated_at": "2025-06-16T16:53:41.776Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 7,
+  "fields": {
+    "user": 4,
+    "payment": null,
+    "order_date": "2025-06-16T16:53:50.615Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T16:53:50.615Z",
+    "updated_at": "2025-06-16T16:53:50.615Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 8,
+  "fields": {
+    "user": 4,
+    "payment": 8,
+    "order_date": "2025-06-16T16:59:44.574Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T16:59:44.574Z",
+    "updated_at": "2025-06-16T16:59:44.590Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 9,
+  "fields": {
+    "user": 4,
+    "payment": 9,
+    "order_date": "2025-06-16T17:01:49.327Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:01:49.327Z",
+    "updated_at": "2025-06-16T17:01:49.345Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 10,
+  "fields": {
+    "user": 4,
+    "payment": 10,
+    "order_date": "2025-06-16T17:02:06.118Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:02:06.118Z",
+    "updated_at": "2025-06-16T17:02:06.130Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 11,
+  "fields": {
+    "user": 4,
+    "payment": 11,
+    "order_date": "2025-06-16T17:02:08.470Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:02:08.470Z",
+    "updated_at": "2025-06-16T17:02:08.484Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 12,
+  "fields": {
+    "user": 4,
+    "payment": 12,
+    "order_date": "2025-06-16T17:02:11.655Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:02:11.655Z",
+    "updated_at": "2025-06-16T17:02:11.666Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 13,
+  "fields": {
+    "user": 4,
+    "payment": 13,
+    "order_date": "2025-06-16T17:02:42.207Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:02:42.207Z",
+    "updated_at": "2025-06-16T17:02:42.226Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 14,
+  "fields": {
+    "user": 4,
+    "payment": 14,
+    "order_date": "2025-06-16T17:03:28.105Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:03:28.105Z",
+    "updated_at": "2025-06-16T17:03:28.122Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 15,
+  "fields": {
+    "user": 4,
+    "payment": 15,
+    "order_date": "2025-06-16T17:05:16.766Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:05:16.767Z",
+    "updated_at": "2025-06-16T17:05:16.779Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 16,
+  "fields": {
+    "user": 4,
+    "payment": 16,
+    "order_date": "2025-06-16T17:14:38.381Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:14:38.381Z",
+    "updated_at": "2025-06-16T17:14:38.396Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 17,
+  "fields": {
+    "user": 4,
+    "payment": 17,
+    "order_date": "2025-06-16T17:14:41.047Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:14:41.047Z",
+    "updated_at": "2025-06-16T17:14:41.060Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 18,
+  "fields": {
+    "user": 4,
+    "payment": 18,
+    "order_date": "2025-06-16T17:15:28.836Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:15:28.836Z",
+    "updated_at": "2025-06-16T17:15:28.855Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 19,
+  "fields": {
+    "user": 4,
+    "payment": 19,
+    "order_date": "2025-06-16T17:15:38.691Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:15:38.691Z",
+    "updated_at": "2025-06-16T17:15:38.704Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 20,
+  "fields": {
+    "user": 4,
+    "payment": 20,
+    "order_date": "2025-06-16T17:16:02.070Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:16:02.070Z",
+    "updated_at": "2025-06-16T17:16:02.087Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 21,
+  "fields": {
+    "user": 4,
+    "payment": 21,
+    "order_date": "2025-06-16T17:16:45.038Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:16:45.038Z",
+    "updated_at": "2025-06-16T17:16:45.056Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 22,
+  "fields": {
+    "user": 4,
+    "payment": 22,
+    "order_date": "2025-06-16T17:17:01.276Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:17:01.276Z",
+    "updated_at": "2025-06-16T17:17:01.288Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 23,
+  "fields": {
+    "user": 4,
+    "payment": 23,
+    "order_date": "2025-06-16T17:17:13.091Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:17:13.091Z",
+    "updated_at": "2025-06-16T17:17:13.106Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 24,
+  "fields": {
+    "user": 4,
+    "payment": 24,
+    "order_date": "2025-06-16T17:32:35.389Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:32:35.389Z",
+    "updated_at": "2025-06-16T17:32:35.408Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 25,
+  "fields": {
+    "user": 4,
+    "payment": 25,
+    "order_date": "2025-06-16T17:33:32.516Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:33:32.516Z",
+    "updated_at": "2025-06-16T17:33:32.533Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 26,
+  "fields": {
+    "user": 4,
+    "payment": 26,
+    "order_date": "2025-06-16T17:33:39.671Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:33:39.671Z",
+    "updated_at": "2025-06-16T17:33:39.684Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 27,
+  "fields": {
+    "user": 4,
+    "payment": 27,
+    "order_date": "2025-06-16T17:33:48.203Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:33:48.203Z",
+    "updated_at": "2025-06-16T17:33:48.216Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 28,
+  "fields": {
+    "user": 4,
+    "payment": 28,
+    "order_date": "2025-06-16T17:33:49.866Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:33:49.866Z",
+    "updated_at": "2025-06-16T17:33:49.879Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 29,
+  "fields": {
+    "user": 4,
+    "payment": 29,
+    "order_date": "2025-06-16T17:33:52.676Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:33:52.677Z",
+    "updated_at": "2025-06-16T17:33:52.687Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 30,
+  "fields": {
+    "user": 4,
+    "payment": 30,
+    "order_date": "2025-06-16T17:33:52.856Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:33:52.856Z",
+    "updated_at": "2025-06-16T17:33:52.869Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 31,
+  "fields": {
+    "user": 4,
+    "payment": 31,
+    "order_date": "2025-06-16T17:34:28.835Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:34:28.836Z",
+    "updated_at": "2025-06-16T17:34:28.854Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 32,
+  "fields": {
+    "user": 4,
+    "payment": 32,
+    "order_date": "2025-06-16T17:34:34.118Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:34:34.118Z",
+    "updated_at": "2025-06-16T17:34:34.132Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 33,
+  "fields": {
+    "user": 4,
+    "payment": 33,
+    "order_date": "2025-06-16T17:34:50.236Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:34:50.236Z",
+    "updated_at": "2025-06-16T17:34:50.250Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 34,
+  "fields": {
+    "user": 4,
+    "payment": 34,
+    "order_date": "2025-06-16T17:34:51.963Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:34:51.963Z",
+    "updated_at": "2025-06-16T17:34:51.974Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 35,
+  "fields": {
+    "user": 4,
+    "payment": 35,
+    "order_date": "2025-06-16T17:34:52.138Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:34:52.138Z",
+    "updated_at": "2025-06-16T17:34:52.149Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 36,
+  "fields": {
+    "user": 4,
+    "payment": 36,
+    "order_date": "2025-06-16T17:34:52.924Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:34:52.924Z",
+    "updated_at": "2025-06-16T17:34:52.940Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 37,
+  "fields": {
+    "user": 4,
+    "payment": 37,
+    "order_date": "2025-06-16T17:34:53.103Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:34:53.103Z",
+    "updated_at": "2025-06-16T17:34:53.116Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 38,
+  "fields": {
+    "user": 4,
+    "payment": 38,
+    "order_date": "2025-06-16T17:34:54.235Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:34:54.235Z",
+    "updated_at": "2025-06-16T17:34:54.247Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 39,
+  "fields": {
+    "user": 4,
+    "payment": 39,
+    "order_date": "2025-06-16T17:36:51.338Z",
+    "status": "pending",
+    "total_amount": "3.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:36:51.338Z",
+    "updated_at": "2025-06-16T17:36:51.353Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 40,
+  "fields": {
+    "user": 4,
+    "payment": 40,
+    "order_date": "2025-06-16T17:43:15.782Z",
+    "status": "processing",
+    "total_amount": "1.00",
+    "payment_status": true,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:43:15.782Z",
+    "updated_at": "2025-06-16T17:43:24.721Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 41,
+  "fields": {
+    "user": 4,
+    "payment": 41,
+    "order_date": "2025-06-16T17:50:28.040Z",
+    "status": "processing",
+    "total_amount": "1.00",
+    "payment_status": true,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-16T17:50:28.040Z",
+    "updated_at": "2025-06-16T17:50:36.977Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 42,
+  "fields": {
+    "user": 1,
+    "payment": 42,
+    "order_date": "2025-06-20T16:27:55.377Z",
+    "status": "completed",
+    "total_amount": "1.00",
+    "payment_status": true,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-20T16:27:55.377Z",
+    "updated_at": "2025-06-20T16:27:57.501Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 43,
+  "fields": {
+    "user": 1,
+    "payment": 43,
+    "order_date": "2025-06-20T17:00:05.113Z",
+    "status": "pending",
+    "total_amount": "1.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-06-20T17:00:05.113Z",
+    "updated_at": "2025-06-20T17:00:05.127Z"
+  }
+},
+{
+  "model": "core.order",
+  "pk": 44,
+  "fields": {
+    "user": 1,
+    "payment": 45,
+    "order_date": "2025-07-04T11:49:29.729Z",
+    "status": "pending",
+    "total_amount": "1.00",
+    "payment_status": false,
+    "shipping_name": "Dalton Omondi",
+    "shipping_address": "Kenyatta University, Nairobi, Kenya",
+    "shipping_phone": "0793632858",
+    "shipping_email": "daltonomondi588@gmail.com",
+    "delivery_method": "pickup",
+    "created_at": "2025-07-04T11:49:29.729Z",
+    "updated_at": "2025-07-04T11:49:29.740Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 1,
+  "fields": {
+    "order": 8,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T16:59:44.594Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 2,
+  "fields": {
+    "order": 9,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:01:49.351Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 3,
+  "fields": {
+    "order": 10,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:02:06.134Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 4,
+  "fields": {
+    "order": 11,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:02:08.487Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 5,
+  "fields": {
+    "order": 12,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:02:11.670Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 6,
+  "fields": {
+    "order": 13,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:02:42.231Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 7,
+  "fields": {
+    "order": 14,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:03:28.127Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 8,
+  "fields": {
+    "order": 15,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:05:16.783Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 9,
+  "fields": {
+    "order": 16,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:14:38.400Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 10,
+  "fields": {
+    "order": 17,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:14:41.064Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 11,
+  "fields": {
+    "order": 18,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:15:28.864Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 12,
+  "fields": {
+    "order": 19,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:15:38.710Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 13,
+  "fields": {
+    "order": 20,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:16:02.090Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 14,
+  "fields": {
+    "order": 21,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:16:45.061Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 15,
+  "fields": {
+    "order": 22,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:17:01.292Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 16,
+  "fields": {
+    "order": 23,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:17:13.110Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 17,
+  "fields": {
+    "order": 24,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:32:35.414Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 18,
+  "fields": {
+    "order": 25,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:33:32.537Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 19,
+  "fields": {
+    "order": 26,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:33:39.689Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 20,
+  "fields": {
+    "order": 27,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:33:48.220Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 21,
+  "fields": {
+    "order": 28,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:33:49.883Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 22,
+  "fields": {
+    "order": 29,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:33:52.691Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 23,
+  "fields": {
+    "order": 30,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:33:52.874Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 24,
+  "fields": {
+    "order": 31,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:34:28.858Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 25,
+  "fields": {
+    "order": 32,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:34:34.137Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 26,
+  "fields": {
+    "order": 33,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:34:50.254Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 27,
+  "fields": {
+    "order": 34,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:34:51.978Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 28,
+  "fields": {
+    "order": 35,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:34:52.153Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 29,
+  "fields": {
+    "order": 36,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:34:52.944Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 30,
+  "fields": {
+    "order": 37,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:34:53.120Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 31,
+  "fields": {
+    "order": 38,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:34:54.251Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 32,
+  "fields": {
+    "order": 39,
+    "product": 2,
+    "quantity": 1,
+    "price": "3.00",
+    "total_price": "3.00",
+    "created_at": "2025-06-16T17:36:51.358Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 33,
+  "fields": {
+    "order": 40,
+    "product": 1,
+    "quantity": 1,
+    "price": "1.00",
+    "total_price": "1.00",
+    "created_at": "2025-06-16T17:43:15.798Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 34,
+  "fields": {
+    "order": 41,
+    "product": 1,
+    "quantity": 1,
+    "price": "1.00",
+    "total_price": "1.00",
+    "created_at": "2025-06-16T17:50:28.061Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 35,
+  "fields": {
+    "order": 42,
+    "product": 1,
+    "quantity": 1,
+    "price": "1.00",
+    "total_price": "1.00",
+    "created_at": "2025-06-20T16:27:55.397Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 36,
+  "fields": {
+    "order": 43,
+    "product": 1,
+    "quantity": 1,
+    "price": "1.00",
+    "total_price": "1.00",
+    "created_at": "2025-06-20T17:00:05.131Z"
+  }
+},
+{
+  "model": "core.orderitem",
+  "pk": 37,
+  "fields": {
+    "order": 44,
+    "product": 1,
+    "quantity": 1,
+    "price": "1.00",
+    "total_price": "1.00",
+    "created_at": "2025-07-04T11:49:29.743Z"
+  }
+},
+{
+  "model": "core.blogpost",
+  "pk": 1,
+  "fields": {
+    "title": "Beyond Transformers: Towards Better Architectures for Intelligent Models",
+    "content": "### **Abstract**\r\n\r\nSince their inception in 2017, Transformers have become the dominant architecture in deep learning, particularly in natural language processing (NLP), computer vision, and multimodal modeling. Despite their success, Transformers come with limitations in terms of computational cost, scalability, and long-term memory handling. In recent years, innovative techniques have emerged that either extend the Transformer or offer promising alternatives. This paper explores the limitations of Transformer models and outlines strategies and architectures—such as the MLA (Memory as Latent Action) method—that aim to overcome these constraints, ultimately suggesting ways to build models that are not only more efficient but also more capable of generalization and reasoning.\r\n\r\n---\r\n\r\n### **1. Introduction**\r\n\r\nTransformers revolutionized the field of deep learning by introducing self-attention mechanisms that enabled models to capture long-range dependencies. Despite their versatility and dominance, Transformers are computationally intensive and struggle with memory efficiency, especially in long-context tasks. The search for models better than Transformers is driven by the desire to:\r\n\r\n* Reduce quadratic time and space complexity.\r\n* Improve generalization across modalities.\r\n* Enhance reasoning and memory.\r\n\r\nThis paper examines current approaches to transcend Transformers and highlights the Memory as Latent Action (MLA) framework as a promising direction.\r\n\r\n---\r\n\r\n### **2. Limitations of Transformers**\r\n\r\nTransformers, while powerful, suffer from key limitations:\r\n\r\n* **Quadratic Complexity**: The self-attention mechanism scales quadratically with sequence length.\r\n* **Limited Memory Retention**: Transformers struggle to retain information over long sequences despite positional encoding.\r\n* **Lack of Efficient Reasoning**: Reasoning over facts or across modalities remains limited without external tools or memory augmentation.\r\n* **Poor Sample Efficiency**: Transformers often require massive data and compute to generalize effectively.\r\n\r\n---\r\n\r\n### **3. Building Better Models: Core Directions**\r\n\r\n#### **3.1 Sparse and Linear Attention Variants**\r\n\r\nEfforts like **Performer**, **Linformer**, **Reformer**, and **Longformer** reduce the quadratic attention bottleneck by using approximate or sparse attention techniques.\r\n\r\n* **Performer** uses kernel-based methods for linear attention.\r\n* **Reformer** combines locality-sensitive hashing with reversible layers for efficient training.\r\n\r\nThese variants improve scalability but still inherit fundamental Transformer assumptions.\r\n\r\n#### **3.2 State-Space and Recurrence-Based Models**\r\n\r\nModels like **Mamba**, **RWKV**, and **S4** introduce **state-space representations** or recurrence to replace attention.\r\n\r\n* **Mamba** (Selective State Space Model) achieves linear time while retaining competitive performance.\r\n* These models handle long contexts efficiently and show promise in outperforming Transformers on certain benchmarks.\r\n\r\n#### **3.3 Modular and Routing-Based Architectures**\r\n\r\nInspired by biological brains, **modular architectures** like **Gato**, **Pathways**, and **Mixture-of-Experts (MoE)** allow dynamic routing of information.\r\n\r\n* Google’s **Pathways** model trains a single model across diverse tasks with different expert subnetworks.\r\n* Such routing allows for **adaptive computation**, improving efficiency and task specialization.\r\n\r\n---\r\n\r\n### **4. Memory as Latent Action (MLA): Extending Transformer Functionality**\r\n\r\nThe **MLA framework** proposes using **memory as a decision-making agent** that acts upon latent states. Instead of treating memory passively (as in standard attention), it **interacts actively** with tokens.\r\n\r\n#### **4.1 Concept and Mechanism**\r\n\r\n* Memory is modeled as a latent space where each memory slot is a trainable entity that can perform **actions**.\r\n* Unlike vanilla Transformers, where attention is uniform and context-free, MLA allows the model to **dynamically interact with and manipulate memory**.\r\n\r\n#### **4.2 Advantages Over Standard Attention**\r\n\r\n* **Greater reasoning power**: Memory acts as a control interface, enabling dynamic behavior akin to planning or decision-making.\r\n* **Extended context**: Memory interactions can simulate longer-term memory without increasing attention computation.\r\n* **Modularity**: Memories can be reused, shared, or composited across tasks and inputs.\r\n\r\n#### **4.3 MLA in Practice**\r\n\r\nMLA-inspired systems can be built on top of Transformers or combined with non-attention-based backbones. This leads to **hybrid systems** that retain Transformer-like performance while offering better efficiency and memory management.\r\n\r\nExample applications:\r\n\r\n* **Hierarchical agents** in reinforcement learning.\r\n* **Tool-using language models** with structured memory.\r\n* **Meta-learning frameworks** where memory acts as a learned optimizer.\r\n\r\n---\r\n\r\n### **5. General Strategies for Surpassing Transformers**\r\n\r\nTo build architectures better than Transformers, consider the following principles:\r\n\r\n1. **Decouple computation from input length** (e.g., linear or sub-quadratic attention).\r\n2. **Introduce dynamic memory agents**, such as MLA, for better long-term information retention.\r\n3. **Enable adaptive computation**, allowing parts of the model to be selectively activated.\r\n4. **Incorporate recurrence or state-space models** for sequence modeling.\r\n5. **Use hierarchical representations** for abstraction and compositionality.\r\n6. **Multimodal grounding** to enhance generalization by integrating structured world knowledge (text, images, actions).\r\n\r\n---\r\n\r\n### **6. Conclusion**\r\n\r\nWhile Transformers remain a milestone in deep learning, their limitations prompt the exploration of more intelligent and scalable architectures. Innovations such as MLA and state-space models challenge the notion that Transformers are the endpoint of model design. By combining memory, adaptive computation, and efficiency, future models may surpass Transformers not just in performance, but in cognitive-like reasoning and generalization.\r\n\r\n---\r\n\r\n### **References**\r\n\r\n* Vaswani et al. (2017), \"Attention is All You Need\"\r\n* Tay et al. (2020), \"Efficient Transformers: A Survey\"\r\n* Gu et al. (2022), \"Efficiently Modeling Long Sequences with Structured State Spaces\"\r\n* Dai et al. (2023), \"MLA: Memory as Latent Action\"\r\n* Dao et al. (2022), \"FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness\"\r\n* Ainslie et al. (2023), \"Mamba: Linear-Time Sequence Modeling with Selective State Spaces\"",
+    "author": 4,
+    "image": "blog_images/Screenshot_from_2025-05-30_17-49-00_C7P68I3.png",
+    "category": "research",
+    "created_at": "2025-05-30T15:07:53.010Z",
+    "updated_at": "2025-06-08T17:38:56.196Z",
+    "is_published": true
+  }
+},
+{
+  "model": "core.contact",
+  "pk": 1,
+  "fields": {
+    "name": "Dalton Omondi",
+    "email": "daltonomondi588@gmail.com",
+    "subject": "checking the message system",
+    "message": "hallo, did you receive this message??",
+    "created_at": "2025-07-07T02:11:50.298Z"
+  }
+},
+{
+  "model": "core.contact",
+  "pk": 2,
+  "fields": {
+    "name": "Dalton Omondi",
+    "email": "daltonomondi588@gmail.com",
+    "subject": "Account recovery",
+    "message": "checking is the email feature works well",
+    "created_at": "2025-07-07T02:18:56.244Z"
+  }
+},
+{
+  "model": "core.contact",
+  "pk": 3,
+  "fields": {
+    "name": "Dalton Omondi",
+    "email": "daltonomondi588@gmail.com",
+    "subject": "Testing the email",
+    "message": "again we test if the email service works or not",
+    "created_at": "2025-07-08T02:12:10.816Z"
+  }
+},
+{
+  "model": "core.contact",
+  "pk": 4,
+  "fields": {
+    "name": "Dalton Omondi",
+    "email": "daltonomondi588@gmail.com",
+    "subject": "Testing the email",
+    "message": "testing the email",
+    "created_at": "2025-07-08T02:18:38.502Z"
+  }
+},
+{
+  "model": "core.contact",
+  "pk": 5,
+  "fields": {
+    "name": "Dalton Omondi",
+    "email": "daltonomondi588@gmail.com",
+    "subject": "Testing the email",
+    "message": "testing the email",
+    "created_at": "2025-07-08T02:36:24.683Z"
+  }
+},
+{
+  "model": "core.contact",
+  "pk": 6,
+  "fields": {
+    "name": "Dalton Omondi",
+    "email": "daltonomondi588@gmail.com",
+    "subject": "Testing the email",
+    "message": "testing email again",
+    "created_at": "2025-07-08T02:36:43.150Z"
+  }
+},
+{
+  "model": "core.resource",
+  "pk": 1,
+  "fields": {
+    "title": "Finetuning machine learning model",
+    "description": "This is a jupyter notebook on finetuning a LLM for dialogue summarization.",
+    "category": "document",
+    "file": "resources/Fine-Tuning_Lab_1.ipynb",
+    "link": null,
+    "thumbnail": "",
+    "uploaded_by": 4,
+    "download_count": 4,
+    "view_count": 2,
+    "is_approved": true,
+    "is_featured": false,
+    "created_at": "2025-05-17T13:07:26.137Z",
+    "updated_at": "2025-05-17T13:07:26.137Z",
+    "tags": []
+  }
+},
+{
+  "model": "core.newslettersubscriber",
+  "pk": 1,
+  "fields": {
+    "email": "daltonomondi588@gmail.com",
+    "subscribed_at": "2025-06-08T17:46:38.900Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 1,
+  "fields": {
+    "payment": 8,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T16:59:44.585Z",
+    "updated_at": "2025-06-16T16:59:44.585Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 2,
+  "fields": {
+    "payment": 9,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:01:49.340Z",
+    "updated_at": "2025-06-16T17:01:49.340Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 3,
+  "fields": {
+    "payment": 10,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:02:06.126Z",
+    "updated_at": "2025-06-16T17:02:06.126Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 4,
+  "fields": {
+    "payment": 11,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:02:08.479Z",
+    "updated_at": "2025-06-16T17:02:08.479Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 5,
+  "fields": {
+    "payment": 12,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:02:11.662Z",
+    "updated_at": "2025-06-16T17:02:11.663Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 6,
+  "fields": {
+    "payment": 13,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:02:42.222Z",
+    "updated_at": "2025-06-16T17:02:42.222Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 7,
+  "fields": {
+    "payment": 14,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:03:28.117Z",
+    "updated_at": "2025-06-16T17:03:28.117Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 8,
+  "fields": {
+    "payment": 15,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:05:16.775Z",
+    "updated_at": "2025-06-16T17:05:16.775Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 9,
+  "fields": {
+    "payment": 16,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:14:38.392Z",
+    "updated_at": "2025-06-16T17:14:38.392Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 10,
+  "fields": {
+    "payment": 17,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:14:41.056Z",
+    "updated_at": "2025-06-16T17:14:41.056Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 11,
+  "fields": {
+    "payment": 18,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:15:28.852Z",
+    "updated_at": "2025-06-16T17:15:28.852Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 12,
+  "fields": {
+    "payment": 19,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:15:38.701Z",
+    "updated_at": "2025-06-16T17:15:38.701Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 13,
+  "fields": {
+    "payment": 20,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:16:02.082Z",
+    "updated_at": "2025-06-16T17:16:02.082Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 14,
+  "fields": {
+    "payment": 21,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:16:45.051Z",
+    "updated_at": "2025-06-16T17:16:45.051Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 15,
+  "fields": {
+    "payment": 22,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:17:01.285Z",
+    "updated_at": "2025-06-16T17:17:01.285Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 16,
+  "fields": {
+    "payment": 23,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:17:13.102Z",
+    "updated_at": "2025-06-16T17:17:13.102Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 17,
+  "fields": {
+    "payment": 24,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:32:35.401Z",
+    "updated_at": "2025-06-16T17:32:35.401Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 18,
+  "fields": {
+    "payment": 25,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:33:32.529Z",
+    "updated_at": "2025-06-16T17:33:32.529Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 19,
+  "fields": {
+    "payment": 26,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:33:39.681Z",
+    "updated_at": "2025-06-16T17:33:39.681Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 20,
+  "fields": {
+    "payment": 27,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:33:48.212Z",
+    "updated_at": "2025-06-16T17:33:48.212Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 21,
+  "fields": {
+    "payment": 28,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:33:49.875Z",
+    "updated_at": "2025-06-16T17:33:49.875Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 22,
+  "fields": {
+    "payment": 29,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:33:52.684Z",
+    "updated_at": "2025-06-16T17:33:52.684Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 23,
+  "fields": {
+    "payment": 30,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:33:52.864Z",
+    "updated_at": "2025-06-16T17:33:52.864Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 24,
+  "fields": {
+    "payment": 31,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:34:28.849Z",
+    "updated_at": "2025-06-16T17:34:28.849Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 25,
+  "fields": {
+    "payment": 32,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:34:34.128Z",
+    "updated_at": "2025-06-16T17:34:34.128Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 26,
+  "fields": {
+    "payment": 33,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:34:50.245Z",
+    "updated_at": "2025-06-16T17:34:50.245Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 27,
+  "fields": {
+    "payment": 34,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:34:51.971Z",
+    "updated_at": "2025-06-16T17:34:51.971Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 28,
+  "fields": {
+    "payment": 35,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:34:52.145Z",
+    "updated_at": "2025-06-16T17:34:52.145Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 29,
+  "fields": {
+    "payment": 36,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:34:52.935Z",
+    "updated_at": "2025-06-16T17:34:52.935Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 30,
+  "fields": {
+    "payment": 37,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:34:53.113Z",
+    "updated_at": "2025-06-16T17:34:53.113Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 31,
+  "fields": {
+    "payment": 38,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:34:54.243Z",
+    "updated_at": "2025-06-16T17:34:54.243Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 32,
+  "fields": {
+    "payment": 39,
+    "phone_number": "0793632858",
+    "amount": "3.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-16T17:36:51.349Z",
+    "updated_at": "2025-06-16T17:36:51.349Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 33,
+  "fields": {
+    "payment": 40,
+    "phone_number": "0793632858",
+    "amount": "1.00",
+    "checkout_request_id": "ws_40_b25003ad",
+    "merchant_request_id": null,
+    "mpesa_receipt": "DEV32615",
+    "transaction_date": "2025-06-16T17:43:24.708Z",
+    "status": "completed",
+    "result_code": "0",
+    "result_description": "Development mode: Simulated successful payment",
+    "created_at": "2025-06-16T17:43:15.790Z",
+    "updated_at": "2025-06-16T17:43:24.708Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 34,
+  "fields": {
+    "payment": 41,
+    "phone_number": "0793632858",
+    "amount": "1.00",
+    "checkout_request_id": "ws_41_102affea",
+    "merchant_request_id": null,
+    "mpesa_receipt": "DEV80339",
+    "transaction_date": "2025-06-16T17:50:36.964Z",
+    "status": "completed",
+    "result_code": "0",
+    "result_description": "Development mode: Simulated successful payment",
+    "created_at": "2025-06-16T17:50:28.050Z",
+    "updated_at": "2025-06-16T17:50:36.964Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 35,
+  "fields": {
+    "payment": 42,
+    "phone_number": "0793632858",
+    "amount": "1.00",
+    "checkout_request_id": "ws_42_31bd80aa",
+    "merchant_request_id": null,
+    "mpesa_receipt": "DEV1606900",
+    "transaction_date": "2025-06-20T16:27:57.492Z",
+    "status": "completed",
+    "result_code": "0",
+    "result_description": "The service request is processed successfully",
+    "created_at": "2025-06-20T16:27:55.389Z",
+    "updated_at": "2025-06-20T16:27:57.492Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 36,
+  "fields": {
+    "payment": 43,
+    "phone_number": "0793632858",
+    "amount": "1.00",
+    "checkout_request_id": "ws_CO_20062025200005767793632858",
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-06-20T17:00:05.122Z",
+    "updated_at": "2025-06-20T17:00:05.123Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 37,
+  "fields": {
+    "payment": 45,
+    "phone_number": "0793632858",
+    "amount": "1.00",
+    "checkout_request_id": "ws_CO_04072025144930403793632858",
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-07-04T11:49:29.736Z",
+    "updated_at": "2025-07-04T11:49:29.736Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 38,
+  "fields": {
+    "payment": 46,
+    "phone_number": "+254793632858",
+    "amount": "2.00",
+    "checkout_request_id": "ws_CO_04072025152109096793632858",
+    "merchant_request_id": "25fe-4f8a-9a66-d5cbb202bfb431762",
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-07-04T12:21:08.903Z",
+    "updated_at": "2025-07-04T12:21:08.903Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 39,
+  "fields": {
+    "payment": 47,
+    "phone_number": "+254793632858",
+    "amount": "2.00",
+    "checkout_request_id": "ws_CO_04072025152233585793632858",
+    "merchant_request_id": "25fe-4f8a-9a66-d5cbb202bfb431781",
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-07-04T12:22:31.809Z",
+    "updated_at": "2025-07-04T12:22:31.809Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 40,
+  "fields": {
+    "payment": 48,
+    "phone_number": "",
+    "amount": "2.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": "TG41KRCQGZ",
+    "transaction_date": "2025-07-04T12:23:14.537Z",
+    "status": "completed",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-07-04T12:23:14.537Z",
+    "updated_at": "2025-07-04T12:23:14.537Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 41,
+  "fields": {
+    "payment": 49,
+    "phone_number": "+254793632858",
+    "amount": "2.00",
+    "checkout_request_id": "ws_CO_06072025211954888793632858",
+    "merchant_request_id": "61fa-4c2c-b3db-088b7d2b6ffc78929",
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-07-06T18:17:29.691Z",
+    "updated_at": "2025-07-06T18:17:29.691Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 42,
+  "fields": {
+    "payment": 50,
+    "phone_number": "",
+    "amount": "2.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": "TG68WQZ88E",
+    "transaction_date": "2025-07-06T18:18:23.711Z",
+    "status": "completed",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-07-06T18:18:23.712Z",
+    "updated_at": "2025-07-06T18:18:23.712Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 43,
+  "fields": {
+    "payment": 52,
+    "phone_number": "254793632858",
+    "amount": "2.00",
+    "checkout_request_id": "ws_CO_270720250041250793632858",
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-07-26T21:41:24.038Z",
+    "updated_at": "2025-07-26T21:41:24.038Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 44,
+  "fields": {
+    "payment": 53,
+    "phone_number": "+254793632858",
+    "amount": "2.00",
+    "checkout_request_id": "ws_CO_300720252013303793632858",
+    "merchant_request_id": "c9aa-485e-a88a-be3f936aa2bc2362",
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-07-30T17:13:29.174Z",
+    "updated_at": "2025-07-30T17:13:29.174Z"
+  }
+},
+{
+  "model": "core.mpesatransaction",
+  "pk": 45,
+  "fields": {
+    "payment": 54,
+    "phone_number": "+254793632858",
+    "amount": "2.00",
+    "checkout_request_id": null,
+    "merchant_request_id": null,
+    "mpesa_receipt": null,
+    "transaction_date": null,
+    "status": "pending",
+    "result_code": null,
+    "result_description": null,
+    "created_at": "2025-07-30T17:13:33.532Z",
+    "updated_at": "2025-07-30T17:13:33.532Z"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ],
+    "codename": "add_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ],
+    "codename": "change_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ],
+    "codename": "delete_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ],
+    "codename": "view_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ],
+    "codename": "add_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ],
+    "codename": "change_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ],
+    "codename": "delete_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ],
+    "codename": "view_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add group",
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "codename": "add_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change group",
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "codename": "change_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete group",
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "codename": "delete_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view group",
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "codename": "view_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add user",
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "codename": "add_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change user",
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "codename": "change_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete user",
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "codename": "delete_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view user",
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "codename": "view_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ],
+    "codename": "add_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ],
+    "codename": "change_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ],
+    "codename": "delete_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ],
+    "codename": "view_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add session",
+    "content_type": [
+      "sessions",
+      "session"
+    ],
+    "codename": "add_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change session",
+    "content_type": [
+      "sessions",
+      "session"
+    ],
+    "codename": "change_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete session",
+    "content_type": [
+      "sessions",
+      "session"
+    ],
+    "codename": "delete_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view session",
+    "content_type": [
+      "sessions",
+      "session"
+    ],
+    "codename": "view_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add blog post",
+    "content_type": [
+      "core",
+      "blogpost"
+    ],
+    "codename": "add_blogpost"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change blog post",
+    "content_type": [
+      "core",
+      "blogpost"
+    ],
+    "codename": "change_blogpost"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete blog post",
+    "content_type": [
+      "core",
+      "blogpost"
+    ],
+    "codename": "delete_blogpost"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view blog post",
+    "content_type": [
+      "core",
+      "blogpost"
+    ],
+    "codename": "view_blogpost"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add contact",
+    "content_type": [
+      "core",
+      "contact"
+    ],
+    "codename": "add_contact"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change contact",
+    "content_type": [
+      "core",
+      "contact"
+    ],
+    "codename": "change_contact"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete contact",
+    "content_type": [
+      "core",
+      "contact"
+    ],
+    "codename": "delete_contact"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view contact",
+    "content_type": [
+      "core",
+      "contact"
+    ],
+    "codename": "view_contact"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add membership plan",
+    "content_type": [
+      "core",
+      "membershipplan"
+    ],
+    "codename": "add_membershipplan"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change membership plan",
+    "content_type": [
+      "core",
+      "membershipplan"
+    ],
+    "codename": "change_membershipplan"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete membership plan",
+    "content_type": [
+      "core",
+      "membershipplan"
+    ],
+    "codename": "delete_membershipplan"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view membership plan",
+    "content_type": [
+      "core",
+      "membershipplan"
+    ],
+    "codename": "view_membershipplan"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add order",
+    "content_type": [
+      "core",
+      "order"
+    ],
+    "codename": "add_order"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change order",
+    "content_type": [
+      "core",
+      "order"
+    ],
+    "codename": "change_order"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete order",
+    "content_type": [
+      "core",
+      "order"
+    ],
+    "codename": "delete_order"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view order",
+    "content_type": [
+      "core",
+      "order"
+    ],
+    "codename": "view_order"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add product",
+    "content_type": [
+      "core",
+      "product"
+    ],
+    "codename": "add_product"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change product",
+    "content_type": [
+      "core",
+      "product"
+    ],
+    "codename": "change_product"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete product",
+    "content_type": [
+      "core",
+      "product"
+    ],
+    "codename": "delete_product"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view product",
+    "content_type": [
+      "core",
+      "product"
+    ],
+    "codename": "view_product"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add resource tag",
+    "content_type": [
+      "core",
+      "resourcetag"
+    ],
+    "codename": "add_resourcetag"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change resource tag",
+    "content_type": [
+      "core",
+      "resourcetag"
+    ],
+    "codename": "change_resourcetag"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete resource tag",
+    "content_type": [
+      "core",
+      "resourcetag"
+    ],
+    "codename": "delete_resourcetag"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view resource tag",
+    "content_type": [
+      "core",
+      "resourcetag"
+    ],
+    "codename": "view_resourcetag"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add user role",
+    "content_type": [
+      "core",
+      "userrole"
+    ],
+    "codename": "add_userrole"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change user role",
+    "content_type": [
+      "core",
+      "userrole"
+    ],
+    "codename": "change_userrole"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete user role",
+    "content_type": [
+      "core",
+      "userrole"
+    ],
+    "codename": "delete_userrole"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view user role",
+    "content_type": [
+      "core",
+      "userrole"
+    ],
+    "codename": "view_userrole"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add cart",
+    "content_type": [
+      "core",
+      "cart"
+    ],
+    "codename": "add_cart"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change cart",
+    "content_type": [
+      "core",
+      "cart"
+    ],
+    "codename": "change_cart"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete cart",
+    "content_type": [
+      "core",
+      "cart"
+    ],
+    "codename": "delete_cart"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view cart",
+    "content_type": [
+      "core",
+      "cart"
+    ],
+    "codename": "view_cart"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add community",
+    "content_type": [
+      "core",
+      "community"
+    ],
+    "codename": "add_community"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change community",
+    "content_type": [
+      "core",
+      "community"
+    ],
+    "codename": "change_community"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete community",
+    "content_type": [
+      "core",
+      "community"
+    ],
+    "codename": "delete_community"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view community",
+    "content_type": [
+      "core",
+      "community"
+    ],
+    "codename": "view_community"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add discussion",
+    "content_type": [
+      "core",
+      "discussion"
+    ],
+    "codename": "add_discussion"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change discussion",
+    "content_type": [
+      "core",
+      "discussion"
+    ],
+    "codename": "change_discussion"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete discussion",
+    "content_type": [
+      "core",
+      "discussion"
+    ],
+    "codename": "delete_discussion"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view discussion",
+    "content_type": [
+      "core",
+      "discussion"
+    ],
+    "codename": "view_discussion"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add comment",
+    "content_type": [
+      "core",
+      "comment"
+    ],
+    "codename": "add_comment"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change comment",
+    "content_type": [
+      "core",
+      "comment"
+    ],
+    "codename": "change_comment"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete comment",
+    "content_type": [
+      "core",
+      "comment"
+    ],
+    "codename": "delete_comment"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view comment",
+    "content_type": [
+      "core",
+      "comment"
+    ],
+    "codename": "view_comment"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add event",
+    "content_type": [
+      "core",
+      "event"
+    ],
+    "codename": "add_event"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change event",
+    "content_type": [
+      "core",
+      "event"
+    ],
+    "codename": "change_event"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete event",
+    "content_type": [
+      "core",
+      "event"
+    ],
+    "codename": "delete_event"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view event",
+    "content_type": [
+      "core",
+      "event"
+    ],
+    "codename": "view_event"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add membership",
+    "content_type": [
+      "core",
+      "membership"
+    ],
+    "codename": "add_membership"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change membership",
+    "content_type": [
+      "core",
+      "membership"
+    ],
+    "codename": "change_membership"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete membership",
+    "content_type": [
+      "core",
+      "membership"
+    ],
+    "codename": "delete_membership"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view membership",
+    "content_type": [
+      "core",
+      "membership"
+    ],
+    "codename": "view_membership"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add payment",
+    "content_type": [
+      "core",
+      "payment"
+    ],
+    "codename": "add_payment"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change payment",
+    "content_type": [
+      "core",
+      "payment"
+    ],
+    "codename": "change_payment"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete payment",
+    "content_type": [
+      "core",
+      "payment"
+    ],
+    "codename": "delete_payment"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view payment",
+    "content_type": [
+      "core",
+      "payment"
+    ],
+    "codename": "view_payment"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add M-Pesa Transaction",
+    "content_type": [
+      "core",
+      "mpesatransaction"
+    ],
+    "codename": "add_mpesatransaction"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change M-Pesa Transaction",
+    "content_type": [
+      "core",
+      "mpesatransaction"
+    ],
+    "codename": "change_mpesatransaction"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete M-Pesa Transaction",
+    "content_type": [
+      "core",
+      "mpesatransaction"
+    ],
+    "codename": "delete_mpesatransaction"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view M-Pesa Transaction",
+    "content_type": [
+      "core",
+      "mpesatransaction"
+    ],
+    "codename": "view_mpesatransaction"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add order item",
+    "content_type": [
+      "core",
+      "orderitem"
+    ],
+    "codename": "add_orderitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change order item",
+    "content_type": [
+      "core",
+      "orderitem"
+    ],
+    "codename": "change_orderitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete order item",
+    "content_type": [
+      "core",
+      "orderitem"
+    ],
+    "codename": "delete_orderitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view order item",
+    "content_type": [
+      "core",
+      "orderitem"
+    ],
+    "codename": "view_orderitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add cart item",
+    "content_type": [
+      "core",
+      "cartitem"
+    ],
+    "codename": "add_cartitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change cart item",
+    "content_type": [
+      "core",
+      "cartitem"
+    ],
+    "codename": "change_cartitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete cart item",
+    "content_type": [
+      "core",
+      "cartitem"
+    ],
+    "codename": "delete_cartitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view cart item",
+    "content_type": [
+      "core",
+      "cartitem"
+    ],
+    "codename": "view_cartitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add user profile",
+    "content_type": [
+      "core",
+      "userprofile"
+    ],
+    "codename": "add_userprofile"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change user profile",
+    "content_type": [
+      "core",
+      "userprofile"
+    ],
+    "codename": "change_userprofile"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete user profile",
+    "content_type": [
+      "core",
+      "userprofile"
+    ],
+    "codename": "delete_userprofile"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view user profile",
+    "content_type": [
+      "core",
+      "userprofile"
+    ],
+    "codename": "view_userprofile"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add Resource",
+    "content_type": [
+      "core",
+      "resource"
+    ],
+    "codename": "add_resource"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change Resource",
+    "content_type": [
+      "core",
+      "resource"
+    ],
+    "codename": "change_resource"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete Resource",
+    "content_type": [
+      "core",
+      "resource"
+    ],
+    "codename": "delete_resource"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view Resource",
+    "content_type": [
+      "core",
+      "resource"
+    ],
+    "codename": "view_resource"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add community member",
+    "content_type": [
+      "core",
+      "communitymember"
+    ],
+    "codename": "add_communitymember"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change community member",
+    "content_type": [
+      "core",
+      "communitymember"
+    ],
+    "codename": "change_communitymember"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete community member",
+    "content_type": [
+      "core",
+      "communitymember"
+    ],
+    "codename": "delete_communitymember"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view community member",
+    "content_type": [
+      "core",
+      "communitymember"
+    ],
+    "codename": "view_communitymember"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add event attendee",
+    "content_type": [
+      "core",
+      "eventattendee"
+    ],
+    "codename": "add_eventattendee"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change event attendee",
+    "content_type": [
+      "core",
+      "eventattendee"
+    ],
+    "codename": "change_eventattendee"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete event attendee",
+    "content_type": [
+      "core",
+      "eventattendee"
+    ],
+    "codename": "delete_eventattendee"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view event attendee",
+    "content_type": [
+      "core",
+      "eventattendee"
+    ],
+    "codename": "view_eventattendee"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add event registration",
+    "content_type": [
+      "core",
+      "eventregistration"
+    ],
+    "codename": "add_eventregistration"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change event registration",
+    "content_type": [
+      "core",
+      "eventregistration"
+    ],
+    "codename": "change_eventregistration"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete event registration",
+    "content_type": [
+      "core",
+      "eventregistration"
+    ],
+    "codename": "delete_eventregistration"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view event registration",
+    "content_type": [
+      "core",
+      "eventregistration"
+    ],
+    "codename": "view_eventregistration"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add announcement",
+    "content_type": [
+      "core",
+      "announcement"
+    ],
+    "codename": "add_announcement"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change announcement",
+    "content_type": [
+      "core",
+      "announcement"
+    ],
+    "codename": "change_announcement"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete announcement",
+    "content_type": [
+      "core",
+      "announcement"
+    ],
+    "codename": "delete_announcement"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view announcement",
+    "content_type": [
+      "core",
+      "announcement"
+    ],
+    "codename": "view_announcement"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add newsletter subscriber",
+    "content_type": [
+      "core",
+      "newslettersubscriber"
+    ],
+    "codename": "add_newslettersubscriber"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change newsletter subscriber",
+    "content_type": [
+      "core",
+      "newslettersubscriber"
+    ],
+    "codename": "change_newslettersubscriber"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete newsletter subscriber",
+    "content_type": [
+      "core",
+      "newslettersubscriber"
+    ],
+    "codename": "delete_newslettersubscriber"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view newsletter subscriber",
+    "content_type": [
+      "core",
+      "newslettersubscriber"
+    ],
+    "codename": "view_newslettersubscriber"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add partner",
+    "content_type": [
+      "core",
+      "partner"
+    ],
+    "codename": "add_partner"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change partner",
+    "content_type": [
+      "core",
+      "partner"
+    ],
+    "codename": "change_partner"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete partner",
+    "content_type": [
+      "core",
+      "partner"
+    ],
+    "codename": "delete_partner"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view partner",
+    "content_type": [
+      "core",
+      "partner"
+    ],
+    "codename": "view_partner"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add External Site",
+    "content_type": [
+      "core",
+      "externalsite"
+    ],
+    "codename": "add_externalsite"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change External Site",
+    "content_type": [
+      "core",
+      "externalsite"
+    ],
+    "codename": "change_externalsite"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete External Site",
+    "content_type": [
+      "core",
+      "externalsite"
+    ],
+    "codename": "delete_externalsite"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view External Site",
+    "content_type": [
+      "core",
+      "externalsite"
+    ],
+    "codename": "view_externalsite"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add email address",
+    "content_type": [
+      "account",
+      "emailaddress"
+    ],
+    "codename": "add_emailaddress"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change email address",
+    "content_type": [
+      "account",
+      "emailaddress"
+    ],
+    "codename": "change_emailaddress"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete email address",
+    "content_type": [
+      "account",
+      "emailaddress"
+    ],
+    "codename": "delete_emailaddress"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view email address",
+    "content_type": [
+      "account",
+      "emailaddress"
+    ],
+    "codename": "view_emailaddress"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add email confirmation",
+    "content_type": [
+      "account",
+      "emailconfirmation"
+    ],
+    "codename": "add_emailconfirmation"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change email confirmation",
+    "content_type": [
+      "account",
+      "emailconfirmation"
+    ],
+    "codename": "change_emailconfirmation"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete email confirmation",
+    "content_type": [
+      "account",
+      "emailconfirmation"
+    ],
+    "codename": "delete_emailconfirmation"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view email confirmation",
+    "content_type": [
+      "account",
+      "emailconfirmation"
+    ],
+    "codename": "view_emailconfirmation"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add social account",
+    "content_type": [
+      "socialaccount",
+      "socialaccount"
+    ],
+    "codename": "add_socialaccount"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change social account",
+    "content_type": [
+      "socialaccount",
+      "socialaccount"
+    ],
+    "codename": "change_socialaccount"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete social account",
+    "content_type": [
+      "socialaccount",
+      "socialaccount"
+    ],
+    "codename": "delete_socialaccount"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view social account",
+    "content_type": [
+      "socialaccount",
+      "socialaccount"
+    ],
+    "codename": "view_socialaccount"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add social application",
+    "content_type": [
+      "socialaccount",
+      "socialapp"
+    ],
+    "codename": "add_socialapp"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change social application",
+    "content_type": [
+      "socialaccount",
+      "socialapp"
+    ],
+    "codename": "change_socialapp"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete social application",
+    "content_type": [
+      "socialaccount",
+      "socialapp"
+    ],
+    "codename": "delete_socialapp"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view social application",
+    "content_type": [
+      "socialaccount",
+      "socialapp"
+    ],
+    "codename": "view_socialapp"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add social application token",
+    "content_type": [
+      "socialaccount",
+      "socialtoken"
+    ],
+    "codename": "add_socialtoken"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change social application token",
+    "content_type": [
+      "socialaccount",
+      "socialtoken"
+    ],
+    "codename": "change_socialtoken"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete social application token",
+    "content_type": [
+      "socialaccount",
+      "socialtoken"
+    ],
+    "codename": "delete_socialtoken"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view social application token",
+    "content_type": [
+      "socialaccount",
+      "socialtoken"
+    ],
+    "codename": "view_socialtoken"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add review",
+    "content_type": [
+      "core",
+      "review"
+    ],
+    "codename": "add_review"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change review",
+    "content_type": [
+      "core",
+      "review"
+    ],
+    "codename": "change_review"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete review",
+    "content_type": [
+      "core",
+      "review"
+    ],
+    "codename": "delete_review"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view review",
+    "content_type": [
+      "core",
+      "review"
+    ],
+    "codename": "view_review"
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$720000$ZO3nPCYEMVGNoEKFw0V6LM$bM0GMAyZEiCSrz0nULdtIPnTQ5dI2pvjel6bbnTHi2U=",
+    "last_login": "2025-10-29T03:13:36.061Z",
+    "is_superuser": false,
+    "username": "tester_1",
+    "first_name": "",
+    "last_name": "",
+    "email": "daltonomondi5@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-15T18:13:58.881Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$720000$iCczOCsqLHzbTlTwgOV4aP$XQhjH8OQUS/Dk3e0kfbGpVv+n+1BgSth41+FF+oYzTI=",
+    "last_login": "2025-07-06T18:16:41.967Z",
+    "is_superuser": false,
+    "username": "tester_2",
+    "first_name": "",
+    "last_name": "",
+    "email": "6153.2023@students.ku.ac.ke",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-16T18:38:36.827Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$720000$00p2YJKrb36ftYCP9hPj4t$o25PQgwq8p0MEuTHQHPceFs8zrd+XhuYRk9IcxhbNUw=",
+    "last_login": "2025-11-21T08:34:59.015Z",
+    "is_superuser": true,
+    "username": "dalton",
+    "first_name": "Dalton",
+    "last_name": "Omondi",
+    "email": "daltonomondi588@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-05-17T07:10:57.943Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$720000$fc2ev76kxEjTQJbt6tcEqN$U5VDzPrtcRQAsC3mVf5uoAxtxko80exWxS2DlIFTA8g=",
+    "last_login": "2025-10-29T03:33:49.049Z",
+    "is_superuser": false,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "esa.kenyattauniva@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-17T07:45:40.405Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$720000$xghrAmazaQtu0hzVlvUShb$oCTM6h5W7HGOGv6Y9/wcuQ5cm4rh+4omEtDmIxZAxII=",
+    "last_login": "2025-07-07T20:08:33.502Z",
+    "is_superuser": false,
+    "username": "moderator",
+    "first_name": "Content",
+    "last_name": "Moderator",
+    "email": "moderator@example.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-05-17T12:50:19.538Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$720000$FmmIFwu4q2j0ObXt09EpRR$UTnnPWOMZlUt3jKo4AAzx416qB7V7fqV9lgi8LKvlLU=",
+    "last_login": "2025-07-06T18:14:58.091Z",
+    "is_superuser": false,
+    "username": "tester_3",
+    "first_name": "tester_3",
+    "last_name": "",
+    "email": "tester3@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-07-05T07:18:11Z",
+    "groups": [],
+    "user_permissions": [
+      [
+        "add_contenttype",
+        "contenttypes",
+        "contenttype"
+      ],
+      [
+        "add_cartitem",
+        "core",
+        "cartitem"
+      ],
+      [
+        "delete_cartitem",
+        "core",
+        "cartitem"
+      ],
+      [
+        "add_community",
+        "core",
+        "community"
+      ],
+      [
+        "view_community",
+        "core",
+        "community"
+      ],
+      [
+        "add_communitymember",
+        "core",
+        "communitymember"
+      ],
+      [
+        "delete_communitymember",
+        "core",
+        "communitymember"
+      ],
+      [
+        "view_communitymember",
+        "core",
+        "communitymember"
+      ],
+      [
+        "add_event",
+        "core",
+        "event"
+      ],
+      [
+        "change_event",
+        "core",
+        "event"
+      ],
+      [
+        "delete_event",
+        "core",
+        "event"
+      ]
+    ]
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "default_commenter",
+    "first_name": "",
+    "last_name": "",
+    "email": "commenter@example.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-07-14T11:42:46.485Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$720000$3kObSvBMtxH5NXhSiAetCH$AqCjiwdNIZ43FlpbtfnmCHcrUs5CR4/1rHS6aCWl8Vw=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "esa-admin",
+    "first_name": "ESA-KU",
+    "last_name": "admin",
+    "email": "esa.kenyattauniv@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-11-14T22:06:08Z",
+    "groups": [],
+    "user_permissions": [
+      [
+        "add_emailaddress",
+        "account",
+        "emailaddress"
+      ],
+      [
+        "change_emailaddress",
+        "account",
+        "emailaddress"
+      ],
+      [
+        "delete_emailaddress",
+        "account",
+        "emailaddress"
+      ],
+      [
+        "view_emailaddress",
+        "account",
+        "emailaddress"
+      ],
+      [
+        "add_emailconfirmation",
+        "account",
+        "emailconfirmation"
+      ],
+      [
+        "change_emailconfirmation",
+        "account",
+        "emailconfirmation"
+      ],
+      [
+        "delete_emailconfirmation",
+        "account",
+        "emailconfirmation"
+      ],
+      [
+        "view_emailconfirmation",
+        "account",
+        "emailconfirmation"
+      ],
+      [
+        "add_logentry",
+        "admin",
+        "logentry"
+      ],
+      [
+        "change_logentry",
+        "admin",
+        "logentry"
+      ],
+      [
+        "delete_logentry",
+        "admin",
+        "logentry"
+      ],
+      [
+        "view_logentry",
+        "admin",
+        "logentry"
+      ],
+      [
+        "add_group",
+        "auth",
+        "group"
+      ],
+      [
+        "change_group",
+        "auth",
+        "group"
+      ],
+      [
+        "delete_group",
+        "auth",
+        "group"
+      ],
+      [
+        "view_group",
+        "auth",
+        "group"
+      ],
+      [
+        "add_permission",
+        "auth",
+        "permission"
+      ],
+      [
+        "change_permission",
+        "auth",
+        "permission"
+      ],
+      [
+        "delete_permission",
+        "auth",
+        "permission"
+      ],
+      [
+        "view_permission",
+        "auth",
+        "permission"
+      ],
+      [
+        "add_user",
+        "auth",
+        "user"
+      ],
+      [
+        "change_user",
+        "auth",
+        "user"
+      ],
+      [
+        "delete_user",
+        "auth",
+        "user"
+      ],
+      [
+        "view_user",
+        "auth",
+        "user"
+      ],
+      [
+        "add_contenttype",
+        "contenttypes",
+        "contenttype"
+      ],
+      [
+        "change_contenttype",
+        "contenttypes",
+        "contenttype"
+      ],
+      [
+        "delete_contenttype",
+        "contenttypes",
+        "contenttype"
+      ],
+      [
+        "view_contenttype",
+        "contenttypes",
+        "contenttype"
+      ],
+      [
+        "add_announcement",
+        "core",
+        "announcement"
+      ],
+      [
+        "change_announcement",
+        "core",
+        "announcement"
+      ],
+      [
+        "delete_announcement",
+        "core",
+        "announcement"
+      ],
+      [
+        "view_announcement",
+        "core",
+        "announcement"
+      ],
+      [
+        "add_blogpost",
+        "core",
+        "blogpost"
+      ],
+      [
+        "change_blogpost",
+        "core",
+        "blogpost"
+      ],
+      [
+        "delete_blogpost",
+        "core",
+        "blogpost"
+      ],
+      [
+        "view_blogpost",
+        "core",
+        "blogpost"
+      ],
+      [
+        "add_cart",
+        "core",
+        "cart"
+      ],
+      [
+        "change_cart",
+        "core",
+        "cart"
+      ],
+      [
+        "delete_cart",
+        "core",
+        "cart"
+      ],
+      [
+        "view_cart",
+        "core",
+        "cart"
+      ],
+      [
+        "add_cartitem",
+        "core",
+        "cartitem"
+      ],
+      [
+        "change_cartitem",
+        "core",
+        "cartitem"
+      ],
+      [
+        "delete_cartitem",
+        "core",
+        "cartitem"
+      ],
+      [
+        "view_cartitem",
+        "core",
+        "cartitem"
+      ],
+      [
+        "add_comment",
+        "core",
+        "comment"
+      ],
+      [
+        "change_comment",
+        "core",
+        "comment"
+      ],
+      [
+        "delete_comment",
+        "core",
+        "comment"
+      ],
+      [
+        "view_comment",
+        "core",
+        "comment"
+      ],
+      [
+        "add_community",
+        "core",
+        "community"
+      ],
+      [
+        "change_community",
+        "core",
+        "community"
+      ],
+      [
+        "delete_community",
+        "core",
+        "community"
+      ],
+      [
+        "view_community",
+        "core",
+        "community"
+      ],
+      [
+        "add_communitymember",
+        "core",
+        "communitymember"
+      ],
+      [
+        "change_communitymember",
+        "core",
+        "communitymember"
+      ],
+      [
+        "delete_communitymember",
+        "core",
+        "communitymember"
+      ],
+      [
+        "view_communitymember",
+        "core",
+        "communitymember"
+      ],
+      [
+        "add_contact",
+        "core",
+        "contact"
+      ],
+      [
+        "change_contact",
+        "core",
+        "contact"
+      ],
+      [
+        "delete_contact",
+        "core",
+        "contact"
+      ],
+      [
+        "view_contact",
+        "core",
+        "contact"
+      ],
+      [
+        "add_discussion",
+        "core",
+        "discussion"
+      ],
+      [
+        "change_discussion",
+        "core",
+        "discussion"
+      ],
+      [
+        "delete_discussion",
+        "core",
+        "discussion"
+      ],
+      [
+        "view_discussion",
+        "core",
+        "discussion"
+      ],
+      [
+        "add_event",
+        "core",
+        "event"
+      ],
+      [
+        "change_event",
+        "core",
+        "event"
+      ],
+      [
+        "delete_event",
+        "core",
+        "event"
+      ],
+      [
+        "view_event",
+        "core",
+        "event"
+      ],
+      [
+        "add_eventattendee",
+        "core",
+        "eventattendee"
+      ],
+      [
+        "change_eventattendee",
+        "core",
+        "eventattendee"
+      ],
+      [
+        "delete_eventattendee",
+        "core",
+        "eventattendee"
+      ],
+      [
+        "view_eventattendee",
+        "core",
+        "eventattendee"
+      ],
+      [
+        "add_eventregistration",
+        "core",
+        "eventregistration"
+      ],
+      [
+        "change_eventregistration",
+        "core",
+        "eventregistration"
+      ],
+      [
+        "delete_eventregistration",
+        "core",
+        "eventregistration"
+      ],
+      [
+        "view_eventregistration",
+        "core",
+        "eventregistration"
+      ],
+      [
+        "add_externalsite",
+        "core",
+        "externalsite"
+      ],
+      [
+        "change_externalsite",
+        "core",
+        "externalsite"
+      ],
+      [
+        "delete_externalsite",
+        "core",
+        "externalsite"
+      ],
+      [
+        "view_externalsite",
+        "core",
+        "externalsite"
+      ],
+      [
+        "add_membership",
+        "core",
+        "membership"
+      ],
+      [
+        "change_membership",
+        "core",
+        "membership"
+      ],
+      [
+        "delete_membership",
+        "core",
+        "membership"
+      ],
+      [
+        "view_membership",
+        "core",
+        "membership"
+      ],
+      [
+        "add_membershipplan",
+        "core",
+        "membershipplan"
+      ],
+      [
+        "change_membershipplan",
+        "core",
+        "membershipplan"
+      ],
+      [
+        "delete_membershipplan",
+        "core",
+        "membershipplan"
+      ],
+      [
+        "view_membershipplan",
+        "core",
+        "membershipplan"
+      ],
+      [
+        "add_mpesatransaction",
+        "core",
+        "mpesatransaction"
+      ],
+      [
+        "change_mpesatransaction",
+        "core",
+        "mpesatransaction"
+      ],
+      [
+        "delete_mpesatransaction",
+        "core",
+        "mpesatransaction"
+      ],
+      [
+        "view_mpesatransaction",
+        "core",
+        "mpesatransaction"
+      ],
+      [
+        "add_newslettersubscriber",
+        "core",
+        "newslettersubscriber"
+      ],
+      [
+        "change_newslettersubscriber",
+        "core",
+        "newslettersubscriber"
+      ],
+      [
+        "delete_newslettersubscriber",
+        "core",
+        "newslettersubscriber"
+      ],
+      [
+        "view_newslettersubscriber",
+        "core",
+        "newslettersubscriber"
+      ],
+      [
+        "add_order",
+        "core",
+        "order"
+      ],
+      [
+        "change_order",
+        "core",
+        "order"
+      ],
+      [
+        "delete_order",
+        "core",
+        "order"
+      ],
+      [
+        "view_order",
+        "core",
+        "order"
+      ],
+      [
+        "add_orderitem",
+        "core",
+        "orderitem"
+      ],
+      [
+        "change_orderitem",
+        "core",
+        "orderitem"
+      ],
+      [
+        "delete_orderitem",
+        "core",
+        "orderitem"
+      ],
+      [
+        "view_orderitem",
+        "core",
+        "orderitem"
+      ],
+      [
+        "add_partner",
+        "core",
+        "partner"
+      ],
+      [
+        "change_partner",
+        "core",
+        "partner"
+      ],
+      [
+        "delete_partner",
+        "core",
+        "partner"
+      ],
+      [
+        "view_partner",
+        "core",
+        "partner"
+      ],
+      [
+        "add_payment",
+        "core",
+        "payment"
+      ],
+      [
+        "change_payment",
+        "core",
+        "payment"
+      ],
+      [
+        "delete_payment",
+        "core",
+        "payment"
+      ],
+      [
+        "view_payment",
+        "core",
+        "payment"
+      ],
+      [
+        "add_product",
+        "core",
+        "product"
+      ],
+      [
+        "change_product",
+        "core",
+        "product"
+      ],
+      [
+        "delete_product",
+        "core",
+        "product"
+      ],
+      [
+        "view_product",
+        "core",
+        "product"
+      ],
+      [
+        "add_resource",
+        "core",
+        "resource"
+      ],
+      [
+        "change_resource",
+        "core",
+        "resource"
+      ],
+      [
+        "delete_resource",
+        "core",
+        "resource"
+      ],
+      [
+        "view_resource",
+        "core",
+        "resource"
+      ],
+      [
+        "add_resourcetag",
+        "core",
+        "resourcetag"
+      ],
+      [
+        "change_resourcetag",
+        "core",
+        "resourcetag"
+      ],
+      [
+        "delete_resourcetag",
+        "core",
+        "resourcetag"
+      ],
+      [
+        "view_resourcetag",
+        "core",
+        "resourcetag"
+      ],
+      [
+        "add_review",
+        "core",
+        "review"
+      ],
+      [
+        "change_review",
+        "core",
+        "review"
+      ],
+      [
+        "delete_review",
+        "core",
+        "review"
+      ],
+      [
+        "view_review",
+        "core",
+        "review"
+      ],
+      [
+        "add_userprofile",
+        "core",
+        "userprofile"
+      ],
+      [
+        "change_userprofile",
+        "core",
+        "userprofile"
+      ],
+      [
+        "delete_userprofile",
+        "core",
+        "userprofile"
+      ],
+      [
+        "view_userprofile",
+        "core",
+        "userprofile"
+      ],
+      [
+        "add_userrole",
+        "core",
+        "userrole"
+      ],
+      [
+        "change_userrole",
+        "core",
+        "userrole"
+      ],
+      [
+        "delete_userrole",
+        "core",
+        "userrole"
+      ],
+      [
+        "view_userrole",
+        "core",
+        "userrole"
+      ],
+      [
+        "add_session",
+        "sessions",
+        "session"
+      ],
+      [
+        "change_session",
+        "sessions",
+        "session"
+      ],
+      [
+        "delete_session",
+        "sessions",
+        "session"
+      ],
+      [
+        "view_session",
+        "sessions",
+        "session"
+      ],
+      [
+        "add_socialaccount",
+        "socialaccount",
+        "socialaccount"
+      ],
+      [
+        "change_socialaccount",
+        "socialaccount",
+        "socialaccount"
+      ],
+      [
+        "delete_socialaccount",
+        "socialaccount",
+        "socialaccount"
+      ],
+      [
+        "view_socialaccount",
+        "socialaccount",
+        "socialaccount"
+      ],
+      [
+        "add_socialapp",
+        "socialaccount",
+        "socialapp"
+      ],
+      [
+        "change_socialapp",
+        "socialaccount",
+        "socialapp"
+      ],
+      [
+        "delete_socialapp",
+        "socialaccount",
+        "socialapp"
+      ],
+      [
+        "view_socialapp",
+        "socialaccount",
+        "socialapp"
+      ],
+      [
+        "add_socialtoken",
+        "socialaccount",
+        "socialtoken"
+      ],
+      [
+        "change_socialtoken",
+        "socialaccount",
+        "socialtoken"
+      ],
+      [
+        "delete_socialtoken",
+        "socialaccount",
+        "socialtoken"
+      ],
+      [
+        "view_socialtoken",
+        "socialaccount",
+        "socialtoken"
+      ]
+    ]
+  }
+},
+{
+  "model": "core.userprofile",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "tester_1"
+    ],
+    "student_id": "",
+    "department": "Mechanical Engineering",
+    "course": "",
+    "year_of_study": 2,
+    "phone_number": "",
+    "profile_picture": "",
+    "bio": "",
+    "membership_number": "ESA-2025-QZKRH2",
+    "membership_status": "active",
+    "membership_expiry": "2026-07-05",
+    "user_type": "student",
+    "role": null,
+    "custom_permissions": false,
+    "can_post_events": false,
+    "can_post_store_items": false,
+    "can_post_resources": false,
+    "blog_posts_count": 0,
+    "comments_count": 0,
+    "created_at": "2025-05-15T18:13:59.080Z",
+    "updated_at": "2025-10-29T03:13:36.064Z"
+  }
+},
+{
+  "model": "core.userprofile",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "tester_2"
+    ],
+    "student_id": "J174/6153/2023",
+    "department": "EEE",
+    "course": "",
+    "year_of_study": 4,
+    "phone_number": "",
+    "profile_picture": "",
+    "bio": "",
+    "membership_number": "ESA-2025-1WH5UB",
+    "membership_status": "active",
+    "membership_expiry": "2026-07-06",
+    "user_type": "student",
+    "role": null,
+    "custom_permissions": false,
+    "can_post_events": false,
+    "can_post_store_items": false,
+    "can_post_resources": false,
+    "blog_posts_count": 0,
+    "comments_count": 0,
+    "created_at": "2025-05-16T18:38:37.021Z",
+    "updated_at": "2025-07-06T18:36:42.473Z"
+  }
+},
+{
+  "model": "core.userprofile",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "dalton"
+    ],
+    "student_id": "ADMIN003",
+    "department": "Administration",
+    "course": "",
+    "year_of_study": 0,
+    "phone_number": "0793632858",
+    "profile_picture": "",
+    "bio": "",
+    "membership_number": "ESA-2025-EQGB5B",
+    "membership_status": "active",
+    "membership_expiry": "2026-07-26",
+    "user_type": "student",
+    "role": null,
+    "custom_permissions": false,
+    "can_post_events": false,
+    "can_post_store_items": false,
+    "can_post_resources": false,
+    "blog_posts_count": 0,
+    "comments_count": 0,
+    "created_at": "2025-05-17T07:10:58.119Z",
+    "updated_at": "2025-11-21T08:36:11.499Z"
+  }
+},
+{
+  "model": "core.userprofile",
+  "pk": 4,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "student_id": "ADMIN004",
+    "department": "Administration",
+    "course": "",
+    "year_of_study": 0,
+    "phone_number": "",
+    "profile_picture": "",
+    "bio": "",
+    "membership_number": null,
+    "membership_status": "active",
+    "membership_expiry": "2035-05-17",
+    "user_type": "staff",
+    "role": 1,
+    "custom_permissions": true,
+    "can_post_events": false,
+    "can_post_store_items": false,
+    "can_post_resources": false,
+    "blog_posts_count": 0,
+    "comments_count": 0,
+    "created_at": "2025-05-17T07:45:40.598Z",
+    "updated_at": "2025-10-29T03:33:49.064Z"
+  }
+},
+{
+  "model": "core.userprofile",
+  "pk": 5,
+  "fields": {
+    "user": [
+      "moderator"
+    ],
+    "student_id": "ADMIN005",
+    "department": "Administration",
+    "course": "",
+    "year_of_study": 0,
+    "phone_number": "",
+    "profile_picture": "",
+    "bio": "",
+    "membership_number": null,
+    "membership_status": "active",
+    "membership_expiry": "2035-05-17",
+    "user_type": "staff",
+    "role": 2,
+    "custom_permissions": true,
+    "can_post_events": false,
+    "can_post_store_items": false,
+    "can_post_resources": false,
+    "blog_posts_count": 0,
+    "comments_count": 0,
+    "created_at": "2025-05-17T12:50:19.541Z",
+    "updated_at": "2025-07-07T20:08:33.507Z"
+  }
+},
+{
+  "model": "core.userprofile",
+  "pk": 6,
+  "fields": {
+    "user": [
+      "default_commenter"
+    ],
+    "student_id": "COMMENT001",
+    "department": "Comment Department",
+    "course": "",
+    "year_of_study": 1,
+    "phone_number": "",
+    "profile_picture": "",
+    "bio": "Default commenter profile",
+    "membership_number": null,
+    "membership_status": "inactive",
+    "membership_expiry": null,
+    "user_type": "student",
+    "role": null,
+    "custom_permissions": false,
+    "can_post_events": false,
+    "can_post_store_items": false,
+    "can_post_resources": false,
+    "blog_posts_count": 0,
+    "comments_count": 0,
+    "created_at": "2025-07-14T11:42:47.562Z",
+    "updated_at": "2025-07-14T11:42:47.562Z"
+  }
+},
+{
+  "model": "core.membership",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "tester_1"
+    ],
+    "plan_type": "first_year",
+    "amount": "2.00",
+    "payment_method": "mpesa",
+    "status": "completed",
+    "is_active": true,
+    "start_date": "2025-07-04T12:21:08Z",
+    "end_date": "2026-07-04T12:21:08Z",
+    "created_at": "2025-07-04T12:21:08.895Z",
+    "updated_at": "2025-11-14T22:14:45.978Z",
+    "referred_by": null,
+    "membership_number": "ESA-2025-7YSRK4",
+    "payment": null,
+    "transaction_code": null,
+    "payment_verified": false,
+    "verified_by": null,
+    "verification_date": null,
+    "verification_notes": ""
+  }
+},
+{
+  "model": "core.membership",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "tester_1"
+    ],
+    "plan_type": "first_year",
+    "amount": "2.00",
+    "payment_method": "mpesa",
+    "status": "completed",
+    "is_active": true,
+    "start_date": "2025-07-05T07:29:34.101Z",
+    "end_date": "2026-07-05T07:29:34.101Z",
+    "created_at": "2025-07-04T12:22:31.800Z",
+    "updated_at": "2025-07-05T07:29:34.101Z",
+    "referred_by": null,
+    "membership_number": "ESA-2025-QZKRH2",
+    "payment": null,
+    "transaction_code": null,
+    "payment_verified": false,
+    "verified_by": null,
+    "verification_date": null,
+    "verification_notes": ""
+  }
+},
+{
+  "model": "core.membership",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "tester_1"
+    ],
+    "plan_type": "first_year",
+    "amount": "2.00",
+    "payment_method": "mpesa",
+    "status": "completed",
+    "is_active": true,
+    "start_date": "2025-07-04T12:23:14.524Z",
+    "end_date": "2026-07-04T12:23:14.524Z",
+    "created_at": "2025-07-04T12:23:14.526Z",
+    "updated_at": "2025-07-04T12:23:14.526Z",
+    "referred_by": null,
+    "membership_number": "ESA-2025-BJZE9A",
+    "payment": null,
+    "transaction_code": null,
+    "payment_verified": false,
+    "verified_by": null,
+    "verification_date": null,
+    "verification_notes": ""
+  }
+},
+{
+  "model": "core.membership",
+  "pk": 4,
+  "fields": {
+    "user": [
+      "tester_3"
+    ],
+    "plan_type": "other_students",
+    "amount": "2.00",
+    "payment_method": "mpesa",
+    "status": "completed",
+    "is_active": true,
+    "start_date": "2025-07-05T07:28:19Z",
+    "end_date": "2026-07-05T07:28:33Z",
+    "created_at": "2025-07-05T07:28:37.399Z",
+    "updated_at": "2025-07-05T07:28:37.399Z",
+    "referred_by": null,
+    "membership_number": "ESA12345",
+    "payment": null,
+    "transaction_code": null,
+    "payment_verified": false,
+    "verified_by": null,
+    "verification_date": null,
+    "verification_notes": ""
+  }
+},
+{
+  "model": "core.membership",
+  "pk": 5,
+  "fields": {
+    "user": [
+      "tester_2"
+    ],
+    "plan_type": "first_year",
+    "amount": "2.00",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "is_active": false,
+    "start_date": "2025-07-06T18:17:29.681Z",
+    "end_date": "2026-07-06T18:17:29.681Z",
+    "created_at": "2025-07-06T18:17:29.683Z",
+    "updated_at": "2025-07-06T18:17:29.683Z",
+    "referred_by": null,
+    "membership_number": "ESA-2025-9OMD4J",
+    "payment": 49,
+    "transaction_code": null,
+    "payment_verified": false,
+    "verified_by": null,
+    "verification_date": null,
+    "verification_notes": ""
+  }
+},
+{
+  "model": "core.membership",
+  "pk": 6,
+  "fields": {
+    "user": [
+      "tester_2"
+    ],
+    "plan_type": "first_year",
+    "amount": "2.00",
+    "payment_method": "mpesa",
+    "status": "completed",
+    "is_active": true,
+    "start_date": "2025-07-06T18:18:23.699Z",
+    "end_date": "2026-07-06T18:18:23.699Z",
+    "created_at": "2025-07-06T18:18:23.701Z",
+    "updated_at": "2025-07-06T18:18:23.701Z",
+    "referred_by": null,
+    "membership_number": "ESA-2025-1WH5UB",
+    "payment": 50,
+    "transaction_code": null,
+    "payment_verified": false,
+    "verified_by": null,
+    "verification_date": null,
+    "verification_notes": ""
+  }
+},
+{
+  "model": "core.membership",
+  "pk": 7,
+  "fields": {
+    "user": [
+      "dalton"
+    ],
+    "plan_type": "first_year",
+    "amount": "2.00",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "is_active": false,
+    "start_date": "2025-07-26T00:00:00Z",
+    "end_date": "2026-07-26T00:00:00Z",
+    "created_at": "2025-07-26T21:19:25.003Z",
+    "updated_at": "2025-07-26T21:19:25.003Z",
+    "referred_by": [
+      "tester_1"
+    ],
+    "membership_number": null,
+    "payment": 51,
+    "transaction_code": null,
+    "payment_verified": false,
+    "verified_by": null,
+    "verification_date": null,
+    "verification_notes": ""
+  }
+},
+{
+  "model": "core.membership",
+  "pk": 8,
+  "fields": {
+    "user": [
+      "dalton"
+    ],
+    "plan_type": "first_year",
+    "amount": "2.00",
+    "payment_method": "mpesa",
+    "status": "completed",
+    "is_active": true,
+    "start_date": "2025-07-26T21:47:07.696Z",
+    "end_date": "2026-07-26T21:47:07.696Z",
+    "created_at": "2025-07-26T21:40:55.934Z",
+    "updated_at": "2025-07-26T21:47:07.700Z",
+    "referred_by": [
+      "tester_1"
+    ],
+    "membership_number": "ESA-2025-EQGB5B",
+    "payment": 52,
+    "transaction_code": null,
+    "payment_verified": false,
+    "verified_by": null,
+    "verification_date": null,
+    "verification_notes": ""
+  }
+},
+{
+  "model": "core.membership",
+  "pk": 9,
+  "fields": {
+    "user": [
+      "tester_1"
+    ],
+    "plan_type": "first_year",
+    "amount": "2.00",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "is_active": false,
+    "start_date": "2025-07-30T17:13:29.165Z",
+    "end_date": "2026-07-30T17:13:29.165Z",
+    "created_at": "2025-07-30T17:13:29.166Z",
+    "updated_at": "2025-07-30T17:13:29.166Z",
+    "referred_by": null,
+    "membership_number": "ESA-2025-6ZJKT7",
+    "payment": 53,
+    "transaction_code": null,
+    "payment_verified": false,
+    "verified_by": null,
+    "verification_date": null,
+    "verification_notes": ""
+  }
+},
+{
+  "model": "core.membership",
+  "pk": 10,
+  "fields": {
+    "user": [
+      "tester_1"
+    ],
+    "plan_type": "first_year",
+    "amount": "2.00",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "is_active": false,
+    "start_date": "2025-07-30T17:13:33.522Z",
+    "end_date": "2026-07-30T17:13:33.522Z",
+    "created_at": "2025-07-30T17:13:33.523Z",
+    "updated_at": "2025-07-30T17:13:33.523Z",
+    "referred_by": null,
+    "membership_number": "ESA-2025-V9SLCA",
+    "payment": 54,
+    "transaction_code": null,
+    "payment_verified": false,
+    "verified_by": null,
+    "verification_date": null,
+    "verification_notes": ""
+  }
+},
+{
+  "model": "core.comment",
+  "pk": 1,
+  "fields": {
+    "content": "huhjhj pennii",
+    "created_by": [
+      "tester_1"
+    ],
+    "created_at": "2025-06-11T09:57:43.177Z",
+    "updated_at": "2025-06-11T09:57:43.177Z",
+    "post": null,
+    "discussion": 1
+  }
+},
+{
+  "model": "core.comment",
+  "pk": 2,
+  "fields": {
+    "content": "here is where we hold discussions",
+    "created_by": [
+      "tester_1"
+    ],
+    "created_at": "2025-07-14T11:42:17.760Z",
+    "updated_at": "2025-07-14T11:42:17.760Z",
+    "post": null,
+    "discussion": 1
+  }
+},
+{
+  "model": "core.comment",
+  "pk": 3,
+  "fields": {
+    "content": "this is the first comment for this blog",
+    "created_by": null,
+    "created_at": "2025-07-14T11:42:47.568Z",
+    "updated_at": "2025-07-14T11:42:47.568Z",
+    "post": 1,
+    "discussion": null
+  }
+},
+{
+  "model": "core.comment",
+  "pk": 4,
+  "fields": {
+    "content": "this is the first comment for this blog",
+    "created_by": null,
+    "created_at": "2025-07-14T11:42:49.405Z",
+    "updated_at": "2025-07-14T11:42:49.405Z",
+    "post": 1,
+    "discussion": null
+  }
+},
+{
+  "model": "core.event",
+  "pk": 1,
+  "fields": {
+    "title": "The RaceTrack",
+    "slug": "the-racetrack",
+    "description": "race race cmon, let it go. This..is the racetrack",
+    "short_description": "let us hit the racetrack.bring your rc car and your autonomous vehicle and let us race",
+    "category": "competition",
+    "event_type": "physical",
+    "start_date": "2025-06-14",
+    "end_date": "2025-06-17",
+    "start_time": "09:00:00",
+    "end_time": "17:00:00",
+    "registration_deadline": null,
+    "location": "Confucius Building",
+    "is_online": false,
+    "online_link": null,
+    "capacity": 150,
+    "price": "0.00",
+    "featured": true,
+    "image": "event_images/Screenshot_from_2025-06-10_22-00-31.png",
+    "speaker": "",
+    "status": "upcoming",
+    "is_active": true,
+    "community": null,
+    "created_by": null,
+    "created_at": "2025-06-10T19:00:44.266Z",
+    "updated_at": "2025-06-10T19:00:44.266Z"
+  }
+},
+{
+  "model": "core.community",
+  "pk": 1,
+  "fields": {
+    "name": "IEEE Photonics KU",
+    "slug": "photonics-ku",
+    "description": "opto world. where we turn light into your best pal",
+    "category": "electrical",
+    "image": "community_images/Screenshot_from_2025-05-02_22-55-50_smKKPfC.png",
+    "rules": "-speak light\r\n-talk quantum\r\n-breathe malice",
+    "is_private": true,
+    "created_by": [
+      "tester_2"
+    ],
+    "created_at": "2025-06-11T09:17:10.345Z",
+    "updated_at": "2025-06-11T09:34:10.344Z"
+  }
+},
+{
+  "model": "core.communitymember",
+  "pk": 1,
+  "fields": {
+    "community": 1,
+    "user": [
+      "tester_2"
+    ],
+    "role": "admin",
+    "joined_at": "2025-06-11T09:17:10.350Z"
+  }
+},
+{
+  "model": "core.communitymember",
+  "pk": 2,
+  "fields": {
+    "community": 1,
+    "user": [
+      "tester_1"
+    ],
+    "role": "member",
+    "joined_at": "2025-06-11T09:57:15.263Z"
+  }
+},
+{
+  "model": "core.discussion",
+  "pk": 1,
+  "fields": {
+    "community": 1,
+    "title": "DONN Diffractive Optical Neural Networks",
+    "slug": "donn-diffractive-optical-neural-networks",
+    "content": "what do you think is the future of machine learning embedded in silicon substrate? there has been noteworthy progress with the diffractive optical neural networks. Would they be the models of the future??",
+    "created_by": [
+      "tester_2"
+    ],
+    "created_at": "2025-06-11T09:18:53.063Z",
+    "updated_at": "2025-07-26T21:15:02.368Z",
+    "view_count": 11
+  }
+},
+{
+  "model": "core.review",
+  "pk": 1,
+  "fields": {
+    "product": 1,
+    "user": [
+      "tester_1"
+    ],
+    "rating": 1,
+    "comment": null,
+    "created_at": "2025-07-26T21:53:45.581Z",
+    "updated_at": "2025-07-26T21:53:45.581Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T16:49:07.859Z",
+    "notes": "",
+    "created_at": "2025-06-16T16:49:07.860Z",
+    "updated_at": "2025-06-16T16:49:07.860Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T16:49:27.219Z",
+    "notes": "",
+    "created_at": "2025-06-16T16:49:27.219Z",
+    "updated_at": "2025-06-16T16:49:27.219Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T16:51:31.100Z",
+    "notes": "",
+    "created_at": "2025-06-16T16:51:31.100Z",
+    "updated_at": "2025-06-16T16:51:31.100Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 4,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T16:53:24.583Z",
+    "notes": "",
+    "created_at": "2025-06-16T16:53:24.583Z",
+    "updated_at": "2025-06-16T16:53:24.583Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 5,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T16:53:34.765Z",
+    "notes": "",
+    "created_at": "2025-06-16T16:53:34.765Z",
+    "updated_at": "2025-06-16T16:53:34.765Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 6,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T16:53:41.781Z",
+    "notes": "",
+    "created_at": "2025-06-16T16:53:41.781Z",
+    "updated_at": "2025-06-16T16:53:41.781Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 7,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T16:53:50.619Z",
+    "notes": "",
+    "created_at": "2025-06-16T16:53:50.619Z",
+    "updated_at": "2025-06-16T16:53:50.619Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 8,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T16:59:44.580Z",
+    "notes": "",
+    "created_at": "2025-06-16T16:59:44.580Z",
+    "updated_at": "2025-06-16T16:59:44.580Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 9,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:01:49.334Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:01:49.334Z",
+    "updated_at": "2025-06-16T17:01:49.334Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 10,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:02:06.122Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:02:06.122Z",
+    "updated_at": "2025-06-16T17:02:06.122Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 11,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:02:08.474Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:02:08.474Z",
+    "updated_at": "2025-06-16T17:02:08.474Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 12,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:02:11.659Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:02:11.659Z",
+    "updated_at": "2025-06-16T17:02:11.659Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 13,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:02:42.217Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:02:42.218Z",
+    "updated_at": "2025-06-16T17:02:42.218Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 14,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:03:28.112Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:03:28.112Z",
+    "updated_at": "2025-06-16T17:03:28.112Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 15,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:05:16.771Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:05:16.771Z",
+    "updated_at": "2025-06-16T17:05:16.771Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 16,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:14:38.387Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:14:38.387Z",
+    "updated_at": "2025-06-16T17:14:38.387Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 17,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:14:41.052Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:14:41.052Z",
+    "updated_at": "2025-06-16T17:14:41.052Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 18,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:15:28.846Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:15:28.846Z",
+    "updated_at": "2025-06-16T17:15:28.846Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 19,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:15:38.695Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:15:38.695Z",
+    "updated_at": "2025-06-16T17:15:38.695Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 20,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:16:02.077Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:16:02.077Z",
+    "updated_at": "2025-06-16T17:16:02.077Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 21,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:16:45.044Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:16:45.045Z",
+    "updated_at": "2025-06-16T17:16:45.045Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 22,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:17:01.281Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:17:01.281Z",
+    "updated_at": "2025-06-16T17:17:01.281Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 23,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:17:13.097Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:17:13.097Z",
+    "updated_at": "2025-06-16T17:17:13.097Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 24,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:32:35.396Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:32:35.396Z",
+    "updated_at": "2025-06-16T17:32:35.396Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 25,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:33:32.524Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:33:32.524Z",
+    "updated_at": "2025-06-16T17:33:32.524Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 26,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:33:39.676Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:33:39.676Z",
+    "updated_at": "2025-06-16T17:33:39.676Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 27,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:33:48.207Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:33:48.207Z",
+    "updated_at": "2025-06-16T17:33:48.207Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 28,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:33:49.871Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:33:49.871Z",
+    "updated_at": "2025-06-16T17:33:49.871Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 29,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:33:52.680Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:33:52.680Z",
+    "updated_at": "2025-06-16T17:33:52.680Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 30,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:33:52.860Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:33:52.860Z",
+    "updated_at": "2025-06-16T17:33:52.860Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 31,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:34:28.843Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:34:28.843Z",
+    "updated_at": "2025-06-16T17:34:28.843Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 32,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:34:34.123Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:34:34.123Z",
+    "updated_at": "2025-06-16T17:34:34.123Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 33,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:34:50.240Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:34:50.240Z",
+    "updated_at": "2025-06-16T17:34:50.240Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 34,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:34:51.967Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:34:51.968Z",
+    "updated_at": "2025-06-16T17:34:51.968Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 35,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:34:52.142Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:34:52.142Z",
+    "updated_at": "2025-06-16T17:34:52.142Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 36,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:34:52.930Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:34:52.930Z",
+    "updated_at": "2025-06-16T17:34:52.930Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 37,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:34:53.107Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:34:53.108Z",
+    "updated_at": "2025-06-16T17:34:53.108Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 38,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:34:54.239Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:34:54.239Z",
+    "updated_at": "2025-06-16T17:34:54.239Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 39,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "3.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-16T17:36:51.345Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:36:51.345Z",
+    "updated_at": "2025-06-16T17:36:51.345Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 40,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "1.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "completed",
+    "transaction_id": "DEV32615",
+    "payment_date": "2025-06-16T17:43:15.786Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:43:15.786Z",
+    "updated_at": "2025-06-16T17:43:24.716Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 41,
+  "fields": {
+    "user": [
+      "admin"
+    ],
+    "amount": "1.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "completed",
+    "transaction_id": "DEV80339",
+    "payment_date": "2025-06-16T17:50:28.046Z",
+    "notes": "",
+    "created_at": "2025-06-16T17:50:28.046Z",
+    "updated_at": "2025-06-16T17:50:36.972Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 42,
+  "fields": {
+    "user": [
+      "tester_1"
+    ],
+    "amount": "1.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "completed",
+    "transaction_id": "DEV1606900",
+    "payment_date": "2025-06-20T16:27:55.383Z",
+    "notes": "",
+    "created_at": "2025-06-20T16:27:55.383Z",
+    "updated_at": "2025-06-20T16:27:57.496Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 43,
+  "fields": {
+    "user": [
+      "tester_1"
+    ],
+    "amount": "1.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-06-20T17:00:05.118Z",
+    "notes": "",
+    "created_at": "2025-06-20T17:00:05.118Z",
+    "updated_at": "2025-06-20T17:00:05.118Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 44,
+  "fields": {
+    "user": [
+      "tester_1"
+    ],
+    "amount": "2.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-07-04T11:49:01.403Z",
+    "notes": "Membership payment for first_year plan",
+    "created_at": "2025-07-04T11:49:01.403Z",
+    "updated_at": "2025-07-04T11:49:01.403Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 45,
+  "fields": {
+    "user": [
+      "tester_1"
+    ],
+    "amount": "1.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-07-04T11:49:29.733Z",
+    "notes": "",
+    "created_at": "2025-07-04T11:49:29.733Z",
+    "updated_at": "2025-07-04T11:49:29.733Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 46,
+  "fields": {
+    "user": [
+      "tester_1"
+    ],
+    "amount": "2.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-07-04T12:21:08.891Z",
+    "notes": "Membership payment for first_year plan",
+    "created_at": "2025-07-04T12:21:08.891Z",
+    "updated_at": "2025-07-04T12:21:08.899Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 47,
+  "fields": {
+    "user": [
+      "tester_1"
+    ],
+    "amount": "2.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-07-04T12:22:31.795Z",
+    "notes": "Membership payment for first_year plan",
+    "created_at": "2025-07-04T12:22:31.795Z",
+    "updated_at": "2025-07-04T12:22:31.804Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 48,
+  "fields": {
+    "user": [
+      "tester_1"
+    ],
+    "amount": "2.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "completed",
+    "transaction_id": "TG41KRCQGZ",
+    "payment_date": "2025-07-04T12:23:14.517Z",
+    "notes": "Membership payment for first_year plan (manual verification)",
+    "created_at": "2025-07-04T12:23:14.517Z",
+    "updated_at": "2025-07-04T12:23:14.532Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 49,
+  "fields": {
+    "user": [
+      "tester_2"
+    ],
+    "amount": "2.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-07-06T18:17:29.677Z",
+    "notes": "Membership payment for first_year plan",
+    "created_at": "2025-07-06T18:17:29.677Z",
+    "updated_at": "2025-07-06T18:17:29.687Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 50,
+  "fields": {
+    "user": [
+      "tester_2"
+    ],
+    "amount": "2.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "completed",
+    "transaction_id": "TG68WQZ88E",
+    "payment_date": "2025-07-06T18:18:23.696Z",
+    "notes": "Membership payment for first_year plan (manual verification)",
+    "created_at": "2025-07-06T18:18:23.696Z",
+    "updated_at": "2025-07-06T18:18:23.706Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 51,
+  "fields": {
+    "user": [
+      "dalton"
+    ],
+    "amount": "2.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-07-26T21:19:24.989Z",
+    "notes": "ESA-KU Membership Payment for First Year Student - Paid by ",
+    "created_at": "2025-07-26T21:19:24.989Z",
+    "updated_at": "2025-07-26T21:19:24.989Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 52,
+  "fields": {
+    "user": [
+      "dalton"
+    ],
+    "amount": "2.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "completed",
+    "transaction_id": "TEST123",
+    "payment_date": "2025-07-26T21:40:55.928Z",
+    "notes": "ESA-KU Membership Payment for First Year Student - Paid by ",
+    "created_at": "2025-07-26T21:40:55.928Z",
+    "updated_at": "2025-07-26T21:47:07.691Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 53,
+  "fields": {
+    "user": [
+      "tester_1"
+    ],
+    "amount": "2.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-07-30T17:13:29.162Z",
+    "notes": "Membership payment for first_year plan",
+    "created_at": "2025-07-30T17:13:29.162Z",
+    "updated_at": "2025-07-30T17:13:29.170Z"
+  }
+},
+{
+  "model": "core.payment",
+  "pk": 54,
+  "fields": {
+    "user": [
+      "tester_1"
+    ],
+    "amount": "2.00",
+    "currency": "KES",
+    "payment_method": "mpesa",
+    "status": "pending",
+    "transaction_id": null,
+    "payment_date": "2025-07-30T17:13:33.515Z",
+    "notes": "Membership payment for first_year plan",
+    "created_at": "2025-07-30T17:13:33.515Z",
+    "updated_at": "2025-07-30T17:13:33.527Z"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2025-07-05T07:18:11.980Z",
+    "user": [
+      "dalton"
+    ],
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "object_id": "6",
+    "object_repr": "tester_3",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2025-07-05T07:22:20.612Z",
+    "user": [
+      "dalton"
+    ],
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "object_id": "6",
+    "object_repr": "tester_3",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"First name\", \"Email address\", \"Staff status\", \"User permissions\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2025-07-05T07:28:37.401Z",
+    "user": [
+      "dalton"
+    ],
+    "content_type": [
+      "core",
+      "membership"
+    ],
+    "object_id": "4",
+    "object_repr": "tester_3 - Other Students",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2025-11-14T22:06:11.511Z",
+    "user": [
+      "dalton"
+    ],
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "object_id": "8",
+    "object_repr": "esa-admin",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2025-11-14T22:07:56.011Z",
+    "user": [
+      "dalton"
+    ],
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "object_id": "8",
+    "object_repr": "esa-admin",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"First name\", \"Last name\", \"Email address\", \"Staff status\", \"User permissions\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2025-11-14T22:12:14.675Z",
+    "user": [
+      "dalton"
+    ],
+    "content_type": [
+      "core",
+      "userrole"
+    ],
+    "object_id": "2",
+    "object_repr": "Moderator",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Name\", \"Description\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 7,
+  "fields": {
+    "action_time": "2025-11-14T22:12:17.580Z",
+    "user": [
+      "dalton"
+    ],
+    "content_type": [
+      "core",
+      "userrole"
+    ],
+    "object_id": "2",
+    "object_repr": "Moderator",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 8,
+  "fields": {
+    "action_time": "2025-11-14T22:12:38.850Z",
+    "user": [
+      "dalton"
+    ],
+    "content_type": [
+      "core",
+      "userrole"
+    ],
+    "object_id": "1",
+    "object_repr": "System Admin",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 9,
+  "fields": {
+    "action_time": "2025-11-14T22:12:48.717Z",
+    "user": [
+      "dalton"
+    ],
+    "content_type": [
+      "core",
+      "userrole"
+    ],
+    "object_id": "2",
+    "object_repr": "Moderator",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 10,
+  "fields": {
+    "action_time": "2025-11-14T22:13:00.147Z",
+    "user": [
+      "dalton"
+    ],
+    "content_type": [
+      "core",
+      "userrole"
+    ],
+    "object_id": "3",
+    "object_repr": "Vendor",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 11,
+  "fields": {
+    "action_time": "2025-11-14T22:13:29.632Z",
+    "user": [
+      "dalton"
+    ],
+    "content_type": [
+      "core",
+      "userrole"
+    ],
+    "object_id": "4",
+    "object_repr": "esa-excom",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 12,
+  "fields": {
+    "action_time": "2025-11-14T22:14:31.809Z",
+    "user": [
+      "dalton"
+    ],
+    "content_type": [
+      "core",
+      "membership"
+    ],
+    "object_id": "1",
+    "object_repr": "tester_1 - First Year Student",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Is active\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 13,
+  "fields": {
+    "action_time": "2025-11-14T22:14:45.984Z",
+    "user": [
+      "dalton"
+    ],
+    "content_type": [
+      "core",
+      "membership"
+    ],
+    "object_id": "1",
+    "object_repr": "tester_1 - First Year Student",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Status\"]}}]"
+  }
+}
+]
