@@ -202,6 +202,7 @@ def register_with_payment(request):
 def profile(request):
     """Handle user profile view and updates"""
     from core.models import UserProfile
+    from django.contrib.auth import update_session_auth_hash
     
     user = request.user
     
@@ -218,44 +219,73 @@ def profile(request):
         )
     
     if request.method == 'POST':
-        # Handle profile update
-        user.first_name = request.POST.get('first_name', user.first_name)
-        user.last_name = request.POST.get('last_name', user.last_name)
-        user.email = request.POST.get('email', user.email)
-        user.save()
+        # Check if this is a password change request
+        current_password = request.POST.get('current_password')
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
         
-        # Update profile fields
-        user_profile.phone_number = request.POST.get('phone_number', user_profile.phone_number)
-        user_profile.bio = request.POST.get('bio', user_profile.bio)
-        user_profile.student_id = request.POST.get('student_id', user_profile.student_id)
-        user_profile.department = request.POST.get('department', user_profile.department)
-        user_profile.course = request.POST.get('course', user_profile.course)
-        
-        # Handle year of study
-        year_of_study = request.POST.get('year_of_study')
-        if year_of_study:
-            user_profile.year_of_study = int(year_of_study)
-        
-        # Handle user type
-        user_type = request.POST.get('user_type')
-        if user_type:
-            user_profile.user_type = user_type
-        
-        # Handle profile picture upload
-        if 'profile_picture' in request.FILES:
-            user_profile.profile_picture = request.FILES['profile_picture']
-        
-        user_profile.save()
-        messages.success(request, 'Your profile has been updated successfully!')
-        return redirect('profile')
+        # Handle password change if provided
+        if current_password or new_password or confirm_password:
+            if not current_password:
+                messages.error(request, 'Please enter your current password.')
+            elif not new_password:
+                messages.error(request, 'Please enter a new password.')
+            elif not confirm_password:
+                messages.error(request, 'Please confirm your new password.')
+            elif new_password != confirm_password:
+                messages.error(request, 'New passwords do not match.')
+            elif len(new_password) < 8:
+                messages.error(request, 'New password must be at least 8 characters long.')
+            elif not user.check_password(current_password):
+                messages.error(request, 'Current password is incorrect.')
+            else:
+                # All validations passed - change password
+                user.set_password(new_password)
+                user.save()
+                # Keep user logged in after password change
+                update_session_auth_hash(request, user)
+                messages.success(request, 'Your password has been changed successfully!')
+                return redirect('profile')
+        else:
+            # Handle regular profile update
+            user.first_name = request.POST.get('first_name', user.first_name)
+            user.last_name = request.POST.get('last_name', user.last_name)
+            user.email = request.POST.get('email', user.email)
+            user.save()
+            
+            # Update profile fields
+            user_profile.phone_number = request.POST.get('phone_number', user_profile.phone_number)
+            user_profile.bio = request.POST.get('bio', user_profile.bio)
+            user_profile.student_id = request.POST.get('student_id', user_profile.student_id)
+            user_profile.department = request.POST.get('department', user_profile.department)
+            user_profile.course = request.POST.get('course', user_profile.course)
+            
+            # Handle year of study
+            year_of_study = request.POST.get('year_of_study')
+            if year_of_study:
+                user_profile.year_of_study = int(year_of_study)
+            
+            # Handle user type
+            user_type = request.POST.get('user_type')
+            if user_type:
+                user_profile.user_type = user_type
+            
+            # Handle profile picture upload
+            if 'profile_picture' in request.FILES:
+                user_profile.profile_picture = request.FILES['profile_picture']
+            
+            user_profile.save()
+            messages.success(request, 'Your profile has been updated successfully!')
+            return redirect('profile')
     
     # Get choices for template
     year_choices = UserProfile.YEAR_OF_STUDY_CHOICES
     user_type_choices = UserProfile.USER_TYPE_CHOICES
     
-    return render(request, 'accounts/new_profile.html', {
+    return render(request, 'accounts/profile.html', {
         'year_choices': year_choices,
-        'user_type_choices': user_type_choices
+        'user_type_choices': user_type_choices,
+        'user_profile': user_profile
     })
 
 def check_auth_status(request):
