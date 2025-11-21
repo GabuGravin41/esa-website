@@ -116,65 +116,71 @@ class Command(BaseCommand):
         ]
         
         created_count = 0
-        skipped_count = 0
+        updated_count = 0
         
         for user_data in users_data:
             username = user_data['username']
             email = user_data['email']
             
-            # Check if user already exists
-            if User.objects.filter(username=username).exists():
-                self.stdout.write(f'SKIP: {username} (already exists)')
-                skipped_count += 1
-                continue
-            
-            # Create user
-            user = User.objects.create_user(
+            # 1. Create or Get User
+            user, created = User.objects.get_or_create(
                 username=username,
-                email=email,
-                first_name=user_data.get('first_name', ''),
-                last_name=user_data.get('last_name', ''),
-                is_staff=user_data.get('is_staff', False),
-                is_superuser=user_data.get('is_superuser', False),
-                password='ChangeMe123!'  # They'll need to reset password
+                defaults={
+                    'email': email,
+                    'first_name': user_data.get('first_name', ''),
+                    'last_name': user_data.get('last_name', ''),
+                    'is_staff': user_data.get('is_staff', False),
+                    'is_superuser': user_data.get('is_superuser', False),
+                }
             )
             
-            # Create profile
-            profile = UserProfile.objects.create(
-                user=user,
-                student_id=user_data['student_id'],
-                department=user_data['department'],
-                year_of_study=user_data['year'],
-                phone_number=user_data.get('phone', ''),
-                membership_number=user_data['membership_number'],
-                membership_status=user_data['status'],
-                membership_expiry=user_data['expiry']
-            )
+            if created:
+                user.set_password('ChangeMe123!')
+                user.save()
+                action = "Created"
+                created_count += 1
+            else:
+                action = "Updated"
+                updated_count += 1
+
+            # 2. Get or Create Profile (Safe against signals)
+            profile, _ = UserProfile.objects.get_or_create(user=user)
             
-            # Create membership if active
+            # 3. Update Profile Fields
+            profile.student_id = user_data['student_id']
+            profile.department = user_data['department']
+            profile.year_of_study = user_data['year']
+            profile.phone_number = user_data.get('phone', '')
+            profile.membership_number = user_data['membership_number']
+            profile.membership_status = user_data['status']
+            profile.membership_expiry = user_data['expiry']
+            profile.save()
+            
+            # 4. Create/Update Membership if active
             if user_data['status'] == 'active' and user_data['membership_number']:
-                expiry_date = timezone.datetime.strptime(user_data['expiry'], '%Y-%m-%d').date()
+                expiry_date = timezone.datetime.strptime(user_data['expiry'], '%Y-%m-%d').date() if user_data['expiry'] else None
                 
-                Membership.objects.create(
-                    user=user,
-                    plan_type='other_students',
-                    amount=300,
-                    payment_method='manual',
-                    status='completed',
-                    is_active=True,
-                    start_date=timezone.now() - timedelta(days=30),
-                    end_date=expiry_date,
-                    membership_number=user_data['membership_number']
-                )
+                if expiry_date:
+                    Membership.objects.get_or_create(
+                        user=user,
+                        defaults={
+                            'plan_type': 'other_students',
+                            'amount': 300,
+                            'payment_method': 'manual',
+                            'status': 'completed',
+                            'is_active': True,
+                            'start_date': timezone.now() - timedelta(days=30),
+                            'end_date': expiry_date,
+                            'membership_number': user_data['membership_number']
+                        }
+                    )
             
-            self.stdout.write(self.style.SUCCESS(f'✓ Created: {username} ({email})'))
-            created_count += 1
+            self.stdout.write(self.style.SUCCESS(f'✓ {action}: {username} ({email})'))
         
         self.stdout.write('\n' + '='*70)
         self.stdout.write('SUMMARY')
         self.stdout.write('='*70)
         self.stdout.write(f'Created: {created_count}')
-        self.stdout.write(f'Skipped: {skipped_count}')
+        self.stdout.write(f'Updated: {updated_count}')
         self.stdout.write('\n⚠️  DEFAULT PASSWORD: ChangeMe123!')
-        self.stdout.write('Users will need to reset their passwords.')
         self.stdout.write('='*70)
