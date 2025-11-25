@@ -83,15 +83,25 @@ const auth = {
             const response = await fetch('/accounts/register/', {
                 method: 'POST',
                 headers: {
-                    'X-CSRFToken': this.getCsrfToken()
+                    'X-CSRFToken': this.getCsrfToken(),
+                    'X-Requested-With': 'XMLHttpRequest'
                 },
                 body: formData
             });
+            
+            // Check if response is ok before parsing
+            if (!response.ok) {
+                return { 
+                    status: 'error', 
+                    message: 'Registration failed. Please try again.' 
+                };
+            }
+            
             const data = await response.json();
             return data;
         } catch (error) {
             console.error('Registration error:', error);
-            return { status: 'error', message: 'Failed to register' };
+            return { status: 'error', message: 'Failed to register. Please check your information and try again.' };
         }
     },
 
@@ -186,7 +196,12 @@ const forms = {
         if (result.status === 'success') {
             window.location.href = result.redirect_url || '/';
         } else {
-            ui.showErrors(result.errors);
+            // Handle both error formats
+            if (result.errors) {
+                ui.showErrors(result.errors);
+            } else {
+                ui.showError(result.message || 'Registration failed. Please try again.');
+            }
         }
     },
 
