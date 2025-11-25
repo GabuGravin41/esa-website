@@ -107,38 +107,59 @@ def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            # Save student_id to thread for the signal to use
-            thread = current_thread()
-            thread.student_id = form.cleaned_data.get('student_id')
-            
-            # Create the user - UserProfile will be created automatically via signals
-            user = form.save(commit=True)
-            
-            # Debug output
-            print(f"User created: {user.username} (id: {user.id})")
-            print(f"Is user authenticated? {user.is_authenticated}")
-            
-            # Get the first authentication backend (usually ModelBackend)
-            backend = get_backends()[0]
-            print(f"Using authentication backend: {backend.__class__.__name__}")
-            
-            # Set the backend attribute on the user
-            user.backend = f"{backend.__module__}.{backend.__class__.__name__}"
-            
-            # Log the user in with the specified backend
-            login(request, user)
-            print(f"User logged in? {request.user.is_authenticated}")
-            # Send welcome email
-            from core.email_service import send_welcome_email_to_user
-            send_welcome_email_to_user(user)
-            # Handle AJAX requests
-            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-                return JsonResponse({
-                    'status': 'success',
-                    'redirect_url': '/'
-                })
-            messages.success(request, f'Account created successfully! Welcome to ESA-KU, {user.username}.')
-            return redirect('home')
+            try:
+                # Save student_id to thread for the signal to use
+                thread = current_thread()
+                thread.student_id = form.cleaned_data.get('student_id')
+                
+                # Create the user - UserProfile will be created automatically via signals
+                user = form.save(commit=True)
+                
+                # Debug output
+                print(f"User created: {user.username} (id: {user.id})")
+                print(f"Is user authenticated? {user.is_authenticated}")
+                
+                # Get the first authentication backend (usually ModelBackend)
+                backend = get_backends()[0]
+                print(f"Using authentication backend: {backend.__class__.__name__}")
+                
+                # Set the backend attribute on the user
+                user.backend = f"{backend.__module__}.{backend.__class__.__name__}"
+                
+                # Log the user in with the specified backend
+                login(request, user)
+                print(f"User logged in? {request.user.is_authenticated}")
+                
+                # Send welcome email
+                try:
+                    from core.email_service import send_welcome_email_to_user
+                    send_welcome_email_to_user(user)
+                except Exception as e:
+                    print(f"Error sending welcome email: {e}")
+                    # Don't fail registration if email fails
+                
+                # Handle AJAX requests
+                if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    return JsonResponse({
+                        'status': 'success',
+                        'redirect_url': '/'
+                    })
+                messages.success(request, f'Account created successfully! Welcome to ESA-KU, {user.username}.')
+                return redirect('home')
+            except Exception as e:
+                # Catch any unexpected errors during registration
+                import traceback
+                print(f"Registration error: {e}")
+                traceback.print_exc()
+                
+                # Handle AJAX requests
+                if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    return JsonResponse({
+                        'status': 'error',
+                        'message': f'Registration failed: {str(e)}'
+                    })
+                
+                messages.error(request, f'Registration failed: {str(e)}. Please try again or contact support.')
         else:
             # Handle AJAX requests
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':

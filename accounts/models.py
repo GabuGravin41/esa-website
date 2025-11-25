@@ -23,10 +23,17 @@ def create_user_profile(sender, instance, created, **kwargs):
         
         # Only continue if we have a student_id from the registration form
         if student_id:
-            # Don't create a profile if it already exists
-            if hasattr(instance, 'profile'):
-                print(f"Profile already exists for user {instance}")
+            # Check if profile already exists using try/except (more reliable than hasattr)
+            try:
+                existing_profile = UserProfile.objects.get(user=instance)
+                print(f"Profile already exists for user {instance}: {existing_profile}")
+                # Update the student_id if it's different
+                if existing_profile.student_id != student_id:
+                    existing_profile.student_id = student_id
+                    existing_profile.save()
                 return
+            except UserProfile.DoesNotExist:
+                pass
                 
             try:
                 # Create the profile with the student_id from the form
@@ -43,6 +50,8 @@ def create_user_profile(sender, instance, created, **kwargs):
             except Exception as e:
                 # Log any errors but don't crash
                 print(f"Error creating profile for user {instance}: {e}")
+                import traceback
+                traceback.print_exc()
                 pass
 
 @receiver(post_save, sender=User)
